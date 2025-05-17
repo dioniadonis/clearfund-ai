@@ -1,10 +1,7 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
-
 const Footer: React.FC = () => {
-  return (
-    <footer className="bg-clearfund-dark-blue text-white">
+  return <footer className="bg-clearfund-dark-blue text-white">
       <div className="container-custom py-16">
         <div id="contact" className="grid md:grid-cols-2 gap-12 mb-12">
           <div>
@@ -16,7 +13,7 @@ const Footer: React.FC = () => {
               <Button className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 Chat with AI
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-clearfund-dark-blue">
+              <Button variant="outline" className="border-white hover:text-clearfund-dark-blue bg-clearfund-blue bg-[clearfund-dark-blue] text-zinc-100">
                 Contact Sales
               </Button>
             </div>
@@ -56,8 +53,6 @@ const Footer: React.FC = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
