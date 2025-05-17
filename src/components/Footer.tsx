@@ -13,7 +13,7 @@ const Footer: React.FC = () => {
               <Button className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 Chat with AI
               </Button>
-              <Button variant="outline" className="border-white hover:text-clearfund-dark-blue bg-clearfund-blue bg-[clearfund-dark-blue] text-zinc-100">
+              <Button variant="outline" className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 Contact Sales
               </Button>
             </div>
