@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendIcon } from 'lucide-react';
 import ChatMessage from './ChatMessage';
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 // Sample responses for the AI
 const aiResponses = [
@@ -59,11 +59,11 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-      <div className="bg-clearfund-dark-blue p-4 text-white">
+      <div className="bg-clearfund-blue p-4 text-white">
         <div className="flex items-center">
-          <Avatar className="h-10 w-10 bg-black rounded-full flex items-center justify-center">
-            <AvatarImage src="/lovable-uploads/018b41f8-4813-494d-a833-b32e800d9f4f.png" alt="Clearfund AI" />
-            <AvatarFallback className="text-white">CF</AvatarFallback>
+          <Avatar className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
+            <AvatarImage src="/lovable-uploads/14c6c273-817c-4014-9024-058bf8ec3e00.png" alt="Clearfund Logo" className="p-1 invert" />
+            <AvatarFallback className="bg-white text-clearfund-blue">CF</AvatarFallback>
           </Avatar>
           <div className="ml-3">
             <h3 className="font-medium">Clearfund AI Financial Advisor</h3>
@@ -98,7 +98,7 @@ const ChatInterface: React.FC = () => {
           />
           <Button 
             onClick={handleSendMessage} 
-            className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white"
+            className="bg-clearfund-blue hover:bg-clearfund-dark-blue"
             disabled={inputValue.trim() === '' || isAiTyping}
           >
             <SendIcon className="h-5 w-5" />

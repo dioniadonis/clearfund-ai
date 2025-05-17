@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { cn } from '@/lib/utils';
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface ChatMessageProps {
   message: string;
@@ -12,24 +12,26 @@ interface ChatMessageProps {
 const ChatMessage: React.FC<ChatMessageProps> = ({ message, isAi, isTyping = false }) => {
   return (
     <div className={cn(
-      "flex items-start gap-3 mb-4",
+      "flex items-start mb-4 gap-2",
       isAi ? "self-start" : "self-end flex-row-reverse"
     )}>
       {isAi && (
-        <Avatar className="h-8 w-8 border border-white/20 bg-black">
-          <AvatarImage src="/lovable-uploads/018b41f8-4813-494d-a833-b32e800d9f4f.png" alt="Clearfund AI" />
-          <AvatarFallback className="bg-black text-white">CF</AvatarFallback>
+        <Avatar className="h-8 w-8 mt-1 bg-clearfund-dark-blue rounded-full flex-shrink-0">
+          <AvatarImage src="/lovable-uploads/14c6c273-817c-4014-9024-058bf8ec3e00.png" alt="Clearfund Logo" className="p-1 invert" />
+          <AvatarFallback className="bg-clearfund-dark-blue text-white text-xs">CF</AvatarFallback>
         </Avatar>
       )}
       <div className={cn(
         "max-w-[85%] p-3 rounded-lg",
-        isAi ? "bg-clearfund-dark-blue text-white rounded-tl-none" : "bg-gray-100 rounded-tr-none"
+        isAi 
+          ? "bg-clearfund-pale-blue text-clearfund-dark-blue rounded-tl-none" 
+          : "bg-clearfund-blue text-white rounded-tr-none"
       )}>
         {isTyping ? (
           <div className="flex space-x-2 items-center h-6">
-            <div className="w-2 h-2 rounded-full bg-white animate-pulse"></div>
-            <div className="w-2 h-2 rounded-full bg-white animate-pulse delay-150"></div>
-            <div className="w-2 h-2 rounded-full bg-white animate-pulse delay-300"></div>
+            <div className="w-2 h-2 rounded-full bg-clearfund-blue animate-pulse"></div>
+            <div className="w-2 h-2 rounded-full bg-clearfund-blue animate-pulse delay-150"></div>
+            <div className="w-2 h-2 rounded-full bg-clearfund-blue animate-pulse delay-300"></div>
           </div>
         ) : (
           <p className="text-sm md:text-base">{message}</p>
