@@ -16,7 +16,10 @@ const Footer: React.FC = () => {
               <Button className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 Chat with AI
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white hover:text-clearfund-dark-blue">
+              <Button 
+                variant="outline" 
+                className="border-white text-white hover:bg-white hover:text-clearfund-dark-blue transition-colors ring-2 ring-white ring-opacity-50"
+              >
                 Contact Sales
               </Button>
             </div>
@@ -44,11 +47,11 @@ const Footer: React.FC = () => {
         </div>
         <div className="border-t border-clearfund-blue pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="mb-4 md:mb-0 flex items-center">
-            <div className="h-10 w-10 bg-white text-clearfund-blue font-bold flex items-center justify-center rounded mr-2">
-              CF
+            <div className="h-10 w-10 bg-white text-clearfund-blue flex items-center justify-center rounded mr-2 p-1">
+              <img src="/lovable-uploads/14c6c273-817c-4014-9024-058bf8ec3e00.png" alt="Clearfund Logo" className="invert" />
             </div>
             <h1 className="text-2xl font-bold">
-              <span className="text-clearfund-blue">Clear</span>fund AI
+              <span className="text-white">Clear</span><span className="text-clearfund-blue">fund</span> AI
             </h1>
           </div>
           <div className="text-sm text-clearfund-pale-blue">
