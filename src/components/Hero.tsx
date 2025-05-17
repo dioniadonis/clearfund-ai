@@ -1,0 +1,64 @@
+
+import React from 'react';
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from 'lucide-react';
+
+const Hero: React.FC = () => {
+  return (
+    <section className="py-16 md:py-24 bg-gradient-to-br from-white via-bluevine-pale-blue to-white">
+      <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
+        <div className="space-y-6">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-bluevine-dark-blue leading-tight">
+            Business Financing <br />
+            <span className="text-bluevine-accent">Powered by AI</span>
+          </h1>
+          <p className="text-lg md:text-xl text-gray-700 max-w-lg">
+            Get personalized loan solutions and financial advice through our AI-powered platform designed for small businesses.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 pt-4">
+            <Button className="bg-bluevine-accent hover:bg-bluevine-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+              Chat with AI Advisor
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Button>
+            <Button variant="outline" className="border-bluevine-accent text-bluevine-accent hover:bg-bluevine-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
+              Learn More
+            </Button>
+          </div>
+          <div className="pt-6">
+            <p className="text-sm text-gray-500">Trusted by over <span className="font-semibold">50,000+ businesses</span> nationwide</p>
+          </div>
+        </div>
+        <div className="relative hidden md:block">
+          <div className="absolute -top-16 -right-16 w-64 h-64 bg-bluevine-pale-blue rounded-full opacity-50 blur-3xl"></div>
+          <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
+            <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center">
+                <div className="h-10 w-10 bg-bluevine-accent rounded-full flex items-center justify-center">
+                  <span className="text-white font-bold">AI</span>
+                </div>
+                <div className="ml-3">
+                  <h3 className="font-medium">BluVine AI Advisor</h3>
+                  <p className="text-xs text-gray-500">Online now</p>
+                </div>
+              </div>
+              <div className="h-3 w-3 bg-green-500 rounded-full"></div>
+            </div>
+            <div className="space-y-4">
+              <div className="bg-bluevine-pale-blue p-3 rounded-lg rounded-tl-none max-w-[80%]">
+                <p className="text-sm">Hello! I'm your BluVine AI advisor. How can I help with your business financing needs today?</p>
+              </div>
+              <div className="bg-gray-100 p-3 rounded-lg rounded-tr-none max-w-[80%] ml-auto">
+                <p className="text-sm">I need a short-term loan to manage cash flow during our slow season.</p>
+              </div>
+              <div className="bg-bluevine-pale-blue p-3 rounded-lg rounded-tl-none max-w-[80%]">
+                <p className="text-sm">I can help with that! Based on your business profile, I recommend our Line of Credit option with flexible draws and repayments...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default Hero;
