@@ -7,29 +7,34 @@ const Header: React.FC = () => {
     <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
-          <h1 className="text-2xl font-bold text-bluevine-dark-blue">
-            <span className="text-bluevine-accent">Blue</span>Vine
-          </h1>
+          <div className="flex items-center">
+            <div className="h-10 w-10 bg-clearfund-blue text-white flex items-center justify-center rounded font-bold text-xl">
+              <span>CF</span>
+            </div>
+            <h1 className="text-2xl font-bold text-clearfund-blue ml-2">
+              Clearfund AI
+            </h1>
+          </div>
         </div>
         <nav className="hidden md:flex space-x-8">
-          <a href="#features" className="text-bluevine-dark-blue hover:text-bluevine-accent font-medium transition-colors">
+          <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Solutions
           </a>
-          <a href="#ai-chat" className="text-bluevine-dark-blue hover:text-bluevine-accent font-medium transition-colors">
+          <a href="#ai-chat" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             AI Advisor
           </a>
-          <a href="#" className="text-bluevine-dark-blue hover:text-bluevine-accent font-medium transition-colors">
+          <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Resources
           </a>
-          <a href="#contact" className="text-bluevine-dark-blue hover:text-bluevine-accent font-medium transition-colors">
+          <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Contact
           </a>
         </nav>
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" className="hidden md:inline-flex text-bluevine-dark-blue hover:text-bluevine-accent">
+          <Button variant="ghost" className="hidden md:inline-flex text-clearfund-dark-blue hover:text-clearfund-blue">
             Sign In
           </Button>
-          <Button className="bg-bluevine-accent hover:bg-bluevine-dark-blue text-white transition-colors">
+          <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors">
             Get Started
           </Button>
         </div>

@@ -7,18 +7,18 @@ import ChatMessage from './ChatMessage';
 
 // Sample responses for the AI
 const aiResponses = [
-  "Hello! I'm the BluVine AI advisor. How can I assist with your business financing needs today?",
-  "Could you tell me more about your business and what type of financing you're looking for?",
-  "Based on what you've shared, a Line of Credit might be ideal for your situation. This would give you flexible access to funds when needed, with interest only on what you use.",
-  "Excellent question! Our business loans typically range from $5,000 to $250,000 with terms from 6 to 12 months. The specific rates depend on your business profile and credit history.",
-  "Our application process is simple - you can complete it online in about 5 minutes. We'll need your basic business information, 3 months of bank statements, and a brief overview of how you plan to use the funds.",
-  "I'd be happy to check your pre-qualification options. This would require some basic information about your business and won't affect your credit score.",
-  "Invoice factoring is a great option for businesses with outstanding invoices. It allows you to get immediate cash for your unpaid invoices, improving your cash flow while waiting for customers to pay.",
+  "Hello! I'm the Clearfund AI advisor. How can I assist with your AI business financing needs today?",
+  "Could you tell me more about your AI business and what type of financing you're looking for?",
+  "Based on what you've shared, we offer funding options from $5K to $2M that might be ideal for your situation. This would give you flexible access to capital when needed.",
+  "Excellent question! Our funding options typically range from $5,000 to $2,000,000 with flexible terms. The specific rates depend on your business profile, AI technology, and growth trajectory.",
+  "Our application process is simple - you can complete it online in about 5 minutes. We'll need your basic business information, 3 months of bank statements, and your AI product roadmap.",
+  "I'd be happy to check your pre-qualification options. This would require some basic information about your AI business and won't affect your credit score.",
+  "Our funding is specifically designed for AI-driven businesses looking to scale. We understand the unique capital needs of machine learning development, data acquisition, and AI infrastructure costs.",
 ];
 
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<{text: string, isAi: boolean}[]>([
-    { text: "Hi there! I'm your BluVine AI financial advisor. How can I help with your business financing needs today?", isAi: true }
+    { text: "Hi there! I'm your Clearfund AI financial advisor. How can I help with your AI business financing needs today?", isAi: true }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
@@ -58,13 +58,13 @@ const ChatInterface: React.FC = () => {
 
   return (
     <div className="flex flex-col h-full bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-      <div className="bg-bluevine-dark-blue p-4 text-white">
+      <div className="bg-clearfund-blue p-4 text-white">
         <div className="flex items-center">
-          <div className="h-10 w-10 bg-bluevine-accent rounded-full flex items-center justify-center">
-            <span className="font-bold">AI</span>
+          <div className="h-10 w-10 bg-white rounded-full flex items-center justify-center">
+            <span className="font-bold text-clearfund-blue">CF</span>
           </div>
           <div className="ml-3">
-            <h3 className="font-medium">BluVine AI Financial Advisor</h3>
+            <h3 className="font-medium">Clearfund AI Financial Advisor</h3>
             <div className="flex items-center text-xs">
               <div className="h-2 w-2 bg-green-400 rounded-full mr-2"></div>
               <span>Online now</span>
@@ -96,7 +96,7 @@ const ChatInterface: React.FC = () => {
           />
           <Button 
             onClick={handleSendMessage} 
-            className="bg-bluevine-accent hover:bg-bluevine-dark-blue"
+            className="bg-clearfund-blue hover:bg-clearfund-dark-blue"
             disabled={inputValue.trim() === '' || isAiTyping}
           >
             <SendIcon className="h-5 w-5" />

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -63,12 +62,12 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				bluevine: {
-					'dark-blue': '#0B3954',
-					'medium-blue': '#4A7C99',
-					'light-blue': '#8DC6E8',
-					'pale-blue': '#E8F4FC',
-					'accent': '#3A6EA5'
+				clearfund: {
+					'blue': '#1565C0', // Primary blue from the image
+					'light-blue': '#1E88E5', // Slightly lighter blue for gradients
+					'dark-blue': '#0D47A1', // Darker blue for hover states
+					'pale-blue': '#E3F2FD', // Very light blue for backgrounds
+					'accent': '#0D47A1' // Accent color
 				}
 			},
 			borderRadius: {
