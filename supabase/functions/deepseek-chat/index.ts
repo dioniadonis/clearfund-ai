@@ -30,7 +30,7 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: "deepseek-reasoner",
         messages: [
           {
             role: "system",
@@ -41,8 +41,11 @@ serve(async (req) => {
             content: message
           }
         ],
-        temperature: 0.0,
-        max_tokens: 100
+        temperature: 0.2,
+        max_tokens: 500,
+        top_p: 0.95,
+        frequency_penalty: 0.0,
+        presence_penalty: 0.0
       }),
     });
 
