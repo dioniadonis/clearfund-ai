@@ -27,7 +27,7 @@ const Header: React.FC = () => {
             Resources
           </a>
           <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
-            Contact
+            Credit Repair
           </a>
         </nav>
         <div className="flex items-center space-x-4">
