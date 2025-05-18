@@ -18,7 +18,26 @@
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
     
     <!-- Aminos AI Chatbot Script -->
-    <script src="https://app.aminos.ai/js/chat_plugin.js" data-bot-id="50969"></script>
+    <script>
+      // Create a function to load the script and retry if needed
+      function loadAminosScript() {
+        const script = document.createElement('script');
+        script.src = "https://app.aminos.ai/js/chat_plugin.js";
+        script.setAttribute('data-bot-id', "50969");
+        script.async = true;
+        script.onload = function() {
+          console.log("Aminos AI chat plugin loaded successfully");
+        };
+        script.onerror = function() {
+          console.error("Failed to load Aminos AI chat plugin, retrying in 3 seconds");
+          setTimeout(loadAminosScript, 3000);
+        };
+        document.head.appendChild(script);
+      }
+      
+      // Load the script when the page loads
+      window.addEventListener('load', loadAminosScript);
+    </script>
   </head>
 
   <body>

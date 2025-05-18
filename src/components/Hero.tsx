@@ -1,14 +1,47 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
+import { useToast } from "@/hooks/use-toast";
 
 const Hero: React.FC = () => {
+  const { toast } = useToast();
+  const [isAminosReady, setIsAminosReady] = useState(false);
+  
+  useEffect(() => {
+    // Check if Aminos AI is loaded
+    const checkAminosLoaded = () => {
+      if (typeof window !== 'undefined' && window.AminosAI) {
+        setIsAminosReady(true);
+        return true;
+      }
+      return false;
+    };
+
+    // Initial check
+    if (checkAminosLoaded()) return;
+    
+    // Set up interval to check periodically
+    const interval = setInterval(() => {
+      if (checkAminosLoaded()) {
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    // Clean up
+    return () => clearInterval(interval);
+  }, []);
+
   const openAminosChat = () => {
     if (typeof window !== 'undefined' && window.AminosAI) {
       window.AminosAI.open();
     } else {
       console.error('Aminos AI chat plugin not loaded');
+      toast({
+        title: "Chat not available",
+        description: "Our AI advisor is currently loading. Please try again in a moment.",
+        variant: "destructive",
+      });
     }
   };
   
@@ -27,7 +60,7 @@ const Hero: React.FC = () => {
             <Button 
               onClick={openAminosChat}
               className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-              Chat with AI Advisor
+              {isAminosReady ? "Chat with AI Advisor" : "Chat with AI Advisor (Loading...)"}
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
