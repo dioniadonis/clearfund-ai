@@ -45,7 +45,7 @@ const Footer: React.FC = () => {
               CF
             </div>
             <h1 className="text-2xl font-bold">
-              <span className="text-clearfund-blue">Clear</span>fund AI
+              <span className="text-clearfund-white">Clear</span>fund AI
             </h1>
           </div>
           <div className="text-sm text-clearfund-pale-blue">
