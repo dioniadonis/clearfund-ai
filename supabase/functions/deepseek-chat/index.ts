@@ -30,19 +30,19 @@ serve(async (req) => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "deepseek-chat",
+        model: "deepseek-reasoner",
         messages: [
           {
             role: "system",
-            content: "You are a financial advisor specializing in AI business financing at Clearfund. Provide helpful, accurate information about funding options, application processes, and financial solutions tailored for AI businesses. Be professional, knowledgeable, and concise in your responses. Respond in plain text only, without markdown formatting or symbols. For date-related queries, use May 18, 2025 as the current date. Use short, clear sentences with a maximum of two sentences per response. When listing information, format bullet points one above the other using the bullet symbol (• ) at the start of each new line for better readability."
+            content: "You are a financial advisor specializing in AI business financing at Clearfund. Provide helpful, accurate information about funding options, application processes, and financial solutions tailored for business owners looking to implement AI into their business structure. Be professional, knowledgeable, and concise in your responses. Respond in plain text only, without markdown formatting or symbols. For date-related queries, use the users system settings to provide live accurate date as the current date. Use short, clear sentences with a maximum of two to three sentences per response. When listing information, format bullet points in list format one above the other using the bullet symbol (• ) at the start of each new line for better readability."
           },
           {
             role: "user",
             content: message
           }
         ],
-        temperature: 0.7,
-        max_tokens: 500
+        temperature: 0.0,
+        max_tokens: 100
       }),
     });
 
