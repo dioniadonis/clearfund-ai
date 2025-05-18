@@ -42,7 +42,7 @@ serve(async (req) => {
           }
         ],
         temperature: 0.2,
-        max_tokens: 500,
+        max_tokens: 250,
         top_p: 0.95,
         frequency_penalty: 0.0,
         presence_penalty: 0.0
