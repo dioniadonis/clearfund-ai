@@ -90,40 +90,43 @@ const ChatInterface: React.FC = () => {
 
   const getAIResponse = async (userMessage: string) => {
     try {
-      // Try to call the edge function with fetch directly as a fallback approach
-      let response;
+      // Clear any previous API error
+      setApiError(null);
       
+      // First attempt with direct fetch and proper auth
       try {
-        // First attempt: Use supabase client to invoke the function
-        const { data, error } = await supabase.functions.invoke('deepseek-chat', {
-          body: {
-            message: userMessage,
-          }
-        });
-
-        if (error) {
-          throw error;
-        }
+        // Get the session first using the correct method
+        const { data: sessionData } = await supabase.auth.getSession();
+        const accessToken = sessionData?.session?.access_token || '';
         
-        if (data) {
-          const reader = data.getReader();
+        const response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${accessToken}`,
+            'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
+          },
+          body: JSON.stringify({ message: userMessage }),
+        });
+        
+        if (response.ok && response.body) {
+          const reader = response.body.getReader();
           await handleStreamResponse(reader);
-          return null; // Message will be added by the stream handler
+          return null;
+        } else {
+          const errorText = await response.text();
+          console.error('API error response:', response.status, errorText);
+          throw new Error(`API returned status ${response.status}: ${errorText}`);
         }
       } catch (initialError) {
-        console.error('Initial invocation failed:', initialError);
+        console.error('Error connecting to DeepSeek API:', initialError);
         
-        // Second attempt: Fallback to direct fetch with full URL
+        // Try fallback with just the API key (anonymous access)
         try {
-          // Get the session first - fixed to use the correct method
-          const { data: sessionData } = await supabase.auth.getSession();
-          const accessToken = sessionData?.session?.access_token || '';
-          
-          response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
+          const response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${accessToken}`,
               'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
             },
             body: JSON.stringify({ message: userMessage }),
@@ -133,10 +136,14 @@ const ChatInterface: React.FC = () => {
             const reader = response.body.getReader();
             await handleStreamResponse(reader);
             return null;
+          } else {
+            const errorText = await response.text();
+            throw new Error(`API returned status ${response.status}: ${errorText}`);
           }
         } catch (fetchError) {
-          console.error('Direct fetch also failed:', fetchError);
+          console.error('All connection attempts failed:', fetchError);
           // Continue to fallback response
+          throw fetchError;
         }
       }
       
@@ -145,6 +152,7 @@ const ChatInterface: React.FC = () => {
       return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     } catch (err) {
       console.error('Final catch - Exception calling DeepSeek API:', err);
+      setApiError('Unable to reach AI service. Using fallback responses.');
       toast.error('Failed to get AI response. Using fallback response instead.');
       return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     }
