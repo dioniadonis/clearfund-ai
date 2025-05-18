@@ -86,6 +86,8 @@ const ChatInterface: React.FC = () => {
       // Get response from DeepSeek API
       const aiResponse = await getAIResponse(userMessage);
       setIsAiTyping(false);
+      
+      // Add AI message with fresh response
       setMessages(prev => [...prev, { text: aiResponse, isAi: true }]);
     } catch (error) {
       console.error('Error getting AI response:', error);
