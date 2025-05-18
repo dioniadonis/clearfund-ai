@@ -32,7 +32,7 @@ const Header: React.FC = () => {
         </nav>
         <div className="flex items-center space-x-4">
           <Button variant="ghost" className="hidden md:inline-flex text-clearfund-dark-blue hover:text-clearfund-blue">
-            Sign In
+            Contact Us
           </Button>
           <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors">
             Get Started
