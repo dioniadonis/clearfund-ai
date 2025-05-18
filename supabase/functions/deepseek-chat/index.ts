@@ -49,6 +49,18 @@ serve(async (req) => {
     if (!response.ok) {
       const errorData = await response.text();
       console.error("DeepSeek API error:", errorData);
+      
+      // Check for specific error cases
+      if (response.status === 402 && errorData.includes("Insufficient Balance")) {
+        return new Response(JSON.stringify({ 
+          error: "Your DeepSeek account has insufficient balance. Please add credits to your DeepSeek account and try again.",
+          errorCode: "INSUFFICIENT_BALANCE"
+        }), {
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+          status: 402,
+        });
+      }
+      
       throw new Error(`DeepSeek API returned ${response.status}: ${errorData}`);
     }
 
@@ -63,7 +75,10 @@ serve(async (req) => {
     });
   } catch (error) {
     console.error("Error processing request:", error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    return new Response(JSON.stringify({ 
+      error: error.message,
+      errorType: error.name || "UnknownError"
+    }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       status: 500,
     });

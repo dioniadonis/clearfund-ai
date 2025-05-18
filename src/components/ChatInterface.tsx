@@ -2,10 +2,11 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { SendIcon } from 'lucide-react';
+import { SendIcon, AlertCircle } from 'lucide-react';
 import ChatMessage from './ChatMessage';
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 // Fallback responses in case the API is unavailable
 const fallbackResponses = [
@@ -24,6 +25,7 @@ const ChatInterface: React.FC = () => {
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -44,10 +46,23 @@ const ChatInterface: React.FC = () => {
 
       if (error) {
         console.error('Error calling DeepSeek API:', error);
+        
+        // Clear previous API error
+        setApiError(null);
+        
         toast.error('Failed to get AI response. Using fallback response instead.');
         return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
       }
 
+      // Check if the response has a specific error message
+      if (data && data.errorCode === "INSUFFICIENT_BALANCE") {
+        setApiError("Your DeepSeek account has insufficient balance. Please add credits to your DeepSeek account to continue using the AI advisor.");
+        toast.error('DeepSeek account has insufficient balance');
+        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      }
+
+      // Clear any previous API error if successful
+      setApiError(null);
       return data.response;
     } catch (err) {
       console.error('Exception calling DeepSeek API:', err);
@@ -104,6 +119,13 @@ const ChatInterface: React.FC = () => {
           </div>
         </div>
       </div>
+      
+      {apiError && (
+        <Alert variant="destructive" className="mx-4 mt-4">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>{apiError}</AlertDescription>
+        </Alert>
+      )}
       
       <div className="flex-grow p-4 overflow-y-auto bg-gray-50 flex flex-col">
         {messages.map((message, index) => (
