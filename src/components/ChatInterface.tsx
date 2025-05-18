@@ -93,16 +93,18 @@ const ChatInterface: React.FC = () => {
       // Clear any previous API error
       setApiError(null);
       
-      // First attempt with direct fetch and proper auth
+      // First attempt with direct fetch and complete headers
       try {
         // Get the session first using the correct method
         const { data: sessionData } = await supabase.auth.getSession();
         const accessToken = sessionData?.session?.access_token || '';
         
+        // Set proper headers including Accept: text/event-stream for streaming
         const response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept': 'text/event-stream',
             'Authorization': `Bearer ${accessToken}`,
             'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
           },
@@ -121,12 +123,13 @@ const ChatInterface: React.FC = () => {
       } catch (initialError) {
         console.error('Error connecting to DeepSeek API:', initialError);
         
-        // Try fallback with just the API key (anonymous access)
+        // Try fallback with just the API key (anonymous access) and different headers
         try {
           const response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
+              'Accept': 'text/event-stream',
               'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
             },
             body: JSON.stringify({ message: userMessage }),

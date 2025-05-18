@@ -1,91 +1,91 @@
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-};
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type, accept',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
+  'Access-Control-Expose-Headers': 'Content-Type',
+}
+
+const DEEPSEEK_API_KEY = Deno.env.get('DEEPSEEK_API_KEY')
+const DEEPSEEK_API_URL = "https://api.deepseek.com/v1/chat/completions"
 
 serve(async (req) => {
   // Handle CORS preflight requests
   if (req.method === 'OPTIONS') {
-    return new Response(null, { headers: corsHeaders });
+    return new Response(null, {
+      status: 204,
+      headers: corsHeaders,
+    })
   }
 
   try {
-    const deepseekApiKey = Deno.env.get('DEEPSEEK_API_KEY');
-    if (!deepseekApiKey) {
-      throw new Error('DeepSeek API key not found');
+    // Get the request body
+    const { message } = await req.json()
+    
+    if (!message) {
+      return new Response(JSON.stringify({ error: "Message is required" }), {
+        status: 400,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+        },
+      })
     }
 
-    const { message } = await req.json();
+    // Validate DEEPSEEK_API_KEY is present
+    if (!DEEPSEEK_API_KEY) {
+      console.error("Missing DEEPSEEK_API_KEY in environment variables")
+      return new Response(JSON.stringify({ error: "API configuration error" }), {
+        status: 500,
+        headers: {
+          ...corsHeaders,
+          'Content-Type': 'application/json',
+        },
+      })
+    }
 
-    console.log("Received message:", message);
-    
-    const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+    // Call the DeepSeek API
+    const response = await fetch(DEEPSEEK_API_URL, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${deepseekApiKey}`,
         'Content-Type': 'application/json',
+        'Authorization': `Bearer ${DEEPSEEK_API_KEY}`,
       },
       body: JSON.stringify({
         model: "deepseek-chat",
         messages: [
           {
             role: "system",
-            content: "You are a financial advisor specialised in AI business financing. Answer in plain text only, no markdown or symbols. Use at most two sentences or two bullet points (•). Treat the current date as May 18, 2025."
+            content: "You are an AI financial advisor for Clearfund, a company that specializes in providing funding for AI businesses. You help potential clients understand the funding options available to them, explain the application process, and provide information about how Clearfund can help them scale their AI operations. Be friendly, professional and eager to help."
           },
           {
             role: "user",
             content: message
           }
         ],
-        temperature: 0.2,    // allows faster, "good-enough" sampling
-        max_tokens: 120,     // ≈ 80–90 words, perfect for 2 sentences + bullets
-        stop: ["\n\n"],      // cut off after the first paragraph/break
-        stream: true,        // start sending tokens immediately
-        frequency_penalty: 0.0,
-        presence_penalty: 0.0
+        stream: true,
       }),
-    });
+    })
 
-    if (!response.ok) {
-      const errorData = await response.text();
-      console.error("DeepSeek API error:", errorData);
-      
-      // Check for specific error cases
-      if (response.status === 402 && errorData.includes("Insufficient Balance")) {
-        return new Response(JSON.stringify({ 
-          error: "Your DeepSeek account has insufficient balance. Please add credits to your DeepSeek account and try again.",
-          errorCode: "INSUFFICIENT_BALANCE"
-        }), {
-          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-          status: 402,
-        });
-      }
-      
-      throw new Error(`DeepSeek API returned ${response.status}: ${errorData}`);
-    }
-
-    // Return the streaming response directly with proper headers
+    // Forward the streaming response directly
     return new Response(response.body, {
-      headers: { 
-        ...corsHeaders, 
+      headers: {
+        ...corsHeaders,
         'Content-Type': 'text/event-stream',
         'Cache-Control': 'no-cache',
-        'Connection': 'keep-alive'
+        'Connection': 'keep-alive',
       },
-      status: 200,
-    });
+    })
   } catch (error) {
-    console.error("Error processing request:", error);
-    return new Response(JSON.stringify({ 
-      error: error.message,
-      errorType: error.name || "UnknownError"
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    console.error("Error in DeepSeek chat function:", error)
+    return new Response(JSON.stringify({ error: error.message }), {
       status: 500,
-    });
+      headers: {
+        ...corsHeaders,
+        'Content-Type': 'application/json',
+      },
+    })
   }
-});
+})
