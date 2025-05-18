@@ -22,10 +22,10 @@ const Footer: React.FC = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Products</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors"> Instant Micro Funding</a></li>
+                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Term Loans</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Financing</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</a></li>
+                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors"> Instant Micro Funding</a></li>
               </ul>
             </div>
             <div>
