@@ -4,9 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendIcon } from 'lucide-react';
 import ChatMessage from './ChatMessage';
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "@/components/ui/sonner";
 
-// Sample responses for the AI
-const aiResponses = [
+// Fallback responses in case the API is unavailable
+const fallbackResponses = [
   "Hello! I'm the Clearfund AI advisor. How can I assist with your AI business financing needs today?",
   "Could you tell me more about your AI business and what type of financing you're looking for?",
   "Based on what you've shared, we offer funding options from $5K to $2M that might be ideal for your situation. This would give you flexible access to capital when needed.",
@@ -32,22 +34,52 @@ const ChatInterface: React.FC = () => {
     scrollToBottom();
   }, [messages, isAiTyping]);
 
-  const handleSendMessage = () => {
-    if (inputValue.trim() === '') return;
+  const getAIResponse = async (userMessage: string) => {
+    try {
+      const { data, error } = await supabase.functions.invoke('deepseek-chat', {
+        body: {
+          message: userMessage,
+        },
+      });
+
+      if (error) {
+        console.error('Error calling DeepSeek API:', error);
+        toast.error('Failed to get AI response. Using fallback response instead.');
+        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      }
+
+      return data.response;
+    } catch (err) {
+      console.error('Exception calling DeepSeek API:', err);
+      toast.error('Failed to get AI response. Using fallback response instead.');
+      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+    }
+  };
+
+  const handleSendMessage = async () => {
+    if (inputValue.trim() === '' || isAiTyping) return;
     
     // Add user message
-    setMessages([...messages, { text: inputValue, isAi: false }]);
+    setMessages(prev => [...prev, { text: inputValue, isAi: false }]);
+    const userMessage = inputValue;
     setInputValue('');
     
     // Show AI typing indicator
     setIsAiTyping(true);
     
-    // Simulate AI response after a delay
-    setTimeout(() => {
+    try {
+      // Get response from DeepSeek API
+      const aiResponse = await getAIResponse(userMessage);
       setIsAiTyping(false);
-      const randomResponse = aiResponses[Math.floor(Math.random() * aiResponses.length)];
-      setMessages(prev => [...prev, { text: randomResponse, isAi: true }]);
-    }, 1500);
+      setMessages(prev => [...prev, { text: aiResponse, isAi: true }]);
+    } catch (error) {
+      console.error('Error getting AI response:', error);
+      setIsAiTyping(false);
+      // Use fallback response if API fails
+      const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      setMessages(prev => [...prev, { text: fallbackResponse, isAi: true }]);
+      toast.error('Error getting AI response. Using fallback response instead.');
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
