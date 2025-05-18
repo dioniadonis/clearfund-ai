@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
               <ul className="space-y-2">
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Term Loans</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Financing</a></li>
+                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Finance</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors"> Instant Micro Funding</a></li>
               </ul>
             </div>
