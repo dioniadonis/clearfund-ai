@@ -115,11 +115,15 @@ const ChatInterface: React.FC = () => {
         
         // Second attempt: Fallback to direct fetch with full URL
         try {
+          // Get the session first - fixed to use the correct method
+          const { data: sessionData } = await supabase.auth.getSession();
+          const accessToken = sessionData?.session?.access_token || '';
+          
           response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
-              'Authorization': `Bearer ${supabase.auth.session()?.access_token || ''}`,
+              'Authorization': `Bearer ${accessToken}`,
               'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
             },
             body: JSON.stringify({ message: userMessage }),
