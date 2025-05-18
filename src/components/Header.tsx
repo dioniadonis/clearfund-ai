@@ -18,13 +18,13 @@ const Header: React.FC = () => {
         </div>
         <nav className="hidden md:flex space-x-8">
           <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
-            Solutions
+            Working Capital
           </a>
           <a href="#ai-chat" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             AI Advisor
           </a>
           <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
-            Resources
+            Gig Funding
           </a>
           <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Credit Repair
