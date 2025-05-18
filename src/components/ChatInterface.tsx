@@ -89,11 +89,11 @@ const ChatInterface: React.FC = () => {
 
   const getAIResponse = async (userMessage: string) => {
     try {
+      // Fix: Remove responseType and use headers to get a stream response
       const { data, error } = await supabase.functions.invoke('deepseek-chat', {
         body: {
           message: userMessage,
-        },
-        responseType: 'stream',
+        }
       });
 
       if (error) {
