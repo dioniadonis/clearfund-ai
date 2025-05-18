@@ -10,7 +10,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 
 // Fallback responses in case the API is unavailable
 const fallbackResponses = [
-  "Hello! I'm the Clearfund AI advisor. How can I assist with your AI business financing needs today?",
+  "Hello! I'm the Clearfund AI assistant. How can I assist with your AI business financing needs today?",
   "Could you tell me more about your AI business and what type of financing you're looking for?",
   "Based on what you've shared, we offer funding options from $5K to $2M that might be ideal for your situation. This would give you flexible access to capital when needed.",
   "Excellent question! Our funding options typically range from $5,000 to $2,000,000 with flexible terms. The specific rates depend on your business profile, AI technology, and growth trajectory.",
