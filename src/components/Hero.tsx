@@ -1,11 +1,8 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
-
 const Hero: React.FC = () => {
-  return (
-    <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
+  return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
@@ -49,7 +46,7 @@ const Hero: React.FC = () => {
                 <p className="text-sm">Hello! I'm your Clearfund AI advisor. How can I help with your business financing needs today?</p>
               </div>
               <div className="bg-gray-100 p-3 rounded-lg rounded-tr-none max-w-[80%] ml-auto">
-                <p className="text-sm">I need funding for my AI startup to scale our operations.</p>
+                <p className="text-sm">I'm looking for funding, I want to implement AI to scale our operations.</p>
               </div>
               <div className="bg-clearfund-pale-blue p-3 rounded-lg rounded-tl-none max-w-[80%]">
                 <p className="text-sm">I can help with that! Based on your business profile, I recommend our Fast Capital option with transparent terms and flexible repayments...</p>
@@ -58,8 +55,6 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
-    </section>
-  );
+    </section>;
 };
-
 export default Hero;
