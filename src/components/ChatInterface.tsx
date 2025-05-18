@@ -1,3 +1,4 @@
+
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -89,37 +90,57 @@ const ChatInterface: React.FC = () => {
 
   const getAIResponse = async (userMessage: string) => {
     try {
-      // Fix: Remove responseType and use headers to get a stream response
-      const { data, error } = await supabase.functions.invoke('deepseek-chat', {
-        body: {
-          message: userMessage,
-        }
-      });
-
-      if (error) {
-        console.error('Error calling DeepSeek API:', error);
-        
-        // Clear previous API error
-        setApiError(null);
-        
-        toast.error('Failed to get AI response. Using fallback response instead.');
-        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      }
-
-      // Process the stream
-      if (data) {
-        const reader = data.getReader();
-        await handleStreamResponse(reader);
-        return null; // Message will be added by the stream handler
-      }
-
-      // Clear any previous API error if successful
-      setApiError(null);
+      // Try to call the edge function with fetch directly as a fallback approach
+      let response;
       
-      // Fallback in case no streaming data
+      try {
+        // First attempt: Use supabase client to invoke the function
+        const { data, error } = await supabase.functions.invoke('deepseek-chat', {
+          body: {
+            message: userMessage,
+          }
+        });
+
+        if (error) {
+          throw error;
+        }
+        
+        if (data) {
+          const reader = data.getReader();
+          await handleStreamResponse(reader);
+          return null; // Message will be added by the stream handler
+        }
+      } catch (initialError) {
+        console.error('Initial invocation failed:', initialError);
+        
+        // Second attempt: Fallback to direct fetch with full URL
+        try {
+          response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Bearer ${supabase.auth.session()?.access_token || ''}`,
+              'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
+            },
+            body: JSON.stringify({ message: userMessage }),
+          });
+          
+          if (response.ok && response.body) {
+            const reader = response.body.getReader();
+            await handleStreamResponse(reader);
+            return null;
+          }
+        } catch (fetchError) {
+          console.error('Direct fetch also failed:', fetchError);
+          // Continue to fallback response
+        }
+      }
+      
+      // If we've reached this point, use fallback response
+      setApiError('Unable to reach AI service. Using fallback responses.');
       return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     } catch (err) {
-      console.error('Exception calling DeepSeek API:', err);
+      console.error('Final catch - Exception calling DeepSeek API:', err);
       toast.error('Failed to get AI response. Using fallback response instead.');
       return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     }

@@ -68,9 +68,14 @@ serve(async (req) => {
       throw new Error(`DeepSeek API returned ${response.status}: ${errorData}`);
     }
 
-    // Return the streaming response directly
+    // Return the streaming response directly with proper headers
     return new Response(response.body, {
-      headers: { ...corsHeaders, 'Content-Type': 'text/event-stream' },
+      headers: { 
+        ...corsHeaders, 
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+      },
       status: 200,
     });
   } catch (error) {
