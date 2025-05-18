@@ -1,50 +1,7 @@
-
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
-import { useToast } from "@/hooks/use-toast";
-
 const Hero: React.FC = () => {
-  const { toast } = useToast();
-  const [isAminosReady, setIsAminosReady] = useState(false);
-  
-  useEffect(() => {
-    // Check if Aminos AI is loaded
-    const checkAminosLoaded = () => {
-      if (typeof window !== 'undefined' && window.AminosAI) {
-        setIsAminosReady(true);
-        return true;
-      }
-      return false;
-    };
-
-    // Initial check
-    if (checkAminosLoaded()) return;
-    
-    // Set up interval to check periodically
-    const interval = setInterval(() => {
-      if (checkAminosLoaded()) {
-        clearInterval(interval);
-      }
-    }, 1000);
-
-    // Clean up
-    return () => clearInterval(interval);
-  }, []);
-
-  const openAminosChat = () => {
-    if (typeof window !== 'undefined' && window.AminosAI) {
-      window.AminosAI.open();
-    } else {
-      console.error('Aminos AI chat plugin not loaded');
-      toast({
-        title: "Chat not available",
-        description: "Our AI advisor is currently loading. Please try again in a moment.",
-        variant: "destructive",
-      });
-    }
-  };
-  
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
@@ -57,10 +14,8 @@ const Hero: React.FC = () => {
             Transparent Options from $5K to $2M
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button 
-              onClick={openAminosChat}
-              className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-              {isAminosReady ? "Chat with AI Advisor" : "Chat with AI Advisor (Loading...)"}
+            <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+              Chat with AI Advisor
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
@@ -102,5 +57,4 @@ const Hero: React.FC = () => {
       </div>
     </section>;
 };
-
 export default Hero;
