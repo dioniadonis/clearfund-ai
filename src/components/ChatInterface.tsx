@@ -21,7 +21,7 @@ const fallbackResponses = [
 
 const ChatInterface: React.FC = () => {
   const [messages, setMessages] = useState<{text: string, isAi: boolean}[]>([
-    { text: "Hi there! I'm your Clearfund AI financial advisor. How can I help with your AI business financing needs today?", isAi: true }
+    { text: "Hi there! I'm your Clearfund AI assistant. How can I help with your business financing needs today?", isAi: true }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
