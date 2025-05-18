@@ -69,7 +69,7 @@ serve(async (req) => {
       }),
     })
 
-    // Forward the streaming response directly
+    // For public access, don't check for authentication
     return new Response(response.body, {
       headers: {
         ...corsHeaders,
