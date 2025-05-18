@@ -1,4 +1,3 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -26,6 +25,7 @@ const ChatInterface: React.FC = () => {
   const [inputValue, setInputValue] = useState('');
   const [isAiTyping, setIsAiTyping] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
+  const [currentStreamedText, setCurrentStreamedText] = useState('');
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -36,12 +36,64 @@ const ChatInterface: React.FC = () => {
     scrollToBottom();
   }, [messages, isAiTyping]);
 
+  const handleStreamResponse = async (reader: ReadableStreamDefaultReader<Uint8Array>) => {
+    const decoder = new TextDecoder();
+    let accumulatedText = '';
+    
+    try {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) {
+          // End of stream, add the final message
+          if (accumulatedText) {
+            setMessages(prev => [...prev, { text: accumulatedText, isAi: true }]);
+          }
+          setIsAiTyping(false);
+          setCurrentStreamedText('');
+          break;
+        }
+        
+        const chunk = decoder.decode(value, { stream: true });
+        
+        // Process the chunk to extract the content from SSE format
+        const lines = chunk.split('\n');
+        for (const line of lines) {
+          if (line.startsWith('data: ')) {
+            try {
+              const data = JSON.parse(line.slice(6));
+              if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
+                accumulatedText += data.choices[0].delta.content;
+                setCurrentStreamedText(accumulatedText);
+              }
+            } catch (e) {
+              console.error('Error parsing SSE data:', e);
+            }
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error reading stream:', error);
+      setIsAiTyping(false);
+      toast.error('Error reading response stream');
+      
+      // If we have accumulated some text, use it
+      if (accumulatedText) {
+        setMessages(prev => [...prev, { text: accumulatedText, isAi: true }]);
+      } else {
+        // Otherwise use fallback
+        const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+        setMessages(prev => [...prev, { text: fallbackResponse, isAi: true }]);
+      }
+    }
+  };
+
   const getAIResponse = async (userMessage: string) => {
     try {
       const { data, error } = await supabase.functions.invoke('deepseek-chat', {
         body: {
           message: userMessage,
         },
+        responseType: 'stream',
       });
 
       if (error) {
@@ -54,16 +106,18 @@ const ChatInterface: React.FC = () => {
         return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
       }
 
-      // Check if the response has a specific error message
-      if (data && data.errorCode === "INSUFFICIENT_BALANCE") {
-        setApiError("Your DeepSeek account has insufficient balance. Please add credits to your DeepSeek account to continue using the AI advisor.");
-        toast.error('DeepSeek account has insufficient balance');
-        return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      // Process the stream
+      if (data) {
+        const reader = data.getReader();
+        await handleStreamResponse(reader);
+        return null; // Message will be added by the stream handler
       }
 
       // Clear any previous API error if successful
       setApiError(null);
-      return data.response;
+      
+      // Fallback in case no streaming data
+      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     } catch (err) {
       console.error('Exception calling DeepSeek API:', err);
       toast.error('Failed to get AI response. Using fallback response instead.');
@@ -85,10 +139,13 @@ const ChatInterface: React.FC = () => {
     try {
       // Get response from DeepSeek API
       const aiResponse = await getAIResponse(userMessage);
-      setIsAiTyping(false);
       
-      // Add AI message with fresh response
-      setMessages(prev => [...prev, { text: aiResponse, isAi: true }]);
+      // If we got a direct response (non-streaming), add it to messages
+      // Otherwise the stream handler will add the messages
+      if (aiResponse) {
+        setIsAiTyping(false);
+        setMessages(prev => [...prev, { text: aiResponse, isAi: true }]);
+      }
     } catch (error) {
       console.error('Error getting AI response:', error);
       setIsAiTyping(false);
@@ -137,7 +194,13 @@ const ChatInterface: React.FC = () => {
             isAi={message.isAi} 
           />
         ))}
-        {isAiTyping && <ChatMessage message="" isAi={true} isTyping={true} />}
+        {isAiTyping && (
+          <ChatMessage 
+            message={currentStreamedText || ""} 
+            isAi={true} 
+            isTyping={currentStreamedText ? false : true} 
+          />
+        )}
         <div ref={messagesEndRef} />
       </div>
       

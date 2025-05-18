@@ -44,6 +44,7 @@ serve(async (req) => {
         temperature: 0.2,    // allows faster, "good-enough" sampling
         max_tokens: 120,     // ≈ 80–90 words, perfect for 2 sentences + bullets
         stop: ["\n\n"],      // cut off after the first paragraph/break
+        stream: true,        // start sending tokens immediately
         frequency_penalty: 0.0,
         presence_penalty: 0.0
       }),
@@ -67,13 +68,9 @@ serve(async (req) => {
       throw new Error(`DeepSeek API returned ${response.status}: ${errorData}`);
     }
 
-    const data = await response.json();
-    console.log("DeepSeek response:", data);
-    
-    const generatedText = data.choices[0].message.content;
-
-    return new Response(JSON.stringify({ response: generatedText }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    // Return the streaming response directly
+    return new Response(response.body, {
+      headers: { ...corsHeaders, 'Content-Type': 'text/event-stream' },
       status: 200,
     });
   } catch (error) {
