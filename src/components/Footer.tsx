@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
               <ul className="space-y-2">
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Fast Capital</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Term Loans</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equity Financing</a></li>
+                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Financing</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</a></li>
               </ul>
             </div>
@@ -32,8 +32,8 @@ const Footer: React.FC = () => {
               <h3 className="text-lg font-semibold mb-4">Company</h3>
               <ul className="space-y-2">
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Careers</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Press</a></li>
+
+                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Blog</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
