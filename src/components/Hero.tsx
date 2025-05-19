@@ -11,7 +11,7 @@ const Hero: React.FC = () => {
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-lg">
             Fast Capital. Smart Resources. <br />
-            Transparent Options from $5K to $2M
+            Transparent Options from $300 to $2M
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
