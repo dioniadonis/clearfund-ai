@@ -15,7 +15,7 @@ const Hero: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-              Chat with AI Advisor
+              Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
