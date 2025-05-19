@@ -49,7 +49,7 @@ const Hero: React.FC = () => {
                 <p className="text-sm">I'm looking for funding, I want to implement AI to scale our operations.</p>
               </div>
               <div className="bg-clearfund-pale-blue p-3 rounded-lg rounded-tl-none max-w-[80%]">
-                <p className="text-sm">I can help with that! Based on your business profile, I recommend our Fast Capital option with transparent terms and flexible repayments...</p>
+                <p className="text-sm">I can help with that! I recommend our instant capital options with transparent terms and flexible repayments. I'll outline options that work best for your business!</p>
               </div>
             </div>
           </div>
