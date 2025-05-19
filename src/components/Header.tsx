@@ -20,9 +20,6 @@ const Header: React.FC = () => {
           <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Working Capital
           </a>
-          <a href="#ai-chat" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
-            AI Advisor
-          </a>
           <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Gig Funding
           </a>
