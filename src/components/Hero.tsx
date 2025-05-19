@@ -2,15 +2,10 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Hero: React.FC = () => {
-  const openApplicationForm = () => {
-    window.open(
-      'https://form.jotform.com/251378086816062',
-      'ClearfundApplication',
-      'scrollbars=yes,toolbar=no,width=700,height=500'
-    );
-  };
+  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
@@ -25,7 +20,7 @@ const Hero: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button 
-              onClick={openApplicationForm}
+              onClick={() => setIsDialogOpen(true)}
               className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
             >
               Apply Now
@@ -39,6 +34,8 @@ const Hero: React.FC = () => {
             <p className="text-sm text-gray-500">Trusted by over <span className="font-semibold">10,000+ AI-driven businesses</span> nationwide</p>
           </div>
         </div>
+        
+        {/* Right side content - AI chat preview */}
         <div className="relative hidden md:block">
           <div className="absolute -top-16 -right-16 w-64 h-64 bg-clearfund-pale-blue rounded-full opacity-50 blur-3xl"></div>
           <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
@@ -68,6 +65,20 @@ const Hero: React.FC = () => {
           </div>
         </div>
       </div>
+
+      {/* Application Form Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
+          <DialogHeader className="p-6 pb-0">
+            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
+          </DialogHeader>
+          <iframe 
+            src="https://form.jotform.com/251378086816062" 
+            className="w-full h-[550px] border-none"
+            title="Clearfund Application Form"
+          />
+        </DialogContent>
+      </Dialog>
     </section>;
 };
 
