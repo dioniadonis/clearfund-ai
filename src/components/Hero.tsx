@@ -1,7 +1,17 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
+
 const Hero: React.FC = () => {
+  const openApplicationForm = () => {
+    window.open(
+      'https://form.jotform.com/251378086816062',
+      'ClearfundApplication',
+      'scrollbars=yes,toolbar=no,width=700,height=500'
+    );
+  };
+
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
@@ -14,7 +24,10 @@ const Hero: React.FC = () => {
             Transparent Options from $300 to $2M
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+            <Button 
+              onClick={openApplicationForm}
+              className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
+            >
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -57,4 +70,5 @@ const Hero: React.FC = () => {
       </div>
     </section>;
 };
+
 export default Hero;
