@@ -32,74 +32,103 @@
       document.addEventListener('DOMContentLoaded', () => {
         // Configuration
         const config = {
-          // Try multiple selectors to find the Aminos chat button
+          // Chat button selectors - ordered from most specific to most general
           chatButtonSelectors: [
-            '[class*="aminos-widget-launcher"]',
-            '[data-aminos-launcher]',
+            // Specific Aminos selectors based on their documentation and common implementations
+            '[data-bot-id="50969"]',
+            '.aminos-widget-launcher',
+            '.aminos-chat-button',
+            '#aminos-chat-button',
+            // More general selectors as fallbacks
+            '[class*="aminos-widget"]',
             '[class*="aminos-chat"]',
-            '[id*="aminos"]',
+            '[class*="aminos-launcher"]',
+            '[class*="chat-launcher"]',
             '[aria-label*="chat"]',
-            '.chat-widget',
-            '.aminos-widget'
+            '[id*="chat"]'
           ],
-          // Log debug information to console
+          // Debug mode for troubleshooting
           debug: true,
-          // Check interval (ms) for finding chat button
-          checkInterval: 500,
-          // Maximum time to look for the button (ms)
-          maxWaitTime: 10000
+          // Check interval (ms)
+          checkInterval: 300,
+          // Max wait time for button to appear (ms)
+          maxWaitTime: 15000
         };
 
-        // Logs information if debug is enabled
+        // Logger that respects debug setting
         const log = (...args) => {
-          if (config.debug) {
-            console.log('[Chat Visibility]', ...args);
-          }
+          if (config.debug) console.log('[Chat Visibility]', ...args);
         };
 
-        // Multiple methods to detect if the form is open
+        // Find the chat button using selectors
+        const findChatButton = () => {
+          // Try direct parent elements first
+          for (const selector of config.chatButtonSelectors) {
+            const elements = document.querySelectorAll(selector);
+            if (elements.length > 0) {
+              log(`Found chat button with selector: ${selector}`);
+              return elements[0];
+            }
+          }
+          
+          // Look for common patterns in the DOM
+          const possibleButtons = document.querySelectorAll('button, div[role="button"], [class*="chat"], [class*="widget"]');
+          for (const btn of possibleButtons) {
+            // Check if it looks like a chat button (common patterns in chat widgets)
+            const html = btn.outerHTML.toLowerCase();
+            if ((html.includes('chat') || html.includes('support') || html.includes('help') || html.includes('aminos'))
+                && (html.includes('button') || html.includes('launcher') || html.includes('widget'))) {
+              log('Found chat button by content analysis');
+              return btn;
+            }
+          }
+          
+          return null;
+        };
+
+        // Multiple methods to detect if form is open
         const isFormOpen = () => {
-          // Method 1: Check for iframes with jotform in the src
-          const jotformIframes = document.querySelectorAll('iframe[src*="jotform"]');
-          if (jotformIframes.length) {
-            const isVisible = Array.from(jotformIframes).some(iframe => 
-              iframe.offsetParent !== null && 
-              !(iframe.style.display === 'none' || 
-                iframe.style.visibility === 'hidden' || 
-                iframe.style.opacity === '0')
-            );
-            if (isVisible) {
-              log('Form detected via jotform iframe:', isVisible);
+          // Method 1: Check for dialog state directly from React component
+          const dialogElements = document.querySelectorAll('[role="dialog"], [aria-modal="true"]');
+          if (dialogElements.length) {
+            const visibleDialog = Array.from(dialogElements).some(dialog => {
+              const style = window.getComputedStyle(dialog);
+              return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+            });
+            
+            if (visibleDialog) {
+              log('Form detected via dialog element');
               return true;
             }
           }
           
-          // Method 2: Check for dialog elements that might contain the form
-          const dialogElements = document.querySelectorAll('[role="dialog"], .dialog, [aria-modal="true"]');
-          if (dialogElements.length) {
-            const isVisible = Array.from(dialogElements).some(dialog => 
-              dialog.offsetParent !== null && 
-              !(dialog.style.display === 'none' || 
-                dialog.style.visibility === 'hidden' || 
-                dialog.style.opacity === '0')
-            );
-            if (isVisible) {
-              log('Form detected via dialog element:', isVisible);
+          // Method 2: Check for jotform iframes
+          const jotformIframes = document.querySelectorAll('iframe[src*="jotform"]');
+          if (jotformIframes.length) {
+            const visibleIframe = Array.from(jotformIframes).some(iframe => {
+              if (!iframe.parentElement) return false;
+              const style = window.getComputedStyle(iframe);
+              const parentStyle = window.getComputedStyle(iframe.parentElement);
+              return style.display !== 'none' && style.visibility !== 'hidden' && 
+                     parentStyle.display !== 'none' && parentStyle.visibility !== 'hidden';
+            });
+            
+            if (visibleIframe) {
+              log('Form detected via jotform iframe');
               return true;
             }
           }
-
-          // Method 3: Check for any elements with 'jotform' in their attributes
-          const jotformElements = document.querySelectorAll('[class*="jotform"], [id*="jotform"]');
-          if (jotformElements.length) {
-            const isVisible = Array.from(jotformElements).some(el => 
-              el.offsetParent !== null && 
-              !(el.style.display === 'none' || 
-                el.style.visibility === 'hidden' || 
-                el.style.opacity === '0')
-            );
-            if (isVisible) {
-              log('Form detected via jotform element:', isVisible);
+          
+          // Method 3: Check for React's dialog backdrop
+          const dialogBackdrops = document.querySelectorAll('[class*="dialog-overlay"], .fixed.inset-0');
+          if (dialogBackdrops.length) {
+            const visibleBackdrop = Array.from(dialogBackdrops).some(backdrop => {
+              const style = window.getComputedStyle(backdrop);
+              return style.display !== 'none' && style.visibility !== 'hidden' && style.opacity !== '0';
+            });
+            
+            if (visibleBackdrop) {
+              log('Form detected via dialog backdrop');
               return true;
             }
           }
@@ -107,80 +136,111 @@
           return false;
         };
 
-        // Finds the chat button using multiple selectors
-        const findChatButton = () => {
-          for (const selector of config.chatButtonSelectors) {
-            const button = document.querySelector(selector);
-            if (button) {
-              log('Chat button found with selector:', selector);
-              return button;
-            }
-          }
-          return null;
-        };
-
-        // Toggles chat button visibility based on form state
+        // Hide or show the chat button based on form state
         const toggleChat = () => {
-          const btn = findChatButton();
           const formOpen = isFormOpen();
+          const chatButton = findChatButton();
           
-          log('Toggle called - Form open:', formOpen, 'Button found:', !!btn);
+          log(`Toggle called - Form open: ${formOpen}, Button found: ${chatButton ? 'yes' : 'no'}`);
           
-          if (btn) {
-            // Apply multiple CSS properties to ensure it's properly hidden
-            if (formOpen) {
-              btn.style.display = 'none';
-              btn.style.visibility = 'hidden';
-              btn.style.opacity = '0';
-              btn.style.pointerEvents = 'none';
-              log('Chat button hidden');
-            } else {
-              btn.style.display = '';
-              btn.style.visibility = '';
-              btn.style.opacity = '';
-              btn.style.pointerEvents = '';
-              log('Chat button shown');
+          if (!chatButton) return;
+          
+          // Apply multiple methods to ensure the button is properly hidden/shown
+          if (formOpen) {
+            // Hide using multiple CSS properties for reliability
+            chatButton.style.display = 'none';
+            chatButton.style.visibility = 'hidden';
+            chatButton.style.opacity = '0';
+            chatButton.style.pointerEvents = 'none';
+            
+            // Also try to find and hide parent containers
+            let parent = chatButton.parentElement;
+            for (let i = 0; i < 3 && parent; i++) { // Check up to 3 levels up
+              if (parent.tagName !== 'BODY' && parent.tagName !== 'HTML') {
+                parent.style.display = 'none';
+              }
+              parent = parent.parentElement;
             }
+            
+            log('Chat button hidden');
+          } else {
+            // Show button by removing all hiding styles
+            chatButton.style.display = '';
+            chatButton.style.visibility = '';
+            chatButton.style.opacity = '';
+            chatButton.style.pointerEvents = '';
+            
+            // Also restore parent containers
+            let parent = chatButton.parentElement;
+            for (let i = 0; i < 3 && parent; i++) {
+              if (parent.tagName !== 'BODY' && parent.tagName !== 'HTML') {
+                parent.style.display = '';
+              }
+              parent = parent.parentElement;
+            }
+            
+            log('Chat button shown');
           }
         };
 
-        // Set up the observer once DOM is loaded
+        // Set up MutationObserver to detect DOM changes
         const setupObserver = () => {
           log('Setting up MutationObserver');
           const observer = new MutationObserver(() => {
-            // Small delay to ensure DOM is fully updated
-            setTimeout(toggleChat, 100);
+            setTimeout(toggleChat, 100); // Small delay to allow DOM updates
           });
           
           observer.observe(document.body, { 
             childList: true, 
             subtree: true, 
             attributes: true, 
-            attributeFilter: ['style', 'class']
+            attributeFilter: ['style', 'class', 'data-state']
+          });
+          
+          // Handle React state changes via attribute monitoring
+          const dialogObserver = new MutationObserver((mutations) => {
+            for (const mutation of mutations) {
+              if (mutation.type === 'attributes' && 
+                  (mutation.attributeName === 'data-state' || 
+                   mutation.attributeName === 'aria-hidden')) {
+                setTimeout(toggleChat, 50);
+                break;
+              }
+            }
+          });
+          
+          // Monitor specific dialog elements
+          document.querySelectorAll('[role="dialog"], [class*="dialog"]').forEach(el => {
+            dialogObserver.observe(el, { attributes: true });
           });
           
           // Initial check
           toggleChat();
           
-          // Also set up interval as fallback
+          // Periodic check as fallback
           setInterval(toggleChat, 1000);
         };
 
-        // Wait a moment for things to initialize
-        setTimeout(() => {
-          log('Initializing chat visibility controller');
-          setupObserver();
-          
-          // Additional check in case button loads later
-          let startTime = Date.now();
-          const buttonCheckInterval = setInterval(() => {
-            if (findChatButton() || Date.now() - startTime > config.maxWaitTime) {
-              log('Button check complete');
-              clearInterval(buttonCheckInterval);
-              toggleChat();
-            }
-          }, config.checkInterval);
-        }, 500);
+        // Wait for DOM to be ready, then look for chat button with retries
+        let startTime = Date.now();
+        const checkForChat = () => {
+          if (findChatButton() || Date.now() - startTime > config.maxWaitTime) {
+            log('Chat button search complete');
+            setupObserver();
+          } else {
+            log('Chat button not found yet, retrying...');
+            setTimeout(checkForChat, config.checkInterval);
+          }
+        };
+        
+        // Start looking for chat button after a short delay to allow scripts to load
+        setTimeout(checkForChat, 800);
+        
+        // Also check after window load event
+        window.addEventListener('load', () => {
+          log('Window loaded, checking for chat button');
+          checkForChat();
+        });
       });
     </script>
   </body>
