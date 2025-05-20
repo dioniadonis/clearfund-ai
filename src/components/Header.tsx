@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ChevronUp, ChevronDown, Phone, Blinds } from "lucide-react";
+import { Blinds, Phone } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Toggle } from "@/components/ui/toggle";
@@ -63,34 +63,41 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Modern Mobile Navigation Toggle - Half on/half off the header and centered */}
+      {/* Mobile Navigation Toggle - With rectangular design and ripple effect */}
       {isMobile && (
         <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
           <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">
             <div className="flex justify-center">
               <CollapsibleTrigger asChild>
-                <Toggle 
-                  pressed={isOpen} 
-                  aria-label="Toggle navigation menu" 
-                  className="rounded-full h-10 w-10 flex items-center justify-center bg-white border border-gray-200 shadow-md hover:bg-gray-50 px-0 py-0 text-center transition-all duration-500"
+                <button 
+                  onClick={() => setIsOpen(!isOpen)}
+                  className={`
+                    relative w-14 h-8 rounded-md flex items-center justify-center
+                    ${isOpen ? "bg-clearfund-pale-blue text-clearfund-blue" : "bg-white text-clearfund-blue"} 
+                    border border-gray-200 shadow-md hover:bg-gray-50 
+                    transition-colors duration-300 overflow-hidden group
+                  `}
                 >
-                  {isOpen ? 
-                    <ChevronUp size={18} className="text-clearfund-blue transition-transform duration-500" /> : 
-                    <Blinds size={18} className="text-clearfund-blue transition-transform duration-500" />
-                  }
-                </Toggle>
+                  {/* Ripple effect */}
+                  <span className="absolute w-full h-full scale-0 rounded-full bg-black/10 group-active:scale-[2.5] group-active:opacity-100 opacity-0 transition-all duration-500 ease-out"></span>
+                  
+                  {/* Toggle icon */}
+                  <Blinds size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                </button>
               </CollapsibleTrigger>
             </div>
+            
+            {/* Menu content - Improved animation */}
             <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
-              <div className="origin-top transform transition-all duration-500">
-                <nav className="flex flex-col items-center space-y-3 py-3">
-                  <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors w-full text-center py-1">
+              <div className="px-4 py-4 origin-top transform transition-all duration-500">
+                <nav className="flex flex-col space-y-4">
+                  <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Working Capital
                   </a>
-                  <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors w-full text-center py-1">
+                  <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Gig Funding
                   </a>
-                  <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors w-full text-center py-1">
+                  <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
                     Credit Repair
                   </a>
                 </nav>
