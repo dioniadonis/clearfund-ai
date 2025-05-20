@@ -99,13 +99,23 @@ export default {
 				'typing': {
 					'0%': { width: '0' },
 					'100%': { width: '100%' }
+				},
+				'collapsible-down': {
+					from: { height: '0', opacity: '0', transform: 'translateY(-8px)' },
+					to: { height: 'var(--radix-collapsible-content-height)', opacity: '1', transform: 'translateY(0)' }
+				},
+				'collapsible-up': {
+					from: { height: 'var(--radix-collapsible-content-height)', opacity: '1', transform: 'translateY(0)' },
+					to: { height: '0', opacity: '0', transform: 'translateY(-8px)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-slow': 'pulse-slow 2s infinite',
-				'typing': 'typing 1s steps(20, end)'
+				'typing': 'typing 1s steps(20, end)',
+				'collapsible-down': 'collapsible-down 0.3s ease-out',
+				'collapsible-up': 'collapsible-up 0.3s ease-out'
 			},
 			fontFamily: {
 				'poppins': ['Poppins', 'sans-serif'],

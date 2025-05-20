@@ -72,16 +72,16 @@ const Header: React.FC = () => {
                 <Toggle 
                   pressed={isOpen} 
                   aria-label="Toggle navigation menu" 
-                  className="rounded-full h-10 w-10 flex items-center justify-center bg-white border border-gray-200 shadow-md hover:bg-gray-50 px-0 py-0 text-center"
+                  className="rounded-full h-10 w-10 flex items-center justify-center bg-white border border-gray-200 shadow-md hover:bg-gray-50 px-0 py-0 text-center transition-all duration-300"
                 >
                   {isOpen ? 
-                    <ChevronUp size={18} className="text-clearfund-blue" /> : 
-                    <ChevronDown size={18} className="text-clearfund-blue" />
+                    <ChevronUp size={18} className="text-clearfund-blue transition-transform duration-300" /> : 
+                    <ChevronDown size={18} className="text-clearfund-blue transition-transform duration-300" />
                   }
                 </Toggle>
               </CollapsibleTrigger>
             </div>
-            <CollapsibleContent className="mt-6 bg-white border-t pt-2 shadow-md rounded-b-lg">
+            <CollapsibleContent className="bg-white border-t pt-2 shadow-md rounded-b-lg mt-6 transition-all duration-300 data-[state=open]:animate-collapsible-down data-[state=closed]:animate-collapsible-up">
               <nav className="flex flex-col items-center space-y-3 py-3">
                 <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors w-full text-center py-1">
                   Working Capital
