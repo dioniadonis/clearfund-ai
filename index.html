@@ -30,24 +30,28 @@
     <!-- Chat Button Visibility Controller -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // 1. Tweak this if your chat button has a slightly different class or data-attribute:
+        // Selector for the Aminos chat button (covers common variations)
         const chatSelector = '[class*="aminos-widget-launcher"], [data-aminos-launcher]';
         
-        // 2. This picks up JotForm's lightbox iframe (ID always starts with "JotFormIFrame")
-        const isFormOpen = () => !!document.querySelector('iframe[id^="JotFormIFrame"]');
-
-        // 3. Hide/show chat button based on form presence
+        // Checks for any visible JotForm iframe by looking for "jotform" in the src and checking visibility
+        const isFormOpen = () => {
+          const iframes = document.querySelectorAll('iframe[src*="jotform"]');
+          return Array.from(iframes).some(iframe => iframe.offsetParent !== null);
+        };
+        
+        // Toggles the chat button visibility based on form state
         const toggleChat = () => {
           const btn = document.querySelector(chatSelector);
-          if (!btn) return;
-          btn.style.display = isFormOpen() ? 'none' : '';
+          if (btn) {
+            btn.style.display = isFormOpen() ? 'none' : '';
+          }
         };
-
-        // 4. Watch the entire body for DOM changes (form opening/closing)
+        
+        // Watches the DOM for changes (e.g., form opening/closing)
         const observer = new MutationObserver(toggleChat);
         observer.observe(document.body, { childList: true, subtree: true });
-
-        // 5. Also run once on load, in case your form is already injected
+        
+        // Runs once on load to catch an already-open form
         toggleChat();
       });
     </script>
