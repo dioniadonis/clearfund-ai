@@ -8,8 +8,11 @@ import {
   DropdownMenuItem
 } from "@/components/ui/dropdown-menu";
 import { Phone } from "lucide-react";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 const Header: React.FC = () => {
+  const isMobile = useIsMobile();
+  
   return (
     <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
       <div className="container-custom flex items-center justify-between">
@@ -37,7 +40,7 @@ const Header: React.FC = () => {
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="hidden md:inline-flex text-clearfund-dark-blue hover:text-clearfund-blue">
+              <Button variant="ghost" className="text-clearfund-dark-blue hover:text-clearfund-blue">
                 Contact Us
               </Button>
             </DropdownMenuTrigger>
@@ -50,7 +53,7 @@ const Header: React.FC = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors">
+          <Button className="hidden md:inline-flex bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors">
             Get Started
           </Button>
         </div>
