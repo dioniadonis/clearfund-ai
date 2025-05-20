@@ -40,7 +40,13 @@ const Header: React.FC = () => {
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="text-clearfund-dark-blue hover:text-clearfund-blue">
+              <Button 
+                variant={isMobile ? "default" : "ghost"}
+                className={`
+                  ${isMobile ? "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white" : "text-clearfund-dark-blue hover:text-clearfund-blue"}
+                  transition-colors
+                `}
+              >
                 Contact Us
               </Button>
             </DropdownMenuTrigger>
