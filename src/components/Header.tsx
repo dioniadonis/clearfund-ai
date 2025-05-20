@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ChevronDown, Phone } from "lucide-react";
@@ -10,6 +10,16 @@ import { Toggle } from "@/components/ui/toggle";
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  
+  // Close menu when route changes (e.g., when clicking on anchor links)
+  useEffect(() => {
+    const handleHashChange = () => {
+      if (isOpen) setIsOpen(false);
+    };
+    
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, [isOpen]);
   
   return (
     <header className="py-4 bg-white shadow-sm sticky top-0 z-50 relative">
