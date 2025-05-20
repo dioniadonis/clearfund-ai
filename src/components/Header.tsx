@@ -10,6 +10,7 @@ import {
 import { ChevronUp, ChevronDown, Phone } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
+import { Toggle } from "@/components/ui/toggle";
 
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
@@ -70,7 +71,7 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Mobile Navigation Toggle */}
+      {/* Modern Mobile Navigation Toggle - Centered in the header */}
       {isMobile && (
         <div className="flex justify-center mt-2">
           <Collapsible
@@ -79,14 +80,13 @@ const Header: React.FC = () => {
             className="w-full"
           >
             <CollapsibleTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                className="flex items-center gap-1 text-clearfund-dark-blue hover:text-clearfund-blue"
+              <Toggle 
+                pressed={isOpen}
+                className="rounded-full h-8 w-8 flex items-center justify-center bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
+                aria-label="Toggle navigation menu"
               >
-                {isOpen ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
-                <span>Menu</span>
-              </Button>
+                {isOpen ? <ChevronUp size={16} className="text-clearfund-blue" /> : <ChevronDown size={16} className="text-clearfund-blue" />}
+              </Toggle>
             </CollapsibleTrigger>
             <CollapsibleContent className="mt-2 border-t pt-2">
               <nav className="flex flex-col items-center space-y-2">
