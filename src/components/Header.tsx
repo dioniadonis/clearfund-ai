@@ -1,23 +1,14 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { 
-  DropdownMenu, 
-  DropdownMenuContent, 
-  DropdownMenuTrigger,
-  DropdownMenuItem
-} from "@/components/ui/dropdown-menu";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { ChevronUp, ChevronDown, Phone } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Toggle } from "@/components/ui/toggle";
-
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
-  
-  return (
-    <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
+  return <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
           <div className="flex items-center">
@@ -46,13 +37,10 @@ const Header: React.FC = () => {
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button 
-                variant={isMobile ? "default" : "ghost"}
-                className={`
+              <Button variant={isMobile ? "default" : "ghost"} className={`
                   ${isMobile ? "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white" : "text-clearfund-dark-blue hover:text-clearfund-blue"}
                   transition-colors
-                `}
-              >
+                `}>
                 Contact Us
               </Button>
             </DropdownMenuTrigger>
@@ -72,19 +60,10 @@ const Header: React.FC = () => {
       </div>
       
       {/* Modern Mobile Navigation Toggle - Centered in the header */}
-      {isMobile && (
-        <div className="flex justify-center mt-2">
-          <Collapsible
-            open={isOpen}
-            onOpenChange={setIsOpen}
-            className="w-full"
-          >
+      {isMobile && <div className="flex justify-center mt-2">
+          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
             <CollapsibleTrigger asChild>
-              <Toggle 
-                pressed={isOpen}
-                className="rounded-full h-8 w-8 flex items-center justify-center bg-white border border-gray-200 shadow-sm hover:bg-gray-50"
-                aria-label="Toggle navigation menu"
-              >
+              <Toggle pressed={isOpen} aria-label="Toggle navigation menu" className="rounded-full h-8 w-8 flex items-center justify-center bg-white border border-gray-200 shadow-sm hover:bg-gray-50 px-0 mx-[165px] py-0 text-center text-4xl my-[6px]">
                 {isOpen ? <ChevronUp size={16} className="text-clearfund-blue" /> : <ChevronDown size={16} className="text-clearfund-blue" />}
               </Toggle>
             </CollapsibleTrigger>
@@ -102,10 +81,7 @@ const Header: React.FC = () => {
               </nav>
             </CollapsibleContent>
           </Collapsible>
-        </div>
-      )}
-    </header>
-  );
+        </div>}
+    </header>;
 };
-
 export default Header;
