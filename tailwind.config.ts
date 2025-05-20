@@ -100,13 +100,33 @@ export default {
 					'0%': { width: '0' },
 					'100%': { width: '100%' }
 				},
-				'collapsible-down': {
-					from: { height: '0', opacity: '0', transform: 'translateY(-8px)' },
-					to: { height: 'var(--radix-collapsible-content-height)', opacity: '1', transform: 'translateY(0)' }
+				'blinds-down': {
+					'0%': { 
+						height: '0', 
+						opacity: '0', 
+						transform: 'scaleY(0)', 
+						transformOrigin: 'top' 
+					},
+					'100%': { 
+						height: 'var(--radix-collapsible-content-height)', 
+						opacity: '1', 
+						transform: 'scaleY(1)', 
+						transformOrigin: 'top' 
+					}
 				},
-				'collapsible-up': {
-					from: { height: 'var(--radix-collapsible-content-height)', opacity: '1', transform: 'translateY(0)' },
-					to: { height: '0', opacity: '0', transform: 'translateY(-8px)' }
+				'blinds-up': {
+					'0%': { 
+						height: 'var(--radix-collapsible-content-height)', 
+						opacity: '1', 
+						transform: 'scaleY(1)', 
+						transformOrigin: 'top'
+					},
+					'100%': { 
+						height: '0', 
+						opacity: '0', 
+						transform: 'scaleY(0)', 
+						transformOrigin: 'top'
+					}
 				}
 			},
 			animation: {
@@ -114,8 +134,8 @@ export default {
 				'accordion-up': 'accordion-up 0.2s ease-out',
 				'pulse-slow': 'pulse-slow 2s infinite',
 				'typing': 'typing 1s steps(20, end)',
-				'collapsible-down': 'collapsible-down 0.3s ease-out',
-				'collapsible-up': 'collapsible-up 0.3s ease-out'
+				'blinds-down': 'blinds-down 0.5s ease-out',
+				'blinds-up': 'blinds-up 0.5s ease-in'
 			},
 			fontFamily: {
 				'poppins': ['Poppins', 'sans-serif'],
