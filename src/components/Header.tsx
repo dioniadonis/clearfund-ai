@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { Blinds, Phone } from "lucide-react";
+import { ChevronDown, Phone } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Toggle } from "@/components/ui/toggle";
@@ -63,7 +63,7 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Mobile Navigation Toggle - With rectangular design and ripple effect */}
+      {/* Mobile Navigation Toggle - With minimal design and ripple effect */}
       {isMobile && (
         <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
           <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">
@@ -81,8 +81,8 @@ const Header: React.FC = () => {
                   {/* Ripple effect */}
                   <span className="absolute w-full h-full scale-0 rounded-full bg-black/10 group-active:scale-[2.5] group-active:opacity-100 opacity-0 transition-all duration-500 ease-out"></span>
                   
-                  {/* Toggle icon */}
-                  <Blinds size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+                  {/* Toggle icon - Changed to ChevronDown and fixed rotation direction */}
+                  <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`} />
                 </button>
               </CollapsibleTrigger>
             </div>
