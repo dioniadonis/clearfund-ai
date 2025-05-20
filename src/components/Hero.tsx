@@ -79,6 +79,7 @@ const Hero: React.FC = () => {
             src="https://form.jotform.com/251378086816062" 
             className="w-full h-[550px] border-none"
             title="Clearfund Application Form"
+            data-clearfund-form="application"
           />
         </DialogContent>
       </Dialog>

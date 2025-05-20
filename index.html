@@ -27,32 +27,160 @@
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
     
-    <!-- Chat Button Visibility Controller -->
+    <!-- Enhanced Chat Button Visibility Controller -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        // Selector for the Aminos chat button (covers common variations)
-        const chatSelector = '[class*="aminos-widget-launcher"], [data-aminos-launcher]';
-        
-        // Checks for any visible JotForm iframe by looking for "jotform" in the src and checking visibility
-        const isFormOpen = () => {
-          const iframes = document.querySelectorAll('iframe[src*="jotform"]');
-          return Array.from(iframes).some(iframe => iframe.offsetParent !== null);
+        // Configuration
+        const config = {
+          // Try multiple selectors to find the Aminos chat button
+          chatButtonSelectors: [
+            '[class*="aminos-widget-launcher"]',
+            '[data-aminos-launcher]',
+            '[class*="aminos-chat"]',
+            '[id*="aminos"]',
+            '[aria-label*="chat"]',
+            '.chat-widget',
+            '.aminos-widget'
+          ],
+          // Log debug information to console
+          debug: true,
+          // Check interval (ms) for finding chat button
+          checkInterval: 500,
+          // Maximum time to look for the button (ms)
+          maxWaitTime: 10000
         };
-        
-        // Toggles the chat button visibility based on form state
-        const toggleChat = () => {
-          const btn = document.querySelector(chatSelector);
-          if (btn) {
-            btn.style.display = isFormOpen() ? 'none' : '';
+
+        // Logs information if debug is enabled
+        const log = (...args) => {
+          if (config.debug) {
+            console.log('[Chat Visibility]', ...args);
           }
         };
-        
-        // Watches the DOM for changes (e.g., form opening/closing)
-        const observer = new MutationObserver(toggleChat);
-        observer.observe(document.body, { childList: true, subtree: true });
-        
-        // Runs once on load to catch an already-open form
-        toggleChat();
+
+        // Multiple methods to detect if the form is open
+        const isFormOpen = () => {
+          // Method 1: Check for iframes with jotform in the src
+          const jotformIframes = document.querySelectorAll('iframe[src*="jotform"]');
+          if (jotformIframes.length) {
+            const isVisible = Array.from(jotformIframes).some(iframe => 
+              iframe.offsetParent !== null && 
+              !(iframe.style.display === 'none' || 
+                iframe.style.visibility === 'hidden' || 
+                iframe.style.opacity === '0')
+            );
+            if (isVisible) {
+              log('Form detected via jotform iframe:', isVisible);
+              return true;
+            }
+          }
+          
+          // Method 2: Check for dialog elements that might contain the form
+          const dialogElements = document.querySelectorAll('[role="dialog"], .dialog, [aria-modal="true"]');
+          if (dialogElements.length) {
+            const isVisible = Array.from(dialogElements).some(dialog => 
+              dialog.offsetParent !== null && 
+              !(dialog.style.display === 'none' || 
+                dialog.style.visibility === 'hidden' || 
+                dialog.style.opacity === '0')
+            );
+            if (isVisible) {
+              log('Form detected via dialog element:', isVisible);
+              return true;
+            }
+          }
+
+          // Method 3: Check for any elements with 'jotform' in their attributes
+          const jotformElements = document.querySelectorAll('[class*="jotform"], [id*="jotform"]');
+          if (jotformElements.length) {
+            const isVisible = Array.from(jotformElements).some(el => 
+              el.offsetParent !== null && 
+              !(el.style.display === 'none' || 
+                el.style.visibility === 'hidden' || 
+                el.style.opacity === '0')
+            );
+            if (isVisible) {
+              log('Form detected via jotform element:', isVisible);
+              return true;
+            }
+          }
+          
+          return false;
+        };
+
+        // Finds the chat button using multiple selectors
+        const findChatButton = () => {
+          for (const selector of config.chatButtonSelectors) {
+            const button = document.querySelector(selector);
+            if (button) {
+              log('Chat button found with selector:', selector);
+              return button;
+            }
+          }
+          return null;
+        };
+
+        // Toggles chat button visibility based on form state
+        const toggleChat = () => {
+          const btn = findChatButton();
+          const formOpen = isFormOpen();
+          
+          log('Toggle called - Form open:', formOpen, 'Button found:', !!btn);
+          
+          if (btn) {
+            // Apply multiple CSS properties to ensure it's properly hidden
+            if (formOpen) {
+              btn.style.display = 'none';
+              btn.style.visibility = 'hidden';
+              btn.style.opacity = '0';
+              btn.style.pointerEvents = 'none';
+              log('Chat button hidden');
+            } else {
+              btn.style.display = '';
+              btn.style.visibility = '';
+              btn.style.opacity = '';
+              btn.style.pointerEvents = '';
+              log('Chat button shown');
+            }
+          }
+        };
+
+        // Set up the observer once DOM is loaded
+        const setupObserver = () => {
+          log('Setting up MutationObserver');
+          const observer = new MutationObserver(() => {
+            // Small delay to ensure DOM is fully updated
+            setTimeout(toggleChat, 100);
+          });
+          
+          observer.observe(document.body, { 
+            childList: true, 
+            subtree: true, 
+            attributes: true, 
+            attributeFilter: ['style', 'class']
+          });
+          
+          // Initial check
+          toggleChat();
+          
+          // Also set up interval as fallback
+          setInterval(toggleChat, 1000);
+        };
+
+        // Wait a moment for things to initialize
+        setTimeout(() => {
+          log('Initializing chat visibility controller');
+          setupObserver();
+          
+          // Additional check in case button loads later
+          let startTime = Date.now();
+          const buttonCheckInterval = setInterval(() => {
+            if (findChatButton() || Date.now() - startTime > config.maxWaitTime) {
+              log('Button check complete');
+              clearInterval(buttonCheckInterval);
+              toggleChat();
+            }
+          }, config.checkInterval);
+        }, 500);
       });
     </script>
   </body>
