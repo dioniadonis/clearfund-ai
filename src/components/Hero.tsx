@@ -1,11 +1,24 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Hero: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+
+  // Handle Aminos chat button visibility based on dialog state
+  useEffect(() => {
+    const aminosChatButton = document.querySelector('.aminos-widget-launcher') as HTMLElement;
+    
+    if (aminosChatButton) {
+      if (isDialogOpen) {
+        aminosChatButton.style.display = 'none';
+      } else {
+        aminosChatButton.style.display = 'flex';
+      }
+    }
+  }, [isDialogOpen]);
 
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
