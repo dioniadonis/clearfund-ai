@@ -1,6 +1,13 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
+import { 
+  DropdownMenu, 
+  DropdownMenuContent, 
+  DropdownMenuTrigger,
+  DropdownMenuItem
+} from "@/components/ui/dropdown-menu";
+import { Phone } from "lucide-react";
 
 const Header: React.FC = () => {
   return (
@@ -28,9 +35,21 @@ const Header: React.FC = () => {
           </a>
         </nav>
         <div className="flex items-center space-x-4">
-          <Button variant="ghost" className="hidden md:inline-flex text-clearfund-dark-blue hover:text-clearfund-blue">
-            Contact Us
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="hidden md:inline-flex text-clearfund-dark-blue hover:text-clearfund-blue">
+                Contact Us
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="bg-white p-2">
+              <DropdownMenuItem asChild>
+                <a href="tel:9545790021" className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer">
+                  <Phone size={16} />
+                  <span>954-579-0021</span>
+                </a>
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
           <Button className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors">
             Get Started
           </Button>
