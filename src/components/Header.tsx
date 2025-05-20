@@ -63,22 +63,24 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Modern Mobile Navigation Toggle - Half on/half off the header */}
+      {/* Modern Mobile Navigation Toggle - Half on/half off the header and centered */}
       {isMobile && (
         <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
-          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full">
-            <CollapsibleTrigger asChild>
-              <Toggle 
-                pressed={isOpen} 
-                aria-label="Toggle navigation menu" 
-                className="rounded-full h-10 w-10 flex items-center justify-center bg-white border border-gray-200 shadow-md hover:bg-gray-50 px-0 py-0 text-center"
-              >
-                {isOpen ? 
-                  <ChevronUp size={18} className="text-clearfund-blue" /> : 
-                  <ChevronDown size={18} className="text-clearfund-blue" />
-                }
-              </Toggle>
-            </CollapsibleTrigger>
+          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">
+            <div className="flex justify-center">
+              <CollapsibleTrigger asChild>
+                <Toggle 
+                  pressed={isOpen} 
+                  aria-label="Toggle navigation menu" 
+                  className="rounded-full h-10 w-10 flex items-center justify-center bg-white border border-gray-200 shadow-md hover:bg-gray-50 px-0 py-0 text-center"
+                >
+                  {isOpen ? 
+                    <ChevronUp size={18} className="text-clearfund-blue" /> : 
+                    <ChevronDown size={18} className="text-clearfund-blue" />
+                  }
+                </Toggle>
+              </CollapsibleTrigger>
+            </div>
             <CollapsibleContent className="mt-6 bg-white border-t pt-2 shadow-md rounded-b-lg">
               <nav className="flex flex-col items-center space-y-3 py-3">
                 <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors w-full text-center py-1">
