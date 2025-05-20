@@ -1,50 +1,11 @@
-import React, { useEffect } from 'react';
+
+import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Hero: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
-
-  // Handle Aminos chat button visibility based on dialog state
-  useEffect(() => {
-    // Improved selector to target the chat button more reliably
-    const aminosChatButtons = document.querySelectorAll('[class*="widget-launcher"], .aminos-widget-launcher') as NodeListOf<HTMLElement>;
-    
-    if (aminosChatButtons.length > 0) {
-      aminosChatButtons.forEach(button => {
-        if (isDialogOpen) {
-          button.style.display = 'none';
-          // Add a backup method using visibility and opacity
-          button.style.visibility = 'hidden';
-          button.style.opacity = '0';
-        } else {
-          button.style.display = '';
-          button.style.visibility = 'visible';
-          button.style.opacity = '1';
-        }
-      });
-      
-      console.log('Dialog state:', isDialogOpen ? 'open' : 'closed');
-      console.log('Chat buttons found:', aminosChatButtons.length);
-    } else {
-      console.log('No chat buttons found with the current selectors');
-    }
-    
-    // Add a small delay to ensure the button state is updated after dialog animations
-    const timeoutId = setTimeout(() => {
-      const buttonsAfterDelay = document.querySelectorAll('[class*="widget-launcher"], .aminos-widget-launcher') as NodeListOf<HTMLElement>;
-      buttonsAfterDelay.forEach(button => {
-        if (isDialogOpen) {
-          button.style.display = 'none';
-          button.style.visibility = 'hidden';
-          button.style.opacity = '0';
-        }
-      });
-    }, 500);
-    
-    return () => clearTimeout(timeoutId);
-  }, [isDialogOpen]);
 
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
@@ -108,18 +69,7 @@ const Hero: React.FC = () => {
       {/* Application Form Dialog */}
       <Dialog 
         open={isDialogOpen} 
-        onOpenChange={(open) => {
-          setIsDialogOpen(open);
-          // Immediate effect on close to ensure chat button appears right away
-          if (!open) {
-            const aminosChatButtons = document.querySelectorAll('[class*="widget-launcher"], .aminos-widget-launcher') as NodeListOf<HTMLElement>;
-            aminosChatButtons.forEach(button => {
-              button.style.display = '';
-              button.style.visibility = 'visible';
-              button.style.opacity = '1';
-            });
-          }
-        }}
+        onOpenChange={(open) => setIsDialogOpen(open)}
       >
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
           <DialogHeader className="p-6 pb-0">

@@ -26,5 +26,30 @@
     <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
     <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
     <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Chat Button Visibility Controller -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        // 1. Tweak this if your chat button has a slightly different class or data-attribute:
+        const chatSelector = '[class*="aminos-widget-launcher"], [data-aminos-launcher]';
+        
+        // 2. This picks up JotForm's lightbox iframe (ID always starts with "JotFormIFrame")
+        const isFormOpen = () => !!document.querySelector('iframe[id^="JotFormIFrame"]');
+
+        // 3. Hide/show chat button based on form presence
+        const toggleChat = () => {
+          const btn = document.querySelector(chatSelector);
+          if (!btn) return;
+          btn.style.display = isFormOpen() ? 'none' : '';
+        };
+
+        // 4. Watch the entire body for DOM changes (form opening/closing)
+        const observer = new MutationObserver(toggleChat);
+        observer.observe(document.body, { childList: true, subtree: true });
+
+        // 5. Also run once on load, in case your form is already injected
+        toggleChat();
+      });
+    </script>
   </body>
 </html>
