@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -73,7 +72,7 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Mobile Navigation Toggle - With minimal design and ripple effect */}
+      {/* Mobile Navigation Toggle - Fixed arrow direction */}
       {isMobile && (
         <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-10">
           <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">
@@ -91,13 +90,13 @@ const Header: React.FC = () => {
                   {/* Ripple effect */}
                   <span className="absolute w-full h-full scale-0 rounded-full bg-black/10 group-active:scale-[2.5] group-active:opacity-100 opacity-0 transition-all duration-500 ease-out"></span>
                   
-                  {/* Toggle icon - Changed to ChevronDown and fixed rotation direction */}
-                  <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "" : "rotate-180"}`} />
+                  {/* Fixed toggle icon - Arrow points down when closed (default), up when open (rotate-180) */}
+                  <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
                 </button>
               </CollapsibleTrigger>
             </div>
             
-            {/* Menu content - Improved animation */}
+            {/* Menu content - Using blinds animation */}
             <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
               <div className="px-4 py-4 origin-top transform transition-all duration-500">
                 <nav className="flex flex-col space-y-4">
