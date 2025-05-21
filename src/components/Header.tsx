@@ -76,8 +76,8 @@ const Header: React.FC = () => {
       {/* Mobile Navigation Toggle - Ensure button remains visible */}
       {isMobile && (
         <>
-          {/* The toggle button remains in the same position whether menu is open or closed */}
-          <div className="fixed left-0 right-0 bottom-0 translate-y-1/2 flex justify-center z-50">
+          {/* The toggle button is now outside the Collapsible to ensure it stays visible */}
+          <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-20">
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className={`
@@ -91,18 +91,15 @@ const Header: React.FC = () => {
               <span className="absolute w-full h-full scale-0 rounded-full bg-black/10 group-active:scale-[2.5] group-active:opacity-100 opacity-0 transition-all duration-500 ease-out"></span>
               
               {/* Toggle icon - Arrow points down when closed, up when open */}
-              <ChevronDown 
-                size={16} 
-                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} 
-              />
+              <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
             </button>
           </div>
           
-          {/* Mobile menu content as an overlay */}
-          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="fixed left-0 right-0 top-[72px] z-40">            
+          {/* Mobile menu content as a separate component */}
+          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">            
             {/* Menu content - Using blinds animation */}
-            <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
-              <div className="px-4 py-4 transform transition-all duration-500 max-w-[500px] mx-auto">
+            <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
+              <div className="px-4 py-4 origin-top transform transition-all duration-500">
                 <nav className="flex flex-col space-y-4">
                   <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Working Capital
