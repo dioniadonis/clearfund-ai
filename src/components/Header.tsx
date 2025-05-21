@@ -76,8 +76,8 @@ const Header: React.FC = () => {
       {/* Mobile Navigation Toggle - Ensure button remains visible */}
       {isMobile && (
         <>
-          {/* The toggle button is now outside the Collapsible to ensure it stays visible */}
-          <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-20">
+          {/* The toggle button remains in the same position whether menu is open or closed */}
+          <div className="fixed left-0 right-0 bottom-0 translate-y-1/2 flex justify-center z-50">
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className={`
@@ -95,11 +95,11 @@ const Header: React.FC = () => {
             </button>
           </div>
           
-          {/* Mobile menu content as a separate component */}
-          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">            
+          {/* Mobile menu content as an overlay */}
+          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="fixed left-0 right-0 top-[72px] z-40">            
             {/* Menu content - Using blinds animation */}
-            <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
-              <div className="px-4 py-4 origin-top transform transition-all duration-500">
+            <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
+              <div className="px-4 py-4 transform transition-all duration-500 max-w-[500px] mx-auto">
                 <nav className="flex flex-col space-y-4">
                   <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Working Capital
