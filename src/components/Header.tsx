@@ -77,7 +77,7 @@ const Header: React.FC = () => {
       {isMobile && (
         <div className="relative">
           {/* The toggle button positioned halfway between header and hero */}
-          <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: '-27px' }}>
+          <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: '-32px' }}>
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className={`
