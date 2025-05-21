@@ -10,7 +10,7 @@ const Footer: React.FC = () => {
               Join thousands of AI-driven businesses who trust Clearfund for their financing needs. Talk to our AI advisor or contact our team today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">Apply Now</Button>
+              <Button className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">Apply for Funding</Button>
               <Button variant="outline" className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 Contact Sales
               </Button>
