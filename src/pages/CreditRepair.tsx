@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Phone } from 'lucide-react';
@@ -6,39 +5,15 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
 const CreditRepair: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  
-  const creditIssues = [
-    "Bankruptcies",
-    "Liens",
-    "Judgements",
-    "Foreclosures",
-    "Charge Offs",
-    "Collections",
-    "Repossessions",
-    "Late Payments",
-    "Inquiries"
-  ];
-  
-  const benefits = [
-    "No monthly fees, one-time payment only",
-    "60-90 day typical service completion",
-    "We dispute all items at once",
-    "Free in-depth credit analysis",
-    "73% success rate (compared to 25% industry average)",
-    "Permanent results guaranteed",
-    "Constant communication throughout the process",
-    "We can remove virtually anything negative"
-  ];
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  const creditIssues = ["Bankruptcies", "Liens", "Judgements", "Foreclosures", "Charge Offs", "Collections", "Repossessions", "Late Payments", "Inquiries"];
+  const benefits = ["No monthly fees, one-time payment only", "60-90 day typical service completion", "We dispute all items at once", "Free in-depth credit analysis", "73% success rate (compared to 25% industry average)", "Permanent results guaranteed", "Constant communication throughout the process", "We can remove virtually anything negative"];
+  return <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
+        <section className="md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white my-0 mx-0 py-[59px]">
           <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
@@ -49,10 +24,7 @@ const CreditRepair: React.FC = () => {
                 <span className="font-semibold block mt-2">Free consultation available!</span>
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button 
-                  onClick={() => setIsDialogOpen(true)}
-                  className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
-                >
+                <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
                   Free Consultation
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
@@ -61,8 +33,8 @@ const CreditRepair: React.FC = () => {
                 </Button>
               </div>
               <div className="flex items-center gap-2 pt-2">
-                <Phone size={16} className="text-clearfund-blue" />
-                <span className="font-medium">Call us: 954-579-0021</span>
+                
+                
               </div>
             </div>
             
@@ -79,12 +51,10 @@ const CreditRepair: React.FC = () => {
                   </p>
                   <h3 className="font-semibold text-lg text-clearfund-dark-blue mb-3">We help remove negative items including:</h3>
                   <ul className="grid grid-cols-2 gap-y-2">
-                    {creditIssues.map((issue, index) => (
-                      <li key={index} className="flex items-center">
+                    {creditIssues.map((issue, index) => <li key={index} className="flex items-center">
                         <Check size={16} className="text-clearfund-blue mr-2" />
                         <span>{issue}</span>
-                      </li>
-                    ))}
+                      </li>)}
                     <li className="flex items-center col-span-2">
                       <Check size={16} className="text-clearfund-blue mr-2" />
                       <span>And More</span>
@@ -92,10 +62,7 @@ const CreditRepair: React.FC = () => {
                   </ul>
                 </CardContent>
                 <CardFooter className="flex justify-center">
-                  <Button 
-                    onClick={() => setIsDialogOpen(true)}
-                    className="w-full bg-clearfund-blue hover:bg-clearfund-dark-blue text-white"
-                  >
+                  <Button onClick={() => setIsDialogOpen(true)} className="w-full bg-clearfund-blue hover:bg-clearfund-dark-blue text-white">
                     Get Started Now
                   </Button>
                 </CardFooter>
@@ -160,8 +127,7 @@ const CreditRepair: React.FC = () => {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-              {benefits.map((benefit, index) => (
-                <Card key={index} className="bg-white border border-gray-200 hover:border-clearfund-blue transition-colors">
+              {benefits.map((benefit, index) => <Card key={index} className="bg-white border border-gray-200 hover:border-clearfund-blue transition-colors">
                   <CardHeader className="pb-2">
                     <div className="w-12 h-12 rounded-full bg-clearfund-blue text-white flex items-center justify-center font-bold text-xl mb-2">
                       {index + 1}
@@ -171,55 +137,39 @@ const CreditRepair: React.FC = () => {
                   <CardContent>
                     <p>{benefit}</p>
                   </CardContent>
-                </Card>
-              ))}
+                </Card>)}
             </div>
           </div>
         </section>
         
         {/* Call to Action */}
-        <section className="py-16 bg-clearfund-blue text-white">
+        <section className="bg-clearfund-blue text-white px-[21px] my-0 mx-0 py-[64px]">
           <div className="container-custom text-center">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">Ready to Repair Your Credit?</h2>
             <p className="text-xl mb-8 max-w-2xl mx-auto">
               Our consultation is absolutely free. We'll analyze your credit reports and explain exactly what we can do to help improve your score.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
-              <Button 
-                onClick={() => setIsDialogOpen(true)}
-                className="bg-white text-clearfund-blue hover:bg-clearfund-pale-blue hover:text-clearfund-dark-blue text-lg py-6 px-8"
-              >
+              <Button onClick={() => setIsDialogOpen(true)} className="bg-white text-clearfund-blue hover:bg-clearfund-pale-blue hover:text-clearfund-dark-blue text-lg py-6 px-8">
                 Get Free Consultation
               </Button>
-              <Button variant="outline" className="border-white text-white hover:bg-white/10 text-lg py-6 px-8">
-                Call Now: 954-579-0021
-              </Button>
+              
             </div>
           </div>
         </section>
       </main>
 
       {/* Consultation Form Dialog */}
-      <Dialog 
-        open={isDialogOpen} 
-        onOpenChange={(open) => setIsDialogOpen(open)}
-      >
+      <Dialog open={isDialogOpen} onOpenChange={open => setIsDialogOpen(open)}>
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Free Credit Consultation</DialogTitle>
           </DialogHeader>
-          <iframe 
-            src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[550px] border-none"
-            title="Credit Repair Consultation Form"
-            data-clearfund-form="credit-repair"
-          />
+          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Credit Repair Consultation Form" data-clearfund-form="credit-repair" />
         </DialogContent>
       </Dialog>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default CreditRepair;
