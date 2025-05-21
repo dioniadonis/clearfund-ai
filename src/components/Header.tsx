@@ -76,8 +76,8 @@ const Header: React.FC = () => {
       {/* Mobile Navigation Toggle - Position it to overlap content below */}
       {isMobile && (
         <div className="relative">
-          {/* The toggle button positioned to overlap the hero section */}
-          <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: '-20px' }}>
+          {/* The toggle button positioned halfway between header and hero */}
+          <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: '-24px' }}>
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className={`
