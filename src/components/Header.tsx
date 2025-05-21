@@ -91,7 +91,10 @@ const Header: React.FC = () => {
               <span className="absolute w-full h-full scale-0 rounded-full bg-black/10 group-active:scale-[2.5] group-active:opacity-100 opacity-0 transition-all duration-500 ease-out"></span>
               
               {/* Toggle icon - Arrow points down when closed, up when open */}
-              <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
+              <ChevronDown 
+                size={16} 
+                className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} 
+              />
             </button>
           </div>
           
