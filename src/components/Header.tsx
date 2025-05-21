@@ -5,7 +5,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuIte
 import { ChevronDown, Phone } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Toggle } from "@/components/ui/toggle";
+import { Link } from "react-router-dom";
 
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
@@ -25,27 +25,27 @@ const Header: React.FC = () => {
     <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
-          <div className="flex items-center">
+          <Link to="/" className="flex items-center">
             <div className="h-10 w-10 bg-clearfund-blue text-white flex items-center justify-center rounded font-bold text-xl">
               <span>CF</span>
             </div>
             <h1 className="text-2xl font-bold text-clearfund-blue ml-2">
               Clearfund AI
             </h1>
-          </div>
+          </Link>
         </div>
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
+          <Link to="/#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Working Capital
-          </a>
+          </Link>
           <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Gig Funding
           </a>
-          <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
+          <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Credit Repair
-          </a>
+          </Link>
         </nav>
         
         <div className="flex items-center space-x-4">
@@ -101,15 +101,15 @@ const Header: React.FC = () => {
             <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
               <div className="px-4 py-4 origin-top transform transition-all duration-500">
                 <nav className="flex flex-col space-y-4">
-                  <a href="#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+                  <Link to="/#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Working Capital
-                  </a>
+                  </Link>
                   <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Gig Funding
                   </a>
-                  <a href="#contact" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
+                  <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
                     Credit Repair
-                  </a>
+                  </Link>
                 </nav>
               </div>
             </CollapsibleContent>
