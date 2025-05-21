@@ -2,25 +2,37 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { toast } from "@/hooks/use-toast";
 
 const Footer: React.FC = () => {
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+  const [jotformLoaded, setJotformLoaded] = useState(false);
 
   // Load JotForm script after component mounts
   useEffect(() => {
+    // Clean up any existing scripts first to avoid conflicts
+    const existingScripts = document.querySelectorAll('script[src*="jotform"]');
+    existingScripts.forEach(script => {
+      document.body.removeChild(script);
+    });
+
+    // Load the main JotForm script
     const script1 = document.createElement('script');
     script1.src = 'https://form.jotform.com/static/feedback2.js';
     script1.async = true;
     document.body.appendChild(script1);
 
-    script1.onload = () => {
-      // Initialize the JotForm feedback only after the script is loaded
-      const initScript = document.createElement('script');
-      initScript.type = 'text/javascript';
-      initScript.text = `
-        if (typeof JotformFeedback !== 'undefined') {
-          window.JFL_251398259721162 = new JotformFeedback({
+    // Create a promise to wait for script to load
+    const scriptLoaded = new Promise<void>((resolve) => {
+      script1.onload = () => resolve();
+    });
+
+    // Initialize JotForm after script loads
+    scriptLoaded.then(() => {
+      if (typeof window.JotformFeedback !== 'undefined') {
+        try {
+          window.JFL_251398259721162 = new window.JotformFeedback({
             formId: '251398259721162',
             base: 'https://form.jotform.com/',
             windowTitle: 'Contact Us',
@@ -31,18 +43,24 @@ const Footer: React.FC = () => {
             width: 700,
             openOnLoad: false
           });
+          setJotformLoaded(true);
+          console.log('JotForm initialized successfully');
+        } catch (error) {
+          console.error('Error initializing JotForm:', error);
+          setJotformLoaded(false);
         }
-      `;
-      document.body.appendChild(initScript);
-    };
+      } else {
+        console.error('JotformFeedback is undefined');
+        setJotformLoaded(false);
+      }
+    });
 
     return () => {
-      document.body.removeChild(script1);
-      // Remove any initialization scripts as well
-      const scriptTags = document.querySelectorAll('script');
-      scriptTags.forEach(tag => {
-        if (tag.text && tag.text.includes('JFL_251398259721162')) {
-          document.body.removeChild(tag);
+      // Clean up scripts on unmount
+      const jotformScripts = document.querySelectorAll('script[src*="jotform"]');
+      jotformScripts.forEach(script => {
+        if (document.body.contains(script)) {
+          document.body.removeChild(script);
         }
       });
     };
@@ -50,10 +68,23 @@ const Footer: React.FC = () => {
 
   const openMessageForm = (e: React.MouseEvent) => {
     e.preventDefault();
-    if (window.JFL_251398259721162) {
-      window.JFL_251398259721162.openLightbox();
-    } else {
-      // Fallback if the script hasn't loaded yet
+    
+    try {
+      // Check if JotForm is loaded and the function exists
+      if (jotformLoaded && window.JFL_251398259721162 && typeof window.JFL_251398259721162.openLightbox === 'function') {
+        window.JFL_251398259721162.openLightbox();
+        console.log('Opening JotForm lightbox');
+      } else {
+        console.log('JotForm not loaded or openLightbox not available, using fallback dialog');
+        setIsMessageDialogOpen(true);
+        // Add a toast notification to inform the user
+        toast({
+          title: "Using fallback form",
+          description: "Our embedded form is loading. Thank you for your patience.",
+        });
+      }
+    } catch (error) {
+      console.error('Error opening message form:', error);
       setIsMessageDialogOpen(true);
     }
   };
