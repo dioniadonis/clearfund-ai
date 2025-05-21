@@ -13,7 +13,7 @@ const CreditRepair: React.FC = () => {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white my-0 mx-0 py-[59px]">
+        <section className="md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white mx-0 my-[10px] py-[54px]">
           <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
@@ -28,9 +28,7 @@ const CreditRepair: React.FC = () => {
                   Free Consultation
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
-                  Learn More
-                </Button>
+                
               </div>
               <div className="flex items-center gap-2 pt-2">
                 
