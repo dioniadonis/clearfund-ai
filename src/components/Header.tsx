@@ -22,7 +22,7 @@ const Header: React.FC = () => {
   }, [isOpen]);
   
   return (
-    <header className="py-4 bg-white shadow-sm sticky top-0 z-50 relative">
+    <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
           <div className="flex items-center">
@@ -73,18 +73,18 @@ const Header: React.FC = () => {
         </div>
       </div>
       
-      {/* Mobile Navigation Toggle - Ensure button remains visible */}
+      {/* Mobile Navigation Toggle - Position it to overlap content below */}
       {isMobile && (
-        <>
-          {/* The toggle button is now outside the Collapsible to ensure it stays visible */}
-          <div className="flex justify-center absolute left-0 right-0 bottom-0 translate-y-1/2 z-20">
+        <div className="relative">
+          {/* The toggle button positioned to overlap the hero section */}
+          <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: '-20px' }}>
             <button 
               onClick={() => setIsOpen(!isOpen)}
               className={`
                 relative w-14 h-8 rounded-md flex items-center justify-center
                 ${isOpen ? "bg-clearfund-pale-blue text-clearfund-blue" : "bg-white text-clearfund-blue"} 
                 border border-gray-200 shadow-md hover:bg-gray-50 
-                transition-colors duration-300 overflow-hidden group
+                transition-colors duration-300 overflow-hidden group z-50
               `}
             >
               {/* Ripple effect */}
@@ -114,7 +114,7 @@ const Header: React.FC = () => {
               </div>
             </CollapsibleContent>
           </Collapsible>
-        </>
+        </div>
       )}
     </header>
   );
