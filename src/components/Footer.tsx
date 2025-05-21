@@ -1,8 +1,63 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+
 const Footer: React.FC = () => {
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
+  const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+
+  // Load JotForm script after component mounts
+  useEffect(() => {
+    const script1 = document.createElement('script');
+    script1.src = 'https://form.jotform.com/static/feedback2.js';
+    script1.async = true;
+    document.body.appendChild(script1);
+
+    script1.onload = () => {
+      // Initialize the JotForm feedback only after the script is loaded
+      const initScript = document.createElement('script');
+      initScript.type = 'text/javascript';
+      initScript.text = `
+        if (typeof JotformFeedback !== 'undefined') {
+          window.JFL_251398259721162 = new JotformFeedback({
+            formId: '251398259721162',
+            base: 'https://form.jotform.com/',
+            windowTitle: 'Contact Us',
+            backgroundColor: '#005aff',
+            fontColor: '#FFFFFF',
+            type: 'false',
+            height: 500,
+            width: 700,
+            openOnLoad: false
+          });
+        }
+      `;
+      document.body.appendChild(initScript);
+    };
+
+    return () => {
+      document.body.removeChild(script1);
+      // Remove any initialization scripts as well
+      const scriptTags = document.querySelectorAll('script');
+      scriptTags.forEach(tag => {
+        if (tag.text && tag.text.includes('JFL_251398259721162')) {
+          document.body.removeChild(tag);
+        }
+      });
+    };
+  }, []);
+
+  const openMessageForm = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (window.JFL_251398259721162) {
+      window.JFL_251398259721162.openLightbox();
+    } else {
+      // Fallback if the script hasn't loaded yet
+      setIsMessageDialogOpen(true);
+    }
+  };
+
   return <footer className="bg-clearfund-dark-blue text-white">
       <div className="container-custom py-16">
         <div id="contact" className="grid md:grid-cols-2 gap-12 mb-12">
@@ -13,7 +68,13 @@ const Footer: React.FC = () => {
               <Button onClick={() => setIsApplyDialogOpen(true)} className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 Apply for Funding
               </Button>
-              <Button variant="outline" className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">Message Us</Button>
+              <Button 
+                variant="outline" 
+                className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors"
+                onClick={openMessageForm}
+              >
+                Message Us
+              </Button>
             </div>
           </div>
           <div className="grid grid-cols-2 gap-8">
@@ -57,6 +118,22 @@ const Footer: React.FC = () => {
           <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Funding Application Form" data-clearfund-form="funding-application" />
         </DialogContent>
       </Dialog>
+
+      {/* Message Us Dialog (fallback) */}
+      <Dialog open={isMessageDialogOpen} onOpenChange={open => setIsMessageDialogOpen(open)}>
+        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
+          <iframe src="https://form.jotform.com/251398259721162" className="w-full h-[550px] border-none" title="Contact Form" data-clearfund-form="contact-form" />
+        </DialogContent>
+      </Dialog>
     </footer>;
 };
+
+// Add the global JotformFeedback type declaration
+declare global {
+  interface Window {
+    JFL_251398259721162: any;
+    JotformFeedback: any;
+  }
+}
+
 export default Footer;
