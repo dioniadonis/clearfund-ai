@@ -31,7 +31,7 @@ const Hero: React.FC = () => {
               className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors"
               onClick={() => setIsVideoDialogOpen(true)}
             >
-              Our Service
+              What We Do
               <Play className="ml-2 h-5 w-5" />
             </Button>
           </div>
