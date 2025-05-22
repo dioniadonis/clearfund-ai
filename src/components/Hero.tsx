@@ -1,7 +1,6 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Video } from 'lucide-react';
+import { ArrowRight, Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Hero: React.FC = () => {
@@ -33,7 +32,7 @@ const Hero: React.FC = () => {
               onClick={() => setIsVideoDialogOpen(true)}
             >
               Learn More
-              <Video className="ml-2 h-5 w-5" />
+              <Play className="ml-2 h-5 w-5" />
             </Button>
           </div>
           <div className="pt-6">
