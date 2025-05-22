@@ -1,11 +1,12 @@
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Video } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 
 const Hero: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const [isVideoDialogOpen, setIsVideoDialogOpen] = React.useState(false);
 
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
@@ -26,8 +27,13 @@ const Hero: React.FC = () => {
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
+            <Button 
+              variant="outline" 
+              className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors"
+              onClick={() => setIsVideoDialogOpen(true)}
+            >
               Learn More
+              <Video className="ml-2 h-5 w-5" />
             </Button>
           </div>
           <div className="pt-6">
@@ -81,6 +87,30 @@ const Hero: React.FC = () => {
             title="Clearfund Application Form"
             data-clearfund-form="application"
           />
+        </DialogContent>
+      </Dialog>
+
+      {/* Video Dialog */}
+      <Dialog 
+        open={isVideoDialogOpen} 
+        onOpenChange={(open) => setIsVideoDialogOpen(open)}
+      >
+        <DialogContent className="sm:max-w-[600px] p-4">
+          <DialogHeader className="pb-2">
+            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Watch Our Video</DialogTitle>
+          </DialogHeader>
+          <div className="aspect-video w-full">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              src="https://app.heygen.com/embeds/2b993d1c03844e59a8942ca35a1402d5" 
+              title="HeyGen video player" 
+              frameBorder="0" 
+              allow="encrypted-media; fullscreen;" 
+              allowFullScreen
+              className="rounded-md"
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </section>;
