@@ -28,7 +28,10 @@ const Footer: React.FC = () => {
             <h2 className="text-3xl font-bold mb-4">Ready to get funded?</h2>
             <p className="text-clearfund-pale-blue mb-6 max-w-md">Join thousands of small business owners who trust Clearfund for their financing needs. Talk to our AI advisor or contact our team today.</p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button onClick={() => setIsApplyDialogOpen(true)} className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
+              <Button 
+                onClick={() => window.open('https://davidallencapital.com/clearfund', '_blank')}
+                className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors"
+              >
                 Apply for Funding
               </Button>
               <Button 
@@ -53,7 +56,6 @@ const Footer: React.FC = () => {
                     Working Capital
                   </Link>
                 </li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Finance</a></li>
                 <li>
                   <a 
                     href="https://davidallencapital.com/clearfund" 
@@ -65,13 +67,14 @@ const Footer: React.FC = () => {
                   </a>
                 </li>
                 <li>
-                  <Link 
-                    to="/credit-repair" 
+                  <a 
+                    href="https://asapcreditrepair.com/clearfund" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
                     className="text-clearfund-pale-blue hover:text-white transition-colors"
-                    onClick={handleLinkClick}
                   >
                     Credit Repair
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
