@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -19,22 +20,6 @@ const Blog: React.FC = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
 
-  useEffect(() => {
-    // Load HubSpot script
-    const script = document.createElement('script');
-    script.src = '//js-na2.hsforms.net/forms/embed/v2.js';
-    script.charset = 'utf-8';
-    script.type = 'text/javascript';
-    document.head.appendChild(script);
-
-    return () => {
-      // Cleanup script on unmount
-      if (document.head.contains(script)) {
-        document.head.removeChild(script);
-      }
-    };
-  }, []);
-
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
@@ -49,55 +34,20 @@ const Blog: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Wait a bit for HubSpot to load if needed
-      await new Promise(resolve => setTimeout(resolve, 500));
-
-      if (typeof window.hbspt !== 'undefined') {
-        // Create HubSpot form submission
-        window.hbspt.forms.create({
-          portalId: "242866165",
-          formId: "abf3f674-594a-4092-832b-76b7d283a75b",
-          region: "na2",
-          target: '#hubspot-form-container',
-          onFormSubmit: () => {
-            console.log('HubSpot form submitted successfully');
-            // Show thank you animation
-            setShowThankYou(true);
-            setEmail('');
-            
-            toast({
-              title: "Successfully Subscribed!",
-              description: "You'll be the first to know when our blog launches."
-            });
-          },
-          onFormReady: () => {
-            // Auto-fill and submit the form
-            setTimeout(() => {
-              const form = document.querySelector('#hubspot-form-container form');
-              if (form) {
-                const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement;
-                if (emailInput) {
-                  emailInput.value = email;
-                  const submitButton = form.querySelector('input[type="submit"]') as HTMLInputElement;
-                  if (submitButton) {
-                    submitButton.click();
-                  }
-                }
-              }
-            }, 100);
-          }
-        });
-      } else {
-        // Fallback - just show success for now
-        console.log('HubSpot not loaded, showing success anyway');
-        setShowThankYou(true);
-        setEmail('');
-        
-        toast({
-          title: "Successfully Subscribed!",
-          description: "You'll be the first to know when our blog launches."
-        });
-      }
+      // Simple submission - just show success since HubSpot tracking is handled by the script in index.html
+      console.log('Submitting email:', email);
+      
+      // Simulate a brief delay for better UX
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Show success state
+      setShowThankYou(true);
+      setEmail('');
+      
+      toast({
+        title: "Successfully Subscribed!",
+        description: "You'll be the first to know when our blog launches."
+      });
 
     } catch (error) {
       console.error('Submission error:', error);
@@ -246,9 +196,6 @@ const Blog: React.FC = () => {
                 </p>
               </CardContent>
             </Card>
-
-            {/* Hidden HubSpot form container */}
-            <div style={{ display: 'none' }} id="hubspot-form-container"></div>
           </div>
         </div>
       </main>
