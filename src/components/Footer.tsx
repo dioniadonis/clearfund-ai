@@ -53,16 +53,16 @@ const Footer: React.FC = () => {
                     Working Capital
                   </Link>
                 </li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Term Loans</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Finance</a></li>
                 <li>
-                  <Link 
-                    to="/gig-funding" 
+                  <a 
+                    href="https://davidallencapital.com/clearfund" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
                     className="text-clearfund-pale-blue hover:text-white transition-colors"
-                    onClick={handleLinkClick}
                   >
                     Instant Micro Funding
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>

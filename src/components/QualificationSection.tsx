@@ -76,8 +76,13 @@ const QualificationSection: React.FC = () => {
             </div>
 
             <div className="pt-8 flex justify-center">
-              <Button className="bg-green-500 hover:bg-green-600 text-white text-lg py-6 px-12 rounded-full transition-colors">
-                Apply Now
+              <Button 
+                asChild
+                className="bg-green-500 hover:bg-green-600 text-white text-lg py-6 px-12 rounded-full transition-colors"
+              >
+                <a href="https://davidallencapital.com/clearfund" target="_blank" rel="noopener noreferrer">
+                  Apply Now
+                </a>
               </Button>
             </div>
           </div>
