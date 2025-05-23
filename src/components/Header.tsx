@@ -40,9 +40,9 @@ const Header: React.FC = () => {
           <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Working Capital
           </Link>
-          <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
+          <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Gig Funding
-          </a>
+          </Link>
           <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Credit Repair
           </Link>
@@ -104,9 +104,9 @@ const Header: React.FC = () => {
                   <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Working Capital
                   </Link>
-                  <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+                  <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Gig Funding
-                  </a>
+                  </Link>
                   <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
                     Credit Repair
                   </Link>
