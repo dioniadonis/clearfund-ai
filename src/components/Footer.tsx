@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -7,88 +6,19 @@ import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
-  const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
-  const [jotformLoaded, setJotformLoaded] = useState(false);
 
-  // Load JotForm script after component mounts
-  useEffect(() => {
-    // Clean up any existing scripts first to avoid conflicts
-    const existingScripts = document.querySelectorAll('script[src*="jotform"]');
-    existingScripts.forEach(script => {
-      document.body.removeChild(script);
-    });
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
 
-    // Load the main JotForm script
-    const script1 = document.createElement('script');
-    script1.src = 'https://form.jotform.com/static/feedback2.js';
-    script1.async = true;
-    document.body.appendChild(script1);
+  const handleLinkClick = () => {
+    scrollToTop();
+  };
 
-    // Create a promise to wait for script to load
-    const scriptLoaded = new Promise<void>((resolve) => {
-      script1.onload = () => resolve();
-    });
-
-    // Initialize JotForm after script loads
-    scriptLoaded.then(() => {
-      if (typeof window.JotformFeedback !== 'undefined') {
-        try {
-          window.JFL_251398259721162 = new window.JotformFeedback({
-            formId: '251398259721162',
-            base: 'https://form.jotform.com/',
-            windowTitle: 'Contact Us',
-            backgroundColor: '#005aff',
-            fontColor: '#FFFFFF',
-            type: 'false',
-            height: 500,
-            width: 700,
-            openOnLoad: false
-          });
-          setJotformLoaded(true);
-          console.log('JotForm initialized successfully');
-        } catch (error) {
-          console.error('Error initializing JotForm:', error);
-          setJotformLoaded(false);
-        }
-      } else {
-        console.error('JotformFeedback is undefined');
-        setJotformLoaded(false);
-      }
-    });
-
-    return () => {
-      // Clean up scripts on unmount
-      const jotformScripts = document.querySelectorAll('script[src*="jotform"]');
-      jotformScripts.forEach(script => {
-        if (document.body.contains(script)) {
-          document.body.removeChild(script);
-        }
-      });
-    };
-  }, []);
-
-  const openMessageForm = (e: React.MouseEvent) => {
-    e.preventDefault();
-    
-    try {
-      // Check if JotForm is loaded and the function exists
-      if (jotformLoaded && window.JFL_251398259721162 && typeof window.JFL_251398259721162.openLightbox === 'function') {
-        window.JFL_251398259721162.openLightbox();
-        console.log('Opening JotForm lightbox');
-      } else {
-        console.log('JotForm not loaded or openLightbox not available, using fallback dialog');
-        setIsMessageDialogOpen(true);
-        // Add a toast notification to inform the user
-        toast({
-          title: "Using fallback form",
-          description: "Our embedded form is loading. Thank you for your patience.",
-        });
-      }
-    } catch (error) {
-      console.error('Error opening message form:', error);
-      setIsMessageDialogOpen(true);
-    }
+  const openContactForm = () => {
+    setIsContactDialogOpen(true);
   };
 
   return <footer className="bg-clearfund-dark-blue text-white">
@@ -104,9 +34,9 @@ const Footer: React.FC = () => {
               <Button 
                 variant="outline" 
                 className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors"
-                onClick={openMessageForm}
+                onClick={openContactForm}
               >
-                Message Us
+                Contact Us
               </Button>
             </div>
           </div>
@@ -114,10 +44,26 @@ const Footer: React.FC = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Products</h3>
               <ul className="space-y-2">
-                <li><Link to="/working-capital" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</Link></li>
+                <li>
+                  <Link 
+                    to="/working-capital" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Working Capital
+                  </Link>
+                </li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Term Loans</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Finance</a></li>
-                <li><Link to="/gig-funding" className="text-clearfund-pale-blue hover:text-white transition-colors">Instant Micro Funding</Link></li>
+                <li>
+                  <Link 
+                    to="/gig-funding" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Instant Micro Funding
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
@@ -131,8 +77,23 @@ const Footer: React.FC = () => {
                     About Us
                   </button>
                 </li>
-                <li><Link to="/blog" className="text-clearfund-pale-blue hover:text-white transition-colors">Blog</Link></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Contact</a></li>
+                <li>
+                  <Link 
+                    to="/blog" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Blog
+                  </Link>
+                </li>
+                <li>
+                  <button 
+                    onClick={openContactForm}
+                    className="text-clearfund-pale-blue hover:text-white transition-colors text-left"
+                  >
+                    Contact
+                  </button>
+                </li>
               </ul>
             </div>
           </div>
@@ -159,10 +120,14 @@ const Footer: React.FC = () => {
         </DialogContent>
       </Dialog>
 
-      {/* Message Us Dialog (fallback) */}
-      <Dialog open={isMessageDialogOpen} onOpenChange={open => setIsMessageDialogOpen(open)}>
+      {/* Contact Form Dialog */}
+      <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <iframe src="https://form.jotform.com/251398259721162" className="w-full h-[550px] border-none" title="Contact Form" data-clearfund-form="contact-form" />
+          <iframe 
+            src="https://form.jotform.com/251398259721162" 
+            className="w-full h-[550px] border-none" 
+            title="Contact Form" 
+          />
         </DialogContent>
       </Dialog>
 

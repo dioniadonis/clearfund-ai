@@ -2,14 +2,16 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Phone } from "lucide-react";
+import { ChevronDown, Phone, Mail } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
+  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   
   // Close menu when route changes (e.g., when clicking on anchor links)
   useEffect(() => {
@@ -20,6 +22,10 @@ const Header: React.FC = () => {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [isOpen]);
+
+  const openContactForm = () => {
+    setIsContactFormOpen(true);
+  };
   
   return (
     <header className="py-4 bg-white shadow-sm sticky top-0 z-50">
@@ -51,23 +57,33 @@ const Header: React.FC = () => {
         <div className="flex items-center space-x-4">
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant={isMobile ? "default" : "ghost"} className={`
-                  ${isMobile ? "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white" : "text-clearfund-dark-blue hover:text-clearfund-grey"}
-                  transition-colors
-                `}>
+              <button className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors flex items-center gap-1">
                 Contact Us
-              </Button>
+                <ChevronDown size={16} />
+              </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="bg-white p-2">
+            <DropdownMenuContent align="end" className="bg-white p-2 min-w-[200px]">
               <DropdownMenuItem asChild>
-                <a href="tel:9545790021" className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-grey cursor-pointer">
+                <a href="tel:9545790021" className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2">
                   <Phone size={16} />
-                  <span>+1 954-579-0021</span>
+                  <span>954-579-0021</span>
                 </a>
+              </DropdownMenuItem>
+              <DropdownMenuItem asChild>
+                <button 
+                  onClick={openContactForm}
+                  className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2"
+                >
+                  <Mail size={16} />
+                  <span>Email Us</span>
+                </button>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-          <Button className="hidden md:inline-flex bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors">
+          <Button 
+            onClick={openContactForm}
+            className="hidden md:inline-flex bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors"
+          >
             Get Started
           </Button>
         </div>
@@ -116,6 +132,17 @@ const Header: React.FC = () => {
           </Collapsible>
         </div>
       )}
+
+      {/* Contact Form Dialog */}
+      <Dialog open={isContactFormOpen} onOpenChange={setIsContactFormOpen}>
+        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
+          <iframe 
+            src="https://form.jotform.com/251398259721162" 
+            className="w-full h-[550px] border-none" 
+            title="Contact Form" 
+          />
+        </DialogContent>
+      </Dialog>
     </header>
   );
 };
