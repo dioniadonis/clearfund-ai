@@ -37,7 +37,7 @@ const Header: React.FC = () => {
         
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-8">
-          <Link to="/#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
+          <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Working Capital
           </Link>
           <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
@@ -101,7 +101,7 @@ const Header: React.FC = () => {
             <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
               <div className="px-4 py-4 origin-top transform transition-all duration-500">
                 <nav className="flex flex-col space-y-4">
-                  <Link to="/#features" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+                  <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
                     Working Capital
                   </Link>
                   <a href="#" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
