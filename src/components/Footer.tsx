@@ -64,6 +64,15 @@ const Footer: React.FC = () => {
                     Instant Micro Funding
                   </a>
                 </li>
+                <li>
+                  <Link 
+                    to="/credit-repair" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Credit Repair
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
