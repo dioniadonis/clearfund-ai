@@ -11,7 +11,16 @@ const CreditRepair: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   
   const creditIssues = ["Bankruptcies", "Liens", "Judgements", "Foreclosures", "Charge Offs", "Collections", "Repossessions", "Late Payments", "Inquiries"];
-  const benefits = ["No monthly fees, one-time payment only", "60-90 day typical service completion", "All items disputed simultaneously", "Free in-depth credit analysis", "73% success rate (compared to 25% industry average)", "Permanent results guaranteed", "Constant communication throughout the process", "Virtually all negative items can be addressed"];
+  const benefits = [
+    "No monthly fees, one-time payment only", 
+    "60-90 day typical service completion", 
+    "All items disputed simultaneously", 
+    "Free in-depth credit analysis", 
+    "73% success rate (compared to 25% industry average)", 
+    "Permanent results guaranteed", 
+    "Constant communication throughout the process", 
+    "Virtually all negative items can be addressed"
+  ];
   
   const handleConsultation = () => {
     window.open("http://portal.asapcreditrepairusa.com/client-signup-client.php?afcode=1328", "_blank");
@@ -79,9 +88,9 @@ const CreditRepair: React.FC = () => {
         <section className="py-16 bg-white">
           <div className="container-custom">
             <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue mb-4">About Credit Repair</h2>
+              <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue mb-4">About ASAP Credit Repair</h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                In business since 1998, with multiple locations nationwide, the credit repair partner's mission is to get your credit repaired as quickly as possible.
+                In business since 1998, with multiple locations nationwide, ASAP Credit Repair's mission is to get your credit repaired as quickly as possible.
               </p>
             </div>
             
@@ -95,11 +104,12 @@ const CreditRepair: React.FC = () => {
                   The average success rate is 73% while most other companies barely return 25%. With this service, you're purchasing a credit repair solution, not an insurance policy.
                 </p>
                 <p className="mb-6">
-                  The fee is paid once and covers you for the full duration of the services, opposed to the never-ending monthly fees of other "repair" companies. Every item removed is permanent; you'll never worry about items returning back on your report.
+                  The fee is paid once and covers you for the full duration of the services, as opposed to the never-ending monthly fees of other "repair" companies. Every item removed is permanent; you'll never worry about items returning back on your report.
                 </p>
-                <p className="font-semibold text-clearfund-dark-blue">
-                  They offer a 100% money back guarantee on the services, which utilize 20+ different dispute techniques to guarantee the best possible results.
-                </p>
+                <blockquote className="border-l-4 border-clearfund-blue pl-4 italic">
+                  "We can't wait to show you how important customer service is to the team. Give us a call today!"
+                  <footer className="mt-2 font-semibold">- Joe Mahlow, CEO, ASAP Credit Repair</footer>
+                </blockquote>
               </div>
               
               <div className="bg-clearfund-pale-blue rounded-xl p-8">
@@ -111,10 +121,9 @@ const CreditRepair: React.FC = () => {
                   </p>
                 </div>
                 
-                <blockquote className="border-l-4 border-clearfund-blue pl-4 italic">
-                  "We can't wait to show you how important customer service is to the team. Give them a call today!"
-                  <footer className="mt-2 font-semibold">- CEO, Credit Repair Partner</footer>
-                </blockquote>
+                <p className="font-semibold text-clearfund-dark-blue">
+                  They offer a 100% money back guarantee on the services, which utilize 20+ different dispute techniques to guarantee the best possible results.
+                </p>
               </div>
             </div>
           </div>
@@ -156,6 +165,9 @@ const CreditRepair: React.FC = () => {
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Button onClick={handleConsultation} className="bg-white text-clearfund-blue hover:bg-clearfund-pale-blue hover:text-clearfund-dark-blue text-lg py-6 px-8">
                 Get Free Consultation
+              </Button>
+              <Button onClick={() => window.open("tel:2815455001")} variant="outline" className="border-white text-white hover:bg-white hover:text-clearfund-blue text-lg py-6 px-8">
+                <Phone className="mr-2" /> Call 281-545-5001
               </Button>
             </div>
           </div>
