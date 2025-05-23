@@ -52,7 +52,7 @@ const Header: React.FC = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant={isMobile ? "default" : "ghost"} className={`
-                  ${isMobile ? "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white" : "text-clearfund-dark-blue hover:text-clearfund-blue"}
+                  ${isMobile ? "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white" : "text-clearfund-dark-blue hover:text-clearfund-grey"}
                   transition-colors
                 `}>
                 Contact Us
