@@ -7,11 +7,13 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import FinancingEducationSlideShow from './FinancingEducationSlideShow';
 
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isContactFormOpen, setIsContactFormOpen] = useState(false);
+  const [isEducationSlideShowOpen, setIsEducationSlideShowOpen] = useState(false);
   
   // Close menu when route changes (e.g., when clicking on anchor links)
   useEffect(() => {
@@ -25,6 +27,10 @@ const Header: React.FC = () => {
 
   const openContactForm = () => {
     setIsContactFormOpen(true);
+  };
+
+  const openEducationSlideShow = () => {
+    setIsEducationSlideShowOpen(true);
   };
   
   return (
@@ -81,7 +87,7 @@ const Header: React.FC = () => {
             </DropdownMenuContent>
           </DropdownMenu>
           <Button 
-            onClick={openContactForm}
+            onClick={openEducationSlideShow}
             className="hidden md:inline-flex bg-clearfund-blue hover:bg-clearfund-dark-blue text-white transition-colors"
           >
             Get Started
@@ -141,6 +147,13 @@ const Header: React.FC = () => {
             className="w-full h-[550px] border-none" 
             title="Contact Form" 
           />
+        </DialogContent>
+      </Dialog>
+
+      {/* Financing Education Slideshow Dialog */}
+      <Dialog open={isEducationSlideShowOpen} onOpenChange={setIsEducationSlideShowOpen}>
+        <DialogContent className="sm:max-w-[900px] h-[700px] p-0">
+          <FinancingEducationSlideShow onClose={() => setIsEducationSlideShowOpen(false)} />
         </DialogContent>
       </Dialog>
     </header>
