@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Phone } from 'lucide-react';
@@ -6,26 +5,13 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
 const CreditRepair: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  
   const creditIssues = ["Bankruptcies", "Liens", "Judgements", "Foreclosures", "Charge Offs", "Collections", "Repossessions", "Late Payments", "Inquiries"];
-  const benefits = [
-    "No monthly fees, one-time payment only", 
-    "60-90 day typical service completion", 
-    "All items disputed simultaneously", 
-    "Free in-depth credit analysis", 
-    "73% success rate (compared to 25% industry average)", 
-    "Permanent results guaranteed", 
-    "Constant communication throughout the process", 
-    "Virtually all negative items can be addressed"
-  ];
-  
+  const benefits = ["No monthly fees, one-time payment only", "60-90 day typical service completion", "All items disputed simultaneously", "Free in-depth credit analysis", "73% success rate (compared to 25% industry average)", "Permanent results guaranteed", "Constant communication throughout the process", "Virtually all negative items can be addressed"];
   const handleConsultation = () => {
     window.open("http://portal.asapcreditrepairusa.com/client-signup-client.php?afcode=1328", "_blank");
   };
-
   return <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
@@ -166,9 +152,7 @@ const CreditRepair: React.FC = () => {
               <Button onClick={handleConsultation} className="bg-white text-clearfund-blue hover:bg-clearfund-pale-blue hover:text-clearfund-dark-blue text-lg py-6 px-8">
                 Get Free Consultation
               </Button>
-              <Button onClick={() => window.open("tel:2815455001")} variant="outline" className="border-white text-white hover:bg-white hover:text-clearfund-blue text-lg py-6 px-8">
-                <Phone className="mr-2" /> Call 281-545-5001
-              </Button>
+              
             </div>
           </div>
         </section>
