@@ -15,86 +15,68 @@ const GigFunding: React.FC = () => {
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
-        <section className="relative py-20 overflow-hidden bg-gradient-to-br from-clearfund-blue to-clearfund-dark-blue text-white">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1vcGFjaXR5PSIwLjIiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjE1Ii8+PC9nPjwvc3ZnPg==')] bg-center"></div>
-          </div>
-          <div className="container-custom relative z-10">
-            <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-8">
-                <div className="inline-block bg-white/10 px-4 py-2 rounded-full">
-                  <span className="text-white font-semibold">Rideshare & Gig Economy Drivers</span>
-                </div>
-                
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-                  <span className="text-white">Gig</span>
-                  <span className="relative">
-                    <span className="text-amber-300"> Funding</span>
-                    <span className="absolute -bottom-2 left-0 right-0 h-2 bg-amber-300/30 transform skew-x-12"></span>
-                  </span>
-                </h1>
-                
-                <p className="text-lg text-white/90">
-                  Specialized financing for rideshare & gig economy drivers. 
-                  Get the funding you need for your vehicle with our flexible loan options.
-                </p>
-                
-                <div className="flex gap-4 flex-col sm:flex-row">
-                  <Button 
-                    onClick={() => setIsDialogOpen(true)}
-                    className="bg-amber-400 hover:bg-amber-500 text-clearfund-dark-blue font-semibold px-6 py-6 rounded-lg shadow-lg"
-                  >
-                    Apply Now
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                  
-                  <Button 
-                    variant="outline" 
-                    className="text-white border-white hover:bg-white/10 px-6 py-6"
-                  >
-                    Learn More
-                  </Button>
-                </div>
+        <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
+          <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
+                Gig Economy <br />
+                <span className="text-clearfund-blue">Driver Funding</span>
+              </h1>
+              <p className="text-lg md:text-xl text-gray-700 max-w-lg">
+                Specialized financing for rideshare & gig economy drivers. 
+                Get the funding you need for your vehicle with our flexible loan options.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button 
+                  onClick={() => setIsDialogOpen(true)}
+                  className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
+                >
+                  Apply Now
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button 
+                  variant="outline" 
+                  className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors"
+                >
+                  Learn More
+                </Button>
               </div>
-              
-              <div className="relative hidden md:block">
-                <div className="absolute -z-10 w-64 h-64 rounded-full bg-amber-400/30 blur-3xl opacity-70 -top-10 -right-10"></div>
-                <div className="bg-white rounded-2xl shadow-xl p-8 transform rotate-2 hover:rotate-0 transition-transform">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="text-2xl font-bold text-clearfund-dark-blue">Gig Driver Benefits</div>
-                    <div className="h-12 w-12 bg-amber-400 text-clearfund-dark-blue flex items-center justify-center rounded-full">
-                      <Car size={24} />
-                    </div>
+            </div>
+            
+            {/* Right side content - Feature card */}
+            <div className="relative hidden md:block">
+              <div className="absolute -top-16 -right-16 w-64 h-64 bg-clearfund-pale-blue rounded-full opacity-50 blur-3xl"></div>
+              <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-xl font-bold text-clearfund-dark-blue">Gig Driver Benefits</h3>
+                  <div className="h-12 w-12 bg-clearfund-blue text-white flex items-center justify-center rounded-full">
+                    <Car size={24} />
                   </div>
-                  
-                  <div className="space-y-6">
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
-                        <Check size={18} className="text-clearfund-blue" />
-                      </div>
-                      <div className="text-gray-700">Access to quality vehicles</div>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
+                      <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
-                        <Check size={18} className="text-clearfund-blue" />
-                      </div>
-                      <div className="text-gray-700">Low down payments</div>
+                    <div className="text-gray-700">Access to quality vehicles</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
+                      <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
-                        <Check size={18} className="text-clearfund-blue" />
-                      </div>
-                      <div className="text-gray-700">Minimal requirements</div>
+                    <div className="text-gray-700">Low down payments</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
+                      <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    
-                    <div className="flex items-center gap-3">
-                      <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
-                        <Check size={18} className="text-clearfund-blue" />
-                      </div>
-                      <div className="text-gray-700">Experienced or new drivers welcome</div>
+                    <div className="text-gray-700">Minimal requirements</div>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
+                      <Check size={18} className="text-clearfund-blue" />
                     </div>
+                    <div className="text-gray-700">Experienced or new drivers welcome</div>
                   </div>
                 </div>
               </div>
@@ -118,7 +100,7 @@ const GigFunding: React.FC = () => {
               {/* Feature Card 1 */}
               <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-2">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
                     <Car size={24} />
                   </div>
                   <CardTitle className="text-xl text-clearfund-dark-blue">Access to Quality Vehicles</CardTitle>
@@ -130,15 +112,15 @@ const GigFunding: React.FC = () => {
                   
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Rideshare-approved vehicles</span>
                     </li>
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Fuel-efficient options</span>
                     </li>
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Well-maintained fleet</span>
                     </li>
                   </ul>
@@ -160,15 +142,15 @@ const GigFunding: React.FC = () => {
                   
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Low down payment options</span>
                     </li>
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Flexible payment terms</span>
                     </li>
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Accommodating to variable income</span>
                     </li>
                   </ul>
@@ -178,7 +160,7 @@ const GigFunding: React.FC = () => {
               {/* Feature Card 3 */}
               <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-2">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mb-4">
+                  <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
                     <Clock size={24} />
                   </div>
                   <CardTitle className="text-xl text-clearfund-dark-blue">Quick Approval</CardTitle>
@@ -190,15 +172,15 @@ const GigFunding: React.FC = () => {
                   
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Fast application review</span>
                     </li>
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Minimal documentation required</span>
                     </li>
                     <li className="flex items-center">
-                      <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
+                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
                       <span className="text-sm">Quick vehicle selection process</span>
                     </li>
                   </ul>
@@ -268,8 +250,8 @@ const GigFunding: React.FC = () => {
                 
                 <div className="space-y-4">
                   <div className="flex items-center">
-                    <div className="h-10 w-10 bg-amber-100 rounded-full flex items-center justify-center mr-4">
-                      <Check size={20} className="text-amber-600" />
+                    <div className="h-10 w-10 bg-clearfund-pale-blue rounded-full flex items-center justify-center mr-4">
+                      <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
                       <p className="font-semibold text-lg">Valid Driver's License</p>
@@ -278,8 +260,8 @@ const GigFunding: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center">
-                    <div className="h-10 w-10 bg-amber-100 rounded-full flex items-center justify-center mr-4">
-                      <Check size={20} className="text-amber-600" />
+                    <div className="h-10 w-10 bg-clearfund-pale-blue rounded-full flex items-center justify-center mr-4">
+                      <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
                       <p className="font-semibold text-lg">Gig Economy Platform</p>
@@ -288,8 +270,8 @@ const GigFunding: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center">
-                    <div className="h-10 w-10 bg-amber-100 rounded-full flex items-center justify-center mr-4">
-                      <Check size={20} className="text-amber-600" />
+                    <div className="h-10 w-10 bg-clearfund-pale-blue rounded-full flex items-center justify-center mr-4">
+                      <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
                       <p className="font-semibold text-lg">Minimum Age</p>
@@ -298,8 +280,8 @@ const GigFunding: React.FC = () => {
                   </div>
                   
                   <div className="flex items-center">
-                    <div className="h-10 w-10 bg-amber-100 rounded-full flex items-center justify-center mr-4">
-                      <Check size={20} className="text-amber-600" />
+                    <div className="h-10 w-10 bg-clearfund-pale-blue rounded-full flex items-center justify-center mr-4">
+                      <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
                       <p className="font-semibold text-lg">Income Verification</p>
@@ -357,7 +339,7 @@ const GigFunding: React.FC = () => {
               <Card className="border border-gray-100 shadow-md">
                 <CardContent className="pt-6">
                   <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mr-3">
+                    <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mr-3">
                       <span className="font-bold">SR</span>
                     </div>
                     <div>
@@ -393,16 +375,13 @@ const GigFunding: React.FC = () => {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-clearfund-blue text-white relative overflow-hidden">
-          <div className="absolute inset-0 opacity-10">
-            <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBzdHJva2U9IiNmZmYiIHN0cm9rZS13aWR0aD0iMS41IiBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiIHN0cm9rZS1vcGFjaXR5PSIwLjIiPjxjaXJjbGUgY3g9IjMwIiBjeT0iMzAiIHI9IjE1Ii8+PC9nPjwvc3ZnPg==')] bg-center"></div>
-          </div>
-          <div className="container-custom relative z-10">
+        <section className="py-16 bg-clearfund-blue text-white">
+          <div className="container-custom">
             <div className="flex flex-col md:flex-row items-center justify-between gap-8">
               <div className="md:max-w-xl">
                 <div className="flex items-center mb-4">
-                  <Sparkles size={24} className="text-amber-300 mr-2" />
-                  <span className="text-amber-300 font-semibold">Limited Time Offer</span>
+                  <Sparkles size={24} className="text-white mr-2" />
+                  <span className="text-white font-semibold">Limited Time Offer</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Earning More?</h2>
                 <p className="text-lg opacity-90 mb-6">
@@ -418,7 +397,7 @@ const GigFunding: React.FC = () => {
               </div>
               <Button 
                 onClick={() => setIsDialogOpen(true)}
-                className="bg-amber-400 hover:bg-amber-500 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors"
+                className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors"
               >
                 Apply Now
                 <ArrowRight className="ml-2 h-5 w-5" />
