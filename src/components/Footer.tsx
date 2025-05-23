@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
+import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
@@ -112,10 +113,10 @@ const Footer: React.FC = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Products</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</a></li>
+                <li><Link to="/working-capital" className="text-clearfund-pale-blue hover:text-white transition-colors">Working Capital</Link></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Term Loans</a></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Equipment Finance</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors"> Instant Micro Funding</a></li>
+                <li><Link to="/gig-funding" className="text-clearfund-pale-blue hover:text-white transition-colors">Instant Micro Funding</Link></li>
               </ul>
             </div>
             <div>

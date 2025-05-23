@@ -6,9 +6,11 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import ProcessSlideShow from '../components/ProcessSlideShow';
 
 const GigFunding: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -31,7 +33,11 @@ const GigFunding: React.FC = () => {
                   Apply Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
+                <Button 
+                  variant="outline" 
+                  className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors"
+                  onClick={() => setIsSlideShowOpen(true)}
+                >
                   Learn More
                 </Button>
               </div>
@@ -383,6 +389,13 @@ const GigFunding: React.FC = () => {
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Gig Driver Application</DialogTitle>
           </DialogHeader>
           <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Clearfund Application Form" data-clearfund-form="gig-application" />
+        </DialogContent>
+      </Dialog>
+
+      {/* Process SlideShow Dialog */}
+      <Dialog open={isSlideShowOpen} onOpenChange={open => setIsSlideShowOpen(open)}>
+        <DialogContent className="sm:max-w-[900px] max-h-[700px] p-0">
+          <ProcessSlideShow onClose={() => setIsSlideShowOpen(false)} />
         </DialogContent>
       </Dialog>
       
