@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Car, Clock, DollarSign, Sparkles } from 'lucide-react';
@@ -6,12 +5,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-
 const GigFunding: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-
-  return (
-    <div className="min-h-screen flex flex-col">
+  return <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -20,24 +16,18 @@ const GigFunding: React.FC = () => {
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
                 Gig Economy <br />
-                <span className="text-clearfund-blue">Driver Funding</span>
+                <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Instant Micro Funding</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
                 Specialized financing for rideshare & gig economy drivers. 
                 Get the funding you need for your vehicle with our flexible loan options.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button 
-                  onClick={() => setIsDialogOpen(true)}
-                  className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
-                >
+                <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
                   Apply Now
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
-                <Button 
-                  variant="outline" 
-                  className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors"
-                >
+                <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors">
                   Learn More
                 </Button>
               </div>
@@ -291,10 +281,7 @@ const GigFunding: React.FC = () => {
                 </div>
                 
                 <div className="pt-4">
-                  <Button 
-                    onClick={() => setIsDialogOpen(true)}
-                    className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 w-full rounded-lg transition-colors"
-                  >
+                  <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 w-full rounded-lg transition-colors">
                     Apply For Funding
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
@@ -395,10 +382,7 @@ const GigFunding: React.FC = () => {
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">All Credit Types</span>
                 </div>
               </div>
-              <Button 
-                onClick={() => setIsDialogOpen(true)}
-                className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors"
-              >
+              <Button onClick={() => setIsDialogOpen(true)} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
                 Apply Now
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
@@ -408,26 +392,16 @@ const GigFunding: React.FC = () => {
       </main>
 
       {/* Application Form Dialog */}
-      <Dialog 
-        open={isDialogOpen} 
-        onOpenChange={(open) => setIsDialogOpen(open)}
-      >
+      <Dialog open={isDialogOpen} onOpenChange={open => setIsDialogOpen(open)}>
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Gig Driver Application</DialogTitle>
           </DialogHeader>
-          <iframe 
-            src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[550px] border-none"
-            title="Clearfund Application Form"
-            data-clearfund-form="gig-application"
-          />
+          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Clearfund Application Form" data-clearfund-form="gig-application" />
         </DialogContent>
       </Dialog>
       
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default GigFunding;
