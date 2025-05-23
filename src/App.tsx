@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import CreditRepair from "./pages/CreditRepair";
 import WorkingCapital from "./pages/WorkingCapital";
 import GigFunding from "./pages/GigFunding";
+import Blog from "./pages/Blog";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -23,6 +24,7 @@ const App = () => (
           <Route path="/credit-repair" element={<CreditRepair />} />
           <Route path="/working-capital" element={<WorkingCapital />} />
           <Route path="/gig-funding" element={<GigFunding />} />
+          <Route path="/blog" element={<Blog />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

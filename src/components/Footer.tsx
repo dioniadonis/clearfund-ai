@@ -1,13 +1,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
   const [isMessageDialogOpen, setIsMessageDialogOpen] = useState(false);
+  const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
   const [jotformLoaded, setJotformLoaded] = useState(false);
 
   // Load JotForm script after component mounts
@@ -122,8 +123,15 @@ const Footer: React.FC = () => {
             <div>
               <h3 className="text-lg font-semibold mb-4">Company</h3>
               <ul className="space-y-2">
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">About Us</a></li>
-                <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Blog</a></li>
+                <li>
+                  <button 
+                    onClick={() => setIsAboutVideoDialogOpen(true)}
+                    className="text-clearfund-pale-blue hover:text-white transition-colors text-left"
+                  >
+                    About Us
+                  </button>
+                </li>
+                <li><Link to="/blog" className="text-clearfund-pale-blue hover:text-white transition-colors">Blog</Link></li>
                 <li><a href="#" className="text-clearfund-pale-blue hover:text-white transition-colors">Contact</a></li>
               </ul>
             </div>
@@ -155,6 +163,27 @@ const Footer: React.FC = () => {
       <Dialog open={isMessageDialogOpen} onOpenChange={open => setIsMessageDialogOpen(open)}>
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
           <iframe src="https://form.jotform.com/251398259721162" className="w-full h-[550px] border-none" title="Contact Form" data-clearfund-form="contact-form" />
+        </DialogContent>
+      </Dialog>
+
+      {/* About Us Video Dialog */}
+      <Dialog open={isAboutVideoDialogOpen} onOpenChange={open => setIsAboutVideoDialogOpen(open)}>
+        <DialogContent className="sm:max-w-[600px] p-4">
+          <DialogHeader className="pb-2">
+            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">About Clearfund AI</DialogTitle>
+          </DialogHeader>
+          <div className="aspect-video w-full">
+            <iframe 
+              width="100%" 
+              height="100%" 
+              src="https://app.heygen.com/embeds/2b993d1c03844e59a8942ca35a1402d5" 
+              title="About Clearfund AI" 
+              frameBorder="0" 
+              allow="encrypted-media; fullscreen;" 
+              allowFullScreen
+              className="rounded-md"
+            />
+          </div>
         </DialogContent>
       </Dialog>
     </footer>;
