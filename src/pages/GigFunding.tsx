@@ -1,13 +1,17 @@
+
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Car, Clock, DollarSign, Sparkles } from 'lucide-react';
+import { ArrowRight, Check, Car, Clock, DollarSign, Sparkles, Building, CreditCard, BriefcaseBusiness } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+
 const GigFunding: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  return <div className="min-h-screen flex flex-col">
+  
+  return (
+    <div className="min-h-screen flex flex-col">
       <Header />
       <main className="flex-grow">
         {/* Hero Section */}
@@ -20,7 +24,7 @@ const GigFunding: React.FC = () => {
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
                 Specialized financing for rideshare & gig economy drivers. 
-                Get the funding you need for your vehicle with our flexible loan options.
+                Get the funding you need with minimal requirements and a simple process.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
@@ -33,14 +37,14 @@ const GigFunding: React.FC = () => {
               </div>
             </div>
             
-            {/* Right side content - Feature card */}
+            {/* Right side content - Simple Requirements card */}
             <div className="relative hidden md:block">
               <div className="absolute -top-16 -right-16 w-64 h-64 bg-clearfund-pale-blue rounded-full opacity-50 blur-3xl"></div>
               <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold text-clearfund-dark-blue">Gig Driver Benefits</h3>
+                  <h3 className="text-xl font-bold text-clearfund-dark-blue">Simple Requirements</h3>
                   <div className="h-12 w-12 bg-clearfund-blue text-white flex items-center justify-center rounded-full">
-                    <Car size={24} />
+                    <BriefcaseBusiness size={24} />
                   </div>
                 </div>
                 <div className="space-y-4">
@@ -48,25 +52,25 @@ const GigFunding: React.FC = () => {
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">Access to quality vehicles</div>
+                    <div className="text-gray-700">$3,000+ Monthly Bank Revenue</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">Low down payments</div>
+                    <div className="text-gray-700">3+ Months In Business</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">Minimal requirements</div>
+                    <div className="text-gray-700">No Collateral Required</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">Experienced or new drivers welcome</div>
+                    <div className="text-gray-700">Easier Qualification Process</div>
                   </div>
                 </div>
               </div>
@@ -74,169 +78,150 @@ const GigFunding: React.FC = () => {
           </div>
         </section>
 
-        {/* Features Section */}
+        {/* Simple Process Section */}
         <section className="py-16 bg-white">
           <div className="container-custom">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue">
-                Benefits of Our Gig Funding Program
+                Our Simple Process
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-                We understand the unique needs of rideshare and delivery drivers. Our funding solutions are tailored specifically for the gig economy.
+                Get the funding you need for your gig work with our straightforward application process
               </p>
             </div>
             
-            <div className="grid md:grid-cols-3 gap-8">
-              {/* Feature Card 1 */}
+            <div className="grid md:grid-cols-5 gap-6">
+              {/* Process Step 1 */}
               <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-2">
                   <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
-                    <Car size={24} />
+                    <span className="text-xl font-bold">1</span>
                   </div>
-                  <CardTitle className="text-xl text-clearfund-dark-blue">Access to Quality Vehicles</CardTitle>
+                  <CardTitle className="text-xl text-clearfund-dark-blue">Answer A Few Questions</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Choose from a wide selection of vehicles that meet rideshare and delivery requirements, including hybrid and fuel-efficient options.
+                    Complete our simple questionnaire to help us understand your business needs.
                   </p>
-                  
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Rideshare-approved vehicles</span>
-                    </li>
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Fuel-efficient options</span>
-                    </li>
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Well-maintained fleet</span>
-                    </li>
-                  </ul>
                 </CardContent>
               </Card>
               
-              {/* Feature Card 2 */}
+              {/* Process Step 2 */}
               <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-2">
                   <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
-                    <DollarSign size={24} />
+                    <span className="text-xl font-bold">2</span>
                   </div>
-                  <CardTitle className="text-xl text-clearfund-dark-blue">Flexible Financing</CardTitle>
+                  <CardTitle className="text-xl text-clearfund-dark-blue">Link Your Bank Account</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Our financing options are designed with gig workers in mind, offering low down payments and flexible terms that work with your income.
+                    Securely connect your bank account for verification of your business revenue.
                   </p>
-                  
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Low down payment options</span>
-                    </li>
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Flexible payment terms</span>
-                    </li>
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Accommodating to variable income</span>
-                    </li>
-                  </ul>
                 </CardContent>
               </Card>
               
-              {/* Feature Card 3 */}
+              {/* Process Step 3 */}
               <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
                 <CardHeader className="pb-2">
                   <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
-                    <Clock size={24} />
+                    <span className="text-xl font-bold">3</span>
                   </div>
-                  <CardTitle className="text-xl text-clearfund-dark-blue">Quick Approval</CardTitle>
+                  <CardTitle className="text-xl text-clearfund-dark-blue">Review Approval Terms</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    We understand that time is money in the gig economy. Our streamlined approval process gets you on the road earning quickly.
+                    Receive your customized funding offer with transparent terms and conditions.
                   </p>
-                  
-                  <ul className="mt-4 space-y-2">
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Fast application review</span>
-                    </li>
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Minimal documentation required</span>
-                    </li>
-                    <li className="flex items-center">
-                      <Check size={16} className="text-clearfund-blue mr-2 flex-shrink-0" />
-                      <span className="text-sm">Quick vehicle selection process</span>
-                    </li>
-                  </ul>
+                </CardContent>
+              </Card>
+              
+              {/* Process Step 4 */}
+              <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader className="pb-2">
+                  <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
+                    <span className="text-xl font-bold">4</span>
+                  </div>
+                  <CardTitle className="text-xl text-clearfund-dark-blue">Accept Funding Offer</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Sign your agreement electronically and complete the final verification steps.
+                  </p>
+                </CardContent>
+              </Card>
+              
+              {/* Process Step 5 */}
+              <Card className="border border-gray-100 shadow-md hover:shadow-lg transition-shadow">
+                <CardHeader className="pb-2">
+                  <div className="w-12 h-12 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mb-4">
+                    <span className="text-xl font-bold">5</span>
+                  </div>
+                  <CardTitle className="text-xl text-clearfund-dark-blue">Receive Funds</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600">
+                    Get your approved funds deposited directly to your business account within 24-48 hours.
+                  </p>
                 </CardContent>
               </Card>
             </div>
           </div>
         </section>
 
-        {/* How It Works Section */}
+        {/* Benefits Section */}
         <section className="py-16 bg-gradient-to-br from-clearfund-pale-blue to-white">
           <div className="container-custom">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue">
-                How Our Gig Funding Works
+                Gig Funding Benefits
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-                Our simple process makes it easy to get the vehicle you need to maximize your earnings
+                Designed specifically for gig economy workers with your unique needs in mind
               </p>
             </div>
             
             <div className="grid md:grid-cols-2 gap-12 items-center">
-              <div className="space-y-10">
+              <div className="space-y-8">
                 <div className="flex items-start">
                   <div className="h-12 w-12 rounded-full bg-clearfund-blue text-white flex items-center justify-center mr-4 flex-shrink-0">
-                    <span className="text-xl font-bold">1</span>
+                    <CreditCard size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Complete Our Simple Application</h3>
-                    <p className="text-gray-600">Fill out our online application with basic information about yourself and your gig work experience.</p>
+                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Easier Qualifications</h3>
+                    <p className="text-gray-600">
+                      Our qualification process is designed to help gig economy workers access funding without the strict requirements of traditional lenders.
+                    </p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
                   <div className="h-12 w-12 rounded-full bg-clearfund-blue text-white flex items-center justify-center mr-4 flex-shrink-0">
-                    <span className="text-xl font-bold">2</span>
+                    <Building size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Get Approved Quickly</h3>
-                    <p className="text-gray-600">Our team reviews your application and provides a quick response, often within 24 hours.</p>
+                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Transparent Terms</h3>
+                    <p className="text-gray-600">
+                      All our funding offers come with clear terms and no hidden fees, so you'll always know exactly what to expect.
+                    </p>
                   </div>
                 </div>
                 
                 <div className="flex items-start">
                   <div className="h-12 w-12 rounded-full bg-clearfund-blue text-white flex items-center justify-center mr-4 flex-shrink-0">
-                    <span className="text-xl font-bold">3</span>
+                    <DollarSign size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Select Your Vehicle</h3>
-                    <p className="text-gray-600">Browse our selection of rideshare-ready vehicles and choose one that fits your needs and budget.</p>
-                  </div>
-                </div>
-                
-                <div className="flex items-start">
-                  <div className="h-12 w-12 rounded-full bg-clearfund-blue text-white flex items-center justify-center mr-4 flex-shrink-0">
-                    <span className="text-xl font-bold">4</span>
-                  </div>
-                  <div>
-                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Start Earning</h3>
-                    <p className="text-gray-600">Complete the paperwork, make your down payment, and hit the road to start earning with your new vehicle.</p>
+                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">No Collateral Required</h3>
+                    <p className="text-gray-600">
+                      Get the funding you need without putting up your personal assets as collateral, perfect for gig economy workers.
+                    </p>
                   </div>
                 </div>
               </div>
               
               <div className="bg-white p-8 rounded-2xl shadow-xl border border-gray-100 space-y-6">
-                <h3 className="text-2xl font-bold text-clearfund-dark-blue mb-4">Program Requirements</h3>
+                <h3 className="text-2xl font-bold text-clearfund-dark-blue mb-4">Funding Relationship Benefits</h3>
                 
                 <div className="space-y-4">
                   <div className="flex items-center">
@@ -244,8 +229,8 @@ const GigFunding: React.FC = () => {
                       <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
-                      <p className="font-semibold text-lg">Valid Driver's License</p>
-                      <p className="text-gray-600 text-sm">Must have a valid driver's license in good standing</p>
+                      <p className="font-semibold text-lg">Payment History Earns You More</p>
+                      <p className="text-gray-600 text-sm">Build a relationship with us through on-time payments</p>
                     </div>
                   </div>
                   
@@ -254,8 +239,8 @@ const GigFunding: React.FC = () => {
                       <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
-                      <p className="font-semibold text-lg">Gig Economy Platform</p>
-                      <p className="text-gray-600 text-sm">Active account on Uber, Lyft, DoorDash, or similar platform</p>
+                      <p className="font-semibold text-lg">Receive Funding Again</p>
+                      <p className="text-gray-600 text-sm">After successful repayment, qualify for new funding</p>
                     </div>
                   </div>
                   
@@ -264,8 +249,8 @@ const GigFunding: React.FC = () => {
                       <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
-                      <p className="font-semibold text-lg">Minimum Age</p>
-                      <p className="text-gray-600 text-sm">Must be at least 21 years old</p>
+                      <p className="font-semibold text-lg">Add-On Funds Available</p>
+                      <p className="text-gray-600 text-sm">Access additional capital as your business grows</p>
                     </div>
                   </div>
                   
@@ -274,8 +259,8 @@ const GigFunding: React.FC = () => {
                       <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
-                      <p className="font-semibold text-lg">Income Verification</p>
-                      <p className="text-gray-600 text-sm">Proof of earnings from gig work (for experienced drivers)</p>
+                      <p className="font-semibold text-lg">Grow Your Business</p>
+                      <p className="text-gray-600 text-sm">Use funding to expand your gig operations</p>
                     </div>
                   </div>
                 </div>
@@ -299,7 +284,7 @@ const GigFunding: React.FC = () => {
                 Success Stories
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-                Hear from gig economy drivers who've benefited from our funding program
+                Hear from gig economy workers who've benefited from our funding program
               </p>
             </div>
             
@@ -317,7 +302,7 @@ const GigFunding: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "I needed a reliable vehicle quickly to start driving for Uber. Clearfund AI made the process incredibly simple, and I was approved with a low down payment despite my average credit score."
+                    "I needed capital to maintain my vehicle for ridesharing. The simple application process and quick funding from Clearfund AI helped me keep my business running without any downtime."
                   </p>
                 </CardContent>
               </Card>
@@ -335,7 +320,7 @@ const GigFunding: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "As a full-time delivery driver, my car is my livelihood. When my old car broke down, Clearfund AI helped me get into a fuel-efficient vehicle within days, so I could get back to earning."
+                    "The transparent terms and no-collateral requirement made Clearfund AI perfect for my delivery business. I've since received additional funding to expand my operations."
                   </p>
                 </CardContent>
               </Card>
@@ -353,7 +338,7 @@ const GigFunding: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "I was new to rideshare and worried no one would approve me for a vehicle loan. Clearfund AI understood my situation and got me into a great car with terms I could manage while building my business."
+                    "Even with just 4 months in business, I qualified for funding when traditional banks turned me away. Now I can focus on growing my gig work without financial stress."
                   </p>
                 </CardContent>
               </Card>
@@ -370,16 +355,16 @@ const GigFunding: React.FC = () => {
                   <Sparkles size={24} className="text-white mr-2" />
                   <span className="text-white font-semibold">Limited Time Offer</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Start Earning More?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Gig Business?</h2>
                 <p className="text-lg opacity-90 mb-6">
-                  Apply today and get a special introductory rate plus waived application fees for qualified applicants. 
-                  Don't miss this opportunity to get into a quality vehicle with minimal upfront costs.
+                  Apply today and get special introductory rates for new customers. 
+                  Don't miss this opportunity to secure the funding you need with our simple requirements and process.
                 </p>
                 <div className="flex flex-wrap gap-3">
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Low Down Payments</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Quick Approval</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Flexible Terms</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">All Credit Types</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">$3,000+ Monthly Revenue</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">3+ Months in Business</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">No Collateral Required</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Approval</span>
                 </div>
               </div>
               <Button onClick={() => setIsDialogOpen(true)} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
@@ -402,6 +387,8 @@ const GigFunding: React.FC = () => {
       </Dialog>
       
       <Footer />
-    </div>;
+    </div>
+  );
 };
+
 export default GigFunding;
