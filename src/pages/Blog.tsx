@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -7,37 +6,32 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mail, Clock, BookOpen, TrendingUp } from 'lucide-react';
 import { toast } from '@/hooks/use-toast';
-
 const Blog: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) {
       toast({
         title: "Email Required",
         description: "Please enter your email address to subscribe.",
-        variant: "destructive",
+        variant: "destructive"
       });
       return;
     }
-
     setIsSubmitting(true);
-    
+
     // Simulate API call
     setTimeout(() => {
       toast({
         title: "Successfully Subscribed!",
-        description: "You'll be the first to know when our blog launches.",
+        description: "You'll be the first to know when our blog launches."
       });
       setEmail('');
       setIsSubmitting(false);
     }, 1000);
   };
-
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-clearfund-pale-blue via-white to-clearfund-pale-blue">
+  return <div className="min-h-screen bg-gradient-to-br from-clearfund-pale-blue via-white to-clearfund-pale-blue">
       <Header />
       
       <main className="pt-20 pb-16">
@@ -109,29 +103,14 @@ const Blog: React.FC = () => {
                 <form onSubmit={handleEmailSubmit} className="space-y-6">
                   <div className="relative">
                     <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    <Input
-                      type="email"
-                      placeholder="Enter your email address"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-clearfund-blue rounded-xl"
-                      required
-                    />
+                    <Input type="email" placeholder="Enter your email address" value={email} onChange={e => setEmail(e.target.value)} className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-clearfund-blue rounded-xl" required />
                   </div>
                   
-                  <Button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-clearfund-blue to-clearfund-dark-blue hover:from-clearfund-dark-blue hover:to-clearfund-blue transition-all duration-300 rounded-xl shadow-lg hover:shadow-xl"
-                  >
-                    {isSubmitting ? (
-                      <>
+                  <Button type="submit" disabled={isSubmitting} className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-clearfund-blue to-clearfund-dark-blue hover:from-clearfund-dark-blue hover:to-clearfund-blue transition-all duration-300 rounded-xl shadow-lg hover:shadow-xl">
+                    {isSubmitting ? <>
                         <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                         Subscribing...
-                      </>
-                    ) : (
-                      'Get Early Access'
-                    )}
+                      </> : 'Get Early Access'}
                   </Button>
                 </form>
 
@@ -143,17 +122,13 @@ const Blog: React.FC = () => {
 
             {/* Launch Timeline */}
             <div className="mt-16">
-              <p className="text-lg text-gray-600">
-                Expected Launch: <span className="font-bold text-clearfund-blue">Q2 2024</span>
-              </p>
+              
             </div>
           </div>
         </div>
       </main>
 
       <Footer />
-    </div>
-  );
+    </div>;
 };
-
 export default Blog;
