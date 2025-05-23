@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Check, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
@@ -244,25 +243,23 @@ const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
             ))}
           </div>
           
-          {/* Navigation buttons */}
+          {/* Sleek navigation buttons */}
           <div className="flex items-center justify-center gap-8">
-            <Button 
+            <button 
               onClick={handlePrevious} 
-              className="bg-clearfund-pale-blue hover:bg-clearfund-pale-blue/80 text-clearfund-blue flex flex-col items-center gap-1"
-              variant="ghost"
+              className="text-clearfund-blue hover:text-clearfund-dark-blue transition-colors p-2 focus:outline-none"
+              aria-label="Previous slide"
             >
-              <ArrowLeft className="h-5 w-5" />
-              <span className="text-sm font-medium">Back</span>
-            </Button>
+              <ArrowLeft className="h-8 w-8" />
+            </button>
             
-            <Button 
+            <button 
               onClick={handleNext} 
-              className="bg-clearfund-pale-blue hover:bg-clearfund-pale-blue/80 text-clearfund-blue flex flex-col items-center gap-1"
-              variant="ghost"
+              className="text-clearfund-blue hover:text-clearfund-dark-blue transition-colors p-2 focus:outline-none"
+              aria-label="Next slide"
             >
-              <ArrowRight className="h-5 w-5" />
-              <span className="text-sm font-medium">Next</span>
-            </Button>
+              <ArrowRight className="h-8 w-8" />
+            </button>
           </div>
         </div>
       </Carousel>
