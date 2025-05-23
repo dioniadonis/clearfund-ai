@@ -1,6 +1,6 @@
 
-import React, { useState } from 'react';
-import { Check, ArrowLeft, ArrowRight } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Check, ArrowLeft, ArrowRight, X } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -9,22 +9,58 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import useEmblaCarousel from 'embla-carousel-react';
 
 interface ProcessSlideProps {
   onClose: () => void;
 }
 
 const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
+  const [api, setApi] = useState<any>(null);
+  const [current, setCurrent] = useState(0);
+  const [count, setCount] = useState(0);
+
+  // Handle navigation to ensure looping through the slides
+  const handleNext = () => {
+    if (current === count - 1) {
+      // If at the last slide, loop back to the first
+      api?.scrollTo(0);
+    } else {
+      api?.scrollNext();
+    }
+  };
+
+  const handlePrevious = () => {
+    if (current === 0) {
+      // If at the first slide, loop to the last
+      api?.scrollTo(count - 1);
+    } else {
+      api?.scrollPrev();
+    }
+  };
+
+  // Update current slide index and total count when the carousel changes
+  useEffect(() => {
+    if (!api) return;
+
+    setCount(api.scrollSnapList().length);
+    setCurrent(api.selectedScrollSnap());
+
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap());
+    });
+  }, [api]);
+
   return (
     <div className="bg-white/95 backdrop-blur-sm w-full h-full p-6 rounded-xl">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold text-clearfund-dark-blue">Simple 5-Step Process</h2>
-        <Button variant="ghost" onClick={onClose} className="hover:bg-gray-100">
-          Close
+        <Button variant="ghost" onClick={onClose} className="hover:bg-gray-100 p-2 h-auto">
+          <X size={20} className="text-gray-500" />
         </Button>
       </div>
 
-      <Carousel className="w-full max-w-4xl mx-auto">
+      <Carousel className="w-full max-w-4xl mx-auto" setApi={setApi}>
         <CarouselContent>
           {/* Step 1 */}
           <CarouselItem>
@@ -192,9 +228,42 @@ const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
           </CarouselItem>
         </CarouselContent>
 
-        <div className="flex items-center justify-center gap-4 mt-8">
-          <CarouselPrevious className="position-relative left-auto" />
-          <CarouselNext className="position-relative right-auto" />
+        {/* Navigation controls - positioned below the content */}
+        <div className="flex flex-col items-center mt-8 space-y-4">
+          {/* Slide indicators */}
+          <div className="flex items-center justify-center gap-2">
+            {Array.from({ length: count }).map((_, i) => (
+              <button
+                key={i}
+                className={`w-3 h-3 rounded-full transition-colors ${
+                  i === current ? "bg-clearfund-blue" : "bg-gray-300"
+                }`}
+                onClick={() => api?.scrollTo(i)}
+                aria-label={`Go to slide ${i + 1}`}
+              />
+            ))}
+          </div>
+          
+          {/* Navigation buttons */}
+          <div className="flex items-center justify-center gap-8">
+            <Button 
+              onClick={handlePrevious} 
+              className="bg-clearfund-pale-blue hover:bg-clearfund-pale-blue/80 text-clearfund-blue flex flex-col items-center gap-1"
+              variant="ghost"
+            >
+              <ArrowLeft className="h-5 w-5" />
+              <span className="text-sm font-medium">Back</span>
+            </Button>
+            
+            <Button 
+              onClick={handleNext} 
+              className="bg-clearfund-pale-blue hover:bg-clearfund-pale-blue/80 text-clearfund-blue flex flex-col items-center gap-1"
+              variant="ghost"
+            >
+              <ArrowRight className="h-5 w-5" />
+              <span className="text-sm font-medium">Next</span>
+            </Button>
+          </div>
         </div>
       </Carousel>
     </div>
