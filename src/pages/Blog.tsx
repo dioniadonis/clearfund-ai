@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -50,32 +49,31 @@ const Blog: React.FC = () => {
     setIsSubmitting(true);
 
     try {
-      // Wait for HubSpot to be available
+      // Wait a bit for HubSpot to load if needed
+      await new Promise(resolve => setTimeout(resolve, 500));
+
       if (typeof window.hbspt !== 'undefined') {
-        // Submit to HubSpot
-        const hubspotData = {
+        // Create HubSpot form submission
+        window.hbspt.forms.create({
           portalId: "242866165",
           formId: "abf3f674-594a-4092-832b-76b7d283a75b",
-          fields: [
-            {
-              name: "email",
-              value: email
-            }
-          ]
-        };
-
-        // Use HubSpot's forms API to submit
-        await new Promise((resolve, reject) => {
-          window.hbspt.forms.create({
-            portalId: "242866165",
-            formId: "abf3f674-594a-4092-832b-76b7d283a75b",
-            region: "na2",
-            onFormSubmit: () => {
-              resolve(true);
-            },
-            onFormReady: () => {
-              // Hide the form and submit programmatically
-              const form = document.querySelector('[data-form-id="abf3f674-594a-4092-832b-76b7d283a75b"]');
+          region: "na2",
+          target: '#hubspot-form-container',
+          onFormSubmit: () => {
+            console.log('HubSpot form submitted successfully');
+            // Show thank you animation
+            setShowThankYou(true);
+            setEmail('');
+            
+            toast({
+              title: "Successfully Subscribed!",
+              description: "You'll be the first to know when our blog launches."
+            });
+          },
+          onFormReady: () => {
+            // Auto-fill and submit the form
+            setTimeout(() => {
+              const form = document.querySelector('#hubspot-form-container form');
               if (form) {
                 const emailInput = form.querySelector('input[name="email"]') as HTMLInputElement;
                 if (emailInput) {
@@ -86,22 +84,20 @@ const Blog: React.FC = () => {
                   }
                 }
               }
-            }
-          });
+            }, 100);
+          }
         });
       } else {
-        // Fallback if HubSpot isn't loaded
-        console.log('HubSpot not loaded, using fallback submission');
+        // Fallback - just show success for now
+        console.log('HubSpot not loaded, showing success anyway');
+        setShowThankYou(true);
+        setEmail('');
+        
+        toast({
+          title: "Successfully Subscribed!",
+          description: "You'll be the first to know when our blog launches."
+        });
       }
-
-      // Show thank you animation
-      setShowThankYou(true);
-      setEmail('');
-      
-      toast({
-        title: "Successfully Subscribed!",
-        description: "You'll be the first to know when our blog launches."
-      });
 
     } catch (error) {
       console.error('Submission error:', error);
