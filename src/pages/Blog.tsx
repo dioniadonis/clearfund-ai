@@ -1,18 +1,11 @@
+
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, BookOpen, TrendingUp, CheckCircle } from 'lucide-react';
 
 const Blog: React.FC = () => {
-  const handleGetEarlyAccess = () => {
-    // Trigger the Jotform lightbox
-    if (window.JFL_251428125592154) {
-      window.JFL_251428125592154.showForm();
-    }
-  };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-clearfund-pale-blue via-white to-clearfund-pale-blue">
       <Header />
@@ -70,7 +63,7 @@ const Blog: React.FC = () => {
               </Card>
             </div>
 
-            {/* Call to Action */}
+            {/* Call to Action with Iframe */}
             <Card className="max-w-2xl mx-auto border-none shadow-2xl bg-white/90 backdrop-blur-sm">
               <CardContent className="p-8 md:p-12">
                 <div className="text-center mb-8">
@@ -83,12 +76,21 @@ const Blog: React.FC = () => {
                   </p>
                 </div>
 
-                <Button 
-                  onClick={handleGetEarlyAccess}
-                  className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-clearfund-blue to-clearfund-dark-blue hover:from-clearfund-dark-blue hover:to-clearfund-blue transition-all duration-300 rounded-xl shadow-lg hover:shadow-xl"
-                >
-                  Get Early Access
-                </Button>
+                <iframe
+                  id="JotFormIFrame-251428125592154"
+                  title="Email Forum"
+                  onLoad={() => window.parent.scrollTo(0,0)}
+                  allowTransparency={true}
+                  allow="geolocation; microphone; camera; fullscreen; payment"
+                  src="https://form.jotform.com/251428125592154"
+                  style={{
+                    minWidth: '100%',
+                    maxWidth: '100%',
+                    height: '539px',
+                    border: 'none'
+                  }}
+                  scrolling="no"
+                />
 
                 <p className="text-sm text-gray-500 mt-6 text-center">
                   No spam, ever. Unsubscribe anytime with just one click.
