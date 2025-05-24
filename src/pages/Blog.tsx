@@ -1,4 +1,3 @@
-
 import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
@@ -8,11 +7,10 @@ import { Clock, BookOpen, TrendingUp, CheckCircle } from 'lucide-react';
 
 const Blog: React.FC = () => {
   const handleGetEarlyAccess = () => {
-    window.open(
-      'https://form.jotform.com/251428125592154',
-      'blank',
-      'scrollbars=yes,toolbar=no,width=700,height=500'
-    );
+    // Trigger the Jotform lightbox
+    if (window.JFL_251428125592154) {
+      window.JFL_251428125592154.showForm();
+    }
   };
 
   return (
