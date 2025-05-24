@@ -1,96 +1,19 @@
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
-import { Mail, Clock, BookOpen, TrendingUp, CheckCircle } from 'lucide-react';
-import { toast } from '@/hooks/use-toast';
-
-// Extend the global window object to include hbspt
-declare global {
-  interface Window {
-    hbspt: any;
-  }
-}
+import { Clock, BookOpen, TrendingUp, CheckCircle } from 'lucide-react';
 
 const Blog: React.FC = () => {
-  const [email, setEmail] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [showThankYou, setShowThankYou] = useState(false);
-
-  const handleEmailSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email) {
-      toast({
-        title: "Email Required",
-        description: "Please enter your email address to subscribe.",
-        variant: "destructive"
-      });
-      return;
-    }
-
-    setIsSubmitting(true);
-
-    try {
-      // Simple submission - just show success since HubSpot tracking is handled by the script in index.html
-      console.log('Submitting email:', email);
-      
-      // Simulate a brief delay for better UX
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Show success state
-      setShowThankYou(true);
-      setEmail('');
-      
-      toast({
-        title: "Successfully Subscribed!",
-        description: "You'll be the first to know when our blog launches."
-      });
-
-    } catch (error) {
-      console.error('Submission error:', error);
-      toast({
-        title: "Submission Error",
-        description: "There was an issue with your submission. Please try again.",
-        variant: "destructive"
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const resetThankYou = () => {
-    setShowThankYou(false);
-  };
-
-  if (showThankYou) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-clearfund-pale-blue via-white to-clearfund-pale-blue flex items-center justify-center">
-        <div className="text-center animate-fade-in">
-          <div className="inline-flex items-center justify-center w-24 h-24 bg-green-500 rounded-full mb-6 animate-scale-in">
-            <CheckCircle className="w-12 h-12 text-white" />
-          </div>
-          
-          <h1 className="text-4xl md:text-5xl font-bold text-clearfund-dark-blue mb-4">
-            Thank You!
-          </h1>
-          
-          <p className="text-xl text-gray-700 mb-8 max-w-2xl mx-auto">
-            You're all set! We'll send you exclusive insights and early access to our blog content.
-          </p>
-          
-          <Button 
-            onClick={resetThankYou}
-            className="bg-gradient-to-r from-clearfund-blue to-clearfund-dark-blue hover:from-clearfund-dark-blue hover:to-clearfund-blue transition-all duration-300 rounded-xl"
-          >
-            Back to Home
-          </Button>
-        </div>
-      </div>
+  const handleGetEarlyAccess = () => {
+    window.open(
+      'https://form.jotform.com/251428125592154',
+      'blank',
+      'scrollbars=yes,toolbar=no,width=700,height=500'
     );
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-clearfund-pale-blue via-white to-clearfund-pale-blue">
@@ -141,7 +64,7 @@ const Blog: React.FC = () => {
               <Card className="border-none shadow-lg bg-white/70 backdrop-blur-sm hover:shadow-xl transition-all duration-300">
                 <CardContent className="p-8">
                   <div className="w-12 h-12 bg-clearfund-blue/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
-                    <Mail className="w-6 h-6 text-clearfund-blue" />
+                    <CheckCircle className="w-6 h-6 text-clearfund-blue" />
                   </div>
                   <h3 className="text-lg font-bold text-clearfund-dark-blue mb-2">Exclusive Access</h3>
                   <p className="text-gray-600">Subscribers get early access and exclusive content</p>
@@ -149,7 +72,7 @@ const Blog: React.FC = () => {
               </Card>
             </div>
 
-            {/* Email Capture Form */}
+            {/* Call to Action */}
             <Card className="max-w-2xl mx-auto border-none shadow-2xl bg-white/90 backdrop-blur-sm">
               <CardContent className="p-8 md:p-12">
                 <div className="text-center mb-8">
@@ -162,34 +85,12 @@ const Blog: React.FC = () => {
                   </p>
                 </div>
 
-                <form onSubmit={handleEmailSubmit} className="space-y-6">
-                  <div className="relative">
-                    <Mail className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
-                    <Input 
-                      type="email" 
-                      placeholder="Enter your email address" 
-                      value={email} 
-                      onChange={e => setEmail(e.target.value)} 
-                      className="pl-12 h-14 text-lg border-2 border-gray-200 focus:border-clearfund-blue rounded-xl" 
-                      required 
-                    />
-                  </div>
-                  
-                  <Button 
-                    type="submit" 
-                    disabled={isSubmitting} 
-                    className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-clearfund-blue to-clearfund-dark-blue hover:from-clearfund-dark-blue hover:to-clearfund-blue transition-all duration-300 rounded-xl shadow-lg hover:shadow-xl"
-                  >
-                    {isSubmitting ? (
-                      <>
-                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                        Subscribing...
-                      </>
-                    ) : (
-                      'Get Early Access'
-                    )}
-                  </Button>
-                </form>
+                <Button 
+                  onClick={handleGetEarlyAccess}
+                  className="w-full h-14 text-lg font-semibold bg-gradient-to-r from-clearfund-blue to-clearfund-dark-blue hover:from-clearfund-dark-blue hover:to-clearfund-blue transition-all duration-300 rounded-xl shadow-lg hover:shadow-xl"
+                >
+                  Get Early Access
+                </Button>
 
                 <p className="text-sm text-gray-500 mt-6 text-center">
                   No spam, ever. Unsubscribe anytime with just one click.
