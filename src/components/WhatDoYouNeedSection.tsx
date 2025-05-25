@@ -117,7 +117,7 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <div className="space-y-2 mb-6 text-sm text-gray-700 text-left">
+              <div className="space-y-2 mb-6 text-sm text-gray-700 text-left mt-2">
                 <div className="flex items-center">
                   <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
                   <span>Free consultation available</span>
