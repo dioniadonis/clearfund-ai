@@ -11,6 +11,10 @@ import ProcessSlideShow from '../components/ProcessSlideShow';
 const GigFunding: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
+
+  const handleExternalLink = () => {
+    window.open('http://davidallencapital.com/clearfund', '_blank');
+  };
   
   return (
     <div className="min-h-screen flex flex-col">
@@ -21,16 +25,17 @@ const GigFunding: React.FC = () => {
           <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
-                Gig Economy <br />
                 <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Instant Micro Funding</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
-                Specialized financing for rideshare & gig economy drivers. 
-                Get the funding you need with minimal requirements and a simple process.
+                <span className="text-clearfund-blue font-bold">Get Up To $20k today!</span><br/>
+                <span className="text-clearfund-blue font-bold">Immediate offer!</span><br/>
+                From $400 - $20,000.<br/>
+                Easy-Breezy online process designed for all business owners.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-                  Apply Now
+                <Button onClick={handleExternalLink} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+                  Get Funded Today
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
@@ -92,7 +97,7 @@ const GigFunding: React.FC = () => {
                 Our Simple Process
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-                Get the funding you need for your gig work with our straightforward application process
+                Get the funding you need for your business with our straightforward application process
               </p>
             </div>
             
@@ -180,10 +185,10 @@ const GigFunding: React.FC = () => {
           <div className="container-custom">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue">
-                Gig Funding Benefits
+                Funding Benefits
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-                Designed specifically for gig economy workers with your unique needs in mind
+                Designed specifically for business owners with your unique needs in mind
               </p>
             </div>
             
@@ -196,7 +201,7 @@ const GigFunding: React.FC = () => {
                   <div>
                     <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Easier Qualifications</h3>
                     <p className="text-gray-600">
-                      Our qualification process is designed to help gig economy workers access funding without the strict requirements of traditional lenders.
+                      Our qualification process is designed to help business owners access funding without the strict requirements of traditional lenders.
                     </p>
                   </div>
                 </div>
@@ -220,7 +225,7 @@ const GigFunding: React.FC = () => {
                   <div>
                     <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">No Collateral Required</h3>
                     <p className="text-gray-600">
-                      Get the funding you need without putting up your personal assets as collateral, perfect for gig economy workers.
+                      Get the funding you need without putting up your personal assets as collateral, perfect for business owners.
                     </p>
                   </div>
                 </div>
@@ -266,14 +271,14 @@ const GigFunding: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold text-lg">Grow Your Business</p>
-                      <p className="text-gray-600 text-sm">Use funding to expand your gig operations</p>
+                      <p className="text-gray-600 text-sm">Use funding to expand your business operations</p>
                     </div>
                   </div>
                 </div>
                 
                 <div className="pt-4">
-                  <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 w-full rounded-lg transition-colors">
-                    Apply For Funding
+                  <Button onClick={handleExternalLink} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 w-full rounded-lg transition-colors">
+                    Get Funded Today
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
@@ -290,7 +295,7 @@ const GigFunding: React.FC = () => {
                 Success Stories
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto mt-4">
-                Hear from gig economy workers who've benefited from our funding program
+                Hear from business owners who've benefited from our funding program
               </p>
             </div>
             
@@ -304,11 +309,11 @@ const GigFunding: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold">James M.</p>
-                      <p className="text-sm text-gray-500">Uber Driver, 2 years</p>
+                      <p className="text-sm text-gray-500">Business Owner, 2 years</p>
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "I needed capital to maintain my vehicle for ridesharing. The simple application process and quick funding from Clearfund AI helped me keep my business running without any downtime."
+                    "I needed capital to maintain my equipment for my business. The simple application process and quick funding from Clearfund AI helped me keep my business running without any downtime."
                   </p>
                 </CardContent>
               </Card>
@@ -322,11 +327,11 @@ const GigFunding: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold">Sarah R.</p>
-                      <p className="text-sm text-gray-500">DoorDash & Uber Eats Driver</p>
+                      <p className="text-sm text-gray-500">Small Business Owner</p>
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "The transparent terms and no-collateral requirement made Clearfund AI perfect for my delivery business. I've since received additional funding to expand my operations."
+                    "The transparent terms and no-collateral requirement made Clearfund AI perfect for my business needs. I've since received additional funding to expand my operations."
                   </p>
                 </CardContent>
               </Card>
@@ -340,11 +345,11 @@ const GigFunding: React.FC = () => {
                     </div>
                     <div>
                       <p className="font-semibold">David T.</p>
-                      <p className="text-sm text-gray-500">Lyft Driver, New Driver</p>
+                      <p className="text-sm text-gray-500">New Business Owner</p>
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "Even with just 4 months in business, I qualified for funding when traditional banks turned me away. Now I can focus on growing my gig work without financial stress."
+                    "Even with just 4 months in business, I qualified for funding when traditional banks turned me away. Now I can focus on growing my business without financial stress."
                   </p>
                 </CardContent>
               </Card>
@@ -361,7 +366,7 @@ const GigFunding: React.FC = () => {
                   <Sparkles size={24} className="text-white mr-2" />
                   <span className="text-white font-semibold">Limited Time Offer</span>
                 </div>
-                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Gig Business?</h2>
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Business?</h2>
                 <p className="text-lg opacity-90 mb-6">
                   Apply today and get special introductory rates for new customers. 
                   Don't miss this opportunity to secure the funding you need with our simple requirements and process.
@@ -373,8 +378,8 @@ const GigFunding: React.FC = () => {
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Approval</span>
                 </div>
               </div>
-              <Button onClick={() => setIsDialogOpen(true)} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
-                Apply Now
+              <Button onClick={handleExternalLink} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
+                Get Funded Today
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
             </div>
@@ -386,9 +391,9 @@ const GigFunding: React.FC = () => {
       <Dialog open={isDialogOpen} onOpenChange={open => setIsDialogOpen(open)}>
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
           <DialogHeader className="p-6 pb-0">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Gig Driver Application</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Business Application</DialogTitle>
           </DialogHeader>
-          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Clearfund Application Form" data-clearfund-form="gig-application" />
+          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Clearfund Application Form" data-clearfund-form="business-application" />
         </DialogContent>
       </Dialog>
 

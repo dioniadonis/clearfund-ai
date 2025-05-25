@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -53,7 +52,7 @@ const Header: React.FC = () => {
             Working Capital
           </Link>
           <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
-            Gig Funding
+            Get Funded Today
           </Link>
           <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Credit Repair
@@ -127,7 +126,7 @@ const Header: React.FC = () => {
                     Working Capital
                   </Link>
                   <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
-                    Gig Funding
+                    Get Funded Today
                   </Link>
                   <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
                     Credit Repair
