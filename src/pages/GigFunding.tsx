@@ -1,16 +1,18 @@
 
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Check, Car, Clock, DollarSign, Sparkles, Building, CreditCard, BriefcaseBusiness } from 'lucide-react';
+import { ArrowRight, Check, Car, Clock, DollarSign, Sparkles, Building, CreditCard, BriefcaseBusiness, HelpCircle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProcessSlideShow from '../components/ProcessSlideShow';
+import FundingFAQSlideShow from '../components/FundingFAQSlideShow';
 
 const GigFunding: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
+  const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
   const handleExternalLink = () => {
     window.open('http://davidallencapital.com/clearfund', '_blank');
@@ -371,11 +373,21 @@ const GigFunding: React.FC = () => {
                   Apply today and get special introductory rates for new customers. 
                   Don't miss this opportunity to secure the funding you need with our simple requirements and process.
                 </p>
-                <div className="flex flex-wrap gap-3">
+                <div className="flex flex-wrap gap-3 mb-6">
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">$3,000+ Monthly Revenue</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">3+ Months in Business</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">No Collateral Required</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Approval</span>
+                </div>
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <Button 
+                    onClick={() => setIsFAQSlideShowOpen(true)}
+                    variant="outline"
+                    className="bg-transparent border-white text-white hover:bg-white hover:text-clearfund-blue text-lg font-semibold py-3 px-6 rounded-lg transition-colors"
+                  >
+                    <HelpCircle className="mr-2 h-5 w-5" />
+                    Funding FAQ
+                  </Button>
                 </div>
               </div>
               <Button onClick={handleExternalLink} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
@@ -401,6 +413,13 @@ const GigFunding: React.FC = () => {
       <Dialog open={isSlideShowOpen} onOpenChange={open => setIsSlideShowOpen(open)}>
         <DialogContent className="sm:max-w-[900px] max-h-[700px] p-0">
           <ProcessSlideShow onClose={() => setIsSlideShowOpen(false)} />
+        </DialogContent>
+      </Dialog>
+
+      {/* Funding FAQ SlideShow Dialog */}
+      <Dialog open={isFAQSlideShowOpen} onOpenChange={open => setIsFAQSlideShowOpen(open)}>
+        <DialogContent className="sm:max-w-[900px] max-h-[700px] p-0">
+          <FundingFAQSlideShow onClose={() => setIsFAQSlideShowOpen(false)} />
         </DialogContent>
       </Dialog>
       
