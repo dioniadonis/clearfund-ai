@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Briefcase, LineChart, Clock, Building } from 'lucide-react';
@@ -42,7 +41,7 @@ const WorkingCapital: React.FC = () => {
                     onClick={() => setIsDialogOpen(true)}
                     className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white px-6 py-6 rounded-lg"
                   >
-                    Start Application
+                    Get Started
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                   
