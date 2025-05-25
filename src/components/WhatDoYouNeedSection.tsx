@@ -117,7 +117,7 @@ const WhatDoYouNeedSection: React.FC = () => {
               </div>
               <CardTitle className="text-xl text-clearfund-dark-blue">Credit Repair</CardTitle>
               <CardDescription className="text-gray-600">
-                Improve your credit score to qualify for better funding options and lower interest rates
+                                Improve your credit score to qualify for better funding options and get your credit professionally fixed
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
