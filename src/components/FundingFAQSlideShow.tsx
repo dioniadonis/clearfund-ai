@@ -188,7 +188,12 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Typically 20-30% total cost based on monthly sales performance i.e $4,000 monthly sales = qualify for $800-$1,200 funding</span>
+                    <div className="flex flex-col">
+                      <span className="text-gray-700">Factor rates from 1.1 to 1.5 (10% to 50% total cost)</span>
+                      <span className="text-gray-400 text-sm italic mt-1 opacity-70">
+                        e.g., $4,000 monthly sales = qualify for $800-$1,200 funding
+                      </span>
+                    </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
