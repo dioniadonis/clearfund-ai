@@ -34,7 +34,7 @@ const WhatDoYouNeedSection: React.FC = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {/* Working Capital */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg">
+          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-clearfund-blue/10 text-clearfund-blue flex items-center justify-center mx-auto mb-4">
                 <Building size={32} />
@@ -44,7 +44,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 For established businesses looking to expand operations, purchase inventory, or manage cash flow
               </CardDescription>
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center flex-grow flex flex-col justify-between">
               <div className="space-y-2 mb-6 text-sm text-gray-700">
                 <p>• $10K - $2M funding range</p>
                 <p>• 1+ year in business required</p>
@@ -61,7 +61,7 @@ const WhatDoYouNeedSection: React.FC = () => {
           </Card>
 
           {/* Instant Micro Funding */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg">
+          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
                 <Zap size={32} />
@@ -71,7 +71,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 Perfect for small businesses, gig workers, and entrepreneurs who need quick access to smaller amounts
               </CardDescription>
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center flex-grow flex flex-col justify-between">
               <div className="space-y-2 mb-6 text-sm text-gray-700">
                 <p>• Fast approval process</p>
                 <p>• Ideal for gig workers</p>
@@ -88,7 +88,7 @@ const WhatDoYouNeedSection: React.FC = () => {
           </Card>
 
           {/* Credit Repair */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg">
+          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
                 <CreditCard size={32} />
@@ -98,7 +98,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 Improve your credit score to qualify for better funding options and lower interest rates
               </CardDescription>
             </CardHeader>
-            <CardContent className="text-center">
+            <CardContent className="text-center flex-grow flex flex-col justify-between">
               <div className="space-y-2 mb-6 text-sm text-gray-700">
                 <p>• Free consultation available</p>
                 <p>• 73% success rate</p>
