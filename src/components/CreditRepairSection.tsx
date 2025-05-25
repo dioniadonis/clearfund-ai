@@ -68,43 +68,43 @@ const CreditRepairSection: React.FC = () => {
               We Help Remove Negative Items:
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-4 text-center">
+                <CardContent className="p-4 text-center h-20 flex flex-col justify-center">
                   <h3 className="text-lg font-bold text-clearfund-blue mb-1">Bankruptcies</h3>
                   <p className="text-sm text-gray-600">& Foreclosures</p>
                 </CardContent>
               </Card>
               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-4 text-center">
+                <CardContent className="p-4 text-center h-20 flex flex-col justify-center">
                   <h3 className="text-lg font-bold text-clearfund-blue mb-1">Collections</h3>
                   <p className="text-sm text-gray-600">& Charge Offs</p>
                 </CardContent>
               </Card>
               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-4 text-center">
+                <CardContent className="p-4 text-center h-20 flex flex-col justify-center">
                   <h3 className="text-lg font-bold text-clearfund-blue mb-1">Liens</h3>
                   <p className="text-sm text-gray-600">& Judgements</p>
                 </CardContent>
               </Card>
               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-4 text-center">
+                <CardContent className="p-4 text-center h-20 flex flex-col justify-center">
                   <h3 className="text-lg font-bold text-clearfund-blue mb-1">Late Payments</h3>
                   <p className="text-sm text-gray-600">& Inquiries</p>
                 </CardContent>
               </Card>
             </div>
 
-            <div className="pt-6 flex justify-center">
+            <div className="flex justify-center">
               <Button 
                 asChild
-                className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
+                className="bg-green-600 hover:bg-green-700 text-white text-lg py-6 px-8 rounded-lg transition-colors"
               >
-                <a href="/credit-repair">
-                  Learn More
+                <a href="https://portal.asapcreditrepairusa.com/client-signup-client.php?afcode=1328" target="_blank" rel="noopener noreferrer">
+                  Get Started
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </a>
               </Button>
