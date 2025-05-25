@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Car, Clock, DollarSign, Sparkles, Building, CreditCard, BriefcaseBusiness, HelpCircle } from 'lucide-react';
@@ -15,7 +14,7 @@ const GigFunding: React.FC = () => {
   const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
   const handleExternalLink = () => {
-    window.open('http://davidallencapital.com/clearfund', '_blank');
+    window.open('https://davidallencapital.com/clearfund', '_blank');
   };
   
   return (
@@ -379,21 +378,20 @@ const GigFunding: React.FC = () => {
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">No Collateral Required</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Approval</span>
                 </div>
-                <div className="flex flex-col sm:flex-row gap-4">
-                  <Button 
-                    onClick={() => setIsFAQSlideShowOpen(true)}
-                    variant="outline"
-                    className="bg-transparent border-white text-white hover:bg-white hover:text-clearfund-blue text-lg font-semibold py-3 px-6 rounded-lg transition-colors"
-                  >
-                    <HelpCircle className="mr-2 h-5 w-5" />
-                    Funding FAQ
-                  </Button>
-                </div>
               </div>
-              <Button onClick={handleExternalLink} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
-                Get Funded Today
-                <ArrowRight className="ml-2 h-5 w-5" />
-              </Button>
+              <div className="flex flex-col gap-4 items-center">
+                <Button onClick={handleExternalLink} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
+                  Get Funded Today
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button 
+                  onClick={() => setIsFAQSlideShowOpen(true)}
+                  className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors"
+                >
+                  <HelpCircle className="mr-2 h-5 w-5" />
+                  Funding FAQ
+                </Button>
+              </div>
             </div>
           </div>
         </section>
