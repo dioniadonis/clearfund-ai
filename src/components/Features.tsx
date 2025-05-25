@@ -21,7 +21,7 @@ const Features: React.FC = () => {
   return <section id="features" className="py-16 md:py-24 bg-white">
       <div className="container-custom">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue mb-4">Solutions Built for AI-Driven Businesses</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue mb-4">Solutions Built for Small Businesses</h2>
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">Our AI-powered platform provides tailored financing solutions to help you manage cash flow, cover expenses, and scale your business.</p>
         </div>
 
