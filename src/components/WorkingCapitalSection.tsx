@@ -56,7 +56,7 @@ const WorkingCapitalSection: React.FC = () => {
                 <Clock className="text-amber-600" size={20} />
                 <span className="font-semibold text-amber-800">Quick Features:</span>
               </div>
-              <ul className="text-sm text-amber-700 space-y-1">
+              <ul className="text-sm text-green-700 space-y-1">
                 <li>• Liens and judgements OK</li>
                 <li>• 24-48 hour funding available</li>
                 <li>• Flexible repayment terms</li>
