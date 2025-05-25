@@ -3,7 +3,9 @@ import React from 'react';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
 import Features from '../components/Features';
+import WorkingCapitalSection from '../components/WorkingCapitalSection';
 import QualificationSection from '../components/QualificationSection';
+import CreditRepairSection from '../components/CreditRepairSection';
 import Footer from '../components/Footer';
 
 const Index: React.FC = () => {
@@ -13,7 +15,9 @@ const Index: React.FC = () => {
       <main className="flex-grow">
         <Hero />
         <Features />
+        <WorkingCapitalSection />
         <QualificationSection />
+        <CreditRepairSection />
       </main>
       <Footer />
     </div>
