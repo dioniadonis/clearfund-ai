@@ -6,6 +6,7 @@ import Features from '../components/Features';
 import WorkingCapitalSection from '../components/WorkingCapitalSection';
 import QualificationSection from '../components/QualificationSection';
 import CreditRepairSection from '../components/CreditRepairSection';
+import WhatDoYouNeedSection from '../components/WhatDoYouNeedSection';
 import Footer from '../components/Footer';
 
 const Index: React.FC = () => {
@@ -18,6 +19,7 @@ const Index: React.FC = () => {
         <WorkingCapitalSection />
         <QualificationSection />
         <CreditRepairSection />
+        <WhatDoYouNeedSection />
       </main>
       <Footer />
     </div>
