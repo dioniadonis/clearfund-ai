@@ -34,7 +34,7 @@ const WhatDoYouNeedSection: React.FC = () => {
 
         <div className="grid md:grid-cols-3 gap-8">
           {/* Working Capital */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col h-full">
+          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-clearfund-blue/10 text-clearfund-blue flex items-center justify-center mx-auto mb-4">
                 <Building size={32} />
@@ -45,29 +45,19 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
-              <div className="flex flex-col justify-center flex-grow mb-4">
-                <div className="flex justify-center">
-                  <div className="text-left">
-                    <div className="space-y-3 text-sm text-gray-700">
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">$10K - $2M funding range</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">1+ year in business required</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">$120K+ annual revenue</span>
-                      </div>
-                    </div>
+              <div className="mb-4">
+                <div className="space-y-3 text-sm text-gray-700">
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">$10K - $2M funding range</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">1+ year in business required</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">$120K+ annual revenue</span>
                   </div>
                 </div>
               </div>
@@ -82,7 +72,7 @@ const WhatDoYouNeedSection: React.FC = () => {
           </Card>
 
           {/* Instant Micro Funding */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col h-full">
+          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
                 <Zap size={32} />
@@ -93,29 +83,19 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
-              <div className="flex flex-col justify-center flex-grow mb-6">
-                <div className="flex justify-center">
-                  <div className="text-left">
-                    <div className="space-y-3 text-sm text-gray-700">
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">Fast approval process</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">Ideal for gig workers</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">Small business friendly</span>
-                      </div>
-                    </div>
+              <div className="mb-4">
+                <div className="space-y-3 text-sm text-gray-700">
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">Fast approval process</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">Ideal for gig workers</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">Small business friendly</span>
                   </div>
                 </div>
               </div>
@@ -130,7 +110,7 @@ const WhatDoYouNeedSection: React.FC = () => {
           </Card>
 
           {/* Credit Repair */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col h-full">
+          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
                 <CreditCard size={32} />
@@ -141,29 +121,19 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
-              <div className="flex flex-col justify-center flex-grow mb-6">
-                <div className="flex justify-center">
-                  <div className="text-left">
-                    <div className="space-y-3 text-sm text-gray-700">
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">Free consultation available</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">73% success rate</span>
-                      </div>
-                      <div className="flex items-center">
-                        <div className="w-4 flex justify-center">
-                          <Check size={16} className="text-green-600 flex-shrink-0" />
-                        </div>
-                        <span className="ml-3">One-time payment</span>
-                      </div>
-                    </div>
+              <div className="mb-4">
+                <div className="space-y-3 text-sm text-gray-700">
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">Free consultation available</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">73% success rate</span>
+                  </div>
+                  <div className="flex items-center">
+                    <Check size={16} className="text-green-600 flex-shrink-0" />
+                    <span className="ml-3">One-time payment</span>
                   </div>
                 </div>
               </div>
