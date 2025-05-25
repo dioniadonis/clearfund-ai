@@ -81,7 +81,7 @@ const QualificationSection: React.FC = () => {
                 className="bg-green-500 hover:bg-green-600 text-white text-lg py-6 px-12 rounded-full transition-colors"
               >
                 <a href="https://davidallencapital.com/clearfund" target="_blank" rel="noopener noreferrer">
-                  Apply Now
+                  Instant Micro Funding
                 </a>
               </Button>
             </div>
