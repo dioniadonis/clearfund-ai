@@ -13,7 +13,7 @@ const Hero: React.FC = () => {
         <div className="space-y-6">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
             Funding Tools for the <br />
-            <span className="text-clearfund-blue">AI-Driven Business</span>
+            <span className="text-clearfund-blue">Growth-Driven Business</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-lg">
             Fast Capital. Smart Resources. <br />
