@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowRight, Building, Zap, CreditCard } from 'lucide-react';
+import { ArrowRight, Building, Zap, CreditCard, Check } from 'lucide-react';
 
 const WhatDoYouNeedSection: React.FC = () => {
   const [isApplicationDialogOpen, setIsApplicationDialogOpen] = useState(false);
@@ -45,11 +45,20 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <ul className="text-sm text-gray-700 mb-6 text-left pl-0">
-                <li className="list-disc ml-5 mb-2">$10K - $2M funding range</li>
-                <li className="list-disc ml-5 mb-2">1+ year in business required</li>
-                <li className="list-disc ml-5 mb-2">$120K+ annual revenue</li>
-              </ul>
+              <div className="space-y-2 mb-6 text-sm text-gray-700 text-left">
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>$10K - $2M funding range</span>
+                </div>
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>1+ year in business required</span>
+                </div>
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>$120K+ annual revenue</span>
+                </div>
+              </div>
               <Button 
                 onClick={handleWorkingCapital}
                 className="w-full bg-clearfund-blue hover:bg-clearfund-dark-blue text-white"
@@ -72,11 +81,20 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <ul className="text-sm text-gray-700 mb-6 text-left pl-0">
-                <li className="list-disc ml-5 mb-2">Fast approval process</li>
-                <li className="list-disc ml-5 mb-2">Ideal for gig workers</li>
-                <li className="list-disc ml-5 mb-2">Small business friendly</li>
-              </ul>
+              <div className="space-y-2 mb-6 text-sm text-gray-700 text-left">
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>Fast approval process</span>
+                </div>
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>Ideal for gig workers</span>
+                </div>
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>Small business friendly</span>
+                </div>
+              </div>
               <Button 
                 onClick={handleInstantMicro}
                 className="w-full bg-amber-500 hover:bg-amber-600 text-white"
@@ -99,11 +117,20 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <ul className="text-sm text-gray-700 mb-6 text-left pl-0">
-                <li className="list-disc ml-5 mb-2">Free consultation available</li>
-                <li className="list-disc ml-5 mb-2">73% success rate</li>
-                <li className="list-disc ml-5 mb-2">One-time payment</li>
-              </ul>
+              <div className="space-y-2 mb-6 text-sm text-gray-700 text-left">
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>Free consultation available</span>
+                </div>
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>73% success rate</span>
+                </div>
+                <div className="flex items-center">
+                  <Check size={16} className="text-green-600 mr-3 flex-shrink-0" />
+                  <span>One-time payment</span>
+                </div>
+              </div>
               <Button 
                 onClick={handleCreditRepair}
                 className="w-full bg-green-600 hover:bg-green-700 text-white"
