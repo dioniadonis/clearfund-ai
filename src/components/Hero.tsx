@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
@@ -42,7 +43,6 @@ const Hero: React.FC = () => {
         
         {/* Right side content - AI chat preview */}
         <div className="relative hidden md:block">
-          <div className="absolute -top-16 -right-16 w-64 h-64 bg-clearfund-pale-blue rounded-full opacity-50 blur-3xl"></div>
           <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
