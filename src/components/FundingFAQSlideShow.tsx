@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Check, ArrowLeft, ArrowRight, X, Clock, DollarSign, Shield, CreditCard, Calculator, Percent } from 'lucide-react';
+import { Check, ArrowLeft, ArrowRight, X, Clock, DollarSign, Shield, CreditCard, Calculator } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -165,65 +165,6 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                     </div>
                     <span className="text-gray-700">No collateral required</span>
                   </div>
-                </div>
-              </div>
-            </div>
-          </CarouselItem>
-
-          {/* NEW SLIDE: Rates & Pricing */}
-          <CarouselItem>
-            <div className="p-6">
-              <div className="flex flex-col md:flex-row items-center gap-8">
-                <div className="md:w-1/3">
-                  <div className="w-32 h-32 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mx-auto">
-                    <Percent size={64} />
-                  </div>
-                </div>
-                <div className="md:w-2/3 space-y-4">
-                  <h3 className="text-2xl font-bold text-clearfund-dark-blue">What About Rates & Pricing?</h3>
-                  <p className="text-gray-600 text-lg">
-                    Our pricing is competitive and transparent, designed to provide value for business owners who need quick access to capital.
-                  </p>
-                  
-                  <div className="bg-gray-50 p-4 rounded-lg space-y-3">
-                    <h4 className="font-semibold text-clearfund-dark-blue">Why Our Rates Make Sense:</h4>
-                    <div className="flex items-start gap-3">
-                      <div className="h-6 w-6 rounded-full bg-clearfund-pale-blue flex items-center justify-center mt-1 flex-shrink-0">
-                        <Check size={14} className="text-clearfund-blue" />
-                      </div>
-                      <div>
-                        <p className="text-gray-700 text-sm"><strong>Speed Premium:</strong> 24-48 hour funding vs weeks for traditional loans</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="h-6 w-6 rounded-full bg-clearfund-pale-blue flex items-center justify-center mt-1 flex-shrink-0">
-                        <Check size={14} className="text-clearfund-blue" />
-                      </div>
-                      <div>
-                        <p className="text-gray-700 text-sm"><strong>No Collateral Risk:</strong> Your personal assets remain protected</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="h-6 w-6 rounded-full bg-clearfund-pale-blue flex items-center justify-center mt-1 flex-shrink-0">
-                        <Check size={14} className="text-clearfund-blue" />
-                      </div>
-                      <div>
-                        <p className="text-gray-700 text-sm"><strong>Revenue-Based:</strong> Payments adjust with your business cash flow</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start gap-3">
-                      <div className="h-6 w-6 rounded-full bg-clearfund-pale-blue flex items-center justify-center mt-1 flex-shrink-0">
-                        <Check size={14} className="text-clearfund-blue" />
-                      </div>
-                      <div>
-                        <p className="text-gray-700 text-sm"><strong>Easier Qualification:</strong> When banks say no, we help you grow</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <p className="text-gray-600 text-sm italic">
-                    Think of it as an investment in your business growth rather than just a cost. The ability to seize opportunities, cover emergencies, or maintain cash flow often pays for itself many times over.
-                  </p>
                 </div>
               </div>
             </div>
