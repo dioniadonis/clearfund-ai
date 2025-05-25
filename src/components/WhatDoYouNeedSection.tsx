@@ -45,11 +45,11 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <div className="space-y-2 mb-6 text-sm text-gray-700">
-                <p>• $10K - $2M funding range</p>
-                <p>• 1+ year in business required</p>
-                <p>• $120K+ annual revenue</p>
-              </div>
+              <ul className="text-sm text-gray-700 mb-6 text-left pl-0">
+                <li className="list-disc ml-5 mb-2">$10K - $2M funding range</li>
+                <li className="list-disc ml-5 mb-2">1+ year in business required</li>
+                <li className="list-disc ml-5 mb-2">$120K+ annual revenue</li>
+              </ul>
               <Button 
                 onClick={handleWorkingCapital}
                 className="w-full bg-clearfund-blue hover:bg-clearfund-dark-blue text-white"
@@ -72,11 +72,11 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <div className="space-y-2 mb-6 text-sm text-gray-700">
-                <p>• Fast approval process</p>
-                <p>• Ideal for gig workers</p>
-                <p>• Small business friendly</p>
-              </div>
+              <ul className="text-sm text-gray-700 mb-6 text-left pl-0">
+                <li className="list-disc ml-5 mb-2">Fast approval process</li>
+                <li className="list-disc ml-5 mb-2">Ideal for gig workers</li>
+                <li className="list-disc ml-5 mb-2">Small business friendly</li>
+              </ul>
               <Button 
                 onClick={handleInstantMicro}
                 className="w-full bg-amber-500 hover:bg-amber-600 text-white"
@@ -99,11 +99,11 @@ const WhatDoYouNeedSection: React.FC = () => {
               </CardDescription>
             </CardHeader>
             <CardContent className="text-center flex-grow flex flex-col justify-between">
-              <div className="space-y-2 mb-6 text-sm text-gray-700">
-                <p>• Free consultation available</p>
-                <p>• 73% success rate</p>
-                <p>• One-time payment</p>
-              </div>
+              <ul className="text-sm text-gray-700 mb-6 text-left pl-0">
+                <li className="list-disc ml-5 mb-2">Free consultation available</li>
+                <li className="list-disc ml-5 mb-2">73% success rate</li>
+                <li className="list-disc ml-5 mb-2">One-time payment</li>
+              </ul>
               <Button 
                 onClick={handleCreditRepair}
                 className="w-full bg-green-600 hover:bg-green-700 text-white"
