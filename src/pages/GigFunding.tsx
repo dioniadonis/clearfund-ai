@@ -389,7 +389,7 @@ const GigFunding: React.FC = () => {
                   className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors"
                 >
                   <HelpCircle className="mr-2 h-5 w-5" />
-                  Funding FAQ
+                  Frequently Asked Questions
                 </Button>
               </div>
             </div>
