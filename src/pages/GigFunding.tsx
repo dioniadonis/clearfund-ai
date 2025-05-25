@@ -369,7 +369,6 @@ const GigFunding: React.FC = () => {
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Business?</h2>
                 <p className="text-lg opacity-90 mb-6">
-                  For Smaller Businesses And Gig Workers
                   Don't miss this opportunity to secure the funding you need with our simple requirements and process.
                 </p>
                 <div className="flex flex-wrap gap-3 mb-6">
