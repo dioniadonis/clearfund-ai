@@ -365,11 +365,11 @@ const GigFunding: React.FC = () => {
               <div className="md:max-w-xl">
                 <div className="flex items-center mb-4">
                   <Sparkles size={24} className="text-white mr-2" />
-                  <span className="text-white font-semibold">Limited Time Offer</span>
+                  <span className="text-white font-semibold">Same Day Funding </span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Business?</h2>
                 <p className="text-lg opacity-90 mb-6">
-                  Apply today and get special introductory rates for new customers. 
+                  For Smaller Businesses And Gig Workers
                   Don't miss this opportunity to secure the funding you need with our simple requirements and process.
                 </p>
                 <div className="flex flex-wrap gap-3 mb-6">
