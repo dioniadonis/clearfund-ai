@@ -30,6 +30,9 @@ const WhatDoYouNeedSection: React.FC = () => {
           <p className="text-lg text-gray-600 max-w-2xl mx-auto">
             Choose the funding solution that best fits your business needs
           </p>
+          <p className="text-sm text-gray-500 mt-2">
+            *Funding options include MCAs, equipment financing, and business loans. Terms vary by product and provider.
+          </p>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -61,6 +64,9 @@ const WhatDoYouNeedSection: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <p className="text-xs text-gray-500 mb-4">
+                *Subject to funding partner approval and verification
+              </p>
               <Button 
                 onClick={handleWorkingCapital}
                 className="w-full bg-clearfund-blue hover:bg-clearfund-dark-blue text-white mt-auto"
@@ -87,7 +93,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 <div className="space-y-3 text-sm text-gray-700">
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">Fast approval process</span>
+                    <span className="ml-3">Quick MCA provider matching</span>
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
@@ -99,6 +105,9 @@ const WhatDoYouNeedSection: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <p className="text-xs text-gray-500 mb-4">
+                *Funding as fast as 24 hours subject to provider approval
+              </p>
               <Button 
                 onClick={handleInstantMicro}
                 className="w-full bg-amber-500 hover:bg-amber-600 text-white mt-auto"
@@ -117,7 +126,7 @@ const WhatDoYouNeedSection: React.FC = () => {
               </div>
               <CardTitle className="text-xl text-clearfund-dark-blue">Credit Repair</CardTitle>
               <CardDescription className="text-gray-600">
-                                Improve your credit score to qualify for better funding options and get your credit professionally fixed
+                Improve your credit score to qualify for better funding options and get your credit professionally fixed
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
@@ -129,7 +138,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">73% success rate</span>
+                    <span className="ml-3">73% success rate*</span>
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
@@ -137,6 +146,9 @@ const WhatDoYouNeedSection: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <p className="text-xs text-gray-500 mb-4">
+                *Based on partner data. Individual results vary. Services provided by licensed third-party partners. ClearFund AI receives commissions for referrals.
+              </p>
               <Button 
                 onClick={handleCreditRepair}
                 className="w-full bg-green-600 hover:bg-green-700 text-white mt-auto"
@@ -158,9 +170,24 @@ const WhatDoYouNeedSection: React.FC = () => {
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
           </DialogHeader>
+          <div className="px-6 pb-4">
+            <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
+              <p className="text-sm text-yellow-800">
+                By submitting this application, you authorize ClearFund AI and its funding partners to review your business and financial information. 
+                You agree to our Terms & Conditions and Privacy Policy.
+              </p>
+              <div className="mt-3 flex items-start">
+                <input type="checkbox" required className="mt-1 mr-2" />
+                <label className="text-xs text-yellow-700">
+                  I acknowledge that ClearFund AI is a broker service that will match me with appropriate funding providers. 
+                  I understand that different funding products have different terms.
+                </label>
+              </div>
+            </div>
+          </div>
           <iframe 
             src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[550px] border-none"
+            className="w-full h-[450px] border-none"
             title="Clearfund Application Form"
             data-clearfund-form="application"
           />

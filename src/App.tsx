@@ -9,6 +9,10 @@ import CreditRepair from "./pages/CreditRepair";
 import WorkingCapital from "./pages/WorkingCapital";
 import GigFunding from "./pages/GigFunding";
 import Blog from "./pages/Blog";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsAndConditions from "./pages/TermsAndConditions";
+import BrokerDisclosure from "./pages/BrokerDisclosure";
+import Disclaimers from "./pages/Disclaimers";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -25,6 +29,10 @@ const App = () => (
           <Route path="/working-capital" element={<WorkingCapital />} />
           <Route path="/gig-funding" element={<GigFunding />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
+          <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
+          <Route path="/disclaimers" element={<Disclaimers />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

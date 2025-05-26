@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -43,7 +44,7 @@ const Footer: React.FC = () => {
               </Button>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8">
+          <div className="grid grid-cols-3 gap-8">
             <div>
               <h3 className="text-lg font-semibold mb-4">Products</h3>
               <ul className="space-y-2">
@@ -108,6 +109,47 @@ const Footer: React.FC = () => {
                 </li>
               </ul>
             </div>
+            <div>
+              <h3 className="text-lg font-semibold mb-4">Legal</h3>
+              <ul className="space-y-2">
+                <li>
+                  <Link 
+                    to="/privacy-policy" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Privacy Policy
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/terms-and-conditions" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Terms & Conditions
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/broker-disclosure" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Broker Disclosure
+                  </Link>
+                </li>
+                <li>
+                  <Link 
+                    to="/disclaimers" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Disclaimers
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <div className="border-t border-clearfund-blue pt-8 flex flex-col md:flex-row justify-between items-center">
@@ -119,8 +161,11 @@ const Footer: React.FC = () => {
               <span className="text-clearfund-white">Clear</span>fund AI
             </h1>
           </div>
-          <div className="text-sm text-clearfund-pale-blue">
+          <div className="text-sm text-clearfund-pale-blue text-center md:text-right">
             <p>&copy; {new Date().getFullYear()} Clearfund AI. All rights reserved.</p>
+            <p className="text-xs mt-2">
+              *ClearFund AI partners with select funding providers to find the right solution for your business. Your privacy is protected throughout the process.
+            </p>
           </div>
         </div>
       </div>

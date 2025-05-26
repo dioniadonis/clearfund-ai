@@ -11,20 +11,28 @@ const Hero: React.FC = () => {
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
+          <div className="bg-clearfund-pale-blue border border-clearfund-blue p-3 rounded-lg mb-4">
+            <p className="text-sm text-clearfund-dark-blue font-medium">
+              🏢 ClearFund AI is a business funding broker - we connect you with the right funding partners
+            </p>
+          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
             Funding Tools for the <br />
             <span className="text-clearfund-blue">Growth-Driven Business</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-lg">
             Fast Capital. Smart Resources. <br />
-            Transparent Options from $300 to $2M
+            Transparent Options from $300 to $2M*
+          </p>
+          <p className="text-sm text-gray-600">
+            *Subject to funding partner approval and bank verification
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button 
               onClick={() => setIsDialogOpen(true)}
               className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
             >
-              Apply Now
+              Get Matched with Funding Partners
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button 
@@ -37,7 +45,7 @@ const Hero: React.FC = () => {
             </Button>
           </div>
           <div className="pt-6">
-            <p className="text-sm text-gray-500">Trusted by over <span className="font-semibold">10,000+ AI-driven businesses</span> nationwide</p>
+            <p className="text-sm text-gray-500">Trusted by AI-driven businesses nationwide</p>
           </div>
         </div>
         
@@ -80,9 +88,17 @@ const Hero: React.FC = () => {
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
           </DialogHeader>
+          <div className="px-6 pb-4">
+            <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
+              <p className="text-sm text-yellow-800">
+                By submitting this application, you authorize ClearFund AI and its funding partners to review your business and financial information. 
+                This may result in credit inquiries. You agree to our Terms & Conditions and Privacy Policy.
+              </p>
+            </div>
+          </div>
           <iframe 
             src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[550px] border-none"
+            className="w-full h-[450px] border-none"
             title="Clearfund Application Form"
             data-clearfund-form="application"
           />
