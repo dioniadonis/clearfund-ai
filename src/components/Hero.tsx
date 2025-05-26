@@ -1,21 +1,14 @@
-
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-
 const Hero: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [isVideoDialogOpen, setIsVideoDialogOpen] = React.useState(false);
-
-  return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
+  return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white my-[15px]">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
-          <div className="bg-clearfund-pale-blue border border-clearfund-blue p-3 rounded-lg mb-4">
-            <p className="text-sm text-clearfund-dark-blue font-medium">
-              🏢 ClearFund AI is a business funding broker - we connect you with the right funding partners
-            </p>
-          </div>
+          
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
             Funding Tools for the <br />
             <span className="text-clearfund-blue">Growth-Driven Business</span>
@@ -28,18 +21,11 @@ const Hero: React.FC = () => {
             *Subject to funding partner approval and bank verification
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button 
-              onClick={() => setIsDialogOpen(true)}
-              className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors"
-            >
+            <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
               Get Matched with Funding Partners
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
-            <Button 
-              variant="outline" 
-              className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors"
-              onClick={() => setIsVideoDialogOpen(true)}
-            >
+            <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors" onClick={() => setIsVideoDialogOpen(true)}>
               What We Do
               <Play className="ml-2 h-5 w-5" />
             </Button>
@@ -80,10 +66,7 @@ const Hero: React.FC = () => {
       </div>
 
       {/* Application Form Dialog */}
-      <Dialog 
-        open={isDialogOpen} 
-        onOpenChange={(open) => setIsDialogOpen(open)}
-      >
+      <Dialog open={isDialogOpen} onOpenChange={open => setIsDialogOpen(open)}>
         <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
           <DialogHeader className="p-6 pb-0">
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
@@ -96,39 +79,21 @@ const Hero: React.FC = () => {
               </p>
             </div>
           </div>
-          <iframe 
-            src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[450px] border-none"
-            title="Clearfund Application Form"
-            data-clearfund-form="application"
-          />
+          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[450px] border-none" title="Clearfund Application Form" data-clearfund-form="application" />
         </DialogContent>
       </Dialog>
 
       {/* Video Dialog */}
-      <Dialog 
-        open={isVideoDialogOpen} 
-        onOpenChange={(open) => setIsVideoDialogOpen(open)}
-      >
+      <Dialog open={isVideoDialogOpen} onOpenChange={open => setIsVideoDialogOpen(open)}>
         <DialogContent className="sm:max-w-[600px] p-4">
           <DialogHeader className="pb-2">
             <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Watch Our Video</DialogTitle>
           </DialogHeader>
           <div className="aspect-video w-full">
-            <iframe 
-              width="100%" 
-              height="100%" 
-              src="https://app.heygen.com/embeds/2b993d1c03844e59a8942ca35a1402d5" 
-              title="HeyGen video player" 
-              frameBorder="0" 
-              allow="encrypted-media; fullscreen;" 
-              allowFullScreen
-              className="rounded-md"
-            />
+            <iframe width="100%" height="100%" src="https://app.heygen.com/embeds/2b993d1c03844e59a8942ca35a1402d5" title="HeyGen video player" frameBorder="0" allow="encrypted-media; fullscreen;" allowFullScreen className="rounded-md" />
           </div>
         </DialogContent>
       </Dialog>
     </section>;
 };
-
 export default Hero;
