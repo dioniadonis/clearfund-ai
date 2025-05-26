@@ -92,7 +92,6 @@ const BrokerDisclosure: React.FC = () => {
               <div className="bg-clearfund-pale-blue p-4 rounded-lg">
                 <p>Email: info@clearfundai.com</p>
                 <p>Phone: 954-579-0021</p>
-                <p>Address: ClearFund AI, Florida, USA</p>
               </div>
             </section>
           </div>

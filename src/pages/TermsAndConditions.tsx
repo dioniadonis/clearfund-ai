@@ -148,7 +148,6 @@ const TermsAndConditions: React.FC = () => {
                 <p>For questions about these terms:</p>
                 <p>Email: info@clearfundai.com</p>
                 <p>Phone: 954-579-0021</p>
-                <p>Address: ClearFund AI Legal Department, Florida, USA</p>
               </div>
             </section>
           </div>
