@@ -1,9 +1,9 @@
+
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
-import { ChevronDown, Phone, Mail } from "lucide-react";
+import { ChevronDown, Phone, Mail, Menu, X } from "lucide-react";
 import { useIsMobile } from "@/hooks/use-mobile";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
@@ -91,50 +91,33 @@ const Header: React.FC = () => {
           >
             Get Started
           </Button>
+          
+          {/* Mobile Menu Toggle */}
+          {isMobile && (
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className="md:hidden p-2 text-clearfund-blue"
+            >
+              {isOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          )}
         </div>
       </div>
       
-      {/* Mobile Navigation Toggle - Position it to overlap content below */}
-      {isMobile && (
-        <div className="relative">
-          {/* The toggle button positioned halfway between header and hero */}
-          <div className="absolute left-0 right-0 flex justify-center" style={{ bottom: '-32px' }}>
-            <button 
-              onClick={() => setIsOpen(!isOpen)}
-              className={`
-                relative w-14 h-8 rounded-md flex items-center justify-center
-                ${isOpen ? "bg-clearfund-pale-blue text-clearfund-blue" : "bg-white text-clearfund-blue"} 
-                border border-gray-200 shadow-md hover:bg-gray-50 
-                transition-colors duration-300 overflow-hidden group z-50
-              `}
-            >
-              {/* Ripple effect */}
-              <span className="absolute w-full h-full scale-0 rounded-full bg-black/10 group-active:scale-[2.5] group-active:opacity-100 opacity-0 transition-all duration-500 ease-out"></span>
-              
-              {/* Toggle icon - Arrow points down when closed, up when open */}
-              <ChevronDown size={16} className={`transition-transform duration-300 ${isOpen ? "rotate-180" : ""}`} />
-            </button>
-          </div>
-          
-          {/* Mobile menu content as a separate component */}
-          <Collapsible open={isOpen} onOpenChange={setIsOpen} className="w-full max-w-[500px] mx-auto">            
-            {/* Menu content - Using blinds animation */}
-            <CollapsibleContent className="bg-white border-t shadow-md rounded-b-lg mt-6 overflow-hidden data-[state=open]:animate-blinds-down data-[state=closed]:animate-blinds-up">
-              <div className="px-4 py-4 origin-top transform transition-all duration-500">
-                <nav className="flex flex-col space-y-4">
-                  <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
-                    Working Capital
-                  </Link>
-                  <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
-                    Get Funded Today
-                  </Link>
-                  <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
-                    Credit Repair
-                  </Link>
-                </nav>
-              </div>
-            </CollapsibleContent>
-          </Collapsible>
+      {/* Mobile Navigation Menu */}
+      {isMobile && isOpen && (
+        <div className="md:hidden bg-white border-t shadow-lg">
+          <nav className="container-custom py-4 flex flex-col space-y-4">
+            <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+              Working Capital
+            </Link>
+            <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+              Get Funded Today
+            </Link>
+            <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
+              Credit Repair
+            </Link>
+          </nav>
         </div>
       )}
 

@@ -1,14 +1,17 @@
+
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+
 const Hero: React.FC = () => {
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
   const [isVideoDialogOpen, setIsVideoDialogOpen] = React.useState(false);
-  return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white my-[15px]">
+
+  return (
+    <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
       <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
         <div className="space-y-6">
-          
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
             Funding Tools for the <br />
             <span className="text-clearfund-blue">Growth-Driven Business</span>
@@ -22,7 +25,7 @@ const Hero: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
             <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-              Get Matched with Funding Partners
+              Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
             <Button variant="outline" className="border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors" onClick={() => setIsVideoDialogOpen(true)}>
@@ -35,8 +38,8 @@ const Hero: React.FC = () => {
           </div>
         </div>
         
-        {/* Right side content - AI chat preview */}
-        <div className="relative hidden md:block">
+        {/* Right side content - AI chat preview - moved to prevent overlap */}
+        <div className="relative hidden md:block ml-8">
           <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center">
@@ -94,6 +97,8 @@ const Hero: React.FC = () => {
           </div>
         </DialogContent>
       </Dialog>
-    </section>;
+    </section>
+  );
 };
+
 export default Hero;
