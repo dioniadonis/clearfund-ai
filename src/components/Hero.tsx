@@ -9,13 +9,6 @@ const Hero: React.FC = () => {
   const [isVideoDialogOpen, setIsVideoDialogOpen] = React.useState(false);
 
   return <section className="py-16 md:py-24 bg-gradient-to-br from-white via-clearfund-pale-blue to-white">
-      <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
-        <div className="space-y-6">
-          <div className="bg-clearfund-pale-blue border border-clearfund-blue p-3 rounded-lg mb-4">
-            <p className="text-sm text-clearfund-dark-blue font-medium">
-              🏢 ClearFund AI is a business funding broker - we connect you with the right funding partners
-            </p>
-          </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
             Funding Tools for the <br />
             <span className="text-clearfund-blue">Growth-Driven Business</span>
