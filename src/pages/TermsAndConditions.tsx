@@ -146,7 +146,7 @@ const TermsAndConditions: React.FC = () => {
               <h2 className="text-2xl font-semibold text-clearfund-dark-blue mb-4">Contact Information</h2>
               <div className="bg-clearfund-pale-blue p-4 rounded-lg">
                 <p>For questions about these terms:</p>
-                <p>Email: legal@clearfundai.com</p>
+                <p>Email: info@clearfundai.com</p>
                 <p>Phone: 954-579-0021</p>
                 <p>Address: ClearFund AI Legal Department, Florida, USA</p>
               </div>

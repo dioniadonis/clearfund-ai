@@ -106,7 +106,7 @@ const PrivacyPolicy: React.FC = () => {
               <h2 className="text-2xl font-semibold text-clearfund-dark-blue mb-4">Contact Us</h2>
               <p className="mb-4">For privacy-related questions or requests, contact us at:</p>
               <div className="bg-clearfund-pale-blue p-4 rounded-lg">
-                <p>Email: privacy@clearfundai.com</p>
+                <p>Email: info@clearfundai.com</p>
                 <p>Phone: 954-579-0021</p>
                 <p>Address: ClearFund AI Privacy Department, Florida, USA</p>
               </div>
