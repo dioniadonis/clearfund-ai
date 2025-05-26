@@ -110,10 +110,11 @@ const TermsAndConditions: React.FC = () => {
             <section>
               <h2 className="text-2xl font-semibold text-clearfund-dark-blue mb-4">Electronic Communications</h2>
               <p className="mb-4">
-                By using our services, you consent to receive electronic communications including 
-                emails, text messages, and phone calls from us and our funding partners regarding 
-                funding opportunities.
-              </p>
+                **Electronic Communications**
+                  By using our services and providing your contact information, you consent to receive
+                communications from ClearFund AI and our select funding partners regarding your funding inquiry.
+                You may receive emails (with opt-out options), phone calls (including automated systems), and if you opt-in, text messages.
+                Standard message and data rates may apply. Consent is not a condition of purchase. You may opt out at any time.
             </section>
 
             <section>
