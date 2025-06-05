@@ -16,7 +16,7 @@ const Features: React.FC = () => {
   }, {
     icon: <FileText className="h-10 w-10 text-clearfund-blue" />,
     title: "Transparent Application Process",
-    description: "Our AI guides you through a streamlined application with clear terms and fast decisions - from $5K to $2M."
+    description: "Our AI guides you through a streamlined application with clear terms and fast decisions.
   }];
   return <section id="features" className="py-16 md:py-24 bg-white">
       <div className="container-custom">
