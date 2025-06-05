@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger, DropdownMenuItem } from "@/components/ui/dropdown-menu";
@@ -37,10 +36,7 @@ const Header: React.FC = () => {
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <div className="h-10 w-10 bg-clearfund-blue text-white flex items-center justify-center rounded font-bold text-xl">
-              <span>CF</span>
-            </div>
-            <h1 className="text-2xl font-bold text-clearfund-blue ml-2">
+            <h1 className="text-2xl font-bold text-clearfund-blue">
               Clearfund AI
             </h1>
           </Link>
@@ -63,7 +59,7 @@ const Header: React.FC = () => {
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <button className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors flex items-center gap-1">
-                Contact Us
+                <Phone size={16} />
                 <ChevronDown size={16} />
               </button>
             </DropdownMenuTrigger>
