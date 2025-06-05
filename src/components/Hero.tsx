@@ -35,7 +35,7 @@ const Hero: React.FC = () => {
             </Button>
           </div>
           <div className="pt-6">
-            <p className="text-sm text-gray-500">Trusted by AI-driven businesses nationwide</p>
+            <p className="text-sm text-gray-500">We bankroll owners who build faster than they doubt.</p>
           </div>
         </div>
         
