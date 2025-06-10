@@ -1,5 +1,6 @@
 import React from 'react';
 import { MessageCircle, DollarSign, CreditCard, FileText } from 'lucide-react';
+
 const Features: React.FC = () => {
   const featureItems = [{
     icon: <MessageCircle className="h-10 w-10 text-clearfund-blue" />,
@@ -16,7 +17,7 @@ const Features: React.FC = () => {
   }, {
     icon: <FileText className="h-10 w-10 text-clearfund-blue" />,
     title: "Transparent Application Process",
-    description: "Our AI guides you through a streamlined application with clear terms and fast decisions.
+    description: "Our AI guides you through a streamlined application with clear terms and fast decisions."
   }];
   return <section id="features" className="py-16 md:py-24 bg-white">
       <div className="container-custom">
@@ -37,4 +38,5 @@ const Features: React.FC = () => {
       </div>
     </section>;
 };
+
 export default Features;
