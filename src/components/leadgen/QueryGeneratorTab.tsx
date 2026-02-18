@@ -59,10 +59,17 @@ const QueryGeneratorTab: React.FC = () => {
       return;
     }
     const term = INDUSTRIES[industry]?.[0] || industry;
-    const results: QueryRow[] = selectedPlatforms.map(pid => {
+    const emails = emailFilter === 'All' ? EMAIL_FILTERS : [emailFilter];
+    const signals = ownerSignal === 'All' ? OWNER_SIGNALS : [ownerSignal];
+    const results: QueryRow[] = [];
+    for (const pid of selectedPlatforms) {
       const p = PLATFORMS.find(x => x.id === pid)!;
-      return { platform: p.label, query: buildQuery(p.site, term, ownerSignal, emailFilter, location) };
-    });
+      for (const ef of emails) {
+        for (const os of signals) {
+          results.push({ platform: p.label, query: buildQuery(p.site, term, os, ef, location) });
+        }
+      }
+    }
     setQueries(results);
   };
 
@@ -72,11 +79,14 @@ const QueryGeneratorTab: React.FC = () => {
       return;
     }
     const term = INDUSTRIES[industry]?.[0] || industry;
+    const signals = ownerSignal === 'All' ? OWNER_SIGNALS : [ownerSignal];
     const results: QueryRow[] = [];
     for (const pid of selectedPlatforms) {
       const p = PLATFORMS.find(x => x.id === pid)!;
       for (const ef of EMAIL_FILTERS) {
-        results.push({ platform: p.label, query: buildQuery(p.site, term, ownerSignal, ef, location) });
+        for (const os of signals) {
+          results.push({ platform: p.label, query: buildQuery(p.site, term, os, ef, location) });
+        }
       }
     }
     setQueries(results);
@@ -138,14 +148,14 @@ const QueryGeneratorTab: React.FC = () => {
           <Label>Email Filter</Label>
           <Select value={emailFilter} onValueChange={setEmailFilter}>
             <SelectTrigger><SelectValue placeholder="Select email filter" /></SelectTrigger>
-            <SelectContent>{EMAIL_FILTERS.map(e => <SelectItem key={e} value={e}>{e}</SelectItem>)}</SelectContent>
+            <SelectContent><SelectItem value="All">All</SelectItem>{EMAIL_FILTERS.map(e => <SelectItem key={e} value={e}>{e}</SelectItem>)}</SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
           <Label>Owner Signal</Label>
           <Select value={ownerSignal} onValueChange={setOwnerSignal}>
             <SelectTrigger><SelectValue placeholder="Select signal" /></SelectTrigger>
-            <SelectContent>{OWNER_SIGNALS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
+            <SelectContent><SelectItem value="All">All</SelectItem>{OWNER_SIGNALS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
