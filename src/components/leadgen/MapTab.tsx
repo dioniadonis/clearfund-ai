@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { firecrawlApi } from '@/lib/api/firecrawl';
 import ResultsTable from './ResultsTable';
+import InfoTip from './InfoTip';
 
 const MapTab: React.FC = () => {
   const { toast } = useToast();
@@ -35,7 +36,10 @@ const MapTab: React.FC = () => {
     <div className="space-y-4">
       <form onSubmit={handleSubmit} className="flex gap-3 items-end">
         <div className="flex-1 space-y-2">
-          <Label>Website URL</Label>
+          <Label className="flex items-center">
+            Website URL
+            <InfoTip text="Discovers all URLs on a website. Useful for finding pages to scrape individually." />
+          </Label>
           <Input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://example.com" required />
         </div>
         <Button type="submit" disabled={isLoading}>{isLoading ? 'Mapping...' : 'Map Site'}</Button>
