@@ -3,19 +3,17 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { SendIcon, AlertCircle } from 'lucide-react';
 import ChatMessage from './ChatMessage';
-import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/components/ui/sonner";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
-// Fallback responses in case the API is unavailable
+const CHAT_URL = `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/deepseek-chat`;
+
 const fallbackResponses = [
   "Hello! I'm the Clearfund AI assistant. How can I assist with your AI business financing needs today?",
   "Could you tell me more about your AI business and what type of financing you're looking for?",
-  "Based on what you've shared, we offer funding options from $5K to $2M that might be ideal for your situation. This would give you flexible access to capital when needed.",
-  "Excellent question! Our funding options typically range from $5,000 to $2,000,000 with flexible terms. The specific rates depend on your business profile, AI technology, and growth trajectory.",
-  "Our application process is simple - you can complete it online in about 5 minutes. We'll need your basic business information, 3 months of bank statements, and your AI product roadmap.",
-  "I'd be happy to check your pre-qualification options. This would require some basic information about your AI business and won't affect your credit score.",
-  "Our funding is specifically designed for AI-driven businesses looking to scale. We understand the unique capital needs of machine learning development, data acquisition, and AI infrastructure costs.",
+  "Based on what you've shared, we offer funding options from $5K to $2M that might be ideal for your situation.",
+  "Our application process is simple - you can complete it online in about 5 minutes.",
+  "Our funding is specifically designed for AI-driven businesses looking to scale.",
 ];
 
 const ChatInterface: React.FC = () => {
@@ -34,128 +32,112 @@ const ChatInterface: React.FC = () => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, isAiTyping]);
+  }, [messages, isAiTyping, currentStreamedText]);
 
-  const handleStreamResponse = async (reader: ReadableStreamDefaultReader<Uint8Array>) => {
+  const streamChat = async (userMessage: string) => {
+    const resp = await fetch(CHAT_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+      },
+      body: JSON.stringify({ message: userMessage }),
+    });
+
+    if (!resp.ok) {
+      const errorData = await resp.json().catch(() => ({ error: "Unknown error" }));
+      if (resp.status === 429) {
+        toast.error("Rate limit exceeded. Please try again in a moment.");
+      } else if (resp.status === 402) {
+        toast.error("AI service requires payment. Please contact support.");
+      }
+      throw new Error(errorData.error || `API returned status ${resp.status}`);
+    }
+
+    if (!resp.body) throw new Error("No response body");
+
+    const reader = resp.body.getReader();
     const decoder = new TextDecoder();
     let accumulatedText = '';
-    
-    try {
-      while (true) {
-        const { done, value } = await reader.read();
-        if (done) {
-          // End of stream, add the final message
-          if (accumulatedText) {
-            setMessages(prev => [...prev, { text: accumulatedText, isAi: true }]);
+    let textBuffer = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      textBuffer += decoder.decode(value, { stream: true });
+
+      let newlineIndex: number;
+      while ((newlineIndex = textBuffer.indexOf("\n")) !== -1) {
+        let line = textBuffer.slice(0, newlineIndex);
+        textBuffer = textBuffer.slice(newlineIndex + 1);
+
+        if (line.endsWith("\r")) line = line.slice(0, -1);
+        if (line.startsWith(":") || line.trim() === "") continue;
+        if (!line.startsWith("data: ")) continue;
+
+        const jsonStr = line.slice(6).trim();
+        if (jsonStr === "[DONE]") break;
+
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content;
+          if (content) {
+            accumulatedText += content;
+            setCurrentStreamedText(accumulatedText);
           }
-          setIsAiTyping(false);
-          setCurrentStreamedText('');
+        } catch {
+          textBuffer = line + "\n" + textBuffer;
           break;
         }
-        
-        const chunk = decoder.decode(value, { stream: true });
-        
-        // Process the chunk to extract the content from SSE format
-        const lines = chunk.split('\n');
-        for (const line of lines) {
-          if (line.startsWith('data: ')) {
-            try {
-              const data = JSON.parse(line.slice(6));
-              if (data.choices && data.choices[0].delta && data.choices[0].delta.content) {
-                accumulatedText += data.choices[0].delta.content;
-                setCurrentStreamedText(accumulatedText);
-              }
-            } catch (e) {
-              console.error('Error parsing SSE data:', e);
-            }
-          }
-        }
-      }
-    } catch (error) {
-      console.error('Error reading stream:', error);
-      setIsAiTyping(false);
-      toast.error('Error reading response stream');
-      
-      // If we have accumulated some text, use it
-      if (accumulatedText) {
-        setMessages(prev => [...prev, { text: accumulatedText, isAi: true }]);
-      } else {
-        // Otherwise use fallback
-        const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-        setMessages(prev => [...prev, { text: fallbackResponse, isAi: true }]);
       }
     }
-  };
 
-  const getAIResponse = async (userMessage: string) => {
-    try {
-      // Clear any previous API error
-      setApiError(null);
-      
-      // Direct fetch without authentication (the edge function is public)
-      const response = await fetch('https://kuclqjvdrtetmtygujbd.supabase.co/functions/v1/deepseek-chat', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Accept': 'text/event-stream',
-          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imt1Y2xxanZkcnRldG10eWd1amJkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDc1MjgxMjUsImV4cCI6MjA2MzEwNDEyNX0.lvIsuzbauBxfyWH5dZlTgDfIV3tSIQ3vG6zMr0ebWyQ'
-        },
-        body: JSON.stringify({ message: userMessage }),
-      });
-      
-      if (response.ok && response.body) {
-        const reader = response.body.getReader();
-        await handleStreamResponse(reader);
-        return null;
-      } else {
-        const errorText = await response.text();
-        console.error('API error response:', response.status, errorText);
-        throw new Error(`API returned status ${response.status}: ${errorText}`);
+    // Final flush
+    if (textBuffer.trim()) {
+      for (let raw of textBuffer.split("\n")) {
+        if (!raw) continue;
+        if (raw.endsWith("\r")) raw = raw.slice(0, -1);
+        if (raw.startsWith(":") || raw.trim() === "") continue;
+        if (!raw.startsWith("data: ")) continue;
+        const jsonStr = raw.slice(6).trim();
+        if (jsonStr === "[DONE]") continue;
+        try {
+          const parsed = JSON.parse(jsonStr);
+          const content = parsed.choices?.[0]?.delta?.content;
+          if (content) accumulatedText += content;
+        } catch { /* ignore */ }
       }
-      
-    } catch (err) {
-      console.error('Error connecting to DeepSeek API:', err);
-      setApiError('Unable to reach AI service. Using fallback responses.');
-      toast.error('Failed to get AI response. Using fallback response instead.');
-      return fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
     }
+
+    return accumulatedText;
   };
 
   const handleSendMessage = async () => {
     if (inputValue.trim() === '' || isAiTyping) return;
-    
-    // Add user message
+
     setMessages(prev => [...prev, { text: inputValue, isAi: false }]);
     const userMessage = inputValue;
     setInputValue('');
-    
-    // Show AI typing indicator
     setIsAiTyping(true);
-    
+    setApiError(null);
+    setCurrentStreamedText('');
+
     try {
-      // Get response from DeepSeek API
-      const aiResponse = await getAIResponse(userMessage);
-      
-      // If we got a direct response (non-streaming), add it to messages
-      // Otherwise the stream handler will add the messages
-      if (aiResponse) {
-        setIsAiTyping(false);
-        setMessages(prev => [...prev, { text: aiResponse, isAi: true }]);
-      }
+      const response = await streamChat(userMessage);
+      setMessages(prev => [...prev, { text: response || "I'm sorry, I couldn't generate a response.", isAi: true }]);
     } catch (error) {
       console.error('Error getting AI response:', error);
+      setApiError('Unable to reach AI service. Using fallback responses.');
+      const fallback = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
+      setMessages(prev => [...prev, { text: fallback, isAi: true }]);
+    } finally {
       setIsAiTyping(false);
-      // Use fallback response if API fails
-      const fallbackResponse = fallbackResponses[Math.floor(Math.random() * fallbackResponses.length)];
-      setMessages(prev => [...prev, { text: fallbackResponse, isAi: true }]);
-      toast.error('Error getting AI response. Using fallback response instead.');
+      setCurrentStreamedText('');
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
-      handleSendMessage();
-    }
+    if (e.key === 'Enter') handleSendMessage();
   };
 
   return (
@@ -174,32 +156,28 @@ const ChatInterface: React.FC = () => {
           </div>
         </div>
       </div>
-      
+
       {apiError && (
         <Alert variant="destructive" className="mx-4 mt-4">
           <AlertCircle className="h-4 w-4" />
           <AlertDescription>{apiError}</AlertDescription>
         </Alert>
       )}
-      
+
       <div className="flex-grow p-4 overflow-y-auto bg-gray-50 flex flex-col">
         {messages.map((message, index) => (
-          <ChatMessage 
-            key={index} 
-            message={message.text} 
-            isAi={message.isAi} 
-          />
+          <ChatMessage key={index} message={message.text} isAi={message.isAi} />
         ))}
         {isAiTyping && (
-          <ChatMessage 
-            message={currentStreamedText || ""} 
-            isAi={true} 
-            isTyping={currentStreamedText ? false : true} 
+          <ChatMessage
+            message={currentStreamedText || ""}
+            isAi={true}
+            isTyping={!currentStreamedText}
           />
         )}
         <div ref={messagesEndRef} />
       </div>
-      
+
       <div className="p-4 border-t border-gray-100 bg-white">
         <div className="flex space-x-2">
           <Input
@@ -209,8 +187,8 @@ const ChatInterface: React.FC = () => {
             onKeyDown={handleKeyDown}
             className="flex-grow"
           />
-          <Button 
-            onClick={handleSendMessage} 
+          <Button
+            onClick={handleSendMessage}
             className="bg-clearfund-blue hover:bg-clearfund-dark-blue"
             disabled={inputValue.trim() === '' || isAiTyping}
           >

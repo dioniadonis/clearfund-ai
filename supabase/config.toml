@@ -1,4 +1,4 @@
-
-project_id = "kuclqjvdrtetmtygujbd"
+project_id = "hoxewvvepdlrqvsrluje"
 
 [functions.deepseek-chat]
+verify_jwt = false
