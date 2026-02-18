@@ -53,6 +53,9 @@ const Header: React.FC = () => {
           <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Credit Repair
           </Link>
+          <Link to="/leadgen" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
+            LeadGen
+          </Link>
         </nav>
         
         <div className="flex items-center space-x-4">
@@ -110,8 +113,11 @@ const Header: React.FC = () => {
             <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
               Get Funded Today
             </Link>
-            <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
+            <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
               Credit Repair
+            </Link>
+            <Link to="/leadgen" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
+              LeadGen
             </Link>
           </nav>
         </div>
