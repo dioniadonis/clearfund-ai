@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Copy, ExternalLink, Download } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import InfoTip from './InfoTip';
 
 const PLATFORMS = [
   { id: 'instagram', label: 'Instagram', site: 'site:instagram.com' },
@@ -118,7 +119,7 @@ const QueryGeneratorTab: React.FC = () => {
     <div className="space-y-6">
       {/* Platform checkboxes */}
       <Card>
-        <CardHeader><CardTitle className="text-lg">Platforms</CardTitle></CardHeader>
+        <CardHeader><CardTitle className="text-lg flex items-center">Platforms <InfoTip text="Select which sites to search. Each generates a separate Google query." /></CardTitle></CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-3">
             {PLATFORMS.map(p => (
@@ -138,28 +139,28 @@ const QueryGeneratorTab: React.FC = () => {
       {/* Dropdowns */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="space-y-2">
-          <Label>Industry</Label>
+          <Label className="flex items-center">Industry <InfoTip text="The business type to search for." /></Label>
           <Select value={industry} onValueChange={setIndustry}>
             <SelectTrigger><SelectValue placeholder="Select industry" /></SelectTrigger>
             <SelectContent>{Object.keys(INDUSTRIES).map(i => <SelectItem key={i} value={i}>{i}</SelectItem>)}</SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label>Email Filter</Label>
+          <Label className="flex items-center">Email Filter <InfoTip text="Targets a specific email provider in results. 'All' generates one query per provider." /></Label>
           <Select value={emailFilter} onValueChange={setEmailFilter}>
             <SelectTrigger><SelectValue placeholder="Select email filter" /></SelectTrigger>
             <SelectContent><SelectItem value="All">All</SelectItem>{EMAIL_FILTERS.map(e => <SelectItem key={e} value={e}>{e}</SelectItem>)}</SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label>Owner Signal</Label>
+          <Label className="flex items-center">Owner Signal <InfoTip text="Keywords that indicate the person is a business owner. 'All' generates one query per signal." /></Label>
           <Select value={ownerSignal} onValueChange={setOwnerSignal}>
             <SelectTrigger><SelectValue placeholder="Select signal" /></SelectTrigger>
             <SelectContent><SelectItem value="All">All</SelectItem>{OWNER_SIGNALS.map(s => <SelectItem key={s} value={s}>{s}</SelectItem>)}</SelectContent>
           </Select>
         </div>
         <div className="space-y-2">
-          <Label>Location</Label>
+          <Label className="flex items-center">Location <InfoTip text="City or region to target." /></Label>
           <Select value={location} onValueChange={setLocation}>
             <SelectTrigger><SelectValue placeholder="Select location" /></SelectTrigger>
             <SelectContent>{LOCATIONS.map(l => <SelectItem key={l} value={l}>{l}</SelectItem>)}</SelectContent>

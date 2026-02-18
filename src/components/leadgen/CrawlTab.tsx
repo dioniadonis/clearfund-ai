@@ -5,6 +5,7 @@ import { Label } from '@/components/ui/label';
 import { useToast } from '@/hooks/use-toast';
 import { firecrawlApi } from '@/lib/api/firecrawl';
 import ResultsTable from './ResultsTable';
+import InfoTip from './InfoTip';
 
 const CrawlTab: React.FC = () => {
   const { toast } = useToast();
@@ -36,7 +37,10 @@ const CrawlTab: React.FC = () => {
     <div className="space-y-4">
       <form onSubmit={handleSubmit} className="flex gap-3 items-end">
         <div className="flex-1 space-y-2">
-          <Label>Website URL</Label>
+          <Label className="flex items-center">
+            Website URL
+            <InfoTip text="Recursively visits all pages on a website. Good for bulk-extracting leads from an entire directory site." />
+          </Label>
           <Input type="url" value={url} onChange={e => setUrl(e.target.value)} placeholder="https://example.com" required />
         </div>
         <div className="w-24 space-y-2">
