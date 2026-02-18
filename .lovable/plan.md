@@ -1,39 +1,85 @@
 
 
-# Replace DeepSeek with Lovable AI on Lovable Cloud
+# LeadGen Admin Page with Multi-Platform Selection
 
-## What's Happening Now
-The DeepSeek API powers the "Clearfund AI Financial Advisor" chat widget on your homepage. It requires a separate `DEEPSEEK_API_KEY` and calls an external API you have to manage and pay for independently.
+Build the full LeadGen admin page at `/leadgen` with multi-platform selection in the Query Generator.
 
-## What Changes
+## What You Get
 
-### 1. Enable Lovable Cloud
-This sets up your new managed backend — no external Supabase account needed.
+### Tab 1: Search Query Generator
 
-### 2. Replace the Edge Function
-Rewrite `supabase/functions/deepseek-chat/index.ts` to use the **Lovable AI Gateway** instead of DeepSeek. This uses the pre-configured `LOVABLE_API_KEY` (automatically available — no setup needed from you).
+A form that builds Google search queries for finding contractor business owners with public emails.
 
-The system prompt stays the same — your AI advisor will still act as a Clearfund financial advisor with the same personality and knowledge.
+**Key feature: Multi-platform selection**
+- Checkbox list of all platforms so you can pick one, several, or all at once
+- Platforms: Instagram, Facebook, LinkedIn (profiles), LinkedIn (companies), Google Maps, YouTube, Yelp, BBB
+- "Select All" / "Deselect All" toggles for quick selection
+- When multiple platforms are selected, clicking "Generate" produces one query per selected platform
+- All generated queries appear in a results table with individual copy buttons and a bulk "Copy All" / "Export CSV" option
 
-### 3. Update the Chat Interface
-Update `src/components/ChatInterface.tsx` to:
-- Use the Supabase client or environment variables instead of a hardcoded URL
-- Improve the streaming SSE parser for reliability
-- Remove the hardcoded API key from the frontend code (security improvement)
+**Other inputs (dropdowns):**
+- Industry: Roofing, Contractors, Landscaping/Lawn, Trucking, Food Trucks (each with sub-terms)
+- Email filter: @gmail.com, @outlook.com, @yahoo.com, @hotmail.com, @icloud.com, @proton.me, info@, sales@, contact@
+- Owner signal: owner, founder, ceo, principal, partner, operator, president, licensed contractor
+- Location: Miami, Broward, Atlanta, Florida, Georgia
 
-### 4. Remove DeepSeek Dependency
-- No `DEEPSEEK_API_KEY` secret needed
-- No external API costs for the chat feature
+**Output per query:**
+```
+site:instagram.com "roofing" "owner" "@gmail.com" "Miami"
+```
 
-## What Stays the Same
-- The chat widget looks and works exactly the same for visitors
-- Same AI financial advisor personality and responses
-- Same streaming text experience
-- All other site pages and features unchanged
+**Batch mode:** "Generate All Combos" rotates through selected platforms x email filters for the chosen industry/location, producing a full table.
+
+### Tab 2: Lead Extractor (Firecrawl)
+
+Scrape, Search, Map, and Crawl tools powered by Firecrawl with AI extraction targeting emails, business names, owner names, phone numbers, and addresses.
 
 ## Technical Details
-- Edge function switches from `https://api.deepseek.com` to `https://ai.gateway.lovable.dev`
-- Default model: `google/gemini-3-flash-preview` (fast, capable, included with Lovable)
-- Auth key: `LOVABLE_API_KEY` (auto-provisioned, no action needed from you)
-- Frontend will use `import.meta.env.VITE_SUPABASE_URL` instead of hardcoded URLs
+
+### Files to Create
+
+| File | Purpose |
+|------|---------|
+| `src/pages/LeadGen.tsx` | Main admin page with two tabs |
+| `src/components/leadgen/QueryGeneratorTab.tsx` | Multi-platform Google query builder with checkboxes for platform selection |
+| `src/components/leadgen/LeadExtractorTab.tsx` | Wrapper for Firecrawl sub-tabs |
+| `src/components/leadgen/ScrapeTab.tsx` | Single URL scraper |
+| `src/components/leadgen/SearchTab.tsx` | Web search + scrape |
+| `src/components/leadgen/MapTab.tsx` | Site mapper |
+| `src/components/leadgen/CrawlTab.tsx` | Recursive crawler |
+| `src/components/leadgen/ResultsTable.tsx` | Shared results display with CSV/JSON export |
+| `src/lib/api/firecrawl.ts` | Frontend API client |
+| `supabase/functions/firecrawl-scrape/index.ts` | Scrape edge function |
+| `supabase/functions/firecrawl-search/index.ts` | Search edge function |
+| `supabase/functions/firecrawl-map/index.ts` | Map edge function |
+| `supabase/functions/firecrawl-crawl/index.ts` | Crawl edge function |
+
+### Files to Modify
+
+| File | Change |
+|------|--------|
+| `src/App.tsx` | Add `/leadgen` route |
+| `src/components/Header.tsx` | Add "LeadGen" nav link |
+| `supabase/config.toml` | Register 4 new edge functions |
+
+### Platform Selection UI
+
+The `QueryGeneratorTab` uses checkboxes (existing Checkbox component) for platforms:
+
+```text
+Platforms (select one or more):
+[x] Instagram          [x] Facebook
+[x] LinkedIn Profiles  [ ] LinkedIn Companies
+[x] Google Maps        [ ] YouTube
+[x] Yelp               [ ] BBB
+[Select All] [Deselect All]
+```
+
+When "Generate" is clicked, one query row is created per selected platform. When "Generate All Combos" is clicked, it produces (selected platforms x email filters) queries.
+
+### Setup
+
+1. Connect Firecrawl via the connector to securely store the API key
+2. Deploy the 4 edge functions
+3. Query generator is purely frontend -- no API needed
 
