@@ -641,6 +641,59 @@ export type Database = {
         Returns: boolean
       }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
+      operator_update_lead: {
+        Args: {
+          _event_description: string
+          _lead_id: string
+          _next_action: string
+          _next_action_due: string
+          _notes: string
+          _stage: Database["public"]["Enums"]["lead_stage"]
+        }
+        Returns: {
+          application_status: Database["public"]["Enums"]["application_status"]
+          business_name: string
+          campaign_id: string | null
+          consent_at: string | null
+          consent_call: boolean
+          consent_email: boolean
+          consent_sms: boolean
+          consent_text_version: string | null
+          created_at: string
+          document_status: Database["public"]["Enums"]["document_status"]
+          email: string
+          full_name: string
+          funding_need: number | null
+          funding_purpose: string | null
+          id: string
+          landing_page: string | null
+          monthly_revenue: number | null
+          next_action: string | null
+          next_action_due: string | null
+          notes: string | null
+          opted_out: boolean
+          opted_out_at: string | null
+          phone: string
+          qualification_notes: string | null
+          qualification_score: number | null
+          referrer: string | null
+          source: string | null
+          stage: Database["public"]["Enums"]["lead_stage"]
+          time_in_business_months: number | null
+          updated_at: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        SetofOptions: {
+          from: "*"
+          to: "leads"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
     }
     Enums: {
       app_role: "admin" | "operator"
