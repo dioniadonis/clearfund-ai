@@ -31,6 +31,7 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
+        <OperatorAuthProvider>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/credit-repair" element={<CreditRepair />} />
@@ -41,9 +42,25 @@ const App = () => (
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
+          <Route path="/operator/login" element={<OperatorLogin />} />
+          <Route
+            path="/operator"
+            element={
+              <RequireOperator>
+                <OperatorLayout />
+              </RequireOperator>
+            }
+          >
+            <Route index element={<OperatorOverview />} />
+            <Route path="leads" element={<OperatorLeads />} />
+            <Route path="marketing" element={<OperatorMarketing />} />
+            <Route path="voice" element={<OperatorVoice />} />
+            <Route path="integrations" element={<OperatorIntegrations />} />
+          </Route>
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        </OperatorAuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
