@@ -8,6 +8,7 @@ import CreditRepair from "./pages/CreditRepair";
 import WorkingCapital from "./pages/WorkingCapital";
 import GigFunding from "./pages/GigFunding";
 import Blog from "./pages/Blog";
+import RestorationFunding from "./pages/RestorationFunding";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import BrokerDisclosure from "./pages/BrokerDisclosure";
@@ -41,6 +42,7 @@ const App = () => (
           <Route path="/working-capital" element={<WorkingCapital />} />
           <Route path="/gig-funding" element={<GigFunding />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/funding/insurance-restoration" element={<RestorationFunding />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
