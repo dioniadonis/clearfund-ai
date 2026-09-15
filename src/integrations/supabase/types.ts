@@ -563,7 +563,7 @@ export type Database = {
           consent_text_version: string | null
           created_at: string
           document_status: Database["public"]["Enums"]["document_status"]
-          email: string
+          email: string | null
           full_name: string
           funding_need: number | null
           funding_purpose: string | null
@@ -600,7 +600,7 @@ export type Database = {
           consent_text_version?: string | null
           created_at?: string
           document_status?: Database["public"]["Enums"]["document_status"]
-          email: string
+          email?: string | null
           full_name: string
           funding_need?: number | null
           funding_purpose?: string | null
@@ -637,7 +637,7 @@ export type Database = {
           consent_text_version?: string | null
           created_at?: string
           document_status?: Database["public"]["Enums"]["document_status"]
-          email?: string
+          email?: string | null
           full_name?: string
           funding_need?: number | null
           funding_purpose?: string | null
@@ -779,7 +779,7 @@ export type Database = {
           consent_text_version: string | null
           created_at: string
           document_status: Database["public"]["Enums"]["document_status"]
-          email: string
+          email: string | null
           full_name: string
           funding_need: number | null
           funding_purpose: string | null
