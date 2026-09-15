@@ -45,6 +45,7 @@ const App = () => (
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
+          <Route path="/apply" element={<Apply />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
           <Route
             path="/operator"
