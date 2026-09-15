@@ -14,6 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      application_sends: {
+        Row: {
+          business_name: string | null
+          completed_at: string | null
+          created_at: string
+          delivery_method: string
+          destination: string
+          expires_at: string
+          failure_reason: string | null
+          id: string
+          lead_id: string | null
+          owner_name: string | null
+          provider_message_id: string | null
+          sent_at: string | null
+          status: string
+          token_hash: string
+          updated_at: string
+          used_at: string | null
+        }
+        Insert: {
+          business_name?: string | null
+          completed_at?: string | null
+          created_at?: string
+          delivery_method: string
+          destination: string
+          expires_at?: string
+          failure_reason?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_name?: string | null
+          provider_message_id?: string | null
+          sent_at?: string | null
+          status?: string
+          token_hash: string
+          updated_at?: string
+          used_at?: string | null
+        }
+        Update: {
+          business_name?: string | null
+          completed_at?: string | null
+          created_at?: string
+          delivery_method?: string
+          destination?: string
+          expires_at?: string
+          failure_reason?: string | null
+          id?: string
+          lead_id?: string | null
+          owner_name?: string | null
+          provider_message_id?: string | null
+          sent_at?: string | null
+          status?: string
+          token_hash?: string
+          updated_at?: string
+          used_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "application_sends_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       calendar_items: {
         Row: {
           brief_id: string | null
@@ -153,6 +218,59 @@ export type Database = {
             columns: ["script_id"]
             isOneToOne: false
             referencedRelation: "call_scripts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      callback_requests: {
+        Row: {
+          created_at: string
+          id: string
+          lead_id: string | null
+          notes: string | null
+          phone: string
+          preferred_at: string | null
+          preferred_datetime_raw: string
+          reason: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          phone: string
+          preferred_at?: string | null
+          preferred_datetime_raw: string
+          reason: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lead_id?: string | null
+          notes?: string | null
+          phone?: string
+          preferred_at?: string | null
+          preferred_datetime_raw?: string
+          reason?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "callback_requests_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "leads"
             referencedColumns: ["id"]
           },
         ]
