@@ -57,6 +57,8 @@ const App = () => (
           >
             <Route index element={<OperatorOverview />} />
             <Route path="leads" element={<OperatorLeads />} />
+            <Route path="applications" element={<OperatorApplications />} />
+            <Route path="callbacks" element={<OperatorCallbacks />} />
             <Route path="marketing" element={<OperatorMarketing />} />
             <Route path="voice" element={<OperatorVoice />} />
             <Route path="integrations" element={<OperatorIntegrations />} />
