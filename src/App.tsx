@@ -13,6 +13,7 @@ import TermsAndConditions from "./pages/TermsAndConditions";
 import BrokerDisclosure from "./pages/BrokerDisclosure";
 import Disclaimers from "./pages/Disclaimers";
 import NotFound from "./pages/NotFound";
+import Apply from "./pages/Apply";
 import { OperatorAuthProvider } from "./hooks/useOperatorAuth";
 import RequireOperator from "./components/operator/RequireOperator";
 import OperatorLogin from "./pages/operator/Login";
@@ -22,6 +23,8 @@ import OperatorLeads from "./pages/operator/Leads";
 import OperatorMarketing from "./pages/operator/Marketing";
 import OperatorVoice from "./pages/operator/Voice";
 import OperatorIntegrations from "./pages/operator/Integrations";
+import OperatorApplications from "./pages/operator/Applications";
+import OperatorCallbacks from "./pages/operator/Callbacks";
 
 const queryClient = new QueryClient();
 
@@ -42,6 +45,7 @@ const App = () => (
           <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
+          <Route path="/apply" element={<Apply />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
           <Route
             path="/operator"
@@ -53,6 +57,8 @@ const App = () => (
           >
             <Route index element={<OperatorOverview />} />
             <Route path="leads" element={<OperatorLeads />} />
+            <Route path="applications" element={<OperatorApplications />} />
+            <Route path="callbacks" element={<OperatorCallbacks />} />
             <Route path="marketing" element={<OperatorMarketing />} />
             <Route path="voice" element={<OperatorVoice />} />
             <Route path="integrations" element={<OperatorIntegrations />} />

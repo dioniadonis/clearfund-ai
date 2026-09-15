@@ -15,7 +15,7 @@ const schema = z.object({
 
 const OperatorLogin: React.FC = () => {
   const navigate = useNavigate();
-  const { session, roleState } = useOperatorAuth();
+  const { session, roleState, signOut } = useOperatorAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -47,9 +47,40 @@ const OperatorLogin: React.FC = () => {
     setSubmitting(false);
 
     if (signInError) {
-      setError("Sign in failed. Check the email and password.");
+      setError(
+        signInError.message.toLowerCase().includes("invalid")
+          ? "Sign in failed. Check the email and password."
+          : `Sign in failed: ${signInError.message}`,
+      );
     }
   };
+
+  // Signed in, but this account has not been granted operator access.
+  if (session && roleState === "none") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-6">
+        <div className="w-full max-w-sm border rounded-lg p-6 space-y-4 text-center">
+          <h1 className="text-xl font-semibold">Signed in, but no access</h1>
+          <p className="text-sm text-muted-foreground">
+            {session.user.email} is signed in, but this account has not been granted operator
+            access yet.
+          </p>
+          <Button variant="outline" className="w-full" onClick={signOut}>
+            Sign out
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
+  if (session && roleState === "loading") {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background">
+        <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+        <span className="sr-only">Checking access</span>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background p-6">

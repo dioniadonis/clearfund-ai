@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink, useLocation } from "react-router-dom";
-import { LayoutDashboard, Users, Megaphone, PhoneCall, Plug } from "lucide-react";
+import { LayoutDashboard, Users, Megaphone, PhoneCall, Plug, FileText, CalendarClock } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -15,6 +15,8 @@ import {
 const items = [
   { title: "Overview", url: "/operator", icon: LayoutDashboard },
   { title: "Leads / Deals", url: "/operator/leads", icon: Users },
+  { title: "Applications", url: "/operator/applications", icon: FileText },
+  { title: "Callbacks", url: "/operator/callbacks", icon: CalendarClock },
   { title: "Marketing", url: "/operator/marketing", icon: Megaphone },
   { title: "Voice", url: "/operator/voice", icon: PhoneCall },
   { title: "Integrations", url: "/operator/integrations", icon: Plug },
