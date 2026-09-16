@@ -107,7 +107,7 @@ const PrivacyPolicy: React.FC = () => {
               <p className="mb-4">For privacy-related questions or requests, contact us at:</p>
               <div className="bg-clearfund-pale-blue p-4 rounded-lg">
                 <p>Email: info@clearfundai.com</p>
-                <p>Phone: 954-579-0021</p>
+                <p>Phone: 866-578-4721</p>
               </div>
             </section>
 

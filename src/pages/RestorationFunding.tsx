@@ -16,8 +16,8 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import heroImage from "@/assets/restoration-hero.jpg";
 
-const PHONE = "9545790021";
-const PHONE_DISPLAY = "(954) 579-0021";
+const PHONE = "8665784721";
+const PHONE_DISPLAY = "(866) 578-4721";
 
 const useCaseCards = [
   {
