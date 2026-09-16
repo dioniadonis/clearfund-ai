@@ -147,7 +147,7 @@ const TermsAndConditions: React.FC = () => {
               <div className="bg-clearfund-pale-blue p-4 rounded-lg">
                 <p>For questions about these terms:</p>
                 <p>Email: info@clearfundai.com</p>
-                <p>Phone: 954-579-0021</p>
+                <p>Phone: 866-578-4721</p>
               </div>
             </section>
           </div>

@@ -65,9 +65,9 @@ const Header: React.FC = () => {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="bg-white p-2 min-w-[200px]">
               <DropdownMenuItem asChild>
-                <a href="tel:9545790021" className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2">
+                <a href="tel:8665784721" className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2">
                   <Phone size={16} />
-                  <span>954-579-0021</span>
+                  <span>866-578-4721</span>
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
