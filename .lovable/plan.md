@@ -27,7 +27,10 @@ This plan follows the packet's batch order: Batch 0, then B1 to B5, then B7 (whi
 - One place sends the alerts. Each channel has its own error handling, and each result is logged on the lead's history (sent, failed, or not configured). A failure never stops the lead from saving and never blocks the other channel.
 - Needs the Leads page to open the lead from the `?lead=` link (small addition).
 - Covers `/apply` submissions and leads created by the phone concierge (send-application), so all leads alert.
+- How the two channels split: email to mark@clearfundai.com (received through IONOS forwarding) handles new-lead notices. Telegram through TOD handles new leads (the packet's D1 decision) plus urgent problems, such as a failed alert or a failed lead save.
 - Tests: one email and one Telegram message per test lead; the links open that lead; switching one channel off still saves the lead and sends the other.
+
+**Telegram approvals and emergency stop are not in this packet.** They are two-way controls: the site would have to receive and check commands from Telegram and have a real on/off switch to act on. Nothing in this packet needs approving or stopping yet. They get their own packet, where each gets a clear definition of exactly what it approves or stops.
 
 ## B3: `/apply` handles every service
 - Read `?interest=` and `?cta=` from the link. A valid interest preselects the service dropdown, which the applicant can change. The headline follows the packet's copy. A missing or invalid interest shows "Apply for business funding" with nothing preselected.
@@ -72,12 +75,12 @@ Review the preview, approve publishing, then disable the three forms inside JotF
 ## Technical details
 - Migration: create a `service_interest` enum and add the columns with a default. No policy changes. Operator types are regenerated.
 - `submit-application`: accepts the two new optional fields, then calls a shared notifier (`_shared/notify.ts`) after the insert. `send-application` calls the same notifier when it creates a new lead.
-- Secrets needed: `TOD_TELEGRAM_WEBHOOK_URL` and `OWNER_ALERT_EMAIL`, plus the email sender settings. Secrets are requested through the secure prompt, never in chat.
+- Settings needed: `OWNER_ALERT_EMAIL` = mark@clearfundai.com (not secret, set directly) and `TOD_TELEGRAM_WEBHOOK_URL` (secret, entered through the secure prompt, never in chat). Email sender settings come later, after the owner approves a sender.
 - The redirect is a route in `App.tsx` pointing to `/`.
 
 ## Risks / cut from v1
 - Header "Contact" becoming an application may lower contact volume. Watch this after launch.
-- The email alert is blocked until an email sender is connected. Telegram alone may ship first.
+- The email alert is blocked until the owner approves an email sender. Telegram alone ships first. Mail forwarded through IONOS may land in spam until the sending domain is verified.
 - The Instant Micro Funding card will have no speed number once the claim is removed. The copy gets vaguer on purpose.
 - Old JotForm links shared outside the site (ads, texts) will still work until the owner disables the forms. They then break, and those leads are never captured.
 - Cut: contact form, alert retries or queue, and editing service or CTA in the lead detail (read-only in v1).
