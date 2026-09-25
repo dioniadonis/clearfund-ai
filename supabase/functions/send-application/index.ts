@@ -10,6 +10,7 @@ import {
   sha256Hex,
   toE164,
 } from "../_shared/util.ts";
+import { notifyNewLead } from "../_shared/notify.ts";
 
 const BodySchema = z.object({
   delivery_method: z.enum(["sms_link", "email_link", "email_pdf"]),
@@ -146,6 +147,18 @@ Deno.serve(async (req) => {
       return json({ status: "failed", reason: "lead_save_failed" }, 500);
     }
     leadId = inserted.data.id;
+    try {
+      await notifyNewLead(supabase, {
+        id: leadId!,
+        full_name: b.owner_name || "Unknown caller",
+        business_name: b.business_name || "Unknown business",
+        phone: b.phone_number ?? "unknown",
+        service_interest: "other",
+        entry_cta: "voice_concierge",
+      });
+    } catch (e) {
+      console.error("Notify failed:", e);
+    }
   }
 
   const token = newToken();

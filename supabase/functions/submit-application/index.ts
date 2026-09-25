@@ -2,6 +2,7 @@ import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
 import { z } from "npm:zod@3";
 import { CONSENT_TEXT_VERSION, serviceClientConfig, sha256Hex } from "../_shared/util.ts";
+import { notifyError, notifyNewLead } from "../_shared/notify.ts";
 
 const json = (body: unknown, status = 200) =>
   new Response(JSON.stringify(body), {
@@ -29,6 +30,8 @@ const SubmitSchema = z.object({
   utm_medium: z.string().trim().max(120).optional().nullable(),
   utm_campaign: z.string().trim().max(120).optional().nullable(),
   landing_page: z.string().trim().max(500).optional().nullable(),
+  service_interest: z.enum(["working_capital", "gig_funding", "insurance_restoration", "other"]).optional().nullable(),
+  entry_cta: z.string().trim().regex(/^[a-z0-9_-]{1,60}$/i).optional().nullable().catch(null),
   referrer: z.string().trim().max(500).optional().nullable(),
   // Spam controls
   company_website: z.string().max(200).optional().nullable(), // honeypot, must stay empty
@@ -163,6 +166,8 @@ Deno.serve(async (req) => {
     utm_campaign: b.utm_campaign ?? null,
     landing_page: b.landing_page ?? null,
     referrer: b.referrer ?? null,
+    service_interest: b.service_interest ?? "other",
+    entry_cta: b.entry_cta ?? null,
   };
 
   if (leadId) {
@@ -172,6 +177,7 @@ Deno.serve(async (req) => {
       .eq("id", leadId);
     if (upd.error) {
       console.error("Lead update failed:", upd.error.message);
+      await notifyError("An application could not be saved (update).");
       return json({ error: "save_failed" }, 500);
     }
   } else {
@@ -182,6 +188,7 @@ Deno.serve(async (req) => {
       .single();
     if (ins.error) {
       console.error("Lead insert failed:", ins.error.message);
+      await notifyError("An application could not be saved (insert).");
       return json({ error: "save_failed" }, 500);
     }
     leadId = ins.data.id;
@@ -199,6 +206,19 @@ Deno.serve(async (req) => {
     event_type: "application_submitted",
     description: "Application submitted through the online form.",
   });
+
+  try {
+    await notifyNewLead(supabase, {
+      id: leadId!,
+      full_name: b.owner_name,
+      business_name: b.business_name,
+      phone: b.phone,
+      service_interest: payload.service_interest,
+      entry_cta: payload.entry_cta,
+    });
+  } catch (e) {
+    console.error("Notify failed:", e);
+  }
 
   return json({ status: "received" });
 });
