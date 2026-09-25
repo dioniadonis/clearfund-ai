@@ -1,76 +1,84 @@
-# Clear Fund AI readiness plan (review + work packet)
+# Packet CF-01: Retire JotForm, one lead pipeline, remove credit repair
 
-Audit only. No code, copy, data, integration or publishing changes. The output is a report the owner signs off on before any fixes.
+This plan follows the packet's batch order: Batch 0, then B1 to B5, then B7 (which can run in parallel with the others). Every decision in the packet is kept. The conflicts below need an answer before building; the plan stops at them instead of guessing.
 
-## Review of the attached plan
+## Conflicts that need an answer before building
 
-Mostly sound. Changes I'd make:
-- Batch 1 needs **one evidence column per claim**: the file/line where it appears, plus the source that backs it. Without that, "verified" means nothing.
-- Batch 2 step 3 (test submissions) writes real rows. Keep it, but require owner approval, label test records `TEST-READINESS-<date>`, delete them afterwards and log the deletion.
-- Batch 2 "notification behavior": the answer is already known. There are no operator alerts. Record that as a fact, not something to test.
-- Batch 3 at 375px is right. Also check 768px, where tablet layouts often break.
-- Add **Batch 0: freeze**. Record the current published build and the list of routes so every finding points to a specific version.
+1. **The header and footer JotForm (251398259721162) is a contact form, not an application.** Sending "Contact us" to a funding application changes what the button means. Recommendation: keep the label and send it to `/apply?cta=header_contact` (or `footer_contact`), accepting that it becomes an application. The alternative is a short contact form, which is out of scope.
+2. **B3 phone consent rule.** Phone is always required on `/apply`, so "phone consent required whenever a phone is entered" means nobody can submit without agreeing to calls. That makes call consent a condition of applying, which is a consent-law risk (TCPA). The current rule is: at least one contact method must be checked, and all boxes start unchecked. Recommendation: keep the current rule and meet "unchecked by default" as the site already does.
+3. **The blog block heading "Ready to see what you qualify for?"** implies a qualification result, which the site has already cut once as an over-promise. Recommendation: "Ready to start your funding review?" and keep the button text "Start your application".
+4. **B7 test "0 results for 'guarantee'"** would require removing "No Guarantee of Approval" from Terms and Disclaimers. That is protective legal language, and the packet also says not to touch legal pages. Recommendation: narrow the test to "no guarantee *claims*": 'money back', 'guaranteed', 'Permanent results'.
+5. **B7 search for 'credit repair'** also matches Privacy, Terms and Broker Disclosure. The packet only allows edits to Disclaimers. Recommendation: allow one-line removals of credit repair mentions in those three legal pages too, or exempt them from the test.
+6. **B2 email channel:** no email sender is connected. Email alerts need an email provider (a sending domain, or Resend connected), and Telegram needs the TOD webhook URL saved as a secret. Until both exist, B2 ships with each channel logging "not configured". The lead still saves.
+7. **Extra speed claim not in the packet:** "Funding as fast as 24 hours" on the Instant Micro Funding card. The packet's rule (no numbers without written confirmation) says replace it with "Fast funding decisions". Confirm.
 
-## Batch 0: Baseline
-- Routes to audit: `/`, `/credit-repair`, `/working-capital`, `/gig-funding`, `/blog`, `/funding/insurance-restoration`, `/apply`, `/privacy-policy`, `/terms-and-conditions`, `/broker-disclosure`, `/disclaimers`, `/operator/login`, `/operator/*`, and a 404 route.
-- Record whether the preview and the published site run the same build.
+## Batch 0: Baseline (read-only)
+- Record the current published build and the route list: `/`, `/credit-repair`, `/working-capital`, `/gig-funding`, `/blog`, `/funding/insurance-restoration`, `/apply`, the four legal pages, `/operator/*`, and 404.
+- Record a starting search count for "jotform", credit repair terms and speed claims.
 
-## Batch 1: Claims and funnel matrix
-One table with these columns: route | element | exact text | destination or claim | owner/partner | funnel step | status (verified / owner-approved / unsupported / unknown) | evidence | owner decision needed.
+## B1: Lead fields
+- Add two fields to leads: `service_interest` (required; working_capital / gig_funding / insurance_restoration / other; defaults to other so existing rows are filled) and `entry_cta` (optional short text).
+- Operator lead list: add a service column and a service filter. Lead detail: show both fields, read-only.
+- Nothing else changes: access rules, stages, existing fields.
+- Tests: existing leads show "other"; the filter works; a signed-out read still returns 0 rows.
 
-Items a first code scan already shows. These must go in the matrix; none have been classified yet:
+## B2: New-lead alerts
+- After the lead has saved, the submission function sends two alerts independently: an email to the owner and a message to the Telegram webhook. Each contains name, business, phone, service, entry CTA and a link to `/operator/leads?lead=<id>`. No consent details or notes.
+- One place sends the alerts. Each channel has its own error handling, and each result is logged on the lead's history (sent, failed, or not configured). A failure never stops the lead from saving and never blocks the other channel.
+- Needs the Leads page to open the lead from the `?lead=` link (small addition).
+- Covers `/apply` submissions and leads created by the phone concierge (send-application), so all leads alert.
+- Tests: one email and one Telegram message per test lead; the links open that lead; switching one channel off still saves the lead and sends the other.
 
-| Type | Item | Where |
-|---|---|---|
-| Partner link | ASAP Credit Repair signup (afcode=1328) | Credit repair section |
-| Partner link | asapcreditrepair.com/clearfund | Footer |
-| Partner link | davidallencapital.com/clearfund | Footer, qualification section |
-| External form | JotForm 251378086816062 | Hero, slideshow, what-do-you-need section, gig funding, working capital, footer |
-| External form | JotForm 251398259721162 | Header, footer |
-| External form | JotForm 251428125592154 (embedded) | Blog |
-| Success-rate claim | "73% success rate vs 25% industry average" | Credit Repair |
-| Guarantee | "Permanent results guaranteed", "100% money back guarantee", "guarantee the best possible results" | Credit Repair |
-| Timing claim | "60-90 day" results | Credit Repair |
-| Timing/approval | "approved and funded in 24-48 hours" (2 places) | Working capital section |
-| Timing/approval | "Same Day Funding", "Fast Approval", "deposited within 24-48 hours" | Gig Funding |
-| Disclaimer conflict | "Success rates are based on partner data" | Disclaimers (no partner data is on file) |
+## B3: `/apply` handles every service
+- Read `?interest=` and `?cta=` from the link. A valid interest preselects the service dropdown, which the applicant can change. The headline follows the packet's copy. A missing or invalid interest shows "Apply for business funding" with nothing preselected.
+- Service dropdown: working capital, gig funding, insurance restoration, other. No credit repair.
+- Save service_interest and entry_cta (length-limited) through the submission function.
+- The restoration page's "Start my funding review" button adds `interest=insurance_restoration&cta=restoration_hero`.
+- Unchanged: validation, consent wording, success and error screens, spam protection.
 
-The code scan counts as evidence of where each claim appears, not whether it is true. Every row stays "unknown" until the owner or partner supplies proof. Nothing gets rewritten in this batch.
+## B4 + B5: Replace JotForm (merged; the leftovers are small)
+| Location | New destination |
+|---|---|
+| Hero "Apply Now" | `/apply?cta=hero` |
+| Slideshow | `/apply?cta=slideshow` |
+| What-do-you-need, Working Capital card | `/apply?interest=working_capital&cta=what_do_you_need` |
+| Header contact | `/apply?cta=header` (pending conflict 1) |
+| Footer (application + contact) | `/apply?cta=footer` |
+| Gig funding page | `/apply?interest=gig_funding&cta=gig_funding_section` |
+| Working capital page | `/apply?interest=working_capital&cta=working_capital_section` |
+| Blog embed | Styled button block linking to `/apply?cta=blog` (pending conflict 3) |
 
-Structural finding to decide on: the site runs **two parallel funnels**. JotForm forms go to JotForm. `/apply` goes to the operator panel. JotForm submissions never reach the operator panel.
+- Remove the application pop-ups that only wrapped the JotForm frames. Button labels and styling stay the same.
+- Remove JotForm leftovers: the embed script in `index.html`, the blog's JotForm scripts, and the JotForm type declarations in Footer. Every removal is listed in the build report.
+- David Allen Capital links and phone links stay as they are.
+- Tests: a codebase search for "jotform" or "jotfor" returns 0; no requests to jotform.com on any route; no new console errors; every former CTA opens `/apply` with the right parameters.
 
-## Batch 2: Backend and access checks (read-only, except for approved test rows)
-1. **Leads fields**: confirm the database has name, business, email (optional), phone, stage, created_at, consent fields and notes. There is no single "source page" field. Source is stored as `source` plus `landing_page`/`referrer`/UTM fields. Record whether that is enough.
-2. **Stages**: 10 stages exist. Transitions are **not enforced**, so any stage can jump to any other. Record this as a finding, not a failure.
-3. **Form traces** (after approval): submit a test entry on `/apply` and check that the lead, the event and the operator view all update. Submit one JotForm test to see where it lands (outside the system). Test the honeypot, fill-time and rate-limit rejections.
-4. **Access**: visitors who aren't signed in read zero leads through the database API. The lead-save function is refused for them. `/operator` sends them to the login page. A signed-in account without a role gets "Not authorised".
-5. **States and notifications**: 404 page, `/apply` validation messages, success screen, error message. Operator notifications: none exist (known fact).
+## B7: Remove credit repair and speed claims, add disclosure
+- Delete the `/credit-repair` page and the credit repair section. Remove the credit repair card on the homepage (the grid goes from 3 to 2 cards, centered), plus the header and footer items. `/credit-repair` redirects to `/`.
+- Remove all ASAP links (afcode=1328, asapcreditrepair.com/clearfund).
+- Replace with "Fast funding decisions": "approved and funded in 24-48 hours" (2 places, working capital section), "Same Day Funding", "Fast Approval", "deposited within 24-48 hours" (gig funding), plus the micro-funding card line (pending conflict 7).
+- Disclaimers page: remove the "Success rates are based on partner data" line and the credit repair wording.
+- Add "ClearFundAI may receive compensation from partners linked on this site." next to each David Allen Capital link (footer, qualification section, micro-funding card) and once in the footer.
+- The full list of text changes goes in the build report.
 
-## Batch 3: Mobile and technical checks
-- Automated browser run at 375 and 768px on every route: screenshot, check for sideways scrolling and overlapping elements, check that tap targets are at least 40px.
-- Console and page errors on each route load.
-- Per route: title, description, canonical and og/twitter tags. Most pages probably inherit the tags from the main page file; confirm this.
-- Link check on every internal, external and legal link, plus every phone link (866-578-4721).
-- Defect list: route | evidence (screenshot or log) | severity (blocker/major/minor) | recommended fix.
+## End-to-end test (after approval)
+- Submit 5 leads named `TEST-READINESS-2026-09-25`: one per interest value, one with no interest, one from the blog.
+- Check each lead's service and CTA in the operator panel, and check the alert result on each channel.
+- Delete the test leads and their history. Confirm the test-name query returns 0 and record the deletion in the report.
 
-## Acceptance tests
-- Matrix: 100% of CTAs, partner links and claims on the audited routes appear with file-level evidence. Zero rows missing a status.
-- Each Batch 2 check has pass/fail with a query result, HTTP code or screenshot. Test rows are deleted, and a query proves the count is 0.
-- Batch 3: one screenshot per route per width, plus a console log. Every defect has a severity.
-- No commits and no data changes other than the approved test rows.
+## Cutover (owner)
+Review the preview, approve publishing, then disable the three forms inside JotForm.
 
-## Owner decisions needed
-1. Credit repair claims (73%, guarantees, 60-90 days): keep with partner proof, soften, or remove?
-2. "24-48 hours" and "Same Day Funding": is there partner proof? If not, remove them?
-3. Which funnel is the main one? Keep JotForm, move everything to `/apply` and the screener, or run both?
-4. Are the partner links (ASAP, David Allen Capital) current, and are they paid affiliate links? Paid links would need an affiliate disclosure.
-5. May we create and then delete labeled test leads?
-6. Should stage transitions be enforced, or stay free-form?
-7. The pending funding-review screener plan: pause it until this audit is done?
+## Technical details
+- Migration: create a `service_interest` enum and add the columns with a default. No policy changes. Operator types are regenerated.
+- `submit-application`: accepts the two new optional fields, then calls a shared notifier (`_shared/notify.ts`) after the insert. `send-application` calls the same notifier when it creates a new lead.
+- Secrets needed: `TOD_TELEGRAM_WEBHOOK_URL` and `OWNER_ALERT_EMAIL`, plus the email sender settings. Secrets are requested through the secure prompt, never in chat.
+- The redirect is a route in `App.tsx` pointing to `/`.
 
 ## Risks / cut from v1
-- The biggest risk is the **timing and guarantee claims on funding and credit repair pages**, not the code. They contradict the site's own Disclaimers and Terms.
-- JotForm leads are invisible to the operator panel. The funnel stats only cover part of the leads.
-- The Disclaimers page says partner data exists; it doesn't. Fix it with the other claims.
-- The audit can't confirm what happens inside JotForm or on partner sites, so those rows will say "unknown – external".
-- Cut: SEO scoring, speed tuning, accessibility audit beyond tap targets and overflow, cross-browser testing beyond Chromium. Do these later if needed.
+- Header "Contact" becoming an application may lower contact volume. Watch this after launch.
+- The email alert is blocked until an email sender is connected. Telegram alone may ship first.
+- The Instant Micro Funding card will have no speed number once the claim is removed. The copy gets vaguer on purpose.
+- Old JotForm links shared outside the site (ads, texts) will still work until the owner disables the forms. They then break, and those leads are never captured.
+- Cut: contact form, alert retries or queue, and editing service or CTA in the lead detail (read-only in v1).
+- Still paused: the screener plan and the audit's Batch 3 mobile fixes.
