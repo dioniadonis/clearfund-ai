@@ -77,74 +77,12 @@ const Blog: React.FC = () => {
                 </div>
 
                 {/* Embedded Form */}
-                <div className="jotform-container">
-                  <script>window.enableEventObserver=true</script>
-                  <script src="https://cdn.jotfor.ms/static/prototype.forms.js?v=3.3.63224" type="text/javascript"></script>
-                  <script src="https://cdn.jotfor.ms/static/jotform.forms.js?v=3.3.63224" type="text/javascript"></script>
-                  <script src="https://cdn.jotfor.ms/js/punycode-1.4.1.min.js?v=3.3.63224" type="text/javascript" defer></script>
-                  <script src="https://cdn.jotfor.ms/s/umd/264fc3e16c7/for-widgets-server.js" type="text/javascript"></script>
-                  <script src="https://cdn.jotfor.ms/s/umd/264fc3e16c7/for-form-branding-footer.js" type="text/javascript" defer></script>
-                  <script src="https://cdn.jotfor.ms/js/vendor/smoothscroll.min.js?v=3.3.63224" type="text/javascript"></script>
-                  <script src="https://cdn.jotfor.ms/js/errorNavigation.js?v=3.3.63224" type="text/javascript"></script>
-
-                  <form className="jotform-form" action="https://submit.jotform.com/submit/251428125592154" method="post" name="form_251428125592154" id="251428125592154" accept-charset="utf-8" autoComplete="on">
-                    <input type="hidden" name="formID" value="251428125592154" />
-                    <input type="hidden" id="JWTContainer" value="" />
-                    <input type="hidden" id="cardinalOrderNumber" value="" />
-                    <input type="hidden" id="jsExecutionTracker" name="jsExecutionTracker" value="build-date-1748046896965" />
-                    <input type="hidden" id="submitSource" name="submitSource" value="unknown" />
-                    <input type="hidden" id="buildDate" name="buildDate" value="1748046896965" />
-                    <input type="hidden" name="uploadServerUrl" value="https://upload.jotform.com/upload" />
-                    <input type="hidden" name="eventObserver" value="1" />
-                    
-                    <div role="main" className="form-all">
-                      <ul className="form-section page-section" role="presentation">
-                        <li id="cid_1" className="form-input-wide" data-type="control_head">
-                          <div className="form-header-group header-large">
-                            <div className="header-text httal htvam">
-                              <h1 id="header_1" className="form-header" data-component="header">Newsletter</h1>
-                            </div>
-                          </div>
-                        </li>
-                        <li className="form-line jf-required" data-type="control_email" id="id_4">
-                          <label className="form-label form-label-left form-label-auto" id="label_4" htmlFor="input_4" aria-hidden="false">
-                            E-mail<span className="form-required">*</span>
-                          </label>
-                          <div id="cid_4" className="form-input jf-required" data-layout="half">
-                            <input 
-                              type="email" 
-                              id="input_4" 
-                              name="q4_email" 
-                              className="form-textbox validate[required, Email]" 
-                              data-defaultvalue="" 
-                              autoComplete="section-input_4 email" 
-                              style={{width: '310px'}} 
-                              size={310} 
-                              data-component="email" 
-                              aria-labelledby="label_4" 
-                              required 
-                              defaultValue="" 
-                            />
-                          </div>
-                        </li>
-                        <li className="form-line" data-type="control_button" id="id_2">
-                          <div id="cid_2" className="form-input-wide" data-layout="full">
-                            <div data-align="center" className="form-buttons-wrapper form-buttons-center jsTest-button-wrapperField">
-                              <button 
-                                id="input_2" 
-                                type="submit" 
-                                className="form-submit-button submit-button jf-form-buttons jsTest-submitField legacy-submit" 
-                                data-component="button" 
-                                data-content=""
-                              >
-                                Submit
-                              </button>
-                            </div>
-                          </div>
-                        </li>
-                      </ul>
-                    </div>
-                  </form>
+                <div className="text-center space-y-4">
+                  <p className="text-gray-700">Ready now? Apply online or call our concierge.</p>
+                  <div className="flex flex-col sm:flex-row gap-3 justify-center">
+                    <a href="/apply?cta=blog_apply" className="inline-flex items-center justify-center rounded-md bg-clearfund-blue px-6 py-3 font-semibold text-white hover:bg-clearfund-dark-blue">Apply online</a>
+                    <a href="tel:8665784721" className="inline-flex items-center justify-center rounded-md border border-clearfund-blue px-6 py-3 font-semibold text-clearfund-blue">Call 866-578-4721</a>
+                  </div>
                 </div>
 
                 <p className="text-sm text-gray-500 mt-6 text-center">

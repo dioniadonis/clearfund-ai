@@ -9,7 +9,7 @@ const Features: React.FC = () => {
   }, {
     icon: <DollarSign className="h-10 w-10 text-clearfund-blue" />,
     title: "Fast Capital Solutions",
-    description: "Access lines of credit, term loans, and equity financing with quick approvals and funding as fast as 24 hours."
+    description: "Access lines of credit, term loans, and equity financing with fast funding decisions."
   }, {
     icon: <CreditCard className="h-10 w-10 text-clearfund-blue" />,
     title: "Flexible Funding Options",

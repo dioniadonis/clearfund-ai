@@ -205,9 +205,8 @@ const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">Receive Funds</h3>
                   <p className="text-gray-600 text-lg">
-                    Get your approved funds deposited directly to your business account within 
-                    24-48 hours. Quick access to capital means you can put your 
-                    funding to work immediately.
+                    If approved, funds are deposited directly to your business account.
+                    Timing depends on the funding partner.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
