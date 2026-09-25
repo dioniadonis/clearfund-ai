@@ -1,6 +1,20 @@
 import React from 'react';
+import { ExternalLink } from 'lucide-react';
 
-const PARTNERS = ['David Allen Capital', 'ROK Financial'];
+const MINI_TEMPLATE_ID = '5419b6a8b0d04a9ceb044c56';
+
+const PARTNERS = [
+  {
+    name: 'David Allen Capital',
+    url: 'https://www.trustpilot.com/review/www.davidallencapital.com',
+    businessUnitId: '56a23ef30000ff000587f226',
+  },
+  {
+    name: 'ROK Financial',
+    url: 'https://www.trustpilot.com/review/rok.biz',
+    businessUnitId: '600eda90fa1950000114a333',
+  },
+] as const;
 
 const FundingPartners: React.FC = () => (
   <section aria-labelledby="funding-partners-heading" className="py-12 bg-clearfund-pale-blue">
@@ -8,10 +22,27 @@ const FundingPartners: React.FC = () => (
       <h2 id="funding-partners-heading" className="text-sm font-semibold uppercase tracking-widest text-clearfund-dark-blue">
         Our Funding Partners
       </h2>
-      <ul className="mt-6 flex flex-wrap items-center justify-center gap-x-10 gap-y-4">
-        {PARTNERS.map((name) => (
-          <li key={name} className="text-lg font-semibold text-clearfund-dark-blue">
-            {name}
+      <ul className="mt-6 flex flex-wrap items-start justify-center gap-x-10 gap-y-4">
+        {PARTNERS.map((partner) => (
+          <li key={partner.name} className="flex flex-col items-center gap-3">
+            <a
+              href={partner.url}
+              target="_blank"
+              rel="noopener noreferrer sponsored"
+              className="inline-flex items-center gap-1.5 text-lg font-semibold text-clearfund-dark-blue hover:underline transition-colors"
+            >
+              {partner.name}
+              <ExternalLink className="h-4 w-4 text-gray-500" aria-hidden="true" />
+            </a>
+            <div
+              className="trustpilot-widget"
+              data-locale="en-US"
+              data-template-id={MINI_TEMPLATE_ID}
+              data-businessunit-id={partner.businessUnitId}
+              data-style-height="48px"
+              data-style-width="240px"
+              data-theme="light"
+            />
           </li>
         ))}
       </ul>
