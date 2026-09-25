@@ -7,7 +7,9 @@ const PARTNERS = [
   {
     name: 'David Allen Capital',
     url: 'https://www.trustpilot.com/review/www.davidallencapital.com',
-    businessUnitId: '56a23ef30000ff000587f226',
+    // No TrustBox access granted to this business unit (Trustpilot returns
+    // an error for every widget template) — profile link only.
+    businessUnitId: null,
   },
   {
     name: 'ROK Financial',
@@ -55,15 +57,17 @@ const FundingPartners: React.FC = () => {
               {partner.name}
               <ExternalLink className="h-4 w-4 text-gray-500" aria-hidden="true" />
             </a>
-            <div
-              className="trustpilot-widget"
-              data-locale="en-US"
-              data-template-id={TRUSTBOX_TEMPLATE_ID}
-              data-businessunit-id={partner.businessUnitId}
-              data-style-height="180px"
-              data-style-width="280px"
-              data-theme="light"
-            />
+            {partner.businessUnitId && (
+              <div
+                className="trustpilot-widget"
+                data-locale="en-US"
+                data-template-id={TRUSTBOX_TEMPLATE_ID}
+                data-businessunit-id={partner.businessUnitId}
+                data-style-height="180px"
+                data-style-width="280px"
+                data-theme="light"
+              />
+            )}
           </li>
         ))}
       </ul>
