@@ -564,6 +564,7 @@ export type Database = {
           created_at: string
           document_status: Database["public"]["Enums"]["document_status"]
           email: string | null
+          entry_cta: string | null
           full_name: string
           funding_need: number | null
           funding_purpose: string | null
@@ -579,6 +580,7 @@ export type Database = {
           qualification_notes: string | null
           qualification_score: number | null
           referrer: string | null
+          service_interest: Database["public"]["Enums"]["service_interest"]
           source: string | null
           stage: Database["public"]["Enums"]["lead_stage"]
           time_in_business_months: number | null
@@ -601,6 +603,7 @@ export type Database = {
           created_at?: string
           document_status?: Database["public"]["Enums"]["document_status"]
           email?: string | null
+          entry_cta?: string | null
           full_name: string
           funding_need?: number | null
           funding_purpose?: string | null
@@ -616,6 +619,7 @@ export type Database = {
           qualification_notes?: string | null
           qualification_score?: number | null
           referrer?: string | null
+          service_interest?: Database["public"]["Enums"]["service_interest"]
           source?: string | null
           stage?: Database["public"]["Enums"]["lead_stage"]
           time_in_business_months?: number | null
@@ -638,6 +642,7 @@ export type Database = {
           created_at?: string
           document_status?: Database["public"]["Enums"]["document_status"]
           email?: string | null
+          entry_cta?: string | null
           full_name?: string
           funding_need?: number | null
           funding_purpose?: string | null
@@ -653,6 +658,7 @@ export type Database = {
           qualification_notes?: string | null
           qualification_score?: number | null
           referrer?: string | null
+          service_interest?: Database["public"]["Enums"]["service_interest"]
           source?: string | null
           stage?: Database["public"]["Enums"]["lead_stage"]
           time_in_business_months?: number | null
@@ -780,6 +786,7 @@ export type Database = {
           created_at: string
           document_status: Database["public"]["Enums"]["document_status"]
           email: string | null
+          entry_cta: string | null
           full_name: string
           funding_need: number | null
           funding_purpose: string | null
@@ -795,6 +802,7 @@ export type Database = {
           qualification_notes: string | null
           qualification_score: number | null
           referrer: string | null
+          service_interest: Database["public"]["Enums"]["service_interest"]
           source: string | null
           stage: Database["public"]["Enums"]["lead_stage"]
           time_in_business_months: number | null
@@ -828,6 +836,11 @@ export type Database = {
         | "funded"
         | "declined"
         | "lost"
+      service_interest:
+        | "working_capital"
+        | "gig_funding"
+        | "insurance_restoration"
+        | "other"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -969,6 +982,12 @@ export const Constants = {
         "funded",
         "declined",
         "lost",
+      ],
+      service_interest: [
+        "working_capital",
+        "gig_funding",
+        "insurance_restoration",
+        "other",
       ],
     },
   },
