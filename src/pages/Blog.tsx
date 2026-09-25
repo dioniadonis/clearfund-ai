@@ -71,8 +71,7 @@ const Blog: React.FC = () => {
                     Be the First to Know
                   </h2>
                   <p className="text-lg text-gray-700">
-                    Join our exclusive list and get notified when we launch, plus receive our 
-                    <span className="text-clearfund-blue font-semibold"> free financing guide</span> as a welcome gift.
+                    Our blog is coming soon. In the meantime, our team can help you explore funding options today.
                   </p>
                 </div>
 
