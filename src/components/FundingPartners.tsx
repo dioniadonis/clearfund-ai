@@ -6,14 +6,14 @@ const TRUSTBOX_TEMPLATE_ID = '54ad5defc6454f065c28af8b'; // Trustpilot Slider wi
 const PARTNERS = [
   {
     name: 'David Allen Capital',
-    url: 'https://www.trustpilot.com/review/www.davidallencapital.com',
+    url: 'https://davidallencapital.com/clearfund',
     // No TrustBox access granted to this business unit (Trustpilot returns
     // an error for every widget template) — profile link only.
     businessUnitId: null,
   },
   {
     name: 'ROK Financial',
-    url: 'https://www.trustpilot.com/review/rok.biz',
+    url: 'https://go.mypartner.io/business-financing/?ref=0014x00000YEKKUAA5',
     businessUnitId: '600eda90fa1950000114a333',
   },
 ] as const;
@@ -71,15 +71,23 @@ const FundingPartners: React.FC = () => {
             data-style-width="320px"
             data-theme="light"
           />
-          <a
-            href={(PARTNERS.find((p) => p.businessUnitId) as { url: string }).url}
-            target="_blank"
-            rel="noopener noreferrer sponsored"
-            className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-clearfund-dark-blue hover:underline transition-colors"
-          >
-            ROK Financial reviews on Trustpilot
-            <ExternalLink className="h-3 w-3" aria-hidden="true" />
-          </a>
+          <div className="flex flex-wrap justify-center gap-x-6 gap-y-2">
+            {[
+              { label: 'ROK Financial reviews on Trustpilot', href: 'https://www.trustpilot.com/review/rok.biz' },
+              { label: 'David Allen Capital reviews on Trustpilot', href: 'https://www.trustpilot.com/review/www.davidallencapital.com' },
+            ].map((l) => (
+              <a
+                key={l.href}
+                href={l.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs text-gray-600 hover:text-clearfund-dark-blue hover:underline transition-colors"
+              >
+                {l.label}
+                <ExternalLink className="h-3 w-3" aria-hidden="true" />
+              </a>
+            ))}
+          </div>
         </div>
       )}
       <p className="mt-6 mx-auto max-w-2xl text-sm text-gray-600">
