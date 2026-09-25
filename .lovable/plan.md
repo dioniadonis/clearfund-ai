@@ -24,3 +24,4 @@ No changes to copy, layout structure, or other pages.
 ## Verification
 - Type-check and build pass.
 - Playwright: both links render with correct hrefs on `/` and `/apply`, open intent correct (new tab).
+
