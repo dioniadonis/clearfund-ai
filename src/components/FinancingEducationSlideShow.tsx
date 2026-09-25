@@ -1,5 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Check, ArrowLeft, ArrowRight, X, DollarSign, TrendingUp, Clock, Shield, Calculator } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
@@ -7,7 +8,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { Dialog, DialogContent } from "@/components/ui/dialog";
 
 interface FinancingEducationSlideProps {
   onClose: () => void;
@@ -17,7 +17,7 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
   const [api, setApi] = useState<any>(null);
   const [current, setCurrent] = useState(0);
   const [count, setCount] = useState(0);
-  const [isApplicationDialogOpen, setIsApplicationDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   // Handle navigation to ensure looping through the slides
   const handleNext = () => {
@@ -51,7 +51,8 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
   }, [api]);
 
   const handleApplyNow = () => {
-    setIsApplicationDialogOpen(true);
+    onClose?.();
+    navigate('/apply?cta=get_started_slideshow');
   };
 
   return (
@@ -297,16 +298,6 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
         </Carousel>
       </div>
 
-      {/* Application Form Dialog */}
-      <Dialog open={isApplicationDialogOpen} onOpenChange={setIsApplicationDialogOpen}>
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <iframe 
-            src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[550px] border-none"
-            title="Funding Application Form"
-          />
-        </DialogContent>
-      </Dialog>
     </>
   );
 };

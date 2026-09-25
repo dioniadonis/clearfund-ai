@@ -46,10 +46,29 @@ const toNumber = (value?: string) => {
   return Number.isFinite(n) && n > 0 ? n : null;
 };
 
+const SERVICES = {
+  working_capital: { label: "Working capital", headline: "Apply for working capital" },
+  gig_funding: { label: "Gig worker funding", headline: "Apply for gig worker funding" },
+  insurance_restoration: {
+    label: "Roofing / restoration contractor funding",
+    headline: "Funding for roofing and restoration contractors",
+  },
+  other: { label: "Other business funding", headline: "Apply for business funding" },
+} as const;
+type Service = keyof typeof SERVICES;
+const isService = (v: string | null): v is Exclude<Service, "other"> =>
+  v === "working_capital" || v === "gig_funding" || v === "insurance_restoration";
+
 const Apply: React.FC = () => {
   const [params] = useSearchParams();
   const token = params.get("t");
+  const interestParam = params.get("interest");
+  const initialInterest = isService(interestParam) ? interestParam : null;
+  const ctaParam = params.get("cta");
+  const entryCta = ctaParam && /^[a-z0-9_-]{1,60}$/i.test(ctaParam) ? ctaParam : null;
+  const headline = initialInterest ? SERVICES[initialInterest].headline : "Apply for business funding";
 
+  const [service, setService] = useState<Service | "">(initialInterest ?? "");
   const [form, setForm] = useState<FormState>(emptyForm);
   const [consentEmail, setConsentEmail] = useState(false);
   const [consentSms, setConsentSms] = useState(false);
@@ -137,6 +156,8 @@ const Apply: React.FC = () => {
         monthly_revenue: toNumber(parsed.data.monthly_revenue),
         funding_need: toNumber(parsed.data.funding_need),
         funding_purpose: parsed.data.funding_purpose || null,
+        service_interest: service || "other",
+        entry_cta: entryCta,
         consent_email: consentEmail,
         consent_sms: consentSms,
         consent_call: consentCall,
@@ -178,7 +199,7 @@ const Apply: React.FC = () => {
           ) : (
             <>
               <h1 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue">
-                Business Funding Application
+                {headline}
               </h1>
               <p className="mt-3 text-gray-700">
                 Takes about three minutes. We never ask for your Social Security number or bank
@@ -189,6 +210,22 @@ const Apply: React.FC = () => {
 
               <form onSubmit={onSubmit} className="mt-8 space-y-6">
                 <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="space-y-2 sm:col-span-2">
+                    <Label htmlFor="service_interest">What funding are you looking for?</Label>
+                    <select
+                      id="service_interest"
+                      value={service}
+                      onChange={(e) => setService(e.target.value as Service | "")}
+                      className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm"
+                    >
+                      <option value="">Select a service</option>
+                      {(Object.keys(SERVICES) as Service[]).map((k) => (
+                        <option key={k} value={k}>
+                          {SERVICES[k].label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="owner_name">Owner full name *</Label>
                     <Input id="owner_name" value={form.owner_name} onChange={set("owner_name")} maxLength={120} required />

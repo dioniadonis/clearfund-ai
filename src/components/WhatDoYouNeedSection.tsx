@@ -1,24 +1,21 @@
 
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { ArrowRight, Building, Zap, CreditCard, Check } from 'lucide-react';
+import { ArrowRight, Building, Zap, Check } from 'lucide-react';
 
 const WhatDoYouNeedSection: React.FC = () => {
-  const [isApplicationDialogOpen, setIsApplicationDialogOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleWorkingCapital = () => {
-    setIsApplicationDialogOpen(true);
+    navigate('/apply?interest=working_capital&cta=home_need_working_capital');
   };
 
   const handleInstantMicro = () => {
     window.open('https://davidallencapital.com/clearfund', '_blank');
   };
 
-  const handleCreditRepair = () => {
-    window.open('https://portal.asapcreditrepairusa.com/client-signup-client.php?afcode=1328', '_blank');
-  };
 
   return (
     <section className="py-16 md:py-24 bg-white">
@@ -35,7 +32,7 @@ const WhatDoYouNeedSection: React.FC = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 gap-8">
           {/* Working Capital */}
           <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
@@ -106,7 +103,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 </div>
               </div>
               <p className="text-xs text-gray-500 mb-4">
-                *Funding as fast as 24 hours subject to provider approval
+                *Fast funding decisions, subject to provider approval. Provided by David Allen Capital; ClearFund AI may receive compensation if you are funded.
               </p>
               <Button 
                 onClick={handleInstantMicro}
@@ -118,81 +115,9 @@ const WhatDoYouNeedSection: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Credit Repair */}
-          <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
-            <CardHeader className="text-center">
-              <div className="w-16 h-16 rounded-full bg-green-100 text-green-600 flex items-center justify-center mx-auto mb-4">
-                <CreditCard size={32} />
-              </div>
-              <CardTitle className="text-xl text-clearfund-dark-blue">Credit Repair</CardTitle>
-              <CardDescription className="text-gray-600">
-                Improve your credit score to qualify for better funding options and get your credit professionally fixed
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-grow flex flex-col">
-              <div className="mb-4">
-                <div className="space-y-3 text-sm text-gray-700">
-                  <div className="flex items-center">
-                    <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">Free consultation available</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">73% success rate*</span>
-                  </div>
-                  <div className="flex items-center">
-                    <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">One-time payment</span>
-                  </div>
-                </div>
-              </div>
-              <p className="text-xs text-gray-500 mb-4">
-                *Based on partner data. Individual results vary. Services provided by licensed third-party partners. ClearFund AI receives commissions for referrals.
-              </p>
-              <Button 
-                onClick={handleCreditRepair}
-                className="w-full bg-green-600 hover:bg-green-700 text-white mt-auto"
-              >
-                Get Started
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
-            </CardContent>
-          </Card>
         </div>
       </div>
 
-      {/* Application Dialog */}
-      <Dialog 
-        open={isApplicationDialogOpen} 
-        onOpenChange={(open) => setIsApplicationDialogOpen(open)}
-      >
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <DialogHeader className="p-6 pb-0">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
-          </DialogHeader>
-          <div className="px-6 pb-4">
-            <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
-              <p className="text-sm text-yellow-800">
-                By submitting this application, you authorize ClearFund AI and its funding partners to review your business and financial information. 
-                You agree to our Terms & Conditions and Privacy Policy.
-              </p>
-              <div className="mt-3 flex items-start">
-                <input type="checkbox" required className="mt-1 mr-2" />
-                <label className="text-xs text-yellow-700">
-                  I acknowledge that ClearFund AI is a broker service that will match me with appropriate funding providers. 
-                  I understand that different funding products have different terms.
-                </label>
-              </div>
-            </div>
-          </div>
-          <iframe 
-            src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[450px] border-none"
-            title="Clearfund Application Form"
-            data-clearfund-form="application"
-          />
-        </DialogContent>
-      </Dialog>
     </section>
   );
 };

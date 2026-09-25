@@ -1,13 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Check, Briefcase, LineChart, Clock, Building } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
 const WorkingCapital: React.FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const navigate = useNavigate();
+  const apply = (cta: string) => navigate(`/apply?interest=working_capital&cta=${cta}`);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -33,12 +34,12 @@ const WorkingCapital: React.FC = () => {
                 
                 <p className="text-lg text-gray-700">
                   Get your business the funding it needs with our streamlined application process. 
-                  Fast approvals, flexible terms, and transparent fees.
+                  Fast funding decisions, flexible terms, and transparent fees.
                 </p>
                 
                 <div className="flex gap-4 items-center">
                   <Button 
-                    onClick={() => setIsDialogOpen(true)}
+                    onClick={() => apply("wc_hero")}
                     className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white px-6 py-6 rounded-lg"
                   >
                     Get Started
@@ -46,8 +47,7 @@ const WorkingCapital: React.FC = () => {
                   </Button>
                   
                   <div className="text-sm text-gray-500">
-                    <div className="font-medium">Pre-approval in as little as</div>
-                    <div className="text-clearfund-blue font-bold text-xl">24 hours</div>
+                    <div className="font-medium">Fast funding decisions</div>
                   </div>
                 </div>
               </div>
@@ -65,7 +65,7 @@ const WorkingCapital: React.FC = () => {
                   <div className="space-y-4 mb-6">
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 rounded-full bg-green-400"></div>
-                      <span className="text-gray-700">24-48 Hour Funding</span>
+                      <span className="text-gray-700">Fast funding decisions</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 rounded-full bg-blue-400"></div>
@@ -103,7 +103,7 @@ const WorkingCapital: React.FC = () => {
                   <CardTitle className="text-xl text-clearfund-dark-blue">Fast Funding</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p className="text-gray-600">Get approved and funded in as little as 24-48 hours with our streamlined application process.</p>
+                  <p className="text-gray-600">Fast funding decisions through a streamlined application process.</p>
                   
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -261,7 +261,7 @@ const WorkingCapital: React.FC = () => {
                 
                 <div className="pt-4">
                   <Button 
-                    onClick={() => setIsDialogOpen(true)}
+                    onClick={() => apply("wc_benefits")}
                     className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors w-full md:w-auto"
                   >
                     Apply for Funding
@@ -283,14 +283,14 @@ const WorkingCapital: React.FC = () => {
                   Our working capital solutions help businesses like yours access the funds they need to seize opportunities and overcome challenges.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Quick Approval</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Funding Decisions</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Flexible Terms</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Bad Credit OK</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Simple Process</span>
                 </div>
               </div>
               <Button 
-                onClick={() => setIsDialogOpen(true)}
+                onClick={() => apply("wc_bottom")}
                 className="bg-white text-clearfund-blue hover:bg-clearfund-pale-blue hover:text-clearfund-dark-blue text-lg py-6 px-10 rounded-lg transition-colors"
               >
                 Start Application
@@ -301,23 +301,6 @@ const WorkingCapital: React.FC = () => {
         </section>
       </main>
 
-      {/* Application Form Dialog */}
-      <Dialog 
-        open={isDialogOpen} 
-        onOpenChange={(open) => setIsDialogOpen(open)}
-      >
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <DialogHeader className="p-6 pb-0">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
-          </DialogHeader>
-          <iframe 
-            src="https://form.jotform.com/251378086816062" 
-            className="w-full h-[550px] border-none"
-            title="Clearfund Application Form"
-            data-clearfund-form="application"
-          />
-        </DialogContent>
-      </Dialog>
       
       <Footer />
     </div>

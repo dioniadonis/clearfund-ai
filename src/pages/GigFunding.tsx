@@ -9,7 +9,6 @@ import ProcessSlideShow from '../components/ProcessSlideShow';
 import FundingFAQSlideShow from '../components/FundingFAQSlideShow';
 
 const GigFunding: React.FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
   const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
@@ -29,8 +28,8 @@ const GigFunding: React.FC = () => {
                 <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Instant Micro Funding</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
-                <span className="text-clearfund-blue font-bold">Get Up To $20k today!</span><br/>
-                <span className="text-clearfund-blue font-bold">Immediate offer!</span><br/>
+                <span className="text-clearfund-blue font-bold">Get up to $20k</span><br/>
+                <span className="text-clearfund-blue font-bold">Fast funding decisions</span><br/>
                 From $400 - $20,000.<br/>
                 Easy-Breezy online process designed for all business owners.
               </p>
@@ -47,6 +46,9 @@ const GigFunding: React.FC = () => {
                   Learn More
                 </Button>
               </div>
+              <p className="text-xs text-gray-500">
+                Funding is provided by our partner David Allen Capital. ClearFund AI is a broker, not a lender, and may receive compensation if you are funded.
+              </p>
             </div>
             
             {/* Right side content - Simple Requirements card */}
@@ -173,7 +175,7 @@ const GigFunding: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    Get your approved funds deposited directly to your business account within 24-48 hours.
+                    If approved, funds are deposited directly to your business account. Timing depends on the funding partner.
                   </p>
                 </CardContent>
               </Card>
@@ -365,7 +367,7 @@ const GigFunding: React.FC = () => {
               <div className="md:max-w-xl">
                 <div className="flex items-center mb-4">
                   <Sparkles size={24} className="text-white mr-2" />
-                  <span className="text-white font-semibold">Same Day Funding </span>
+                  <span className="text-white font-semibold">Fast funding decisions</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Business?</h2>
                 <p className="text-lg opacity-90 mb-6">
@@ -375,7 +377,7 @@ const GigFunding: React.FC = () => {
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">$3,000+ Monthly Revenue</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">3+ Months in Business</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">No Collateral Required</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Approval</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Funding Decisions</span>
                 </div>
               </div>
               <div className="flex flex-col gap-4 items-center">
@@ -396,15 +398,6 @@ const GigFunding: React.FC = () => {
         </section>
       </main>
 
-      {/* Application Form Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={open => setIsDialogOpen(open)}>
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <DialogHeader className="p-6 pb-0">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Business Application</DialogTitle>
-          </DialogHeader>
-          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Clearfund Application Form" data-clearfund-form="business-application" />
-        </DialogContent>
-      </Dialog>
 
       {/* Process SlideShow Dialog */}
       <Dialog open={isSlideShowOpen} onOpenChange={open => setIsSlideShowOpen(open)}>

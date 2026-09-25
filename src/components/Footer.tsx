@@ -6,8 +6,6 @@ import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
 
 const Footer: React.FC = () => {
-  const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
-  const [isContactDialogOpen, setIsContactDialogOpen] = useState(false);
   const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
 
   const scrollToTop = () => {
@@ -18,10 +16,6 @@ const Footer: React.FC = () => {
     scrollToTop();
   };
 
-  const openContactForm = () => {
-    setIsContactDialogOpen(true);
-  };
-
   return <footer className="bg-clearfund-dark-blue text-white">
       <div className="container-custom py-16">
         <div id="contact" className="grid md:grid-cols-2 gap-12 mb-12">
@@ -29,18 +23,11 @@ const Footer: React.FC = () => {
             <h2 className="text-3xl font-bold mb-4">Ready to get funded?</h2>
             <p className="text-clearfund-pale-blue mb-6 max-w-md">Join thousands of small business owners who trust Clearfund for their financing needs. Talk to our AI advisor or contact our team today.</p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button 
-                onClick={() => window.open('https://davidallencapital.com/clearfund', '_blank')}
-                className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors"
-              >
-                Apply for Funding
+              <Button asChild className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
+                <Link to="/apply?cta=footer_apply">Apply for Funding</Link>
               </Button>
-              <Button 
-                variant="outline" 
-                className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors"
-                onClick={openContactForm}
-              >
-                Contact Us
+              <Button asChild variant="outline" className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
+                <a href="tel:8665784721">Call 866-578-4721</a>
               </Button>
             </div>
           </div>
@@ -67,16 +54,6 @@ const Footer: React.FC = () => {
                     Instant Micro Funding
                   </a>
                 </li>
-                <li>
-                  <a 
-                    href="https://asapcreditrepair.com/clearfund" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    className="text-clearfund-pale-blue hover:text-white transition-colors"
-                  >
-                    Credit Repair
-                  </a>
-                </li>
               </ul>
             </div>
             <div>
@@ -100,12 +77,9 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
                 <li>
-                  <button 
-                    onClick={openContactForm}
-                    className="text-clearfund-pale-blue hover:text-white transition-colors text-left"
-                  >
+                  <a href="tel:8665784721" className="text-clearfund-pale-blue hover:text-white transition-colors">
                     Contact
-                  </button>
+                  </a>
                 </li>
               </ul>
             </div>
@@ -164,29 +138,12 @@ const Footer: React.FC = () => {
           <div className="text-sm text-clearfund-pale-blue text-center md:text-right">
             <p>&copy; {new Date().getFullYear()} Clearfund AI. All rights reserved.</p>
             <p className="text-xs mt-2">
-              *ClearFund AI partners with select funding providers to find the right solution for your business. Your privacy is protected throughout the process.
+              *ClearFund AI is a broker, not a lender. We partner with select funding providers, including David Allen Capital, and may receive compensation when you are funded through a partner. Your privacy is protected throughout the process.
             </p>
           </div>
         </div>
       </div>
 
-      {/* Apply for Funding Dialog */}
-      <Dialog open={isApplyDialogOpen} onOpenChange={open => setIsApplyDialogOpen(open)}>
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[550px] border-none" title="Funding Application Form" data-clearfund-form="funding-application" />
-        </DialogContent>
-      </Dialog>
-
-      {/* Contact Form Dialog */}
-      <Dialog open={isContactDialogOpen} onOpenChange={setIsContactDialogOpen}>
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <iframe 
-            src="https://form.jotform.com/251398259721162" 
-            className="w-full h-[550px] border-none" 
-            title="Contact Form" 
-          />
-        </DialogContent>
-      </Dialog>
 
       {/* About Us Video Dialog */}
       <Dialog open={isAboutVideoDialogOpen} onOpenChange={open => setIsAboutVideoDialogOpen(open)}>
@@ -211,12 +168,5 @@ const Footer: React.FC = () => {
     </footer>;
 };
 
-// Add the global JotformFeedback type declaration
-declare global {
-  interface Window {
-    JFL_251398259721162: any;
-    JotformFeedback: any;
-  }
-}
 
 export default Footer;

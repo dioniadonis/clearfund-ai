@@ -14,7 +14,7 @@ const WorkingCapitalSection: React.FC = () => {
               Working Capital Solutions for Your Business Growth
             </h2>
             <p className="text-lg text-gray-700">
-              Get approved and funded in as little as 24-48 hours with our streamlined application process.
+              Fast funding decisions through a streamlined application process.
             </p>
             
             <div className="font-bold text-xl mb-4 text-clearfund-dark-blue">
@@ -58,7 +58,7 @@ const WorkingCapitalSection: React.FC = () => {
               </div>
               <ul className="text-sm text-green-700 space-y-1">
                 <li>• Liens and judgements OK</li>
-                <li>• 24-48 hour funding available</li>
+                <li>• Fast funding decisions</li>
                 <li>• Flexible repayment terms</li>
               </ul>
             </div>
@@ -73,7 +73,7 @@ const WorkingCapitalSection: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-clearfund-dark-blue">Fast Funding</h3>
-                    <p className="text-gray-600">Get approved and funded in 24-48 hours</p>
+                    <p className="text-gray-600">Fast funding decisions</p>
                   </div>
                 </CardContent>
               </Card>

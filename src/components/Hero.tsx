@@ -1,12 +1,13 @@
+import { useNavigate } from 'react-router-dom';
 
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
 
 const Hero: React.FC = () => {
-  const [isDialogOpen, setIsDialogOpen] = React.useState(false);
+  const navigate = useNavigate();
   const [isEducationSlideShowOpen, setIsEducationSlideShowOpen] = React.useState(false);
 
   return (
@@ -25,7 +26,7 @@ const Hero: React.FC = () => {
             *Subject to funding partner approval and bank verification
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button onClick={() => setIsDialogOpen(true)} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+            <Button onClick={() => navigate("/apply?cta=home_hero_apply")} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -69,23 +70,6 @@ const Hero: React.FC = () => {
         </div>
       </div>
 
-      {/* Application Form Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={open => setIsDialogOpen(open)}>
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <DialogHeader className="p-6 pb-0">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">Credit Application</DialogTitle>
-          </DialogHeader>
-          <div className="px-6 pb-4">
-            <div className="bg-yellow-50 border border-yellow-200 p-4 rounded-lg mb-4">
-              <p className="text-sm text-yellow-800">
-                By submitting this application, you authorize ClearFund AI and its funding partners to review your business and financial information. 
-                This may result in credit inquiries. You agree to our Terms & Conditions and Privacy Policy.
-              </p>
-            </div>
-          </div>
-          <iframe src="https://form.jotform.com/251378086816062" className="w-full h-[450px] border-none" title="Clearfund Application Form" data-clearfund-form="application" />
-        </DialogContent>
-      </Dialog>
 
       {/* Educational Slideshow Dialog */}
       <Dialog open={isEducationSlideShowOpen} onOpenChange={open => setIsEducationSlideShowOpen(open)}>
