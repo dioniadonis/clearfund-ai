@@ -10,7 +10,6 @@ import FinancingEducationSlideShow from './FinancingEducationSlideShow';
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
-  const [isContactFormOpen, setIsContactFormOpen] = useState(false);
   const [isEducationSlideShowOpen, setIsEducationSlideShowOpen] = useState(false);
   
   // Close menu when route changes (e.g., when clicking on anchor links)
@@ -22,10 +21,6 @@ const Header: React.FC = () => {
     window.addEventListener('hashchange', handleHashChange);
     return () => window.removeEventListener('hashchange', handleHashChange);
   }, [isOpen]);
-
-  const openContactForm = () => {
-    setIsContactFormOpen(true);
-  };
 
   const openEducationSlideShow = () => {
     setIsEducationSlideShowOpen(true);
@@ -50,9 +45,6 @@ const Header: React.FC = () => {
           <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Instant Micro Funding
           </Link>
-          <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
-            Credit Repair
-          </Link>
         </nav>
         
         <div className="flex items-center space-x-4">
@@ -71,13 +63,13 @@ const Header: React.FC = () => {
                 </a>
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
-                <button 
-                  onClick={openContactForm}
+                <Link
+                  to="/apply?cta=header_menu_apply"
                   className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2"
                 >
                   <Mail size={16} />
-                  <span>Email Us</span>
-                </button>
+                  <span>Apply online</span>
+                </Link>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -110,23 +102,10 @@ const Header: React.FC = () => {
             <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
               Instant Micro Funding
             </Link>
-            <Link to="/credit-repair" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2">
-              Credit Repair
-            </Link>
           </nav>
         </div>
       )}
 
-      {/* Contact Form Dialog */}
-      <Dialog open={isContactFormOpen} onOpenChange={setIsContactFormOpen}>
-        <DialogContent className="sm:max-w-[800px] h-[600px] p-0">
-          <iframe 
-            src="https://form.jotform.com/251398259721162" 
-            className="w-full h-[550px] border-none" 
-            title="Contact Form" 
-          />
-        </DialogContent>
-      </Dialog>
 
       {/* Financing Education Slideshow Dialog */}
       <Dialog open={isEducationSlideShowOpen} onOpenChange={setIsEducationSlideShowOpen}>
