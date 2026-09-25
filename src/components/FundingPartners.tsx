@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
 
-const MINI_TEMPLATE_ID = '5419b6a8b0d04a9ceb044c56';
+const TRUSTBOX_TEMPLATE_ID = '54ad5defc6454f065c28af8b'; // Trustpilot Slider widget
 
 const PARTNERS = [
   {
@@ -58,10 +58,10 @@ const FundingPartners: React.FC = () => {
             <div
               className="trustpilot-widget"
               data-locale="en-US"
-              data-template-id={MINI_TEMPLATE_ID}
+              data-template-id={TRUSTBOX_TEMPLATE_ID}
               data-businessunit-id={partner.businessUnitId}
-              data-style-height="48px"
-              data-style-width="240px"
+              data-style-height="180px"
+              data-style-width="280px"
               data-theme="light"
             />
           </li>
