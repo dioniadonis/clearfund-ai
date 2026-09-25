@@ -4,6 +4,7 @@ import { z } from "zod";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FundingPartners from "@/components/FundingPartners";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -318,6 +319,7 @@ const Apply: React.FC = () => {
             </>
           )}
         </section>
+        <FundingPartners />
       </main>
       <Footer />
     </div>
