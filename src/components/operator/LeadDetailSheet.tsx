@@ -133,6 +133,8 @@ const LeadDetailSheet: React.FC<Props> = ({ leadId, onOpenChange }) => {
               <p>{leadQuery.data.full_name}</p>
               <p>{leadQuery.data.email}</p>
               <p>{leadQuery.data.phone}</p>
+              <p>Service: {leadQuery.data.service_interest.replace(/_/g, " ")}</p>
+              <p>Entry CTA: {leadQuery.data.entry_cta ?? "—"}</p>
             </div>
 
             <div className="space-y-2">
