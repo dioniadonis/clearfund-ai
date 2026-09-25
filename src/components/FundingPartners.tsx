@@ -73,6 +73,7 @@ const FundingPartners: React.FC = () => {
       </p>
     </div>
   </section>
-);
+  );
+};
 
 export default FundingPartners;
