@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
 
 const MINI_TEMPLATE_ID = '5419b6a8b0d04a9ceb044c56';
@@ -16,8 +16,29 @@ const PARTNERS = [
   },
 ] as const;
 
-const FundingPartners: React.FC = () => (
-  <section aria-labelledby="funding-partners-heading" className="py-12 bg-clearfund-pale-blue">
+const FundingPartners: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const root = sectionRef.current;
+    if (!root) return;
+    // The widget script loads async after React renders; ask it to hydrate
+    // any widget divs it missed. Poll briefly, then one last check on load.
+    let timer: number | undefined;
+    const hydrate = () => {
+      const tp = (window as any).Trustpilot;
+      if (!tp?.loadFromElement) return false;
+      root.querySelectorAll('.trustpilot-widget').forEach((el) => tp.loadFromElement(el, true));
+      return true;
+    };
+    if (hydrate()) return;
+    timer = window.setInterval(() => { if (hydrate() && timer) window.clearInterval(timer); }, 300);
+    window.setTimeout(() => { if (timer) window.clearInterval(timer); hydrate(); }, 8000);
+    return () => { if (timer) window.clearInterval(timer); };
+  }, []);
+
+  return (
+    <section ref={sectionRef} aria-labelledby="funding-partners-heading" className="py-12 bg-clearfund-pale-blue">
     <div className="container-custom text-center">
       <h2 id="funding-partners-heading" className="text-sm font-semibold uppercase tracking-widest text-clearfund-dark-blue">
         Our Funding Partners
