@@ -28,8 +28,8 @@ const GigFunding: React.FC = () => {
                 <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Instant Micro Funding</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
-                <span className="text-clearfund-blue font-bold">Get Up To $20k today!</span><br/>
-                <span className="text-clearfund-blue font-bold">Immediate offer!</span><br/>
+                <span className="text-clearfund-blue font-bold">Get up to $20k</span><br/>
+                <span className="text-clearfund-blue font-bold">Fast funding decisions</span><br/>
                 From $400 - $20,000.<br/>
                 Easy-Breezy online process designed for all business owners.
               </p>
@@ -46,6 +46,9 @@ const GigFunding: React.FC = () => {
                   Learn More
                 </Button>
               </div>
+              <p className="text-xs text-gray-500">
+                Funding is provided by our partner David Allen Capital. ClearFund AI is a broker, not a lender, and may receive compensation if you are funded.
+              </p>
             </div>
             
             {/* Right side content - Simple Requirements card */}

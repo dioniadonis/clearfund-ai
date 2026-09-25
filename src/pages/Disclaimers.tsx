@@ -57,7 +57,6 @@ const Disclaimers: React.FC = () => {
               </div>
               <ul className="list-disc pl-6 space-y-2">
                 <li>Individual results vary and are not guaranteed</li>
-                <li>Success rates are based on partner data and historical performance</li>
                 <li>Credit score improvements depend on individual credit situations</li>
                 <li>Typical timeframes may vary based on complexity of credit issues</li>
                 <li>You have the right to dispute credit issues directly with credit bureaus</li>
