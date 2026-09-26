@@ -67,7 +67,7 @@ const FundingPartners: React.FC = () => {
             data-locale="en-US"
             data-template-id={TRUSTBOX_TEMPLATE_ID}
             data-businessunit-id={(PARTNERS.find((p) => p.businessUnitId) as { businessUnitId: string }).businessUnitId}
-            data-stars="5"
+            data-stars="4,5"
             data-style-height="180px"
             data-style-width="320px"
             data-theme="light"
