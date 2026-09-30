@@ -10,5 +10,4 @@
 - Owner decision: legal pages still mention credit repair referrals; footer "thousands of owners" claim unverified
 - Later packet: Telegram approvals + emergency stop
 - Cutover: owner disables JotForm forms
-- Phase 2 plan: standalone paid automation audit/Blueprint (plan only, awaiting approval)
-- Build Phase 2 audit (preview only): intake+consent, operator review, Blueprint editor. Blocked publish: legal name, doc links, price, retention
+- [x] Phase 2 audit built (preview only). Blocked publish: legal name, Audit Terms + Privacy links, price, intake retention, payment link, redaction approval
