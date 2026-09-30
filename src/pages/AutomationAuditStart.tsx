@@ -22,7 +22,33 @@ import {
   assessFit,
   isContractorContext,
 } from "@/lib/auditConsent";
-...
+
+const contactSchema = z.object({
+  full_name: z.string().trim().min(2, "Enter your full name").max(120),
+  business_name: z.string().trim().min(2, "Enter your business name").max(160),
+  email: z.string().trim().email("Enter a valid email address").max(255),
+  phone: z.string().trim().max(30).optional(),
+});
+
+const AutomationAuditStart: React.FC = () => {
+  const startedAt = useRef(Date.now());
+  const [contact, setContact] = useState({ full_name: "", business_name: "", email: "", phone: "" });
+  const [answers, setAnswers] = useState<Record<string, string>>({});
+  const [terms, setTerms] = useState(false);
+  const [phoneConsent, setPhoneConsent] = useState(false);
+  const [honeypot, setHoneypot] = useState("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [submitting, setSubmitting] = useState(false);
+  const [serverError, setServerError] = useState<string | null>(null);
+  const [refCode, setRefCode] = useState<string | null>(null);
+
+  const utm = useMemo(() => {
+    const p = new URLSearchParams(window.location.search);
+    return {
+      utm_source: p.get("utm_source"),
+      utm_medium: p.get("utm_medium"),
+      utm_campaign: p.get("utm_campaign"),
+    };
   }, []);
   const contractor = isContractorContext(answers);
   const fit = assessFit(answers);
