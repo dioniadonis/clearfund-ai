@@ -1,93 +1,91 @@
-# AI Readiness Audit / Blueprint — implementation outline
+# Phase 2 — Standalone Automation Audit / Blueprint (roofing/restoration first)
 
 ## Source status
-- **SPEC.pdf and COMPLIANCE.pdf are not in the project.** Only earlier uploads are present (JotForm packet, readiness plan, platform objective JSON, prompt text). This outline uses only the owner's instructions in chat. Any approved compliance copy, price, address, or credentials must come from those PDFs or the owner. Nothing gets invented.
-- Instruction handling: only owner messages count as requirements. Any document text that says to ignore instructions, skip consent, or auto-approve is treated as data and flagged. It is never followed.
-- **Payment provider: none configured.** There is no Stripe or Paddle in the code or secrets, so payment stays a stub.
+- Requirements come from the owner's revision note, which summarizes SPEC.pdf and COMPLIANCE.pdf. The PDFs themselves are not in the project. **Approved consent wording must be pasted in verbatim before build.** Nothing gets paraphrased or invented.
+- Only owner messages count as instructions. Document text that asks to ignore instructions is treated as data and flagged.
+- **Payment: I found no existing payment link or checkout in the repo.** v1 will have a clearly disabled payment step, with no custom payment infrastructure.
+- Nothing gets built, migrated, connected or published until this plan is approved.
 
-## Reused as-is
-- Auth, `user_roles`, `is_operator`, `RequireOperator`, operator layout/sidebar
-- `_shared/util.ts` protections: honeypot, timing check, per-IP rate limit, validation
-- `_shared/notify.ts` for new-audit alerts (still "not configured" until the owner sets it up)
-- Pattern for server-side public submission, taken from `submit-application`
-- Design tokens, Header/Footer, flat design
+## Separation rules (COMPLIANCE)
+- Audit records stay separate from funding records. There are no writes to `leads`, `lead_events` or `application_sends`.
+- Funding stays free and optional. Audit findings are never shaped by referrals, and there is no cross-sell inside the Blueprint.
+- Audit payment, refunds or discounts are never tied to funding.
+- Funding pages, `/apply`, FundingPartners and partner links stay untouched.
+- No Retell, SMS, Odysseus or any outbound messaging is built now.
 
-## Kept separate (not touched)
-- No changes to funding pages, `/apply`, FundingPartners, partner links, the `leads` table, lead stages or `lead_events`
-- Audits get their own tables, so they never mix with the funding pipeline or referral data
-- No Retell, SMS or Odysseus involvement. Email delivery is optional and falls back to the operator downloading the report manually
+## Reused (verified files)
+- Auth/roles: `src/hooks/useOperatorAuth.tsx`, `src/components/operator/RequireOperator.tsx`, `OperatorSidebar.tsx`, `src/pages/operator/Layout.tsx`
+- Server protections: `supabase/functions/_shared/util.ts` (validation, honeypot, timing, rate limit)
+- Pattern for server-side public submission: `supabase/functions/submit-application/index.ts`
+- Optional internal alert: `supabase/functions/_shared/notify.ts`. **Assumption:** it can take an audit event without touching lead history. To be confirmed when building.
+- Database helpers: `is_operator()`, `update_updated_at_column()`
 
 ## Screens
-1. `/ai-readiness` — landing page. It uses approved copy only. Price shows as "[PRICE — owner to supply]" and the page stays unpublished until filled.
-2. `/ai-readiness/start` — multi-step intake form, then consent, then submit.
-3. `/ai-readiness/checkout/:ref` — **payment stub**: "Payment not yet connected — we will contact you." It records `payment_status = 'not_required_stub'`. No card fields.
-4. `/ai-readiness/submitted` — confirmation page with a reference code. It makes no promises about timing.
-5. `/operator/audits` — list with search, status filter and CSV export.
-6. `/operator/audits/:id` — intake view, review checklist, report editor, status changes, and redact/delete controls.
+1. `/automation-audit` — landing page. Approved copy only. Price is a publish-blocking placeholder.
+2. `/automation-audit/start` — multi-step intake, then consent, then submit.
+3. Payment step — disabled button reading "Payment not yet available." It never says payment happened.
+4. `/automation-audit/submitted` — reference code, with no timing promise.
+5. `/operator/audits` — list, search, status filter, CSV export.
+6. `/operator/audits/:id` — intake, consent record, Blueprint editor, owner review/approval, event history.
 
-## Intake fields (minimal)
-- Contact: name, business name, work email, phone (optional), website (optional)
-- Business: industry (select), team size band, revenue band (bands only, no exact figures)
-- Current state: tools in use (multi-select plus "other"), main processes to improve (free text, 1,000-character limit), data sources (select), current AI use (select)
-- Goals: top 3 goals, timeline band, budget band (optional)
-- Consent: separate unchecked boxes for terms/privacy (required) and email follow-up (optional). Stores the timestamp and the consent text version.
-- **Not collected:** SSN, EIN, bank or credit details, DOB, customer PII, credentials or API keys. Free-text fields show a warning, and the server removes obvious SSN, card and email patterns before saving.
+## Intake fields
+Business model, industry (roofing/restoration first), tools/software, CRM, lead sources, customer journey, sales workflow, communication channels, repetitive/admin work, bottlenecks, desired improvements, known costs, growth/capital constraints, insurance-claim share of revenue (band), typical carrier pay delay (band).
+Contact: name, business, email, phone (optional).
+**Not collected:** SSN, EIN, bank or card details, DOB, customer PII, passwords or API keys. Free-text fields show a warning.
 
-## Data model (one migration, with GRANTs and RLS)
-- `audit_requests`: id, ref_code, contact fields, answers jsonb, consent fields, status enum (`submitted, in_review, report_draft, report_approved, delivered, cancelled`), payment_status (`not_required_stub, pending, paid, refunded`), utm/referrer, assigned_to, retention_until, redacted_at, redacted_by, redaction_reason, created/updated
-- `audit_reports`: request_id, version, body (structured jsonb sections), status (`draft|approved`), approved_by/at. Stored separately from intake so a new version never overwrites an old one.
-- `audit_events`: append-only audit trail (who, what, when, why)
-- RLS: operator-only for everything. The public has no read access. Inserts happen only through the edge function using the service role.
-- An operator RPC `operator_update_audit(...)` changes status and writes the matching event in one transaction, the same approach as `operator_update_lead`.
+## Consent (all boxes unchecked by default)
+- **Required to submit:** audit terms and privacy acceptance, using the approved text exactly.
+- **Optional, and not required to buy or submit:** separate phone consent, using the exact approved language.
+- Each record stores: exact text, version, checked yes/no, timestamp, IP, page URL, phone.
+- Without phone consent, the record is limited to email and human-dialed calls. It is flagged so no Retell outbound or automated SMS is ever allowed.
+- Consent, opt-out and disclosure records are kept **at least 5 years**. Recordings and transcripts follow the approved retention rule; none exist in this phase.
 
-## Report deliverable (Blueprint)
-- Fixed template sections: Summary, Current state, Opportunities (ranked by operator), Recommended tools/categories, 30/60/90 roadmap, Risks and assumptions, Next steps
-- **Written by a person.** An optional "AI draft" button can pre-fill sections for the operator to edit, but every report needs an operator to approve it before release. The report scores nothing automatically.
-- Output: a print-styled HTML page, saved as PDF with the browser's print function. There is no PDF service in v1.
-- The report does not make funding, ROI or savings claims, and does not cross-sell referrals.
+## Data model (assumed new tables — one migration, GRANTs + RLS operator-only)
+- `audit_requests`: contact, `answers` jsonb, status (`submitted, in_review, blueprint_draft, owner_approved, delivered, cancelled`), `payment_status` (`unavailable_stub`), utm/referrer, `retention_until` (null until the owner sets a policy)
+- `audit_consents`: append-only; one row per consent item, with the fields listed above; not linked to `leads`
+- `audit_blueprints`: request_id, version, structured sections, status `draft|approved`, approved_by/at; approved versions are locked
+- `audit_events`: append-only (who/what/when/why)
+- RPC `operator_update_audit(...)`: status change plus event in one transaction
+- Inserts only through a new `submit-audit` edge function. The public cannot read anything.
+
+## Blueprint deliverable
+Every item is labeled **Fact / Estimate / Assumption / Unknown**. Sections:
+current state · manual processes and leaks · gaps · tool waste · integration opportunities · what should stay human · difficulty · estimated cost/impact · risks/dependencies · 30/60/90-day plan.
+The Blueprint must be useful without us implementing anything. It is written by a person, and **the owner reviews every report** until quality is proven. There is no AI-draft button in v1. Output is a print-styled page the owner saves as PDF.
 
 ## Retention and redaction
-- `retention_until` defaults to the value set in COMPLIANCE.pdf. **This is a blocker**: no number will be invented.
-- "Redact" nulls the contact fields and free text and keeps the anonymized answers. It needs a confirm dialog and a reason, and writes an event.
-- "Delete" does a hard delete with confirmation, and only an admin can do it.
-- A daily expiry job is **cut from v1**. v1 shows a "past retention" filter so records can be redacted by hand.
+- The audit intake retention period is **unresolved**. It is a publish-blocking placeholder and is not taken from the 5-year consent rule.
+- Redaction is **not built until you explicitly approve it**. When built, it will keep the audit event and never redact consent records.
 
 ## Phases
-1. **Data + intake:** migration, `submit-audit` edge function, landing page, intake and confirmation pages
-2. **Operator review:** Audits list/detail, status RPC, CSV export, sidebar link
-3. **Report:** editor, versions, approval, print view, optional AI draft (Lovable AI)
-4. **Retention/redaction** controls and the past-retention filter
-5. **Payment:** replace the stub once the owner picks and connects a provider (blocked)
+1. Migration, `submit-audit`, landing/intake/submitted pages, consent capture
+2. Operator Audits list/detail, status RPC, CSV export, sidebar link
+3. Blueprint editor, versions, owner approval, print view
+4. (After approval) redaction controls
+5. (Blocked) payment, only through an owner-supplied existing link or checkout
 
 ## Files
-- New: `src/pages/AiReadiness.tsx`, `AiReadinessStart.tsx`, `AiReadinessCheckout.tsx`, `AiReadinessSubmitted.tsx`
-- New: `src/pages/operator/Audits.tsx`, `AuditDetail.tsx`; `src/components/operator/AuditReportEditor.tsx`, `AuditReportPrint.tsx`, `ConfirmActionDialog.tsx`
-- New: `supabase/functions/submit-audit/index.ts`; optional `draft-audit-report/index.ts`
-- Edit: `src/App.tsx` (routes), `OperatorSidebar.tsx` (Audits link)
-- Not changed: every funding page, Apply, FundingPartners, Header/Footer links (a public nav link only after owner approval)
+- New: `src/pages/AutomationAudit.tsx`, `AutomationAuditStart.tsx`, `AutomationAuditSubmitted.tsx`, `src/pages/operator/Audits.tsx`, `AuditDetail.tsx`, `src/components/operator/BlueprintEditor.tsx`, `BlueprintPrint.tsx`, `supabase/functions/submit-audit/index.ts`
+- Edit: `src/App.tsx` (routes), `src/components/operator/OperatorSidebar.tsx`
+- Not changed: every funding page, `Apply.tsx`, `FundingPartners.tsx`, Header/Footer
 
 ## Acceptance criteria
-- Submitting without JavaScript tricks saves one `audit_requests` row. Honeypot, fast-submit and rate-limit cases are rejected.
-- Anonymous users can't read any audit table, even directly. Non-operators get "Not authorised".
-- No row is written to `leads`, and funding pages and partner links are unchanged (compared against the current state).
-- Status changes always write exactly one event. A failed change leaves both unchanged.
-- A report can't be marked delivered until it is approved. Approved versions are locked.
-- Redact removes the contact fields and free text, keeps the event, and needs a confirmation plus a reason.
-- The payment stub never shows card inputs or claims that payment happened.
-- Placeholders for price, address and compliance text show clearly and block publishing.
-- Build and type check pass. The flow is verified with Playwright using a labeled TEST record, which is deleted afterwards.
+- A valid submission creates one request, its consent rows and a `submitted` event. Honeypot, fast-submit and rate-limit cases are rejected. There are zero `leads` writes.
+- All consent boxes start unchecked. Leaving phone consent unchecked still allows submission. The stored text exactly matches the approved version.
+- Anonymous users can't read any table directly. Non-operators get "Not authorised".
+- A Blueprint can't be marked delivered before owner approval. Each item has a Fact/Estimate/Assumption/Unknown label.
+- The payment step is disabled and never claims payment.
+- Placeholders for price, retention and consent text block publishing.
+- Funding pages are unchanged. Build and types pass. A TEST record is verified with Playwright, then deleted.
 
-## Blockers / owner questions
-1. Upload SPEC.pdf and COMPLIANCE.pdf. They are missing.
-2. Physical business address, needed for footer/terms/email compliance. Missing.
-3. Audit price, plus refund/cancellation terms.
-4. Retention period, and whether a customer can request deletion.
-5. Payment provider: Stripe or Paddle, now or later.
-6. Should the AI draft button be in v1 or cut?
-7. Final wording for the unclear compliance placeholders, verbatim from COMPLIANCE.pdf.
+## Blockers / owner inputs
+1. Exact approved consent text: terms/privacy acceptance and phone consent, with version IDs.
+2. Audit price and refund terms. An existing payment link, if you have one.
+3. Audit intake retention period.
+4. Approval to build redaction.
+5. Physical address: this does **not** block the audit workflow. It blocks funding pages, ads, and legal/contact copy that requires it.
 
 ## Risks / cut from v1
-- Cut: live payment, automatic expiry job, emailed PDF delivery, customer login portal, automated scoring, integrations.
-- Risk: calling it an "audit" can suggest a certification. Needs the owner's approved wording.
-- Risk: free text may still contain PII. Server-side removal only reduces this.
-- Risk: an AI draft could invent claims about the customer. Mandatory human approval handles this.
+- Cut: payment processing, AI drafting, outbound communications, automatic expiry, customer portal, scoring.
+- Risk: free text may still contain PII. The warning plus operator review only reduce this.
+- Risk: estimates could read as promises. The mandatory labels plus owner review address this.
