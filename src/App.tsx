@@ -27,8 +27,10 @@ import OperatorApplications from "./pages/operator/Applications";
 import OperatorCallbacks from "./pages/operator/Callbacks";
 import OperatorAudits from "./pages/operator/Audits";
 import OperatorAuditDetail from "./pages/operator/AuditDetail";
-import AutomationAudit from "./pages/AutomationAudit";
-import AutomationAuditStart from "./pages/AutomationAuditStart";
+import FreeAuditLanding from "./pages/FreeAuditLanding";
+import FreeAuditFlow from "./pages/FreeAuditFlow";
+import FreeAuditResults from "./pages/FreeAuditResults";
+import OperatorFreeAudits from "./pages/operator/FreeAudits";
 
 const queryClient = new QueryClient();
 
@@ -50,8 +52,9 @@ const App = () => (
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
           <Route path="/apply" element={<Apply />} />
-          <Route path="/automation-audit" element={<AutomationAudit />} />
-          <Route path="/automation-audit/start" element={<AutomationAuditStart />} />
+          <Route path="/automation-audit" element={<FreeAuditLanding />} />
+          <Route path="/automation-audit/start" element={<FreeAuditFlow />} />
+          <Route path="/results/:token" element={<FreeAuditResults />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
           <Route
             path="/operator"
@@ -67,6 +70,7 @@ const App = () => (
             <Route path="callbacks" element={<OperatorCallbacks />} />
             <Route path="audits" element={<OperatorAudits />} />
             <Route path="audits/:id" element={<OperatorAuditDetail />} />
+            <Route path="free-audits" element={<OperatorFreeAudits />} />
             <Route path="marketing" element={<OperatorMarketing />} />
             <Route path="voice" element={<OperatorVoice />} />
             <Route path="integrations" element={<OperatorIntegrations />} />
