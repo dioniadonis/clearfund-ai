@@ -174,7 +174,7 @@ function sanitize(p: unknown, r: Results) {
   const x = p as Record<string, any>;
   const str = (v: unknown, max = 1200) => (typeof v === "string" ? v.slice(0, max) : "");
   const ids = new Set(r.opportunities.map((o) => o.opportunity_id));
-  const list = (v: unknown) => (Array.isArray(v) ? v.filter((s) => typeof s === "string").slice(0, 6).map((s) => s.slice(0, 80)) : []);
+  const list = (v: unknown) => (Array.isArray(v) ? v.filter((s) => typeof s === "string").slice(0, 6).map((s) => s.slice(0, 160)) : []);
   const out = {
     headline_summary: str(x?.headline_summary), score_explanation: str(x?.score_explanation),
     opportunities: (Array.isArray(x?.opportunities) ? x.opportunities : [])
