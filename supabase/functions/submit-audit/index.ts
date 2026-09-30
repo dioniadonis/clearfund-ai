@@ -26,7 +26,8 @@ const Schema = z.object({
     communication_channels: t(500), repetitive_admin_work: t(1500), bottlenecks: t(1500),
     desired_improvements: t(1500), known_costs: t(1000), growth_capital_constraints: t(1000),
     insurance_claim_revenue_share: t(40), carrier_pay_delay: t(40),
-  }),
+    business_stage: t(60), role_authority: t(60), team_size: t(20), readiness: t(20), workflow_areas: t(300),
+  }).strict(),
   terms_accepted: z.literal(true),
   phone_consent: z.boolean(),
   page_url: z.string().trim().max(500).optional().nullable(),
@@ -42,6 +43,25 @@ function throttled(ip: string, limit = 5, windowMs = 600000) {
   list.push(now);
   hits.set(ip, list);
   return list.length > limit;
+}
+
+// Audit-fit label from self-attested answers (process readiness only; mirrors src/lib/auditConsent.ts).
+// Never a rejection, funding, or credit decision.
+const FIT = [
+  "Active operating business, or an operating launch in progress",
+  "Owner, founder, or authorized decision-maker participates",
+  "Can describe at least one repeatable customer, sales, service, or back-office workflow",
+  "Has a real operational bottleneck or measurable improvement goal",
+  "Willing to share approximate, non-sensitive info on tools/processes and review a human-prepared Blueprint",
+];
+function assessFit(a: Record<string, string | null | undefined>) {
+  const m: string[] = [];
+  if (!["Operating", "Launch in progress"].includes(a.business_stage ?? "")) m.push(FIT[0]);
+  if (!["Owner / founder", "Authorized decision-maker"].includes(a.role_authority ?? "")) m.push(FIT[1]);
+  if (!(a.workflow_areas ?? "").trim() || (a.sales_workflow ?? a.customer_journey ?? "").trim().length < 10) m.push(FIT[2]);
+  if (((a.bottlenecks ?? "") + (a.desired_improvements ?? "")).trim().length < 10) m.push(FIT[3]);
+  if (a.readiness !== "Yes") m.push(FIT[4]);
+  return { audit_fit: m.length ? "needs owner review" : "appears to meet audit-fit criteria", audit_fit_missing: m.join("; ") };
 }
 
 function refCode() {
@@ -79,7 +99,7 @@ Deno.serve(async (req) => {
     business_name: b.business_name,
     email: b.email,
     phone,
-    answers: b.answers,
+    answers: { ...b.answers, ...assessFit(b.answers) },
     phone_contact_allowed: b.phone_consent,
     form_version: FORM_VERSION,
     utm_source: b.utm_source ?? null, utm_medium: b.utm_medium ?? null, utm_campaign: b.utm_campaign ?? null,

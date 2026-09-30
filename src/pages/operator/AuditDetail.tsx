@@ -17,7 +17,7 @@ import { toast } from "@/components/ui/sonner";
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 import {
-  AUDIT_FIELDS, BLUEPRINT_SECTIONS, EVIDENCE_LABELS, type BlueprintItem, type BlueprintSections, type EvidenceLabel,
+  AUDIT_FIELDS, QUAL_SELECTS, BLUEPRINT_SECTIONS, EVIDENCE_LABELS, type BlueprintItem, type BlueprintSections, type EvidenceLabel,
 } from "@/lib/auditConsent";
 import { AUDIT_STATUSES } from "./Audits";
 
@@ -109,7 +109,11 @@ const AuditDetail: React.FC = () => {
         <Card>
           <CardHeader><CardTitle className="text-base">Intake</CardTitle></CardHeader>
           <CardContent className="space-y-3 text-sm">
-            {[...AUDIT_FIELDS, { key: "insurance_claim_revenue_share", label: "Insurance-claim revenue share" }, { key: "carrier_pay_delay", label: "Carrier pay delay" }].map((f) => (
+            <div className="rounded border p-2">
+              <p className="font-medium">Audit fit (self-attested): {answers.audit_fit || "—"}</p>
+              {answers.audit_fit_missing && <p className="text-muted-foreground whitespace-pre-wrap">Missing / unclear: {answers.audit_fit_missing}</p>}
+            </div>
+            {[...QUAL_SELECTS, { key: "workflow_areas", label: "Workflow areas" }, ...AUDIT_FIELDS, { key: "insurance_claim_revenue_share", label: "Insurance-claim revenue share" }, { key: "carrier_pay_delay", label: "Carrier pay delay" }].map((f) => (
               <div key={f.key}>
                 <p className="font-medium">{f.label}</p>
                 <p className="text-muted-foreground whitespace-pre-wrap">{answers[f.key] || "—"}</p>

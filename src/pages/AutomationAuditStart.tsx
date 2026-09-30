@@ -17,6 +17,10 @@ import {
   AUDIT_TERMS_TEXT,
   CARRIER_DELAY_OPTIONS,
   CLAIM_SHARE_OPTIONS,
+  QUAL_SELECTS,
+  WORKFLOW_AREAS,
+  assessFit,
+  isContractorContext,
 } from "@/lib/auditConsent";
 
 const contactSchema = z.object({
@@ -29,7 +33,7 @@ const contactSchema = z.object({
 const AutomationAuditStart: React.FC = () => {
   const startedAt = useRef(Date.now());
   const [contact, setContact] = useState({ full_name: "", business_name: "", email: "", phone: "" });
-  const [answers, setAnswers] = useState<Record<string, string>>({ industry: "Roofing / restoration" });
+  const [answers, setAnswers] = useState<Record<string, string>>({});
   const [terms, setTerms] = useState(false);
   const [phoneConsent, setPhoneConsent] = useState(false);
   const [honeypot, setHoneypot] = useState("");
@@ -46,6 +50,8 @@ const AutomationAuditStart: React.FC = () => {
       utm_campaign: p.get("utm_campaign"),
     };
   }, []);
+  const contractor = isContractorContext(answers);
+  const fit = assessFit(answers);
 
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -61,11 +67,13 @@ const AutomationAuditStart: React.FC = () => {
     if (Object.keys(errs).length) return;
 
     setSubmitting(true);
+    const sent = { ...answers };
+    if (!contractor) { delete sent.insurance_claim_revenue_share; delete sent.carrier_pay_delay; }
     const { data, error } = await supabase.functions.invoke("submit-audit", {
       body: {
         ...contact,
         phone: contact.phone.trim() || null,
-        answers,
+        answers: sent,
         terms_accepted: true,
         phone_consent: phoneConsent,
         page_url: window.location.href,
@@ -85,6 +93,9 @@ const AutomationAuditStart: React.FC = () => {
   };
 
   const setA = (k: string, v: string) => setAnswers((a) => ({ ...a, [k]: v }));
+  const areas = (answers.workflow_areas ?? "").split(", ").filter(Boolean);
+  const toggleArea = (w: string, on: boolean) =>
+    setA("workflow_areas", (on ? [...areas, w] : areas.filter((x) => x !== w)).join(", "));
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -140,6 +151,33 @@ const AutomationAuditStart: React.FC = () => {
             </section>
 
             <section className="space-y-4">
+              <h2 className="text-lg font-semibold text-foreground">Audit fit</h2>
+              <p className="text-sm text-muted-foreground">
+                These questions check whether a process audit would be useful. They are not a funding or credit check.
+              </p>
+              {QUAL_SELECTS.map((q) => (
+                <div key={q.key} className="space-y-1">
+                  <Label>{q.label}</Label>
+                  <Select value={answers[q.key]} onValueChange={(v) => setA(q.key, v)}>
+                    <SelectTrigger><SelectValue placeholder="Select" /></SelectTrigger>
+                    <SelectContent>{q.options.map((o) => <SelectItem key={o} value={o}>{o}</SelectItem>)}</SelectContent>
+                  </Select>
+                </div>
+              ))}
+              <div className="space-y-2">
+                <Label>Workflow areas to review</Label>
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {WORKFLOW_AREAS.map((w) => (
+                    <label key={w} className="flex items-center gap-2 text-sm">
+                      <Checkbox checked={areas.includes(w)} onCheckedChange={(v) => toggleArea(w, v === true)} />
+                      {w}
+                    </label>
+                  ))}
+                </div>
+              </div>
+            </section>
+
+            <section className="space-y-4">
               <h2 className="text-lg font-semibold text-foreground">Your business</h2>
               {AUDIT_FIELDS.map((f) => (
                 <div key={f.key} className="space-y-1">
@@ -152,7 +190,9 @@ const AutomationAuditStart: React.FC = () => {
                   )}
                 </div>
               ))}
+              {contractor && (
               <div className="grid sm:grid-cols-2 gap-4">
+                <p className="sm:col-span-2 text-sm text-muted-foreground">Contractor questions (shown because of your industry):</p>
                 <div className="space-y-1">
                   <Label>Share of revenue from insurance claims</Label>
                   <Select value={answers.insurance_claim_revenue_share} onValueChange={(v) => setA("insurance_claim_revenue_share", v)}>
@@ -168,7 +208,23 @@ const AutomationAuditStart: React.FC = () => {
                   </Select>
                 </div>
               </div>
+              )}
             </section>
+
+            <Alert>
+              <AlertTitle>Audit-fit check: {fit.label}</AlertTitle>
+              <AlertDescription>
+                {fit.missing.length ? (
+                  <>
+                    <p>Missing or unclear (self-reported):</p>
+                    <ul className="list-disc pl-5">{fit.missing.map((m) => <li key={m}>{m}</li>)}</ul>
+                    <p className="mt-1">You can still submit. A person will review it and may contact you later. This is not a rejection.</p>
+                  </>
+                ) : (
+                  <p>Based on your answers. A person still reviews every intake. No results are promised.</p>
+                )}
+              </AlertDescription>
+            </Alert>
 
             <div className="hidden" aria-hidden="true">
               <Input tabIndex={-1} autoComplete="off" value={honeypot} onChange={(e) => setHoneypot(e.target.value)} name="company_website" />
