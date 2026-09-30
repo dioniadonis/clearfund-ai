@@ -11,3 +11,4 @@
 - Later packet: Telegram approvals + emergency stop
 - Cutover: owner disables JotForm forms
 - Phase 2 plan: standalone paid automation audit/Blueprint (plan only, awaiting approval)
+- Build Phase 2 audit (preview only): intake+consent, operator review, Blueprint editor. Blocked publish: legal name, doc links, price, retention
