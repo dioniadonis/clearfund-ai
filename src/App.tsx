@@ -25,6 +25,10 @@ import OperatorVoice from "./pages/operator/Voice";
 import OperatorIntegrations from "./pages/operator/Integrations";
 import OperatorApplications from "./pages/operator/Applications";
 import OperatorCallbacks from "./pages/operator/Callbacks";
+import OperatorAudits from "./pages/operator/Audits";
+import OperatorAuditDetail from "./pages/operator/AuditDetail";
+import AutomationAudit from "./pages/AutomationAudit";
+import AutomationAuditStart from "./pages/AutomationAuditStart";
 
 const queryClient = new QueryClient();
 
@@ -46,6 +50,8 @@ const App = () => (
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
           <Route path="/apply" element={<Apply />} />
+          <Route path="/automation-audit" element={<AutomationAudit />} />
+          <Route path="/automation-audit/start" element={<AutomationAuditStart />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
           <Route
             path="/operator"
@@ -59,6 +65,8 @@ const App = () => (
             <Route path="leads" element={<OperatorLeads />} />
             <Route path="applications" element={<OperatorApplications />} />
             <Route path="callbacks" element={<OperatorCallbacks />} />
+            <Route path="audits" element={<OperatorAudits />} />
+            <Route path="audits/:id" element={<OperatorAuditDetail />} />
             <Route path="marketing" element={<OperatorMarketing />} />
             <Route path="voice" element={<OperatorVoice />} />
             <Route path="integrations" element={<OperatorIntegrations />} />

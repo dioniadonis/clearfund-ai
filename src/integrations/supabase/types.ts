@@ -79,6 +79,198 @@ export type Database = {
           },
         ]
       }
+      audit_blueprints: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          created_at: string
+          created_by: string | null
+          id: string
+          request_id: string
+          sections: Json
+          status: string
+          version: number
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          request_id: string
+          sections?: Json
+          status?: string
+          version: number
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          request_id?: string
+          sections?: Json
+          status?: string
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_blueprints_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "audit_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_consents: {
+        Row: {
+          checked: boolean
+          consent_type: string
+          consented_at: string
+          displayed_text: string
+          form_version: string
+          id: string
+          ip: string | null
+          page_url: string | null
+          phone_entered: string | null
+          request_id: string
+        }
+        Insert: {
+          checked: boolean
+          consent_type: string
+          consented_at?: string
+          displayed_text: string
+          form_version: string
+          id?: string
+          ip?: string | null
+          page_url?: string | null
+          phone_entered?: string | null
+          request_id: string
+        }
+        Update: {
+          checked?: boolean
+          consent_type?: string
+          consented_at?: string
+          displayed_text?: string
+          form_version?: string
+          id?: string
+          ip?: string | null
+          page_url?: string | null
+          phone_entered?: string | null
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_consents_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "audit_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_events: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          description: string | null
+          event_type: string
+          id: string
+          request_id: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          event_type: string
+          id?: string
+          request_id: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          event_type?: string
+          id?: string
+          request_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "audit_events_request_id_fkey"
+            columns: ["request_id"]
+            isOneToOne: false
+            referencedRelation: "audit_requests"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      audit_requests: {
+        Row: {
+          answers: Json
+          business_name: string
+          created_at: string
+          email: string
+          form_version: string
+          full_name: string
+          id: string
+          landing_page: string | null
+          payment_status: string
+          phone: string | null
+          phone_contact_allowed: boolean
+          ref_code: string
+          referrer: string | null
+          retention_until: string | null
+          status: Database["public"]["Enums"]["audit_status"]
+          updated_at: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          answers?: Json
+          business_name: string
+          created_at?: string
+          email: string
+          form_version: string
+          full_name: string
+          id?: string
+          landing_page?: string | null
+          payment_status?: string
+          phone?: string | null
+          phone_contact_allowed?: boolean
+          ref_code: string
+          referrer?: string | null
+          retention_until?: string | null
+          status?: Database["public"]["Enums"]["audit_status"]
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          answers?: Json
+          business_name?: string
+          created_at?: string
+          email?: string
+          form_version?: string
+          full_name?: string
+          id?: string
+          landing_page?: string | null
+          payment_status?: string
+          phone?: string | null
+          phone_contact_allowed?: boolean
+          ref_code?: string
+          referrer?: string | null
+          retention_until?: string | null
+          status?: Database["public"]["Enums"]["audit_status"]
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
       calendar_items: {
         Row: {
           brief_id: string | null
@@ -765,6 +957,18 @@ export type Database = {
         Returns: boolean
       }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
+      operator_save_blueprint: {
+        Args: { _approve: boolean; _request_id: string; _sections: Json }
+        Returns: number
+      }
+      operator_set_audit_status: {
+        Args: {
+          _note: string
+          _request_id: string
+          _status: Database["public"]["Enums"]["audit_status"]
+        }
+        Returns: undefined
+      }
       operator_update_lead: {
         Args: {
           _event_description: string
@@ -824,6 +1028,13 @@ export type Database = {
     Enums: {
       app_role: "admin" | "operator"
       application_status: "not_started" | "in_progress" | "completed"
+      audit_status:
+        | "submitted"
+        | "in_review"
+        | "blueprint_draft"
+        | "owner_approved"
+        | "delivered"
+        | "cancelled"
       document_status: "none" | "requested" | "partial" | "complete"
       lead_stage:
         | "new"
@@ -970,6 +1181,14 @@ export const Constants = {
     Enums: {
       app_role: ["admin", "operator"],
       application_status: ["not_started", "in_progress", "completed"],
+      audit_status: [
+        "submitted",
+        "in_review",
+        "blueprint_draft",
+        "owner_approved",
+        "delivered",
+        "cancelled",
+      ],
       document_status: ["none", "requested", "partial", "complete"],
       lead_stage: [
         "new",

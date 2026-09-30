@@ -89,3 +89,9 @@ The Blueprint must be useful without us implementing anything. It is written by 
 - Cut: payment processing, AI drafting, outbound communications, automatic expiry, customer portal, scoring.
 - Risk: free text may still contain PII. The warning plus operator review only reduce this.
 - Risk: estimates could read as promises. The mandatory labels plus owner review address this.
+
+## Final consent strings (verbatim, placeholders retained — publish blocked until replaced)
+- Required (unchecked by default): "I agree to the [Audit Terms of Service] and [Privacy Policy]."
+- Optional (unchecked by default, never required): "I agree that [LEGAL NAME] (ClearFund) may contact me at the phone number I provided, including by automated calls, AI voice assistant, prerecorded messages and text messages, about my automation audit, related services, and business funding options. Consent is not a condition of purchase. Message frequency varies. Msg & data rates may apply. Reply STOP to opt out, HELP for help. See our [Privacy Policy]."
+- Stored per consent: exact displayed text, checked yes/no, timestamp, IP, page URL, form version, phone entered.
+- Phone field is optional. No physical address anywhere. No redaction/deletion built without owner review.
