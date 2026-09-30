@@ -99,7 +99,7 @@ Deno.serve(async (req) => {
     business_name: b.business_name,
     email: b.email,
     phone,
-    answers: b.answers,
+    answers: { ...b.answers, ...assessFit(b.answers) },
     phone_contact_allowed: b.phone_consent,
     form_version: FORM_VERSION,
     utm_source: b.utm_source ?? null, utm_medium: b.utm_medium ?? null, utm_campaign: b.utm_campaign ?? null,
