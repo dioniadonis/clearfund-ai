@@ -11,3 +11,4 @@
 - Later packet: Telegram approvals + emergency stop
 - Cutover: owner disables JotForm forms
 - [x] Phase 2 audit built (preview only). Blocked publish: legal name, Audit Terms + Privacy links, price, intake retention, payment link, redaction approval
+- [x] Free Automation Audit replaces paid preview audit (/automation-audit, /results/:token, operator Free audits). Blocked publish: legal name, Audit Terms + Privacy links; "first ten" line must be removed after 10 real audits
