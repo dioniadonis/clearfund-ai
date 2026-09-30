@@ -122,7 +122,9 @@ async function callAi(a: Answers, r: Results): Promise<AiResult> {
   const key = Deno.env.get("LOVABLE_API_KEY");
   if (!key) return { ok: false, reason: "no_api_key", raw: null, retryable: false };
   const ctrl = new AbortController();
-  const timer = setTimeout(() => ctrl.abort(), 20000); // spec: 20s cap, then fall back
+  // Spec's 20s timeout is applied as "20s with no progress" so a streaming answer isn't thrown away mid-write; hard cap 60s.
+  let timer = setTimeout(() => ctrl.abort(), 20000);
+  const hard = setTimeout(() => ctrl.abort(), 60000);
   let raw = "";
   try {
     const res = await fetch("https://ai.gateway.lovable.dev/v1/responses", {
@@ -145,6 +147,7 @@ async function callAi(a: Answers, r: Results): Promise<AiResult> {
     for (;;) {
       const { value, done } = await reader.read();
       if (done) break;
+      clearTimeout(timer); timer = setTimeout(() => ctrl.abort(), 20000);
       buf += value;
       const lines = buf.split("\n");
       buf = lines.pop() ?? "";
@@ -163,7 +166,7 @@ async function callAi(a: Answers, r: Results): Promise<AiResult> {
     catch { return { ok: false, reason: "malformed_json", raw, retryable: true }; }
   } catch (e) {
     return { ok: false, reason: ctrl.signal.aborted ? "timeout" : `error:${(e as Error).message}`, raw: raw || null, retryable: false };
-  } finally { clearTimeout(timer); }
+  } finally { clearTimeout(timer); clearTimeout(hard); }
 }
 
 // Keep only well-formed fields, and only opportunity ids we actually computed.
