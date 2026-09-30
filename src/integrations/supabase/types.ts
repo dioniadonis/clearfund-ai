@@ -625,6 +625,166 @@ export type Database = {
         }
         Relationships: []
       }
+      free_audit_consents: {
+        Row: {
+          audit_id: string
+          checked: boolean
+          consent_type: string
+          consented_at: string
+          displayed_text: string
+          form_version: string
+          id: string
+          ip: string | null
+          page_url: string | null
+          phone_entered: string | null
+        }
+        Insert: {
+          audit_id: string
+          checked: boolean
+          consent_type: string
+          consented_at?: string
+          displayed_text: string
+          form_version: string
+          id?: string
+          ip?: string | null
+          page_url?: string | null
+          phone_entered?: string | null
+        }
+        Update: {
+          audit_id?: string
+          checked?: boolean
+          consent_type?: string
+          consented_at?: string
+          displayed_text?: string
+          form_version?: string
+          id?: string
+          ip?: string | null
+          page_url?: string | null
+          phone_entered?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "free_audit_consents_audit_id_fkey"
+            columns: ["audit_id"]
+            isOneToOne: false
+            referencedRelation: "free_audits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      free_audit_events: {
+        Row: {
+          audit_id: string
+          event_name: string
+          id: string
+          metadata: Json
+          occurred_at: string
+          step_id: string | null
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          audit_id: string
+          event_name: string
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          step_id?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          audit_id?: string
+          event_name?: string
+          id?: string
+          metadata?: Json
+          occurred_at?: string
+          step_id?: string | null
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "free_audit_events_audit_id_fkey"
+            columns: ["audit_id"]
+            isOneToOne: false
+            referencedRelation: "free_audits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      free_audits: {
+        Row: {
+          ai_analysis: Json | null
+          ai_raw: string | null
+          ai_status: string
+          answers: Json
+          business_name: string
+          created_at: string
+          email: string
+          first_name: string
+          form_version: string
+          id: string
+          landing_page: string | null
+          phone: string | null
+          phone_contact_allowed: boolean
+          referrer: string | null
+          results: Json
+          share_token: string
+          updated_at: string
+          utm_campaign: string | null
+          utm_medium: string | null
+          utm_source: string | null
+        }
+        Insert: {
+          ai_analysis?: Json | null
+          ai_raw?: string | null
+          ai_status?: string
+          answers: Json
+          business_name: string
+          created_at?: string
+          email: string
+          first_name: string
+          form_version: string
+          id?: string
+          landing_page?: string | null
+          phone?: string | null
+          phone_contact_allowed?: boolean
+          referrer?: string | null
+          results: Json
+          share_token: string
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Update: {
+          ai_analysis?: Json | null
+          ai_raw?: string | null
+          ai_status?: string
+          answers?: Json
+          business_name?: string
+          created_at?: string
+          email?: string
+          first_name?: string
+          form_version?: string
+          id?: string
+          landing_page?: string | null
+          phone?: string | null
+          phone_contact_allowed?: boolean
+          referrer?: string | null
+          results?: Json
+          share_token?: string
+          updated_at?: string
+          utm_campaign?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+        }
+        Relationships: []
+      }
       integrations: {
         Row: {
           category: string
