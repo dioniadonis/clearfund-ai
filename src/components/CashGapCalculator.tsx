@@ -130,7 +130,7 @@ const CashGapCalculator: React.FC<Props> = ({ stage }) => {
               <Button asChild className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg">
                 <Link to={applyHref}>Apply for This Amount</Link>
               </Button>
-              <a href="tel:8665784721" className="text-clearfund-blue font-medium hover:underline">
+              <a href="tel:8665784721" className="text-clearfund-blue font-medium hover:underline whitespace-nowrap">
                 Talk to us: 866-578-4721
               </a>
             </div>
