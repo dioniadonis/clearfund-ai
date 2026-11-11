@@ -1,10 +1,14 @@
 import React from "react";
+import { useSearchParams } from "react-router-dom";
+import { parseAmount } from "@/lib/amount";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import CashGapCalculator from "../components/CashGapCalculator";
 import { usePageMeta } from "@/lib/usePageMeta";
 
 const CashGapCalculatorPage: React.FC = () => {
+  const [params] = useSearchParams();
+  const amount = parseAmount(params.get("amount"));
   usePageMeta(
     "Mobilization Cash-Gap Calculator for Contractors | ClearFund AI",
     "Free calculator: see how much cash a new government contract needs before the first payment arrives.",
@@ -24,7 +28,7 @@ const CashGapCalculatorPage: React.FC = () => {
         </section>
         <section className="py-12 md:py-16 bg-white">
           <div className="container-custom">
-            <CashGapCalculator />
+            <CashGapCalculator initialAmount={amount ?? undefined} />
           </div>
         </section>
       </main>
