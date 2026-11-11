@@ -550,6 +550,36 @@ export type Database = {
         }
         Relationships: []
       }
+      cash_gap_leads: {
+        Row: {
+          cash_gap: number
+          created_at: string
+          email: string
+          id: string
+          inputs: Json
+          marketing_consent: boolean
+          stage: string | null
+        }
+        Insert: {
+          cash_gap: number
+          created_at?: string
+          email: string
+          id?: string
+          inputs?: Json
+          marketing_consent?: boolean
+          stage?: string | null
+        }
+        Update: {
+          cash_gap?: number
+          created_at?: string
+          email?: string
+          id?: string
+          inputs?: Json
+          marketing_consent?: boolean
+          stage?: string | null
+        }
+        Relationships: []
+      }
       content_briefs: {
         Row: {
           audience: string | null
