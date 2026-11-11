@@ -655,6 +655,98 @@ export type Database = {
         }
         Relationships: []
       }
+      crm_activities: {
+        Row: {
+          body: string | null
+          created_at: string
+          id: string
+          lead_id: string
+          type: string
+          user_id: string | null
+        }
+        Insert: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          lead_id: string
+          type: string
+          user_id?: string | null
+        }
+        Update: {
+          body?: string | null
+          created_at?: string
+          id?: string
+          lead_id?: string
+          type?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_activities_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_leads: {
+        Row: {
+          agency: string | null
+          assigned_to: string | null
+          award_amount: number | null
+          award_date: string | null
+          contact_name: string | null
+          created_at: string
+          email: string | null
+          firm: string | null
+          id: string
+          lead_ref: string | null
+          next_follow_up: string | null
+          notes: string | null
+          phone: string | null
+          source: string
+          stage: string
+          updated_at: string
+        }
+        Insert: {
+          agency?: string | null
+          assigned_to?: string | null
+          award_amount?: number | null
+          award_date?: string | null
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          firm?: string | null
+          id?: string
+          lead_ref?: string | null
+          next_follow_up?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string
+          stage?: string
+          updated_at?: string
+        }
+        Update: {
+          agency?: string | null
+          assigned_to?: string | null
+          award_amount?: number | null
+          award_date?: string | null
+          contact_name?: string | null
+          created_at?: string
+          email?: string | null
+          firm?: string | null
+          id?: string
+          lead_ref?: string | null
+          next_follow_up?: string | null
+          notes?: string | null
+          phone?: string | null
+          source?: string
+          stage?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       free_audit_consents: {
         Row: {
           audit_id: string
@@ -1053,6 +1145,30 @@ export type Database = {
         }
         Relationships: []
       }
+      outreach_visits: {
+        Row: {
+          agency: string | null
+          firm: string | null
+          id: string
+          lead: string | null
+          visited_at: string
+        }
+        Insert: {
+          agency?: string | null
+          firm?: string | null
+          id?: string
+          lead?: string | null
+          visited_at?: string
+        }
+        Update: {
+          agency?: string | null
+          firm?: string | null
+          id?: string
+          lead?: string | null
+          visited_at?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           created_at: string
@@ -1139,6 +1255,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      crm_list_agents: {
+        Args: never
+        Returns: {
+          email: string
+          id: string
+          role: string
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -1146,6 +1270,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_crm_user: { Args: { _user_id: string }; Returns: boolean }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
       operator_save_blueprint: {
         Args: { _approve: boolean; _request_id: string; _sections: Json }
@@ -1216,7 +1341,7 @@ export type Database = {
       }
     }
     Enums: {
-      app_role: "admin" | "operator"
+      app_role: "admin" | "operator" | "agent"
       application_status: "not_started" | "in_progress" | "completed"
       audit_status:
         | "submitted"
@@ -1369,7 +1494,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin", "operator"],
+      app_role: ["admin", "operator", "agent"],
       application_status: ["not_started", "in_progress", "completed"],
       audit_status: [
         "submitted",
