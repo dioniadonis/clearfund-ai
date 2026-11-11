@@ -1,5 +1,5 @@
 import React from "react";
-import { DndContext, useDraggable, useDroppable, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
+import { DndContext, pointerWithin, rectIntersection, type CollisionDetection, useDraggable, useDroppable, PointerSensor, TouchSensor, KeyboardSensor, useSensor, useSensors, type DragEndEvent } from "@dnd-kit/core";
 import { CRM_STAGES, fmtMoney, leadLabel, todayIso, type CrmLead } from "@/lib/crm";
 
 const Card: React.FC<{ lead: CrmLead; onOpen: () => void }> = ({ lead, onOpen }) => {
@@ -25,12 +25,14 @@ const Card: React.FC<{ lead: CrmLead; onOpen: () => void }> = ({ lead, onOpen })
 const Column: React.FC<{ stage: string; leads: CrmLead[]; onOpen: (l: CrmLead) => void }> = ({ stage, leads, onOpen }) => {
   const { setNodeRef, isOver } = useDroppable({ id: stage });
   return (
-    <section ref={setNodeRef} aria-label={stage} className={`snap-start shrink-0 w-[80vw] max-w-[300px] rounded-xl border p-2 space-y-2 ${isOver ? "bg-accent" : "bg-muted/40"}`}>
+    <section ref={setNodeRef} aria-label={stage} className={`snap-start shrink-0 w-[80vw] max-w-[300px] min-h-[60vh] rounded-xl border p-2 space-y-2 ${isOver ? "bg-accent" : "bg-muted/40"}`}>
       <h3 className="font-semibold px-1 flex justify-between"><span>{stage}</span><span className="text-muted-foreground">{leads.length}</span></h3>
       {leads.map((l) => <Card key={l.id} lead={l} onOpen={() => onOpen(l)} />)}
     </section>
   );
 };
+
+const collide: CollisionDetection = (args) => { const hits = pointerWithin(args); return hits.length ? hits : rectIntersection(args); };
 
 const CrmBoard: React.FC<{ leads: CrmLead[]; onOpen: (l: CrmLead) => void; onMove: (id: string, stage: string) => void }> = ({ leads, onOpen, onMove }) => {
   const sensors = useSensors(
@@ -44,7 +46,7 @@ const CrmBoard: React.FC<{ leads: CrmLead[]; onOpen: (l: CrmLead) => void; onMov
     if (to && lead && lead.stage !== to) onMove(lead.id, to);
   };
   return (
-    <DndContext sensors={sensors} onDragStart={(e) => console.log("DRAGSTART", e.active.id)} onDragEnd={(e) => { console.log("DRAGEND", e.over?.id); end(e); }}>
+    <DndContext sensors={sensors} collisionDetection={collide} onDragEnd={end}>
       <p className="text-xs text-muted-foreground mb-2">Press and hold a card, then drag it to another column. Scroll sideways to see all stages.</p>
       <div className="flex gap-3 overflow-x-auto snap-x pb-4 -mx-4 px-4">
         {CRM_STAGES.map((s) => <Column key={s} stage={s} leads={leads.filter((l) => l.stage === s)} onOpen={onOpen} />)}
