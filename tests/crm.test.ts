@@ -1,6 +1,6 @@
 import { describe, expect, it } from "bun:test";
-import { buildImportRows } from "./crm";
-import { parseAmount } from "./amount";
+import { buildImportRows } from "../src/lib/crm";
+import { parseAmount } from "../src/lib/amount";
 
 describe("CSV import duplicate skipping", () => {
   it("skips rows matching an existing email (case-insensitive)", () => {
