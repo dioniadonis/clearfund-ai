@@ -141,7 +141,7 @@ const CashGapCalculator: React.FC<Props> = ({ stage }) => {
               <p className="text-clearfund-dark-blue font-medium">Thanks, your estimate is saved.</p>
             ) : (
               <form onSubmit={save} className="space-y-4">
-                <p className="font-semibold text-clearfund-dark-blue">Want this estimate saved and sent to you?</p>
+                <p className="font-semibold text-clearfund-dark-blue">Want to save this estimate?</p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Input type="email" required aria-label="Email" placeholder="you@company.com" value={email} onChange={(e) => setEmail(e.target.value)} />
                   <Button type="submit" disabled={saving} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white">
