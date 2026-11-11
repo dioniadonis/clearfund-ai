@@ -8,13 +8,7 @@ import Footer from "../components/Footer";
 import CashGapCalculator from "../components/CashGapCalculator";
 import { usePageMeta } from "@/lib/usePageMeta";
 
-type StageKey = "bidding" | "won" | "working" | "invoiced";
-const STAGES: { key: StageKey; title: string; pain: string }[] = [
-  { key: "bidding", title: "Bidding now", pain: "Line up funding before you win so you can say yes fast." },
-  { key: "won", title: "Just won, haven't started", pain: "Bonding, materials and equipment are due before the job starts." },
-  { key: "working", title: "Working, waiting on the first payment", pain: "Payroll and suppliers are due, the agency pays in 30 to 90 days." },
-  { key: "invoiced", title: "Invoiced the agency, waiting to get paid", pain: "The work is done and approved, but the check is weeks away." },
-];
+import StageSelector, { STAGES, type StageKey } from "../components/StageSelector";
 const isStage = (v: string | null): v is StageKey => STAGES.some((s) => s.key === v);
 
 const withStage = (href: string, stage: StageKey | null) => (stage ? `${href}&stage=${stage}` : href);
@@ -126,31 +120,7 @@ const ContractFinancing: React.FC = () => {
         <section ref={selectorRef} id="stage" className="py-16 bg-white scroll-mt-24">
           <div className="container-custom max-w-5xl space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue text-center">Where are you with your contract?</h2>
-            <div className="grid md:grid-cols-2 gap-6" role="radiogroup" aria-label="Contract stage">
-              {STAGES.map((s, i) => {
-                const active = s.key === stage;
-                return (
-                  <button
-                    key={s.key}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    onClick={() => choose(s.key)}
-                    className={`text-left rounded-xl border-2 p-6 md:p-8 transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-clearfund-blue ${
-                      active ? "border-clearfund-blue bg-clearfund-pale-blue" : "border-gray-200 bg-white hover:border-clearfund-blue"
-                    }`}
-                  >
-                    <span className="flex items-center gap-3 mb-3">
-                      <span className={`h-9 w-9 rounded-full flex items-center justify-center font-bold ${active ? "bg-clearfund-blue text-white" : "bg-clearfund-pale-blue text-clearfund-blue"}`}>
-                        {active ? <Check size={18} /> : i + 1}
-                      </span>
-                      <span className="text-xl font-bold text-clearfund-dark-blue">{s.title}</span>
-                    </span>
-                    <span className="block text-gray-700">{s.pain}</span>
-                  </button>
-                );
-              })}
-            </div>
+            <StageSelector stage={stage} onChoose={choose} />
             <div ref={panelRef} className="scroll-mt-24">
               {stage && (
                 <div className="border border-gray-200 rounded-xl p-6 md:p-8 bg-white">

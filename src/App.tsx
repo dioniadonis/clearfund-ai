@@ -33,6 +33,8 @@ import FreeAuditLanding from "./pages/FreeAuditLanding";
 import FreeAuditFlow from "./pages/FreeAuditFlow";
 import FreeAuditResults from "./pages/FreeAuditResults";
 import OperatorFreeAudits from "./pages/operator/FreeAudits";
+import Awarded from "./pages/Awarded";
+import Crm from "./pages/crm/Crm";
 
 const queryClient = new QueryClient();
 
@@ -59,6 +61,8 @@ const App = () => (
           <Route path="/automation-audit" element={<FreeAuditLanding />} />
           <Route path="/automation-audit/start" element={<FreeAuditFlow />} />
           <Route path="/results/:token" element={<FreeAuditResults />} />
+          <Route path="/awarded" element={<Awarded />} />
+          <Route path="/crm" element={<Crm />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
           <Route
             path="/operator"

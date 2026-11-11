@@ -23,13 +23,14 @@ const emailSchema = z.string().trim().email().max(254);
 interface Props {
   stage?: string;
   embedded?: boolean;
+  initialAmount?: number;
 }
 
-const CashGapCalculator: React.FC<Props> = ({ stage, embedded }) => {
+const CashGapCalculator: React.FC<Props> = ({ stage, embedded, initialAmount }) => {
   const [inputs, setInputs] = useState<CashGapInputs>(() => {
     const start = addDays(iso(new Date()), 21);
     return {
-      contractAmount: 180000,
+      contractAmount: initialAmount && initialAmount > 0 ? Math.round(initialAmount) : 180000,
       contractMonths: 6,
       startDate: start,
       firstPaymentDate: addDays(start, 75),
