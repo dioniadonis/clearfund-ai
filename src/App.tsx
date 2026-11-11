@@ -14,6 +14,8 @@ import BrokerDisclosure from "./pages/BrokerDisclosure";
 import Disclaimers from "./pages/Disclaimers";
 import NotFound from "./pages/NotFound";
 import Apply from "./pages/Apply";
+import ContractFinancing from "./pages/ContractFinancing";
+import CashGapCalculatorPage from "./pages/CashGapCalculatorPage";
 import { OperatorAuthProvider } from "./hooks/useOperatorAuth";
 import RequireOperator from "./components/operator/RequireOperator";
 import OperatorLogin from "./pages/operator/Login";
@@ -52,6 +54,8 @@ const App = () => (
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
           <Route path="/apply" element={<Apply />} />
+          <Route path="/contract-financing" element={<ContractFinancing />} />
+          <Route path="/cash-gap-calculator" element={<CashGapCalculatorPage />} />
           <Route path="/automation-audit" element={<FreeAuditLanding />} />
           <Route path="/automation-audit/start" element={<FreeAuditFlow />} />
           <Route path="/results/:token" element={<FreeAuditResults />} />

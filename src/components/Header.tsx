@@ -42,6 +42,9 @@ const Header: React.FC = () => {
           <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Working Capital
           </Link>
+          <Link to="/contract-financing" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
+            Contract Funding
+          </Link>
           <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors">
             Instant Micro Funding
           </Link>
@@ -99,7 +102,10 @@ const Header: React.FC = () => {
             <Link to="/working-capital" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
               Working Capital
             </Link>
-            <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+            <Link to="/contract-financing" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
+            Contract Funding
+          </Link>
+          <Link to="/gig-funding" className="text-clearfund-dark-blue hover:text-clearfund-blue font-medium transition-colors py-2 border-b border-gray-100">
               Instant Micro Funding
             </Link>
           </nav>
