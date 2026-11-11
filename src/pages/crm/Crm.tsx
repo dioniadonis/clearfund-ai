@@ -58,7 +58,9 @@ const Crm: React.FC = () => {
   useEffect(() => {
     document.title = "CRM | ClearFund";
     const m = document.createElement("meta"); m.name = "robots"; m.content = "noindex, nofollow"; document.head.appendChild(m);
-    return () => m.remove();
+    // The public site chat bubble covers CRM controls; hide it on this private page only.
+    const st = document.createElement("style"); st.textContent = "#chat_app{display:none!important}"; document.head.appendChild(st);
+    return () => { m.remove(); st.remove(); };
   }, []);
   const { session, sessionLoading, signOut } = useOperatorAuth();
   const userId = session?.user.id ?? null;
