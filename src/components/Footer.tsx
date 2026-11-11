@@ -5,7 +5,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
 
-const Footer: React.FC = () => {
+const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
   const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
 
   const scrollToTop = () => {
@@ -45,6 +45,15 @@ const Footer: React.FC = () => {
                   </Link>
                 </li>
                 <li>
+                  <Link 
+                    to="/contract-financing" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Contract Funding
+                  </Link>
+                </li>
+                <li>
                   <a 
                     href="https://davidallencapital.com/clearfund" 
                     target="_blank" 
@@ -53,6 +62,15 @@ const Footer: React.FC = () => {
                   >
                     Instant Micro Funding
                   </a>
+                </li>
+                <li>
+                  <Link 
+                    to="/cash-gap-calculator" 
+                    className="text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Cash-Gap Calculator
+                  </Link>
                 </li>
               </ul>
             </div>
@@ -137,6 +155,7 @@ const Footer: React.FC = () => {
           </div>
           <div className="text-sm text-clearfund-pale-blue text-center md:text-right">
             <p>&copy; {new Date().getFullYear()} Clearfund AI. All rights reserved.</p>
+            {pageDisclaimer && <p className="text-xs mt-2">{pageDisclaimer}</p>}
             <p className="text-xs mt-2">
               *ClearFund AI is a broker, not a lender. We partner with select funding providers, including David Allen Capital, and may receive compensation when you are funded through a partner. Your privacy is protected throughout the process.
             </p>
