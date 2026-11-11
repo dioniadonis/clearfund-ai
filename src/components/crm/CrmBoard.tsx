@@ -44,7 +44,7 @@ const CrmBoard: React.FC<{ leads: CrmLead[]; onOpen: (l: CrmLead) => void; onMov
     if (to && lead && lead.stage !== to) onMove(lead.id, to);
   };
   return (
-    <DndContext sensors={sensors} onDragEnd={end}>
+    <DndContext sensors={sensors} onDragStart={(e) => console.log("DRAGSTART", e.active.id)} onDragEnd={(e) => { console.log("DRAGEND", e.over?.id); end(e); }}>
       <p className="text-xs text-muted-foreground mb-2">Press and hold a card, then drag it to another column. Scroll sideways to see all stages.</p>
       <div className="flex gap-3 overflow-x-auto snap-x pb-4 -mx-4 px-4">
         {CRM_STAGES.map((s) => <Column key={s} stage={s} leads={leads.filter((l) => l.stage === s)} onOpen={onOpen} />)}
