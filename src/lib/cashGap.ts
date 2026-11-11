@@ -22,9 +22,10 @@ export function computeCashGap(i: CashGapInputs) {
       : 0;
   const amount = Math.max(0, i.contractAmount || 0);
   const jobCost = amount * (1 - (i.marginPercent || 0) / 100);
-  const upFront = amount * (i.upFrontPercent || 0) / 100;
+  const upFront = Math.min(amount * (i.upFrontPercent || 0) / 100, jobCost);
   const monthlyBurn = Math.max(0, jobCost - upFront) / months;
-  const runningCosts = monthlyBurn * (days / 30.4);
+  const runningCosts = Math.min(monthlyBurn * (days / 30.4), jobCost - upFront);
   const cashGap = Math.max(0, upFront + runningCosts - Math.max(0, i.cashOnHand || 0));
-  return { days, jobCost, upFront, monthlyBurn, runningCosts, cashGap };
+  const datesInverted = !!(i.startDate && i.firstPaymentDate) && parse(i.firstPaymentDate) <= parse(i.startDate);
+  return { days, datesInverted, jobCost, upFront, monthlyBurn, runningCosts, cashGap };
 }

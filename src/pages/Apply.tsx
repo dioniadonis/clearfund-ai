@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import { parseAmount } from "@/lib/amount";
 import { z } from "zod";
 import { Loader2, CheckCircle2 } from "lucide-react";
 import Header from "@/components/Header";
@@ -70,7 +71,11 @@ const Apply: React.FC = () => {
   const headline = initialInterest ? SERVICES[initialInterest].headline : "Apply for business funding";
 
   const [service, setService] = useState<Service | "">(initialInterest ?? "");
-  const [form, setForm] = useState<FormState>(emptyForm);
+  const [form, setForm] = useState<FormState>(() => {
+    // Prefill requested amount from ?amount= (e.g. from the cash-gap calculator)
+    const a = parseAmount(params.get("amount"));
+    return a ? { ...emptyForm, funding_need: String(a) } : emptyForm;
+  });
   const [consentEmail, setConsentEmail] = useState(false);
   const [consentSms, setConsentSms] = useState(false);
   const [consentCall, setConsentCall] = useState(false);

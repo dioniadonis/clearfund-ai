@@ -12,6 +12,10 @@ const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Math.round(n));
 
 const iso = (d: Date) => d.toISOString().slice(0, 10);
+const localToday = () => {
+  const d = new Date();
+  return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+};
 const addDays = (s: string, n: number) => {
   const d = new Date(`${s}T00:00:00Z`);
   d.setUTCDate(d.getUTCDate() + n);
@@ -28,7 +32,7 @@ interface Props {
 
 const CashGapCalculator: React.FC<Props> = ({ stage, embedded, initialAmount }) => {
   const [inputs, setInputs] = useState<CashGapInputs>(() => {
-    const start = addDays(iso(new Date()), 21);
+    const start = addDays(localToday(), 21);
     return {
       contractAmount: initialAmount && initialAmount > 0 ? Math.round(initialAmount) : 180000,
       contractMonths: 6,
@@ -125,17 +129,32 @@ const CashGapCalculator: React.FC<Props> = ({ stage, embedded, initialAmount }) 
             <p className="text-clearfund-dark-blue font-medium">Estimated cash needed before your first payment</p>
             <p className="text-5xl md:text-6xl font-bold text-clearfund-blue">{fmt(r.cashGap)}</p>
             <p className="text-gray-700">
-              {fmt(r.upFront)} up front, plus about {fmt(r.runningCosts)} in crew and running costs over the {r.days} days
-              until your first payment{inputs.cashOnHand > 0 ? `, less ${fmt(inputs.cashOnHand)} you have on hand` : ""}.
+              {fmt(r.upFront)} up front, plus about {fmt(r.runningCosts)} in crew and running costs
+              {r.datesInverted ? "" : ` over the ${r.days} days until your first payment`}
+              {inputs.cashOnHand > 0 ? `, less ${fmt(inputs.cashOnHand)} you have on hand` : ""}.
             </p>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
-              <Button asChild className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg">
-                <Link to={applyHref}>Apply for This Amount</Link>
-              </Button>
-              <a href="tel:8665784721" className="text-clearfund-blue font-medium hover:underline whitespace-nowrap">
-                Talk to us: 866-578-4721
-              </a>
-            </div>
+            {r.datesInverted && <p className="text-sm text-destructive">Check your dates: first payment is before the job starts.</p>}
+            {amount > 0 ? (
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
+                <Button asChild className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg">
+                  <Link to={applyHref}>Apply for This Amount</Link>
+                </Button>
+                <a href="tel:8665784721" className="text-clearfund-blue font-medium hover:underline whitespace-nowrap">
+                  Talk to us: 866-578-4721
+                </a>
+              </div>
+            ) : (
+              <div className="space-y-3 pt-2">
+                <p className="text-clearfund-dark-blue font-medium">Looks like you can cover this job's start. Want a backup line in case payment runs late?</p>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                  <Button asChild className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg">
+                    <a href="tel:8665784721">Talk to Us</a>
+                  </Button>
+                  <Link to="/apply?cta=calculator&product=contract" className="text-clearfund-blue font-medium hover:underline">Apply Anyway</Link>
+                </div>
+              </div>
+            )}
+            <p className="text-sm text-gray-700">The up-front part usually fits Contract &amp; PO Financing. Once you invoice the agency, Invoice Factoring can cover the rest.</p>
           </div>
 
           <div className="border border-gray-200 rounded-xl p-6">
