@@ -22,9 +22,10 @@ const emailSchema = z.string().trim().email().max(254);
 
 interface Props {
   stage?: string;
+  embedded?: boolean;
 }
 
-const CashGapCalculator: React.FC<Props> = ({ stage }) => {
+const CashGapCalculator: React.FC<Props> = ({ stage, embedded }) => {
   const [inputs, setInputs] = useState<CashGapInputs>(() => {
     const start = addDays(iso(new Date()), 21);
     return {
@@ -81,40 +82,40 @@ const CashGapCalculator: React.FC<Props> = ({ stage }) => {
     setSaved(true);
   };
 
-  const field = "space-y-2";
+  const field = "space-y-2 min-w-0";
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 pb-24 sm:pb-0">
       <div className="grid md:grid-cols-2 gap-8 items-start">
-        <div className="bg-white border border-gray-200 rounded-xl p-6 space-y-4">
+        <div className={`bg-white rounded-xl space-y-4 min-w-0 ${embedded ? "p-0 border-0 sm:p-6 sm:border sm:border-gray-200" : "p-4 sm:p-6 border border-gray-200"}`}>
           <div className={field}>
             <Label htmlFor="cg-amount">Contract amount ($)</Label>
-            <Input id="cg-amount" type="number" min={0} value={inputs.contractAmount} onChange={num("contractAmount", 0)} />
+            <Input id="cg-amount" type="number" className="w-full min-w-0 max-w-full" min={0} value={inputs.contractAmount} onChange={num("contractAmount", 0)} />
           </div>
           <div className={field}>
             <Label htmlFor="cg-months">Contract length (months)</Label>
-            <Input id="cg-months" type="number" min={1} value={inputs.contractMonths} onChange={num("contractMonths", 1)} />
+            <Input id="cg-months" type="number" className="w-full min-w-0 max-w-full" min={1} value={inputs.contractMonths} onChange={num("contractMonths", 1)} />
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className={field}>
               <Label htmlFor="cg-start">Start date</Label>
-              <Input id="cg-start" type="date" value={inputs.startDate} onChange={date("startDate")} />
+              <Input id="cg-start" type="date" className="cg-date w-full min-w-0 max-w-full" value={inputs.startDate} onChange={date("startDate")} />
             </div>
             <div className={field}>
               <Label htmlFor="cg-pay">First payment expected</Label>
-              <Input id="cg-pay" type="date" value={inputs.firstPaymentDate} onChange={date("firstPaymentDate")} />
+              <Input id="cg-pay" type="date" className="cg-date w-full min-w-0 max-w-full" value={inputs.firstPaymentDate} onChange={date("firstPaymentDate")} />
             </div>
           </div>
           <div className={field}>
             <Label htmlFor="cg-up">Up-front costs: materials, equipment, bonding (% of contract)</Label>
-            <Input id="cg-up" type="number" min={0} max={100} value={inputs.upFrontPercent} onChange={num("upFrontPercent", 0, 100)} />
+            <Input id="cg-up" type="number" className="w-full min-w-0 max-w-full" min={0} max={100} value={inputs.upFrontPercent} onChange={num("upFrontPercent", 0, 100)} />
           </div>
           <div className={field}>
             <Label htmlFor="cg-margin">Your gross margin (%)</Label>
-            <Input id="cg-margin" type="number" min={0} max={90} value={inputs.marginPercent} onChange={num("marginPercent", 0, 90)} />
+            <Input id="cg-margin" type="number" className="w-full min-w-0 max-w-full" min={0} max={90} value={inputs.marginPercent} onChange={num("marginPercent", 0, 90)} />
           </div>
           <div className={field}>
             <Label htmlFor="cg-cash">Cash you can put toward this job now ($)</Label>
-            <Input id="cg-cash" type="number" min={0} value={inputs.cashOnHand} onChange={num("cashOnHand", 0)} />
+            <Input id="cg-cash" type="number" className="w-full min-w-0 max-w-full" min={0} value={inputs.cashOnHand} onChange={num("cashOnHand", 0)} />
           </div>
         </div>
 

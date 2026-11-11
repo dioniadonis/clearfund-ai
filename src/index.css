@@ -52,3 +52,15 @@
     @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
   }
 }
+
+/* iOS Safari: keep native date inputs left-aligned and within their container */
+.cg-date {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  text-align: left;
+}
+.cg-date::-webkit-date-and-time-value { text-align: left; }

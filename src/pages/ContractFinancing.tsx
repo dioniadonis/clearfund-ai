@@ -66,7 +66,7 @@ const StagePanel: React.FC<{ stage: StageKey }> = ({ stage }) => {
   return (
     <div className="space-y-6">
       {stage === "won" ? recommend("Contract & PO Financing", products[0].copy) : recommend("Working Capital", products[2].copy)}
-      <CashGapCalculator key={stage} stage={stage} />
+      <CashGapCalculator key={stage} stage={stage} embedded />
     </div>
   );
 };
