@@ -1562,6 +1562,7 @@ export type Database = {
         Args: { _id: string; _status: string }
         Returns: undefined
       }
+      crm_cap_json: { Args: { _j: Json; _max: number }; Returns: Json }
       crm_claim_jobs: {
         Args: { _n: number; _type: string; _worker: string }
         Returns: Json
