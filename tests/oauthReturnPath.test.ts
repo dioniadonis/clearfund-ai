@@ -13,9 +13,9 @@ describe("OAuth login return path", () => {
     expect(oauthReturnPath("/\\outside.invalid/steal")).toBe("/");
   });
 
-  it("rejects malformed and non-string values", () => {
+  it("rejects relative paths, control characters, and non-string values", () => {
     expect(oauthReturnPath("not-a-path")).toBe("/");
     expect(oauthReturnPath(null)).toBe("/");
-    expect(oauthReturnPath("/%E0%A4%A")).toBe("/");
+    expect(oauthReturnPath("/safe\npath")).toBe("/");
   });
 });
