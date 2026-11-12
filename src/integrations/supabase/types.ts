@@ -2025,6 +2025,43 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      agent_approve_application: {
+        Args: { _application_id: string; _reviewer: string; _user_id: string }
+        Returns: string
+      }
+      agent_eligible: {
+        Args: { _require_training: boolean; _user_id: string }
+        Returns: boolean
+      }
+      agent_list_leads: {
+        Args: never
+        Returns: {
+          contact_name: string
+          firm: string
+          id: string
+          next_follow_up: string
+          notes: string
+          stage: string
+          warm_reason: string
+        }[]
+      }
+      agent_mark_training: { Args: { _section: string }; Returns: undefined }
+      agent_record_agreement: {
+        Args: { _ip: string; _user_id: string; _version: string }
+        Returns: undefined
+      }
+      agent_reject_application: {
+        Args: { _application_id: string }
+        Returns: undefined
+      }
+      agent_submit_application: {
+        Args: { _application: Json; _passed: boolean; _quiz_score: number }
+        Returns: Json
+      }
+      agent_update_lead: {
+        Args: { _lead_id: string; _note?: string; _stage?: string }
+        Returns: undefined
+      }
       crm_admin_add_source: {
         Args: { _params: Json; _refresh_days: number; _source: string }
         Returns: Json
@@ -2218,6 +2255,16 @@ export type Database = {
       }
       is_crm_user: { Args: { _user_id: string }; Returns: boolean }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
+      log_cta_click: {
+        Args: {
+          _agent_code?: string
+          _cta: string
+          _destination: string
+          _lead_id?: string
+          _page: string
+        }
+        Returns: string
+      }
       log_outreach_visit: {
         Args: { _agency: string; _firm: string; _lead: string }
         Returns: string
@@ -2289,6 +2336,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      track_agent_referral: { Args: { _code: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "operator" | "agent"
