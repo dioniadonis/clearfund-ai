@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const TRUSTBOX_TEMPLATE_ID = '54ad5defc6454f065c28af8b'; // Trustpilot Slider widget
 

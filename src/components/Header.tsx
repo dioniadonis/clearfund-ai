@@ -6,7 +6,8 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const Header: React.FC = () => {
   const isMobile = useIsMobile();
@@ -68,7 +69,7 @@ const Header: React.FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a
-                  href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer"
+                  href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer" onClick={() => logDacClick("header_menu")}
                   className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2"
                 >
                   <Mail size={16} />

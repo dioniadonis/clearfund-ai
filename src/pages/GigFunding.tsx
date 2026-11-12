@@ -7,14 +7,15 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProcessSlideShow from '../components/ProcessSlideShow';
 import FundingFAQSlideShow from '../components/FundingFAQSlideShow';
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const GigFunding: React.FC = () => {
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
   const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
   const handleExternalLink = () => {
-    openDacApply();
+    openDacApply("gigfunding_1");
   };
   
   return (

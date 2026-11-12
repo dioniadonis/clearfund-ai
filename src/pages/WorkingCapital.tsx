@@ -5,11 +5,12 @@ import { ArrowRight, Check, Briefcase, LineChart, Clock, Building } from 'lucide
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const WorkingCapital: React.FC = () => {
   const navigate = useNavigate();
-  const apply = (_cta: string) => openDacApply();
+  const apply = (cta: string) => openDacApply(cta);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -51,6 +52,7 @@ const WorkingCapital: React.FC = () => {
                     <div className="font-medium">Fast funding decisions</div>
                   </div>
                 </div>
+                <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
               </div>
               
               <div className="relative hidden md:block">

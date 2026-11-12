@@ -985,6 +985,30 @@ export type Database = {
         }
         Relationships: []
       }
+      cta_clicks: {
+        Row: {
+          clicked_at: string
+          cta: string
+          destination: string
+          id: string
+          page: string | null
+        }
+        Insert: {
+          clicked_at?: string
+          cta: string
+          destination: string
+          id?: string
+          page?: string | null
+        }
+        Update: {
+          clicked_at?: string
+          cta?: string
+          destination?: string
+          id?: string
+          page?: string | null
+        }
+        Relationships: []
+      }
       email_events: {
         Row: {
           campaign: string | null
