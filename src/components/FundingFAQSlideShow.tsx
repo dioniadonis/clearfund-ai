@@ -220,25 +220,25 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Does Repayment Work?</h3>
                   <p className="text-gray-600 text-lg">
-                    We offer flexible repayment options that work with your business cash flow.
+                    Repayment terms are set by the provider and included in any offer.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Automatic daily or weekly payments</span>
+                    <span className="text-gray-700">Payment schedule in the provider agreement</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Payments based on percentage of revenue</span>
+                    <span className="text-gray-700">Any revenue-based payments explained by the provider</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">No prepayment penalties</span>
+                    <span className="text-gray-700">Review prepayment terms before accepting</span>
                   </div>
                 </div>
               </div>

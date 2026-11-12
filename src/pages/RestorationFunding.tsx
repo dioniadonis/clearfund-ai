@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -111,18 +111,6 @@ const RestorationFunding: React.FC = () => {
       rel: "canonical",
       href: `${window.location.origin}/funding/insurance-restoration`,
     });
-  }, []);
-
-  // Carry ad attribution through to the application form.
-  const applyHref = useMemo(() => {
-    const incoming = new URLSearchParams(window.location.search);
-    const params = new URLSearchParams();
-    incoming.forEach((value, key) => {
-      if (key.startsWith("utm_")) params.set(key, value);
-    });
-    if (!params.get("utm_source")) params.set("utm_source", "restoration-landing");
-    if (!params.get("utm_campaign")) params.set("utm_campaign", "insurance-restoration");
-    return `/apply?${params.toString()}`;
   }, []);
 
   const PrivacyLine = () => (
