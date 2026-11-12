@@ -71,6 +71,13 @@
       "when": 1794456008745,
       "tag": "0009_crm_worker_fix_truncation",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1794456800070,
+      "tag": "0010_crm_leads_realtime",
+      "breakpoints": true
     }
   ]
 }

@@ -14,6 +14,7 @@ import ActivityView from "@/components/crm/ActivityView";
 import LeadDrawer from "@/components/crm/LeadDrawer";
 import CsvImport from "@/components/crm/CsvImport";
 import WorkersView from "@/components/crm/WorkersView";
+import LiveView from "@/components/crm/LiveView";
 import { toast } from "sonner";
 
 type CrmRole = "loading" | "admin" | "agent" | "none";
@@ -99,6 +100,9 @@ const Crm: React.FC = () => {
   }), [leads, q, source, agent, due, today]);
   const filtered = useMemo(() => (stage ? baseFiltered.filter((l) => l.stage === stage) : baseFiltered), [baseFiltered, stage]);
   const [showFilters, setShowFilters] = useState(false);
+  const [tab, setTab] = useState("activity"); const [pulse, setPulse] = useState(false);
+  const tabRef = React.useRef(tab); tabRef.current = tab;
+  const onLiveNew = React.useCallback(() => { if (tabRef.current !== "live") setPulse(true); }, []);
   const activeFilters = [source, agent, due].filter(Boolean).length;
 
   const weekAgo = Date.now() - 7 * 864e5;
@@ -158,8 +162,9 @@ const Crm: React.FC = () => {
         {leadsQ.isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : leadsQ.error ? (
           <p className="text-destructive">Couldn't load leads: {(leadsQ.error as Error).message}</p>
         ) : (
-          <Tabs defaultValue="activity">
-            <TabsList className={`w-full sm:w-auto grid ${role === "admin" ? "grid-cols-3" : "grid-cols-2"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger>{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}</TabsList>
+          <Tabs value={tab} onValueChange={(v) => { setTab(v); if (v === "live") setPulse(false); }}>
+            <TabsList className={`w-full sm:w-auto grid ${role === "admin" ? "grid-cols-4" : "grid-cols-2"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger>{role === "admin" && <TabsTrigger value="live" className="h-10 relative">Live{pulse && <span aria-label="New leads" className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary animate-pulse" />}</TabsTrigger>}{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}</TabsList>
+            {role === "admin" && <TabsContent value="live" forceMount hidden={tab !== "live"}><LiveView onOpen={setOpenId} onNew={onLiveNew} /></TabsContent>}
             {role === "admin" && <TabsContent value="workers"><WorkersView onOpen={setOpenId} /></TabsContent>}
             <TabsContent value="activity"><ActivityView leads={leads} isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
             <TabsContent value="leads" className="space-y-3">
