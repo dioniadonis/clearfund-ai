@@ -1,11 +1,12 @@
 # Roadmap — Packet CF-01
 
 ## Agent program (preview only)
-- [ ] Add recruit lead type, isolated CRM Recruits pipeline and staged CSV import
-- [ ] Add public `/agents` application, server-side quiz screening and referral attribution
-- [ ] Add protected `/agent` portal with training, agreement gate and warm-lead-only access
-- [ ] Add admin assignment, warm filters, funded commission capture, payouts and leaderboard
-- [ ] Verify role/RLS isolation, import dedupe, referral flow, tests and mobile layouts; do not publish
+- [x] Add recruit lead type, isolated CRM Recruits pipeline and staged CSV import
+- [x] Add public `/agents` application, server-side quiz screening and referral attribution
+- [x] Add protected `/agent` portal with training, agreement gate and warm-lead-only access
+- [x] Add admin assignment, warm filters, funded commission capture, payouts and leaderboard
+- [x] Verify role/RLS isolation, import dedupe, referral flow, tests and mobile layouts; do not publish
+- Unverified with a real approved account: Auth invite delivery and signed-in agent portal session; no test invitation was sent.
 
 ## Public partner compliance cleanup
 - [x] Remove unapproved provider names and outbound application links from public pages
