@@ -107,6 +107,7 @@ const ContractFinancing: React.FC = () => {
               Mobilization capital for small, MBE and DBE firms that just won a city, county, school board or state contract in Georgia. Cover crew, materials and equipment before the first government payment arrives.
             </p>
             <p className="text-sm text-gray-500">*Subject to funding partner approval and verification</p>
+            <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className={primaryBtn}>
                 <ApplyLink cta="contractfinancing_3">Apply Now</ApplyLink>

@@ -176,6 +176,7 @@ const RestorationFunding: React.FC = () => {
                     </a>
                   </Button>
                 </div>
+                <p className="text-sm text-gray-600">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
                 <p className="text-sm text-gray-600">
                   Fast initial qualification. Straightforward process. No generic bank runaround.
                 </p>

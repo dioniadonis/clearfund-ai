@@ -52,6 +52,7 @@ const WorkingCapital: React.FC = () => {
                     <div className="font-medium">Fast funding decisions</div>
                   </div>
                 </div>
+                <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
               </div>
               
               <div className="relative hidden md:block">
