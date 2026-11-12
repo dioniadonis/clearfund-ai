@@ -46,7 +46,6 @@ export function evaluate(a: Answers, p: Product): Evaluation {
     const inside = (p.amount_min == null || amtLo >= p.amount_min) && (p.amount_max == null || (amtHi != null && amtHi <= p.amount_max));
     if (okLo && okHi && inside) fit += 1;
   }
-  if (revHi == null) fit += 0; // no-op, keeps shape explicit
   return { product_id: p.id, label: `${p.funder} · ${p.product}`, eligible: fails.length === 0, reasons, fails, fit };
 }
 
