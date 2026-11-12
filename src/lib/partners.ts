@@ -10,7 +10,8 @@ export const logDacClick = (cta: string) => {
   } catch { /* ignore */ }
 };
 
+export const QUALIFIER_PATH = "/get-started";
+// Apply buttons go to the short qualifier first; it picks the right next step per lead.
 export const openDacApply = (cta = "unknown") => {
-  logDacClick(cta);
-  window.open(DAC_APPLY_URL, "_blank", "noopener,noreferrer");
+  window.location.assign(`${QUALIFIER_PATH}?cta=${encodeURIComponent(cta.slice(0, 60))}`);
 };

@@ -57,7 +57,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
                 </li>
                 <li>
                   <a 
-                    href={DAC_APPLY_URL} onClick={() => logDacClick("footer_2")} 
+                    href="/get-started?cta=footer_2" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-clearfund-pale-blue hover:text-white transition-colors"

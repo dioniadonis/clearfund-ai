@@ -69,7 +69,7 @@ const Header: React.FC = () => {
               </DropdownMenuItem>
               <DropdownMenuItem asChild>
                 <a
-                  href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer" onClick={() => logDacClick("header_menu")}
+                  href="/get-started?cta=header_menu"
                   className="flex items-center gap-2 text-clearfund-dark-blue hover:text-clearfund-blue cursor-pointer w-full px-2 py-2"
                 >
                   <Mail size={16} />
