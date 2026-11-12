@@ -50,6 +50,27 @@
       "when": 1794453604711,
       "tag": "0006_crm_email_events",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794455904771,
+      "tag": "0007_crm_workers_claims_sources",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794455977774,
+      "tag": "0008_crm_worker_functions",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1794456008745,
+      "tag": "0009_crm_worker_fix_truncation",
+      "breakpoints": true
     }
   ]
 }

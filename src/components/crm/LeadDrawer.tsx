@@ -48,10 +48,11 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
 
   const save = async () => {
     setSaving(true);
-    const { firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref } = form;
+    const { firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref, lead_type, state, sector, website, email_source, first_line, need_score } = form;
     const dnc = !!form.do_not_contact;
     const patch: Partial<CrmLead> = { do_not_contact: dnc,
-      ...(dnc !== lead.do_not_contact ? { dnc_reason: dnc ? "manual" : null, dnc_at: dnc ? new Date().toISOString() : null } : {}), firm, contact_name, email, phone, agency, award_date, source: source || "manual", stage, next_follow_up, notes, lead_ref,
+      ...(dnc !== lead.do_not_contact ? { dnc_reason: dnc ? "manual" : null, dnc_at: dnc ? new Date().toISOString() : null } : {}), firm, contact_name, email, phone, agency, award_date, source: source || "manual", stage, next_follow_up, notes, lead_ref, lead_type: lead_type || null, state, sector, website, email_source, first_line,
+      need_score: need_score == null || need_score === ("" as unknown) ? null : Number(need_score),
       award_amount: award_amount == null || award_amount === ("" as unknown) ? null : Number(award_amount) };
     if (isAdmin || assigned_to === userId || assigned_to == null) patch.assigned_to = assigned_to ?? null;
     const { error } = await supabase.from("crm_leads").update(patch).eq("id", lead.id);
@@ -121,12 +122,15 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
         )}
 
         <div className="space-y-3">
-          {([["firm", "Firm"], ["contact_name", "Contact name"], ["email", "Email"], ["phone", "Phone"], ["agency", "Agency"], ["lead_ref", "Lead ref"]] as const).map(([k, l]) => (
+          {([["firm", "Firm"], ["contact_name", "Contact name"], ["email", "Email"], ["phone", "Phone"], ["agency", "Agency"], ["lead_ref", "Lead id"], ["website", "Website"], ["state", "State"], ["sector", "Sector"], ["email_source", "Email source"], ["first_line", "First line"]] as const).map(([k, l]) => (
             <div key={k} className="space-y-1"><Label htmlFor={`crm-${k}`}>{l}</Label><Input id={`crm-${k}`} className="h-11 text-base" value={(form[k] as string) ?? ""} onChange={set(k)} /></div>
           ))}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-amt">Award amount</Label><Input id="crm-amt" type="number" className="h-11 text-base" value={form.award_amount ?? ""} onChange={set("award_amount")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-adate">Award date</Label><Input id="crm-adate" type="date" className="cg-date h-11 text-base" value={form.award_date ?? ""} onChange={set("award_date")} /></div>
+            <div className="space-y-1 min-w-0"><Label htmlFor="crm-type">Type</Label>
+              <select id="crm-type" className={sel} value={form.lead_type ?? ""} onChange={set("lead_type")}><option value="">Not set</option><option value="borrower">Borrower</option><option value="partner">Partner</option></select></div>
+            <div className="space-y-1 min-w-0"><Label htmlFor="crm-score">Need score (0-100)</Label><Input id="crm-score" type="number" min={0} max={100} className="h-11 text-base" value={form.need_score ?? ""} onChange={set("need_score")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-stage">Stage</Label>
               <select id="crm-stage" className={sel} value={form.stage ?? "New"} onChange={set("stage")}>{CRM_STAGES.map((s) => <option key={s}>{s}</option>)}</select></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-follow">Next follow-up</Label><Input id="crm-follow" type="date" className="cg-date h-11 text-base" value={form.next_follow_up ?? ""} onChange={set("next_follow_up")} /></div>
@@ -137,6 +141,7 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
                 {(isAdmin ? agents : agents.filter((a) => a.id === userId)).map((a) => <option key={a.id} value={a.id}>{a.email ?? a.id}</option>)}
               </select></div>
           </div>
+          {lead.found_by && <p className="text-xs text-muted-foreground">First found by {lead.found_by}{lead.found_at ? ` on ${new Date(lead.found_at).toLocaleDateString()}` : ""}</p>}
           <label className="flex items-center gap-3 min-h-[44px]">
             <input type="checkbox" className="h-5 w-5" checked={!!form.do_not_contact} onChange={(e) => setForm((f) => ({ ...f, do_not_contact: e.target.checked }))} />
             <span>Do not contact</span>
