@@ -85,6 +85,13 @@
       "when": 1794504898568,
       "tag": "0011_crm_lead_counts",
       "breakpoints": true
+    },
+    {
+      "idx": 12,
+      "version": "7",
+      "when": 1794508439924,
+      "tag": "0012_crm_worker_companion_routes",
+      "breakpoints": true
     }
   ]
 }

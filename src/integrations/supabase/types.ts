@@ -1591,6 +1591,10 @@ export type Database = {
         }
         Returns: Json
       }
+      crm_find_leads: {
+        Args: { _email: string; _firm: string; _limit: number; _worker: string }
+        Returns: Json
+      }
       crm_import_leads: { Args: { _mode?: string; _rows: Json }; Returns: Json }
       crm_insert_lead: {
         Args: {
@@ -1650,7 +1654,35 @@ export type Database = {
         Args: { _endpoint: string; _worker: string }
         Returns: boolean
       }
+      crm_worker_log_reply: {
+        Args: {
+          _from_email: string
+          _inbox: string
+          _label: string
+          _lead_id: string
+          _received_at: string
+          _snippet: string
+          _subject: string
+          _worker: string
+        }
+        Returns: Json
+      }
+      crm_worker_mark_dnc: {
+        Args: { _lead_id: string; _reason: string; _worker: string }
+        Returns: string
+      }
       crm_worker_stats: { Args: never; Returns: Json }
+      crm_worker_update_lead: {
+        Args: {
+          _lead_id: string
+          _next_follow_up: string
+          _note: string
+          _set_follow_up: boolean
+          _stage: string
+          _worker: string
+        }
+        Returns: Json
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
