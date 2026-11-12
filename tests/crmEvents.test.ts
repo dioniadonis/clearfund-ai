@@ -1,5 +1,5 @@
-import { describe, it, expect } from "vitest";
-import { countEvents, weekStart, CRM_STAGES } from "./crm";
+import { describe, it, expect } from "bun:test";
+import { countEvents, weekStart, CRM_STAGES } from "../src/lib/crm";
 
 const ev = (event: string, occurred_at: string, extra: Record<string, unknown> = {}) =>
   ({ event, occurred_at, lead_id: "L1", campaign: "c1", step: "1", recipient_email: null, ...extra }) as never;
