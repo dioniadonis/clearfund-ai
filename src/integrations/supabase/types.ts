@@ -690,69 +690,298 @@ export type Database = {
           },
         ]
       }
+      crm_jobs: {
+        Row: {
+          attempts: number
+          claimed_at: string
+          claimed_by: string
+          created_at: string
+          error: string | null
+          expires_at: string
+          finished_at: string | null
+          id: string
+          job_type: string
+          lead_id: string
+          result: Json | null
+          status: string
+          website_key: string | null
+        }
+        Insert: {
+          attempts?: number
+          claimed_at?: string
+          claimed_by: string
+          created_at?: string
+          error?: string | null
+          expires_at: string
+          finished_at?: string | null
+          id?: string
+          job_type: string
+          lead_id: string
+          result?: Json | null
+          status?: string
+          website_key?: string | null
+        }
+        Update: {
+          attempts?: number
+          claimed_at?: string
+          claimed_by?: string
+          created_at?: string
+          error?: string | null
+          expires_at?: string
+          finished_at?: string | null
+          id?: string
+          job_type?: string
+          lead_id?: string
+          result?: Json | null
+          status?: string
+          website_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_jobs_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_lead_rejects: {
+        Row: {
+          created_at: string
+          dismissed_at: string | null
+          dismissed_by: string | null
+          existing_lead_id: string | null
+          found_by: string
+          id: string
+          payload: Json
+          reason: string
+          source_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          dismissed_at?: string | null
+          dismissed_by?: string | null
+          existing_lead_id?: string | null
+          found_by: string
+          id?: string
+          payload: Json
+          reason: string
+          source_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          dismissed_at?: string | null
+          dismissed_by?: string | null
+          existing_lead_id?: string | null
+          found_by?: string
+          id?: string
+          payload?: Json
+          reason?: string
+          source_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_lead_rejects_existing_lead_id_fkey"
+            columns: ["existing_lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "crm_lead_rejects_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "crm_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crm_leads: {
         Row: {
           agency: string | null
           assigned_to: string | null
           award_amount: number | null
           award_date: string | null
+          company_key: string | null
           contact_name: string | null
           created_at: string
           dnc_at: string | null
           dnc_reason: string | null
           do_not_contact: boolean
           email: string | null
+          email_source: string | null
           firm: string | null
+          first_line: string | null
+          found_at: string | null
+          found_by: string | null
           id: string
           lead_ref: string | null
+          lead_type: string | null
+          need_score: number | null
           next_follow_up: string | null
           notes: string | null
           phone: string | null
+          sector: string | null
           source: string
+          source_id: string | null
           stage: string
+          state: string | null
           updated_at: string
+          website: string | null
+          website_key: string | null
         }
         Insert: {
           agency?: string | null
           assigned_to?: string | null
           award_amount?: number | null
           award_date?: string | null
+          company_key?: string | null
           contact_name?: string | null
           created_at?: string
           dnc_at?: string | null
           dnc_reason?: string | null
           do_not_contact?: boolean
           email?: string | null
+          email_source?: string | null
           firm?: string | null
+          first_line?: string | null
+          found_at?: string | null
+          found_by?: string | null
           id?: string
           lead_ref?: string | null
+          lead_type?: string | null
+          need_score?: number | null
           next_follow_up?: string | null
           notes?: string | null
           phone?: string | null
+          sector?: string | null
           source?: string
+          source_id?: string | null
           stage?: string
+          state?: string | null
           updated_at?: string
+          website?: string | null
+          website_key?: string | null
         }
         Update: {
           agency?: string | null
           assigned_to?: string | null
           award_amount?: number | null
           award_date?: string | null
+          company_key?: string | null
           contact_name?: string | null
           created_at?: string
           dnc_at?: string | null
           dnc_reason?: string | null
           do_not_contact?: boolean
           email?: string | null
+          email_source?: string | null
           firm?: string | null
+          first_line?: string | null
+          found_at?: string | null
+          found_by?: string | null
           id?: string
           lead_ref?: string | null
+          lead_type?: string | null
+          need_score?: number | null
           next_follow_up?: string | null
           notes?: string | null
           phone?: string | null
+          sector?: string | null
           source?: string
+          source_id?: string | null
           stage?: string
+          state?: string | null
           updated_at?: string
+          website?: string | null
+          website_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_leads_source_id_fkey"
+            columns: ["source_id"]
+            isOneToOne: false
+            referencedRelation: "crm_sources"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      crm_sources: {
+        Row: {
+          claimed_at: string | null
+          claimed_by: string | null
+          created_at: string
+          created_by: string | null
+          expires_at: string | null
+          id: string
+          last_run_at: string | null
+          leads_found: number
+          new_leads: number
+          notes: string | null
+          params: Json
+          refresh_days: number
+          slice_key: string
+          source: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          last_run_at?: string | null
+          leads_found?: number
+          new_leads?: number
+          notes?: string | null
+          params?: Json
+          refresh_days?: number
+          slice_key: string
+          source: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          claimed_at?: string | null
+          claimed_by?: string | null
+          created_at?: string
+          created_by?: string | null
+          expires_at?: string | null
+          id?: string
+          last_run_at?: string | null
+          leads_found?: number
+          new_leads?: number
+          notes?: string | null
+          params?: Json
+          refresh_days?: number
+          slice_key?: string
+          source?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      crm_worker_calls: {
+        Row: {
+          created_at: string
+          endpoint: string
+          id: number
+          worker: string
+        }
+        Insert: {
+          created_at?: string
+          endpoint: string
+          id?: number
+          worker: string
+        }
+        Update: {
+          created_at?: string
+          endpoint?: string
+          id?: number
+          worker?: string
         }
         Relationships: []
       }
@@ -1320,6 +1549,28 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      crm_claim_jobs: {
+        Args: { _n: number; _type: string; _worker: string }
+        Returns: Json
+      }
+      crm_import_leads: { Args: { _mode?: string; _rows: Json }; Returns: Json }
+      crm_insert_lead: {
+        Args: {
+          _found_by: string
+          _lead: Json
+          _mode?: string
+          _source_id: string
+        }
+        Returns: Json
+      }
+      crm_job_ttl: { Args: { _type: string }; Returns: string }
+      crm_lead_eligible: {
+        Args: {
+          _l: Database["public"]["Tables"]["crm_leads"]["Row"]
+          _type: string
+        }
+        Returns: boolean
+      }
       crm_list_agents: {
         Args: never
         Returns: {
@@ -1328,6 +1579,8 @@ export type Database = {
           role: string
         }[]
       }
+      crm_norm_company: { Args: { _t: string }; Returns: string }
+      crm_norm_domain: { Args: { _t: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
