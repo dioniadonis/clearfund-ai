@@ -43,6 +43,13 @@
       "when": 1794453189567,
       "tag": "0005_secure_outreach_visits",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794453604711,
+      "tag": "0006_crm_email_events",
+      "breakpoints": true
     }
   ]
 }

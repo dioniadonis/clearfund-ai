@@ -698,6 +698,9 @@ export type Database = {
           award_date: string | null
           contact_name: string | null
           created_at: string
+          dnc_at: string | null
+          dnc_reason: string | null
+          do_not_contact: boolean
           email: string | null
           firm: string | null
           id: string
@@ -716,6 +719,9 @@ export type Database = {
           award_date?: string | null
           contact_name?: string | null
           created_at?: string
+          dnc_at?: string | null
+          dnc_reason?: string | null
+          do_not_contact?: boolean
           email?: string | null
           firm?: string | null
           id?: string
@@ -734,6 +740,9 @@ export type Database = {
           award_date?: string | null
           contact_name?: string | null
           created_at?: string
+          dnc_at?: string | null
+          dnc_reason?: string | null
+          do_not_contact?: boolean
           email?: string | null
           firm?: string | null
           id?: string
@@ -746,6 +755,56 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      email_events: {
+        Row: {
+          campaign: string | null
+          created_at: string
+          event: string
+          id: string
+          lead_id: string | null
+          occurred_at: string
+          provider: string
+          provider_event_id: string | null
+          recipient_email: string | null
+          snippet: string | null
+          step: string | null
+        }
+        Insert: {
+          campaign?: string | null
+          created_at?: string
+          event: string
+          id?: string
+          lead_id?: string | null
+          occurred_at?: string
+          provider?: string
+          provider_event_id?: string | null
+          recipient_email?: string | null
+          snippet?: string | null
+          step?: string | null
+        }
+        Update: {
+          campaign?: string | null
+          created_at?: string
+          event?: string
+          id?: string
+          lead_id?: string | null
+          occurred_at?: string
+          provider?: string
+          provider_event_id?: string | null
+          recipient_email?: string | null
+          snippet?: string | null
+          step?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_events_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       free_audit_consents: {
         Row: {
@@ -1275,6 +1334,21 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      ingest_email_event: {
+        Args: {
+          _campaign: string
+          _email: string
+          _event: string
+          _lead_id: string
+          _lead_ref: string
+          _message_id: string
+          _occurred_at: string
+          _provider: string
+          _snippet: string
+          _step: string
+        }
+        Returns: string
       }
       is_crm_user: { Args: { _user_id: string }; Returns: boolean }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
