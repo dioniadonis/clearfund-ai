@@ -1,4 +1,5 @@
 import ProductsView from "@/components/crm/ProductsView";
+import RecruitsView from "@/components/crm/RecruitsView";
 import React, { useEffect, useMemo, useState } from "react";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import Papa from "papaparse";
@@ -212,7 +213,8 @@ const Crm: React.FC = () => {
           <p className="text-destructive">Couldn't load leads: {(leadsQ.error as Error).message}</p>
         ) : (
           <Tabs value={tab} onValueChange={(v) => { setTab(v); if (v === "live") setPulse(false); }}>
-            <TabsList className={`w-full sm:w-auto grid h-auto ${role === "admin" ? "grid-cols-3 sm:grid-cols-5" : "grid-cols-2"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger>{role === "admin" && <TabsTrigger value="live" className="h-10 relative">Live{pulse && <span aria-label="New leads" className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary animate-pulse" />}</TabsTrigger>}{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}{role === "admin" && <TabsTrigger value="products" className="h-10">Products</TabsTrigger>}</TabsList>
+            <TabsList className={`w-full sm:w-auto grid h-auto ${role === "admin" ? "grid-cols-3 sm:grid-cols-6" : "grid-cols-3"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger><TabsTrigger value="recruits" className="h-10">Recruits</TabsTrigger>{role === "admin" && <TabsTrigger value="live" className="h-10 relative">Live{pulse && <span aria-label="New leads" className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary animate-pulse" />}</TabsTrigger>}{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}{role === "admin" && <TabsTrigger value="products" className="h-10">Products</TabsTrigger>}</TabsList>
+            <TabsContent value="recruits"><RecruitsView /></TabsContent>
             {role === "admin" && <TabsContent value="live" forceMount hidden={tab !== "live"}><LiveView onOpen={setOpenId} onNew={onLiveNew} /></TabsContent>}
             {role === "admin" && <TabsContent value="products"><ProductsView /></TabsContent>}
             {role === "admin" && <TabsContent value="workers"><WorkersView onOpen={setOpenId} /></TabsContent>}

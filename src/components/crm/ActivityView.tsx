@@ -49,13 +49,13 @@ const ActivityView: React.FC<Props> = ({ isAdmin, onOpen, userId }) => {
   const t = countEvents(events, dayStart()), w = countEvents(events, weekStart());
   const today0 = dayStart();
 
+  const toItem = (e: EmailEvent): Item => ({ key: e.id, at: e.occurred_at, leadId: e.lead_id, title: name(e.lead_id, e.recipient_email),
+    detail: [e.campaign, e.step && `step ${e.step}`].filter(Boolean).join(" · ") + (e.snippet ? ` — “${e.snippet}”` : "") });
   const replies = events.filter((e) => e.event === "replied");
   const inboxItems: Item[] = inbox.map((a) => ({ key: a.id, at: a.created_at, leadId: a.lead_id, title: name(a.lead_id), detail: a.body }));
   const replyItems = () => [...replies.map(toItem), ...inboxItems].sort((a, b) => b.at.localeCompare(a.at));
   const repliesToday = replyItems().filter((i) => new Date(i.at) >= today0);
   const repliesEarlier = replyItems().filter((i) => new Date(i.at) < today0);
-  const toItem = (e: EmailEvent): Item => ({ key: e.id, at: e.occurred_at, leadId: e.lead_id, title: name(e.lead_id, e.recipient_email),
-    detail: [e.campaign, e.step && `step ${e.step}`].filter(Boolean).join(" · ") + (e.snippet ? ` — “${e.snippet}”` : "") });
   const engaged: Item[] = [
     ...events.filter((e) => e.event === "clicked").map((e) => ({ ...toItem(e), title: `${name(e.lead_id, e.recipient_email)} clicked`, detail: e.campaign })),
     ...visits.map((v) => ({ key: v.id, at: v.created_at, leadId: v.lead_id, title: `${name(v.lead_id)} visited /awarded` })),

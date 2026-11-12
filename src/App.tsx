@@ -37,6 +37,7 @@ import OperatorFreeAudits from "./pages/operator/FreeAudits";
 import Awarded from "./pages/Awarded";
 import Crm from "./pages/crm/Crm";
 import OAuthConsent from "./pages/OAuthConsent";
+import Join from "./pages/Join";
 
 const queryClient = new QueryClient();
 
@@ -65,6 +66,7 @@ const App = () => (
           <Route path="/automation-audit/start" element={<FreeAuditFlow />} />
           <Route path="/results/:token" element={<FreeAuditResults />} />
           <Route path="/awarded" element={<Awarded />} />
+          <Route path="/join" element={<Join />} />
           <Route path="/crm" element={<Crm />} />
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
