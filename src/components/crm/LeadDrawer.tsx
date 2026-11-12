@@ -49,16 +49,24 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
 
   const save = async () => {
     setSaving(true);
-    const { firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref, lead_type, state, sector, website, email_source, first_line, need_score } = form;
+    const { firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref, lead_type, state, sector, website, email_source, first_line, need_score, clearfund_commission } = form;
+    if (stage === "Funded" && (clearfund_commission == null || clearfund_commission === ("" as unknown))) { setSaving(false); return toast.error("Enter ClearFund commission before marking funded."); }
     const dnc = !!form.do_not_contact;
     const patch: Partial<CrmLead> = { do_not_contact: dnc,
       ...(dnc !== lead.do_not_contact ? { dnc_reason: dnc ? "manual" : null, dnc_at: dnc ? new Date().toISOString() : null } : {}), firm, contact_name, email, phone, agency, award_date, source: source || "manual", stage, next_follow_up, notes, lead_ref, lead_type: lead_type || null, state, sector, website, email_source, first_line,
       need_score: need_score == null || need_score === ("" as unknown) ? null : Number(need_score),
-      award_amount: award_amount == null || award_amount === ("" as unknown) ? null : Number(award_amount) };
-    if (isAdmin || assigned_to === userId || assigned_to == null) patch.assigned_to = assigned_to ?? null;
+      award_amount: award_amount == null || award_amount === ("" as unknown) ? null : Number(award_amount),
+      clearfund_commission: clearfund_commission == null || clearfund_commission === ("" as unknown) ? null : Number(clearfund_commission) };
+    const selectedAgent = agents.find((a) => a.id === assigned_to && a.role === "agent");
+    const assignAgent = isAdmin && !!selectedAgent && assigned_to !== lead.assigned_to;
+    if (!assignAgent && (isAdmin || assigned_to === userId || assigned_to == null)) patch.assigned_to = assigned_to ?? null;
     const { error } = await supabase.from("crm_leads").update(patch).eq("id", lead.id);
+    if (error) { setSaving(false); return toast.error(`Couldn't save: ${error.message}`); }
+    if (assignAgent) {
+      const { error: assignError } = await supabase.rpc("crm_admin_assign_agent", { _lead_id: lead.id, _agent_id: assigned_to! });
+      if (assignError) { setSaving(false); return toast.error(`Lead saved, but assignment failed: ${assignError.message}`); }
+    }
     setSaving(false);
-    if (error) return toast.error(`Couldn't save: ${error.message}`);
     toast.success("Saved");
     qc.invalidateQueries({ queryKey: ["crm_leads"] });
     qc.invalidateQueries({ queryKey: ["crm_activities", lead.id] });
@@ -104,6 +112,7 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
             <Ban className="h-4 w-4" />Do not contact ({lead.dnc_reason ?? "manual"}{lead.dnc_at ? `, ${new Date(lead.dnc_at).toLocaleDateString()}` : ""})
           </p>
         )}
+        {lead.warm_reason && <p className="mt-3 inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs text-primary">Warm · {lead.warm_reason}</p>}
         <div className="mt-4"><RoutingCard lead={lead} isAdmin={isAdmin} /></div>
         <div className="flex flex-wrap gap-2 my-4">
           {!lead.do_not_contact && form.phone && <Button asChild variant="outline" className="h-11"><a href={`tel:${form.phone.replace(/[^\d+]/g, "")}`}><Phone className="h-4 w-4 mr-1" />Call</a></Button>}
@@ -129,9 +138,10 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
           ))}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-amt">Award amount</Label><Input id="crm-amt" type="number" className="h-11 text-base" value={form.award_amount ?? ""} onChange={set("award_amount")} /></div>
+            {isAdmin && <div className="space-y-1 min-w-0"><Label htmlFor="crm-commission">ClearFund commission (required when funded)</Label><Input id="crm-commission" type="number" min="0" step="0.01" className="h-11 text-base" value={form.clearfund_commission ?? ""} onChange={set("clearfund_commission")} /></div>}
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-adate">Award date</Label><Input id="crm-adate" type="date" className="cg-date h-11 text-base" value={form.award_date ?? ""} onChange={set("award_date")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-type">Type</Label>
-              <select id="crm-type" className={sel} value={form.lead_type ?? ""} disabled={!isAdmin} onChange={(e) => { const t = e.target.value; setForm((f) => ({ ...f, lead_type: t || null, stage: stagesFor(t).includes(f.stage ?? "") ? f.stage : "New" })); }}><option value="">Not set</option><option value="borrower">Borrower</option><option value="partner">Recruit (partner)</option></select></div>
+              <select id="crm-type" className={sel} value={form.lead_type ?? ""} disabled={!isAdmin} onChange={(e) => { const t = e.target.value; setForm((f) => ({ ...f, lead_type: t || null, stage: stagesFor(t).includes(f.stage ?? "") ? f.stage : "New" })); }}><option value="">Not set</option><option value="borrower">Borrower</option><option value="partner">Partner</option><option value="recruit">Agent recruit</option></select></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-score">Need score (0-100)</Label><Input id="crm-score" type="number" min={0} max={100} className="h-11 text-base" value={form.need_score ?? ""} onChange={set("need_score")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-stage">Stage</Label>
               <select id="crm-stage" className={sel} value={form.stage ?? "New"} onChange={set("stage")}>{stagesFor(form.lead_type).map((s) => <option key={s}>{s}</option>)}</select></div>

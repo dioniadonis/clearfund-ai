@@ -127,6 +127,41 @@
       "when": 1794515354756,
       "tag": "0017_create_recruits",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794518949974,
+      "tag": "0018_add_agent_program_foundation",
+      "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1794519124345,
+      "tag": "0019_add_agent_access_and_applications",
+      "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1794519160903,
+      "tag": "0020_add_agent_assignment_payouts_and_import",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1794519440492,
+      "tag": "0021_allow_agent_recruit_type_and_stages",
+      "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1794519583420,
+      "tag": "0022_fix_recruit_import_generated_fields",
+      "breakpoints": true
     }
   ]
 }

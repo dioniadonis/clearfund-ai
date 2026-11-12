@@ -34,7 +34,7 @@ const Lead = z.object({
   need_score: z.number().int().min(0).max(100).optional(), first_line: z.string().max(500).optional(), notes: z.string().max(2000).optional(),
 }).transform((l) => ({ ...l, lead_ref: l.lead_ref ?? l.lead_id, lead_type: l.lead_type ?? l.type, firm: l.firm ?? l.company }));
 
-const STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost", "Signed up (DAC)", "Trained", "First referral"] as const;
+const STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost", "Signed up (DAC)", "Trained", "First referral", "new", "contacted", "applied", "approved", "rejected"] as const;
 const routes = {
   "jobs/claim": z.object({ job_type: JobType, n: z.number().int().min(1).max(50).default(10) }),
   "jobs/result": z.object({ job_id: z.string().uuid(), ok: z.boolean(), result: z.record(z.unknown()).optional(), error: z.string().max(500).optional() }),
@@ -42,7 +42,7 @@ const routes = {
   "sources/register": z.object({ source: z.string().min(1).max(60), params: z.record(z.unknown()), refresh_days: z.number().int().min(1).max(3650).optional() }),
   "sources/claim": z.object({ source: z.string().max(60).optional() }),
   "sources/complete": z.object({ slice_id: z.string().uuid(), status: z.enum(["done", "blocked"]), leads: z.array(Lead).max(500).default([]), note: z.string().max(500).optional() }),
-  "leads/find": z.object({ email: z.string().max(320).optional(), firm: z.string().max(200).optional(), limit: z.number().int().min(1).max(10).optional(), type: z.enum(["client", "recruit"]).optional() })
+  "leads/find": z.object({ email: z.string().max(320).optional(), firm: z.string().max(200).optional(), limit: z.number().int().min(1).max(10).optional(), type: z.enum(["client", "partner", "recruit"]).optional() })
     .refine((v) => !!(v.email?.trim() || v.firm?.trim()), "email or firm required"),
   "leads/update": z.object({ lead_id: z.string().uuid(), stage: z.enum(STAGES).optional(), note: z.string().min(1).max(2000).optional(),
     next_follow_up: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional() })

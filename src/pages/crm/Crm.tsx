@@ -1,9 +1,10 @@
 import ProductsView from "@/components/crm/ProductsView";
 import RecruitsView from "@/components/crm/RecruitsView";
+import AgentProgramView from "@/components/crm/AgentProgramView";
 import React, { useEffect, useMemo, useState } from "react";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import Papa from "papaparse";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { Navigate, useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2, LogOut, Upload, Download, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,14 +25,15 @@ import { toast } from "sonner";
 
 type CrmRole = "loading" | "admin" | "agent" | "none";
 const PAGE = 50;
-type Filters = { kind: "client" | "partner"; q: string; stage: string; source: string; agent: string; due: "" | "today" | "overdue"; today: string };
+type Filters = { kind: "client" | "partner"; q: string; stage: string; source: string; agent: string; due: "" | "today" | "overdue"; warm: boolean; today: string };
 type Counts = { total: number; due_today: number; overdue: number; added_week: number; by_stage: Record<string, number> };
 // Strip characters that break PostgREST or() syntax / act as wildcards; RPC receives the same cleaned string.
 const cleanQ = (q: string) => q.replace(/[,()*%\\_:"']/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function applyFilters(query: any, f: Filters) {
   if (f.q) query = query.or(["firm", "contact_name", "email", "phone", "agency", "lead_ref", "website", "state", "sector"].map((c) => `${c}.ilike.*${f.q}*`).join(","));
-  query = f.kind === "partner" ? query.eq("lead_type", "partner") : query.or("lead_type.is.null,lead_type.neq.partner");
+  query = f.kind === "partner" ? query.eq("lead_type", "partner") : query.or("lead_type.is.null,and(lead_type.neq.partner,lead_type.neq.recruit)");
+  if (f.warm) query = query.not("warm_reason", "is", null);
   if (f.stage) query = query.eq("stage", f.stage);
   if (f.source) query = query.eq("source", f.source);
   if (f.agent === "unassigned") query = query.is("assigned_to", null); else if (f.agent) query = query.eq("assigned_to", f.agent);
@@ -91,7 +93,7 @@ const Crm: React.FC = () => {
   const userId = session?.user.id ?? null;
   const role = useCrmRole(userId);
   const qc = useQueryClient();
-  const enabled = role === "admin" || role === "agent";
+  const enabled = role === "admin";
   const nextPath = oauthReturnPath(searchParams.get("next"));
 
   useEffect(() => {
@@ -105,13 +107,13 @@ const Crm: React.FC = () => {
 
   const [kind, setKind] = useState<"client" | "partner">("client");
   const [q, setQ] = useState(""); const [stage, setStage] = useState(""); const [source, setSource] = useState("");
-  const [agent, setAgent] = useState(""); const [due, setDue] = useState<"" | "today" | "overdue">("");
+  const [agent, setAgent] = useState(""); const [due, setDue] = useState<"" | "today" | "overdue">(""); const [warm, setWarm] = useState(false);
   const [openId, setOpenId] = useState<string | null>(null); const [importOpen, setImportOpen] = useState(false);
 
   const today = todayIso();
   const [debQ, setDebQ] = useState("");
   useEffect(() => { const t = setTimeout(() => setDebQ(cleanQ(q)), 300); return () => clearTimeout(t); }, [q]);
-  const filters: Filters = { kind, q: debQ, stage, source, agent, due, today };
+  const filters: Filters = { kind, q: debQ, stage, source, agent, due, warm, today };
   const leadsQ = useInfiniteQuery({
     queryKey: ["crm_leads", userId, filters], enabled, initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
@@ -122,9 +124,9 @@ const Crm: React.FC = () => {
     getNextPageParam: (last, all) => (last.length === PAGE ? all.length : undefined),
   });
   const countsQ = useQuery({
-    queryKey: ["crm_lead_counts", userId, kind, debQ, source, agent, due, today], enabled,
+    queryKey: ["crm_lead_counts", userId, kind, debQ, source, agent, due, warm, today], enabled,
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("crm_lead_counts", { _today: today, _q: debQ || null, _source: source || null, _agent: agent || null, _due: due || null, _type: kind });
+      const { data, error } = await supabase.rpc("crm_lead_counts_v2", { _today: today, _q: debQ || null, _source: source || null, _agent: agent || null, _due: due || null, _type: kind, _warm: warm });
       if (error) throw error; return data as unknown as Counts;
     },
   });
@@ -141,7 +143,7 @@ const Crm: React.FC = () => {
   const [tab, setTab] = useState("activity"); const [pulse, setPulse] = useState(false);
   const tabRef = React.useRef(tab); tabRef.current = tab;
   const onLiveNew = React.useCallback(() => { if (tabRef.current !== "live") setPulse(true); }, []);
-  const activeFilters = [source, agent, due].filter(Boolean).length;
+  const activeFilters = [source, agent, due, warm].filter(Boolean).length;
 
   const move = async (id: string, to: string) => {
     qc.setQueriesData<{ pages: CrmLead[][] }>({ queryKey: ["crm_leads", userId] }, (old) => old && { ...old, pages: old.pages.map((pg) => pg.map((l) => (l.id === id ? { ...l, stage: to } : l))) });
@@ -176,6 +178,7 @@ const Crm: React.FC = () => {
   if (sessionLoading || (session && role === "loading"))
     return <div className="min-h-screen flex items-center justify-center"><Loader2 className="h-6 w-6 animate-spin" /><span className="sr-only">Checking access</span></div>;
   if (!session) return <LoginForm />;
+  if (role === "agent") return <Navigate to="/agent" replace />;
   if (!enabled)
     return (
       <div className="min-h-screen flex items-center justify-center p-4">
@@ -213,15 +216,16 @@ const Crm: React.FC = () => {
           <p className="text-destructive">Couldn't load leads: {(leadsQ.error as Error).message}</p>
         ) : (
           <Tabs value={tab} onValueChange={(v) => { setTab(v); if (v === "live") setPulse(false); }}>
-            <TabsList className={`w-full sm:w-auto grid h-auto ${role === "admin" ? "grid-cols-3 sm:grid-cols-6" : "grid-cols-3"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger><TabsTrigger value="recruits" className="h-10">Recruits</TabsTrigger>{role === "admin" && <TabsTrigger value="live" className="h-10 relative">Live{pulse && <span aria-label="New leads" className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary animate-pulse" />}</TabsTrigger>}{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}{role === "admin" && <TabsTrigger value="products" className="h-10">Products</TabsTrigger>}</TabsList>
+            <TabsList className="grid h-auto w-full grid-cols-3 sm:w-auto sm:grid-cols-7"><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger><TabsTrigger value="recruits" className="h-10">Recruits</TabsTrigger>{role === "admin" && <TabsTrigger value="agents" className="h-10">Agents</TabsTrigger>}{role === "admin" && <TabsTrigger value="live" className="h-10 relative">Live{pulse && <span aria-label="New leads" className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary animate-pulse" />}</TabsTrigger>}{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}{role === "admin" && <TabsTrigger value="products" className="h-10">Products</TabsTrigger>}</TabsList>
             <TabsContent value="recruits"><RecruitsView /></TabsContent>
+            {role === "admin" && <TabsContent value="agents"><AgentProgramView /></TabsContent>}
             {role === "admin" && <TabsContent value="live" forceMount hidden={tab !== "live"}><LiveView onOpen={setOpenId} onNew={onLiveNew} /></TabsContent>}
             {role === "admin" && <TabsContent value="products"><ProductsView /></TabsContent>}
             {role === "admin" && <TabsContent value="workers"><WorkersView onOpen={setOpenId} /></TabsContent>}
             <TabsContent value="activity"><ActivityView isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
             <TabsContent value="leads" className="space-y-3">
               <div role="group" aria-label="Lead type" className="flex flex-wrap gap-2">
-                {([["client", "Clients"], ["partner", "Recruits"]] as const).map(([v, label]) => (
+                {([["client", "Clients"], ["partner", "Partners"]] as const).map(([v, label]) => (
                   <button key={v} type="button" aria-pressed={kind === v} onClick={() => { setKind(v); setStage(""); }}
                     className={`h-10 px-4 rounded-md border text-sm font-medium ${kind === v ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-muted"}`}>{label}</button>
                 ))}
@@ -249,6 +253,7 @@ const Crm: React.FC = () => {
                   <select aria-label="Follow-up" className={sel} value={due} onChange={(e) => setDue(e.target.value as typeof due)}>
                     <option value="">Any follow-up</option><option value="today">Due today</option><option value="overdue">Overdue</option>
                   </select>
+                  <label className="flex min-h-11 items-center gap-3 rounded-md border px-3 sm:col-span-3"><input type="checkbox" className="h-5 w-5" checked={warm} onChange={(e) => setWarm(e.target.checked)} /><span className="text-sm">Warm leads only (reply, click, qualifier, or referral)</span></label>
                   <div className="flex flex-wrap gap-2 sm:col-span-3">
                     <Button variant="outline" className="h-11" disabled={exporting} onClick={exportCsv}>{exporting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Download className="h-4 w-4 mr-1" />}Export CSV</Button>
                     {role === "admin" && <Button variant="outline" className="h-11" onClick={() => setImportOpen(true)}><Upload className="h-4 w-4 mr-1" />Import CSV</Button>}

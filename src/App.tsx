@@ -38,6 +38,9 @@ import Awarded from "./pages/Awarded";
 import Crm from "./pages/crm/Crm";
 import OAuthConsent from "./pages/OAuthConsent";
 import Join from "./pages/Join";
+import Agents from "./pages/Agents";
+import AgentReferral from "./pages/AgentReferral";
+import AgentPortal from "./pages/AgentPortal";
 
 const queryClient = new QueryClient();
 
@@ -67,6 +70,9 @@ const App = () => (
           <Route path="/results/:token" element={<FreeAuditResults />} />
           <Route path="/awarded" element={<Awarded />} />
           <Route path="/join" element={<Join />} />
+          <Route path="/agents" element={<Agents />} />
+          <Route path="/r/:code" element={<AgentReferral />} />
+          <Route path="/agent" element={<AgentPortal />} />
           <Route path="/crm" element={<Crm />} />
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/operator/login" element={<OperatorLogin />} />

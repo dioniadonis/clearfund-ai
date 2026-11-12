@@ -16,7 +16,8 @@ const LeadList: React.FC<Props> = ({ leads, onOpen, onMove }) => {
             <button type="button" className="w-full text-left min-h-[44px]" onClick={() => onOpen(l.id)}>
               <div className="flex items-start justify-between gap-2">
                 <span className="font-medium break-words min-w-0">{leadLabel(l)}</span>
-                {l.lead_type === "partner" && <span className="shrink-0 rounded-full bg-primary/10 text-primary text-xs px-2 py-0.5">Recruit</span>}
+                {l.lead_type === "partner" && <span className="shrink-0 rounded-full bg-primary/10 text-primary text-xs px-2 py-0.5">Partner</span>}
+                {l.warm_reason && <span className="shrink-0 rounded-full bg-primary/10 text-primary text-xs px-2 py-0.5">Warm · {l.warm_reason}</span>}
                 {l.do_not_contact && (
                   <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-destructive/10 text-destructive text-xs px-2 py-0.5"><Ban className="h-3 w-3" />Do not contact</span>
                 )}
