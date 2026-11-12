@@ -48,7 +48,7 @@ Deno.serve(async (req) => {
   const qualifier = { ...answers, cta: a.cta ?? null, consent: { text: QUALIFIER_CONSENT_TEXT, version: "qualifier-v1", at: new Date().toISOString() } };
   const { error: ue } = await db.from("crm_leads").update({
     qualifier, routed_product_id: r.product?.id ?? null, route_next: r.next, routed_at: new Date().toISOString(),
-    route_reasons: r.evaluations, ...(cur?.lead_type === "partner" ? {} : { stage }), source: undefined,
+    route_reasons: r.evaluations, ...(cur?.lead_type === "partner" ? {} : { stage }), ...((ins.data as { status?: string }).status === "inserted" ? { source: "qualifier" } : {}),
   }).eq("id", leadId);
   if (ue) return json({ error: "save_failed" }, 500);
   await db.from("crm_activities").insert({ lead_id: leadId, type: "note", body: r.next === "state_blocked" ? `Qualifier: state ${a.state} not served` : `Qualifier completed → ${r.product ? r.product.funder + " · " + r.product.product : "needs review"}` });
