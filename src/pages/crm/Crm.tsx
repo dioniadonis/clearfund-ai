@@ -225,7 +225,7 @@ const Crm: React.FC = () => {
             <TabsContent value="activity"><ActivityView isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
             <TabsContent value="leads" className="space-y-3">
               <div role="group" aria-label="Lead type" className="flex flex-wrap gap-2">
-                {([["client", "Clients"], ["partner", "Recruits"]] as const).map(([v, label]) => (
+                {([["client", "Clients"], ["partner", "Partners"]] as const).map(([v, label]) => (
                   <button key={v} type="button" aria-pressed={kind === v} onClick={() => { setKind(v); setStage(""); }}
                     className={`h-10 px-4 rounded-md border text-sm font-medium ${kind === v ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-muted"}`}>{label}</button>
                 ))}
@@ -253,6 +253,7 @@ const Crm: React.FC = () => {
                   <select aria-label="Follow-up" className={sel} value={due} onChange={(e) => setDue(e.target.value as typeof due)}>
                     <option value="">Any follow-up</option><option value="today">Due today</option><option value="overdue">Overdue</option>
                   </select>
+                  <label className="flex min-h-11 items-center gap-3 rounded-md border px-3 sm:col-span-3"><input type="checkbox" className="h-5 w-5" checked={warm} onChange={(e) => setWarm(e.target.checked)} /><span className="text-sm">Warm leads only (reply, click, qualifier, or referral)</span></label>
                   <div className="flex flex-wrap gap-2 sm:col-span-3">
                     <Button variant="outline" className="h-11" disabled={exporting} onClick={exportCsv}>{exporting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Download className="h-4 w-4 mr-1" />}Export CSV</Button>
                     {role === "admin" && <Button variant="outline" className="h-11" onClick={() => setImportOpen(true)}><Upload className="h-4 w-4 mr-1" />Import CSV</Button>}
