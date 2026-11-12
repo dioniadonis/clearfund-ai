@@ -75,15 +75,15 @@ const WhatDoYouNeedSection: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Instant Micro Funding */}
+          {/* Micro Funding */}
           <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
                 <Zap size={32} />
               </div>
-              <CardTitle className="text-xl text-clearfund-dark-blue">Instant Micro Funding</CardTitle>
+              <CardTitle className="text-xl text-clearfund-dark-blue">Micro Funding</CardTitle>
               <CardDescription className="text-gray-600">
-                Perfect for small businesses, gig workers, and entrepreneurs who need quick access to smaller amounts
+                For small businesses, gig workers, and entrepreneurs exploring smaller funding amounts
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
@@ -91,7 +91,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 <div className="space-y-3 text-sm text-gray-700">
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">Quick MCA provider matching</span>
+                    <span className="ml-3">MCA provider matching</span>
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />

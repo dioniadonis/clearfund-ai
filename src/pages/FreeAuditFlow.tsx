@@ -152,7 +152,7 @@ const FreeAuditFlow: React.FC = () => {
           {st.step === 0 && (
             <div className="text-center space-y-5 py-10">
               <h1 className="text-3xl md:text-4xl font-bold text-foreground">Let's map what your business could be automating.</h1>
-              <p className="text-muted-foreground text-lg">A few quick questions about how you run things today. At the end you'll see exactly which tasks a machine could take over, what they're costing you now, and what it would cost to hand them off.</p>
+              <p className="text-muted-foreground text-lg">A few questions about how you run things today. At the end you'll see exactly which tasks a machine could take over, what they're costing you now, and what it would cost to hand them off.</p>
               <Button size="lg" className="h-14 px-8 text-base" onClick={next}>Start my audit</Button>
               <p className="text-sm text-muted-foreground">Free while we build our first ten client stories.</p>
             </div>

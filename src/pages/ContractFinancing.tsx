@@ -19,8 +19,8 @@ const outlineBtn = "border-clearfund-blue text-clearfund-blue hover:bg-clearfund
 
 const products = [
   { icon: FileText, title: "Contract & PO Financing", copy: "Pay suppliers for the materials the job needs, based on your award or purchase order." },
-  { icon: Receipt, title: "Government Invoice Factoring", copy: "Billed the agency? Get paid on the approved invoice now instead of waiting 30 to 90 days." },
-  { icon: Wallet, title: "Working Capital", copy: "Fast capital for firms with steady deposits. Stronger files may qualify for an SBA Express loan or a line of credit instead." },
+  { icon: Receipt, title: "Government Invoice Factoring", copy: "Billed the agency? Explore options based on the approved invoice while payment is outstanding." },
+  { icon: Wallet, title: "Working Capital", copy: "Options for firms with steady deposits. Providers may also consider an SBA Express loan or a line of credit." },
 ];
 
 const faqs = [
@@ -42,10 +42,10 @@ const StagePanel: React.FC<{ stage: StageKey }> = ({ stage }) => {
   if (stage === "bidding")
     return (
       <div className="space-y-4">
-        <h3 className="text-2xl font-bold text-clearfund-dark-blue">Get pre-qualified while you bid</h3>
-        <p className="text-gray-700">We can pre-qualify your business now, so funding is lined up and you can say yes fast if you win the award.</p>
+        <h3 className="text-2xl font-bold text-clearfund-dark-blue">Explore funding while you bid</h3>
+        <p className="text-gray-700">Share your business profile so we can review possible funding paths before you accept an award.</p>
         <Button asChild className={primaryBtn}>
-          <ApplyLink cta="contractfinancing_1">Get Pre-Qualified</ApplyLink>
+          <ApplyLink cta="contractfinancing_1">Explore Funding Options</ApplyLink>
         </Button>
       </div>
     );
@@ -139,7 +139,7 @@ const ContractFinancing: React.FC = () => {
             <h2 className="text-3xl font-bold text-clearfund-dark-blue text-center">The gap every contract winner hits</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
-                ["30-90 days", "Typical wait for the first government payment"],
+                ["After invoicing", "Government payment comes after the required review"],
                 ["Up front", "Materials, equipment, bonding and payroll come first"],
                 ["One application", "Matched to the funding partner that fits your contract"],
               ].map(([stat, label]) => (

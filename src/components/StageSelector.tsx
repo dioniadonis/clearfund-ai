@@ -3,10 +3,10 @@ import { Check } from "lucide-react";
 
 export type StageKey = "bidding" | "won" | "working" | "invoiced";
 export const STAGES: { key: StageKey; title: string; pain: string }[] = [
-  { key: "bidding", title: "Bidding now", pain: "Line up funding before you win so you can say yes fast." },
+  { key: "bidding", title: "Bidding now", pain: "Explore funding options before you accept an award." },
   { key: "won", title: "Just won, haven't started", pain: "Bonding, materials and equipment are due before the job starts." },
-  { key: "working", title: "Working, waiting on the first payment", pain: "Payroll and suppliers are due, the agency pays in 30 to 90 days." },
-  { key: "invoiced", title: "Invoiced the agency, waiting to get paid", pain: "The work is done and approved, but the check is weeks away." },
+  { key: "working", title: "Working, waiting on the first payment", pain: "Payroll and suppliers are due before the agency pays." },
+  { key: "invoiced", title: "Invoiced the agency, waiting to get paid", pain: "The work is done and approved, but payment is still outstanding." },
 ];
 
 const StageSelector: React.FC<{ stage: StageKey | null; onChoose: (k: StageKey) => void }> = ({ stage, onChoose }) => {
