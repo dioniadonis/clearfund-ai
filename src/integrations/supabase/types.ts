@@ -1549,8 +1549,45 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      crm_admin_add_source: {
+        Args: { _params: Json; _refresh_days: number; _source: string }
+        Returns: Json
+      }
+      crm_admin_dismiss_reject: { Args: { _id: string }; Returns: undefined }
+      crm_admin_release: {
+        Args: { _id: string; _kind: string }
+        Returns: undefined
+      }
+      crm_admin_set_source_status: {
+        Args: { _id: string; _status: string }
+        Returns: undefined
+      }
       crm_claim_jobs: {
         Args: { _n: number; _type: string; _worker: string }
+        Returns: Json
+      }
+      crm_claim_source: {
+        Args: { _source: string; _worker: string }
+        Returns: Json
+      }
+      crm_complete_job: {
+        Args: {
+          _error: string
+          _job_id: string
+          _ok: boolean
+          _result: Json
+          _worker: string
+        }
+        Returns: string
+      }
+      crm_complete_source: {
+        Args: {
+          _leads: Json
+          _note: string
+          _slice_id: string
+          _status: string
+          _worker: string
+        }
         Returns: Json
       }
       crm_import_leads: { Args: { _mode?: string; _rows: Json }; Returns: Json }
@@ -1579,8 +1616,30 @@ export type Database = {
           role: string
         }[]
       }
+      crm_mark_contacted: {
+        Args: { _job_id: string; _lead_id: string; _worker: string }
+        Returns: string
+      }
       crm_norm_company: { Args: { _t: string }; Returns: string }
       crm_norm_domain: { Args: { _t: string }; Returns: string }
+      crm_register_source: {
+        Args: {
+          _params: Json
+          _refresh_days: number
+          _source: string
+          _worker: string
+        }
+        Returns: Json
+      }
+      crm_source_key: {
+        Args: { _params: Json; _source: string }
+        Returns: string
+      }
+      crm_worker_hit: {
+        Args: { _endpoint: string; _worker: string }
+        Returns: boolean
+      }
+      crm_worker_stats: { Args: never; Returns: Json }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
