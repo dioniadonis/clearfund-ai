@@ -1,10 +1,10 @@
 # Roadmap — Packet CF-01
 
 ## Recruiting applications
-- [ ] Build public `/join` page and 12-step screener
-- [ ] Add server-side recruit scoring, hard stops, spam controls and CRM-only access
-- [ ] Add CRM Recruits card list with status/score filters and status actions
-- [ ] Verify scoring, access rules, submission and 390px layouts; do not publish
+- [x] Build public `/join` page and 12-step screener
+- [x] Add server-side recruit scoring, hard stops, spam controls and CRM-only access
+- [x] Add CRM Recruits card list with status/score filters and status actions
+- [x] Verify scoring, access rules, submission and 390px layouts; do not publish
 
 ## Agent integrations
 - [x] Enable OAuth authorization for external AI clients
