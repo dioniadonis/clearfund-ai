@@ -1,3 +1,4 @@
+import GetStarted from "./pages/GetStarted";
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -57,6 +58,7 @@ const App = () => (
           <Route path="/broker-disclosure" element={<BrokerDisclosure />} />
           <Route path="/disclaimers" element={<Disclaimers />} />
           <Route path="/apply" element={<Apply />} />
+          <Route path="/get-started" element={<GetStarted />} />
           <Route path="/contract-financing" element={<ContractFinancing />} />
           <Route path="/cash-gap-calculator" element={<CashGapCalculatorPage />} />
           <Route path="/automation-audit" element={<FreeAuditLanding />} />

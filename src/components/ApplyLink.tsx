@@ -1,12 +1,11 @@
 import React from "react";
-import { DAC_APPLY_URL, logDacClick } from "@/lib/partners";
+import { Link } from "react-router-dom";
 
 type Props = React.AnchorHTMLAttributes<HTMLAnchorElement> & { cta: string };
 
-// Every public Apply call-to-action goes through this link so the URL and click log stay in one place.
-const ApplyLink = React.forwardRef<HTMLAnchorElement, Props>(({ cta, onClick, children, ...rest }, ref) => (
-  <a ref={ref} {...rest} href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer"
-    onClick={(e) => { logDacClick(cta); onClick?.(e); }}>{children}</a>
+// Every public Apply call-to-action goes through the short qualifier, which picks the next step per lead.
+const ApplyLink = React.forwardRef<HTMLAnchorElement, Props>(({ cta, children, target: _t, rel: _r, href: _h, ...rest }, ref) => (
+  <Link ref={ref} {...rest} to={`/get-started?cta=${encodeURIComponent(cta.slice(0, 60))}`}>{children}</Link>
 ));
 ApplyLink.displayName = "ApplyLink";
 export default ApplyLink;
