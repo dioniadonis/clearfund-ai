@@ -73,13 +73,13 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Fast Can I Get Funded?</h3>
                   <p className="text-gray-600 text-lg">
-                    Our streamlined process is built for fast funding decisions. Exact timing depends on the funding partner and your file.
+                    Timing depends on the funding partner and your file.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Application review: Fast funding decisions</span>
+                    <span className="text-gray-700">Application review: handled by the provider</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
@@ -213,7 +213,7 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Rate determined in minutes during our quick approval process</span>
+                    <span className="text-gray-700">Rate and terms are set by the provider</span>
                   </div>
                 </div>
               </div>

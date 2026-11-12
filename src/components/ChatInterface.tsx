@@ -12,7 +12,7 @@ const fallbackResponses = [
   "Hello! I'm the Clearfund AI assistant. How can I assist with your AI business financing needs today?",
   "Could you tell me more about your AI business and what type of financing you're looking for?",
   "Based on what you've shared, we offer funding options from $5K to $2M that might be ideal for your situation.",
-  "Our application process is simple - you can complete it online in about 5 minutes.",
+  "Our application process is simple - you can complete it online.",
   "Our funding is specifically designed for AI-driven businesses looking to scale.",
 ];
 

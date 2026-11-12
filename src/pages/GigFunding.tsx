@@ -31,7 +31,7 @@ const GigFunding: React.FC = () => {
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
                 <span className="text-clearfund-blue font-bold">Get up to $20k</span><br/>
-                <span className="text-clearfund-blue font-bold">Fast funding decisions</span><br/>
+                <span className="text-clearfund-blue font-bold">Straightforward application</span><br/>
                 From $400 - $20,000.<br/>
                 Easy-Breezy online process designed for all business owners.
               </p>
@@ -369,7 +369,7 @@ const GigFunding: React.FC = () => {
               <div className="md:max-w-xl">
                 <div className="flex items-center mb-4">
                   <Sparkles size={24} className="text-white mr-2" />
-                  <span className="text-white font-semibold">Fast funding decisions</span>
+                  <span className="text-white font-semibold">Straightforward application</span>
                 </div>
                 <h2 className="text-3xl md:text-4xl font-bold mb-4">Ready to Grow Your Business?</h2>
                 <p className="text-lg opacity-90 mb-6">
@@ -379,7 +379,7 @@ const GigFunding: React.FC = () => {
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">$3,000+ Monthly Revenue</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">3+ Months in Business</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">No Collateral Required</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Funding Decisions</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Straightforward Application</span>
                 </div>
               </div>
               <div className="flex flex-col gap-4 items-center">

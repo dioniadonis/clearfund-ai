@@ -208,7 +208,7 @@ const Apply: React.FC = () => {
                 {headline}
               </h1>
               <p className="mt-3 text-gray-700">
-                Takes about three minutes. We never ask for your Social Security number or bank
+                We never ask for your Social Security number or bank
                 account numbers on this form — if any documents are needed, we request them
                 separately through a secure link.
               </p>

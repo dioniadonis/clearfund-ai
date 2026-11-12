@@ -822,11 +822,19 @@ export type Database = {
           next_follow_up: string | null
           notes: string | null
           phone: string | null
+          qualifier: Json | null
+          route_next: string | null
+          route_override_by: string | null
+          route_reasons: Json | null
+          routed_at: string | null
+          routed_product_id: string | null
           sector: string | null
           source: string
           source_id: string | null
           stage: string
           state: string | null
+          submitted_to_funder_at: string | null
+          submitted_to_funder_by: string | null
           updated_at: string
           website: string | null
           website_key: string | null
@@ -855,11 +863,19 @@ export type Database = {
           next_follow_up?: string | null
           notes?: string | null
           phone?: string | null
+          qualifier?: Json | null
+          route_next?: string | null
+          route_override_by?: string | null
+          route_reasons?: Json | null
+          routed_at?: string | null
+          routed_product_id?: string | null
           sector?: string | null
           source?: string
           source_id?: string | null
           stage?: string
           state?: string | null
+          submitted_to_funder_at?: string | null
+          submitted_to_funder_by?: string | null
           updated_at?: string
           website?: string | null
           website_key?: string | null
@@ -888,16 +904,31 @@ export type Database = {
           next_follow_up?: string | null
           notes?: string | null
           phone?: string | null
+          qualifier?: Json | null
+          route_next?: string | null
+          route_override_by?: string | null
+          route_reasons?: Json | null
+          routed_at?: string | null
+          routed_product_id?: string | null
           sector?: string | null
           source?: string
           source_id?: string | null
           stage?: string
           state?: string | null
+          submitted_to_funder_at?: string | null
+          submitted_to_funder_by?: string | null
           updated_at?: string
           website?: string | null
           website_key?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "crm_leads_routed_product_id_fkey"
+            columns: ["routed_product_id"]
+            isOneToOne: false
+            referencedRelation: "funder_products"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "crm_leads_source_id_fkey"
             columns: ["source_id"]
@@ -1216,6 +1247,75 @@ export type Database = {
           utm_campaign?: string | null
           utm_medium?: string | null
           utm_source?: string | null
+        }
+        Relationships: []
+      }
+      funder_products: {
+        Row: {
+          active: boolean
+          amount_max: number | null
+          amount_min: number | null
+          apply_method: string
+          apply_url: string | null
+          commission_note: string | null
+          commission_rank: number | null
+          created_at: string
+          excluded_states: string[]
+          funder: string
+          id: string
+          max_monthly_revenue: number | null
+          min_annual_sales: number | null
+          min_credit_score: number | null
+          min_monthly_revenue: number | null
+          min_months: number | null
+          needs_business_checking: boolean
+          product: string
+          product_kind: string
+          updated_at: string
+        }
+        Insert: {
+          active?: boolean
+          amount_max?: number | null
+          amount_min?: number | null
+          apply_method?: string
+          apply_url?: string | null
+          commission_note?: string | null
+          commission_rank?: number | null
+          created_at?: string
+          excluded_states?: string[]
+          funder: string
+          id?: string
+          max_monthly_revenue?: number | null
+          min_annual_sales?: number | null
+          min_credit_score?: number | null
+          min_monthly_revenue?: number | null
+          min_months?: number | null
+          needs_business_checking?: boolean
+          product: string
+          product_kind?: string
+          updated_at?: string
+        }
+        Update: {
+          active?: boolean
+          amount_max?: number | null
+          amount_min?: number | null
+          apply_method?: string
+          apply_url?: string | null
+          commission_note?: string | null
+          commission_rank?: number | null
+          created_at?: string
+          excluded_states?: string[]
+          funder?: string
+          id?: string
+          max_monthly_revenue?: number | null
+          min_annual_sales?: number | null
+          min_credit_score?: number | null
+          min_monthly_revenue?: number | null
+          min_months?: number | null
+          needs_business_checking?: boolean
+          product?: string
+          product_kind?: string
+          updated_at?: string
         }
         Relationships: []
       }
@@ -1666,6 +1766,10 @@ export type Database = {
         Args: { _job_id: string; _lead_id: string; _worker: string }
         Returns: string
       }
+      crm_mark_submitted_to_funder: {
+        Args: { _lead_id: string }
+        Returns: undefined
+      }
       crm_norm_company: { Args: { _t: string }; Returns: string }
       crm_norm_domain: { Args: { _t: string }; Returns: string }
       crm_register_source: {
@@ -1676,6 +1780,10 @@ export type Database = {
           _worker: string
         }
         Returns: Json
+      }
+      crm_set_route: {
+        Args: { _lead_id: string; _product_id: string }
+        Returns: undefined
       }
       crm_source_key: {
         Args: { _params: Json; _source: string }

@@ -70,7 +70,7 @@ const StagePanel: React.FC<{ stage: StageKey }> = ({ stage }) => {
 const ContractFinancing: React.FC = () => {
   usePageMeta(
     "Government Contract Funding for Georgia Contractors | ClearFund AI",
-    "Won a city, county or school board contract in Georgia? Get mobilization capital for materials, crew and equipment before the first payment. Apply in minutes.",
+    "Won a city, county or school board contract in Georgia? Get mobilization capital for materials, crew and equipment before the first payment.",
     "/contract-financing",
   );
   const [params, setParams] = useSearchParams();
@@ -197,7 +197,7 @@ const ContractFinancing: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue text-center">How it works</h2>
             <ol className="grid md:grid-cols-4 gap-6">
               {[
-                ["Apply in minutes", "Short form, last 3-4 months of business bank statements, and the award letter or PO."],
+                ["Apply", "Short form, last 3-4 months of business bank statements, and the award letter or PO."],
                 ["We match your file", "We match your file to the funding partner that fits your contract."],
                 ["Get an offer", "You choose whether to accept."],
                 ["Stay updated", "A text or email at each step."],
