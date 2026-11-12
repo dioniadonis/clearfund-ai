@@ -1,5 +1,12 @@
 # Roadmap — Packet CF-01
 
+## Compliance and two-tier payouts (preview only)
+- [x] Remove the public funder name, review widget/link, and unsupported footer audience claim
+- [x] Retire the old recruiting page and every remaining reference so `/agents` is the only sign-up page
+- [x] Add separate assigned-lead and own-referral payout defaults and per-agent overrides
+- [x] Apply the correct percentage at funding time and update payout displays and training
+- [x] Update and run focused tests; verify public searches and CRM mobile layout; do not publish
+
 ## Agent program (preview only)
 - [x] Add recruit lead type, isolated CRM Recruits pipeline and staged CSV import
 - [x] Add public `/agents` application, server-side quiz screening and referral attribution
@@ -11,12 +18,12 @@
 ## Public partner compliance cleanup
 - [x] Remove unapproved provider names and outbound application links from public pages
 - [x] Route public funding CTAs through `/get-started`; preserve private CRM routing
-- [x] Hide `/join` from discovery and neutralize recruiting copy
+- [x] Retire the old recruiting page and neutralize recruiting copy
 - [x] Remove public rate, timing, approval and earnings claims; verify searches and preview
 - [x] Do not publish
 
 ## Recruiting applications
-- [x] Build public `/join` page and 12-step screener
+- [x] Build the former recruiting page and 12-step screener (later retired)
 - [x] Add server-side recruit scoring, hard stops, spam controls and CRM-only access
 - [x] Add CRM Recruits card list with status/score filters and status actions
 - [x] Verify scoring, access rules, submission and 390px layouts; do not publish
@@ -36,7 +43,7 @@
 - [x] B7 remove credit repair, speed claims, add partner disclosure
 - [x] End-to-end test with TEST-READINESS lead, then deleted
 - Blocked: email sender (owner-approved prerequisite); TOD_TELEGRAM_WEBHOOK_URL secret
-- Owner decision: legal pages still mention credit repair referrals; footer "thousands of owners" claim unverified
+- Owner decision: legal pages still mention credit repair referrals; unsupported footer audience claim removed
 - Later packet: Telegram approvals + emergency stop
 - Cutover: owner disables JotForm forms
 - [x] Phase 2 audit built (preview only). Blocked publish: legal name, Audit Terms + Privacy links, price, intake retention, payment link, redaction approval

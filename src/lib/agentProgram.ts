@@ -6,7 +6,7 @@ export const AGENT_TRAINING = [
   { key: "who", title: "Who we help", body: "Speak with owners who want to explore business funding. ClearFund AI is a broker, not a lender, and providers make their own decisions." },
   { key: "conversations", title: "How to talk to business owners", body: "Ask permission, listen to the business need, and offer the ClearFund questionnaire. Never add anyone to a list without consent." },
   { key: "rules", title: "What you can never say", body: "Never quote rates or pricing, promise approval or funding, promise timing, or name funding providers. Direct cost questions to a ClearFund funding specialist." },
-  { key: "payouts", title: "How leads and payouts work", body: "Only assigned warm leads appear in your queue. When an assigned deal is marked funded, ClearFund records its commission and calculates your share using the applicable percentage. Compensation is not guaranteed." },
+  { key: "payouts", title: "How leads and payouts work", body: "Only assigned warm leads appear in your queue. When a deal is marked funded, ClearFund records its commission and calculates your share. The applicable share depends on whether the client came through your referral link or was assigned to you. Compensation is not guaranteed." },
 ] as const;
 
 export const AGENT_QUIZ = [

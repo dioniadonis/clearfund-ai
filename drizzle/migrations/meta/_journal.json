@@ -162,6 +162,13 @@
       "when": 1794519583420,
       "tag": "0022_fix_recruit_import_generated_fields",
       "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1794522131234,
+      "tag": "0023_add_two_tier_agent_payouts",
+      "breakpoints": true
     }
   ]
 }

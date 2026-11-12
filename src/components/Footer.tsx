@@ -22,7 +22,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
         <div id="contact" className="grid md:grid-cols-2 gap-12 mb-12">
           <div>
             <h2 className="text-3xl font-bold mb-4">Ready to get funded?</h2>
-            <p className="text-clearfund-pale-blue mb-6 max-w-md">Join thousands of small business owners who trust Clearfund for their financing needs. Talk to our AI advisor or contact our team today.</p>
+            <p className="text-clearfund-pale-blue mb-6 max-w-md">Talk to our AI advisor or contact our team today.</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 <ApplyLink cta="footer_1">Apply for Funding</ApplyLink>

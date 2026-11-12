@@ -47,7 +47,7 @@ const AgentPortal: React.FC = () => {
   const access = useQuery({ queryKey: ["agent_access", userId], enabled: !!userId, queryFn: async () => {
     const [roles, profile] = await Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId!),
-      supabase.from("agents").select("user_id,full_name,email,referral_code,payout_percent,active").eq("user_id", userId!).maybeSingle(),
+      supabase.from("agents").select("user_id,full_name,email,referral_code,active").eq("user_id", userId!).maybeSingle(),
     ]);
     if (roles.error) throw roles.error; if (profile.error) throw profile.error;
     return { allowed: roles.data.some((r) => r.role === "agent"), profile: profile.data };
