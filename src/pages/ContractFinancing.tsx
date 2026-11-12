@@ -9,7 +9,6 @@ import CashGapCalculator from "../components/CashGapCalculator";
 import { usePageMeta } from "@/lib/usePageMeta";
 
 import StageSelector, { STAGES, type StageKey } from "../components/StageSelector";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 const isStage = (v: string | null): v is StageKey => STAGES.some((s) => s.key === v);
 

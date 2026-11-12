@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { COMPLIANCE_TEXT, usd, type Results } from "@/lib/freeAudit";
 import { useToast } from "@/hooks/use-toast";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 
 type Ai = {

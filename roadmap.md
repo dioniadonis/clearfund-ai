@@ -1,5 +1,12 @@
 # Roadmap — Packet CF-01
 
+## Public partner compliance cleanup
+- [ ] Remove unapproved provider names and outbound application links from public pages
+- [ ] Route public funding CTAs through `/get-started`; preserve private CRM routing
+- [ ] Hide `/join` from discovery and neutralize recruiting copy
+- [ ] Remove public rate, timing, approval and earnings claims; verify searches and preview
+- [ ] Do not publish
+
 ## Recruiting applications
 - [x] Build public `/join` page and 12-step screener
 - [x] Add server-side recruit scoring, hard stops, spam controls and CRM-only access

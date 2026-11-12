@@ -7,8 +7,7 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProcessSlideShow from '../components/ProcessSlideShow';
 import FundingFAQSlideShow from '../components/FundingFAQSlideShow';
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 const GigFunding: React.FC = () => {
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
