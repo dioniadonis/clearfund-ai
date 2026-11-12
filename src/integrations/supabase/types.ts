@@ -14,6 +14,260 @@ export type Database = {
   }
   public: {
     Tables: {
+      agent_agreements: {
+        Row: {
+          accepted_at: string
+          agent_id: string
+          id: string
+          ip: string | null
+          version: string
+        }
+        Insert: {
+          accepted_at?: string
+          agent_id: string
+          id?: string
+          ip?: string | null
+          version: string
+        }
+        Update: {
+          accepted_at?: string
+          agent_id?: string
+          id?: string
+          ip?: string | null
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_agreements_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      agent_applications: {
+        Row: {
+          city: string | null
+          created_at: string
+          crm_lead_id: string | null
+          email: string
+          experience: string
+          find_owners: string
+          full_name: string
+          id: string
+          passed: boolean
+          phone: string | null
+          quiz_answers: Json
+          quiz_score: number
+          reviewed_at: string | null
+          reviewed_by: string | null
+          state: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          city?: string | null
+          created_at?: string
+          crm_lead_id?: string | null
+          email: string
+          experience: string
+          find_owners: string
+          full_name: string
+          id?: string
+          passed: boolean
+          phone?: string | null
+          quiz_answers?: Json
+          quiz_score: number
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          state: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          city?: string | null
+          created_at?: string
+          crm_lead_id?: string | null
+          email?: string
+          experience?: string
+          find_owners?: string
+          full_name?: string
+          id?: string
+          passed?: boolean
+          phone?: string | null
+          quiz_answers?: Json
+          quiz_score?: number
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          state?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_applications_crm_lead_id_fkey"
+            columns: ["crm_lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_payouts: {
+        Row: {
+          agent_amount: number
+          agent_id: string
+          agent_percent: number
+          clearfund_commission: number
+          created_at: string
+          id: string
+          lead_id: string
+          paid_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          agent_amount: number
+          agent_id: string
+          agent_percent: number
+          clearfund_commission: number
+          created_at?: string
+          id?: string
+          lead_id: string
+          paid_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          agent_amount?: number
+          agent_id?: string
+          agent_percent?: number
+          clearfund_commission?: number
+          created_at?: string
+          id?: string
+          lead_id?: string
+          paid_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_payouts_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["user_id"]
+          },
+          {
+            foreignKeyName: "agent_payouts_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: true
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      agent_settings: {
+        Row: {
+          auto_assign: boolean
+          payout_percent: number
+          singleton: boolean
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          auto_assign?: boolean
+          payout_percent?: number
+          singleton?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          auto_assign?: boolean
+          payout_percent?: number
+          singleton?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
+      agent_training_progress: {
+        Row: {
+          agent_id: string
+          completed_at: string
+          id: string
+          section_key: string
+        }
+        Insert: {
+          agent_id: string
+          completed_at?: string
+          id?: string
+          section_key: string
+        }
+        Update: {
+          agent_id?: string
+          completed_at?: string
+          id?: string
+          section_key?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agent_training_progress_agent_id_fkey"
+            columns: ["agent_id"]
+            isOneToOne: false
+            referencedRelation: "agents"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      agents: {
+        Row: {
+          active: boolean
+          application_id: string | null
+          created_at: string
+          email: string
+          full_name: string
+          last_assigned_at: string | null
+          payout_percent: number | null
+          referral_code: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          active?: boolean
+          application_id?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          last_assigned_at?: string | null
+          payout_percent?: number | null
+          referral_code: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          active?: boolean
+          application_id?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          last_assigned_at?: string | null
+          payout_percent?: number | null
+          referral_code?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "agents_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: true
+            referencedRelation: "agent_applications"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       application_sends: {
         Row: {
           business_name: string | null
@@ -800,9 +1054,12 @@ export type Database = {
       crm_leads: {
         Row: {
           agency: string | null
+          agent_id: string | null
           assigned_to: string | null
           award_amount: number | null
           award_date: string | null
+          city: string | null
+          clearfund_commission: number | null
           company_key: string | null
           contact_name: string | null
           created_at: string
@@ -831,19 +1088,24 @@ export type Database = {
           sector: string | null
           source: string
           source_id: string | null
+          source_url: string | null
           stage: string
           state: string | null
           submitted_to_funder_at: string | null
           submitted_to_funder_by: string | null
           updated_at: string
+          warm_reason: string | null
           website: string | null
           website_key: string | null
         }
         Insert: {
           agency?: string | null
+          agent_id?: string | null
           assigned_to?: string | null
           award_amount?: number | null
           award_date?: string | null
+          city?: string | null
+          clearfund_commission?: number | null
           company_key?: string | null
           contact_name?: string | null
           created_at?: string
@@ -872,19 +1134,24 @@ export type Database = {
           sector?: string | null
           source?: string
           source_id?: string | null
+          source_url?: string | null
           stage?: string
           state?: string | null
           submitted_to_funder_at?: string | null
           submitted_to_funder_by?: string | null
           updated_at?: string
+          warm_reason?: string | null
           website?: string | null
           website_key?: string | null
         }
         Update: {
           agency?: string | null
+          agent_id?: string | null
           assigned_to?: string | null
           award_amount?: number | null
           award_date?: string | null
+          city?: string | null
+          clearfund_commission?: number | null
           company_key?: string | null
           contact_name?: string | null
           created_at?: string
@@ -913,11 +1180,13 @@ export type Database = {
           sector?: string | null
           source?: string
           source_id?: string | null
+          source_url?: string | null
           stage?: string
           state?: string | null
           submitted_to_funder_at?: string | null
           submitted_to_funder_by?: string | null
           updated_at?: string
+          warm_reason?: string | null
           website?: string | null
           website_key?: string | null
         }
@@ -1018,27 +1287,41 @@ export type Database = {
       }
       cta_clicks: {
         Row: {
+          agent_id: string | null
           clicked_at: string
           cta: string
           destination: string
           id: string
+          lead_id: string | null
           page: string | null
         }
         Insert: {
+          agent_id?: string | null
           clicked_at?: string
           cta: string
           destination: string
           id?: string
+          lead_id?: string | null
           page?: string | null
         }
         Update: {
+          agent_id?: string | null
           clicked_at?: string
           cta?: string
           destination?: string
           id?: string
+          lead_id?: string | null
           page?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "cta_clicks_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       email_events: {
         Row: {
@@ -1784,6 +2067,10 @@ export type Database = {
         }
         Returns: Json
       }
+      crm_compute_warm_reason: {
+        Args: { _lead: Database["public"]["Tables"]["crm_leads"]["Row"] }
+        Returns: string
+      }
       crm_find_leads: {
         Args: {
           _email: string
@@ -1813,6 +2100,18 @@ export type Database = {
           _source?: string
           _today: string
           _type?: string
+        }
+        Returns: Json
+      }
+      crm_lead_counts_v2: {
+        Args: {
+          _agent?: string
+          _due?: string
+          _q?: string
+          _source?: string
+          _today: string
+          _type?: string
+          _warm?: boolean
         }
         Returns: Json
       }

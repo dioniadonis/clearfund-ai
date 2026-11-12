@@ -127,6 +127,13 @@
       "when": 1794515354756,
       "tag": "0017_create_recruits",
       "breakpoints": true
+    },
+    {
+      "idx": 18,
+      "version": "7",
+      "when": 1794518949974,
+      "tag": "0018_add_agent_program_foundation",
+      "breakpoints": true
     }
   ]
 }
