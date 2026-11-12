@@ -124,6 +124,7 @@ export type Database = {
           id: string
           lead_id: string
           paid_at: string | null
+          payout_basis: string
           status: string
           updated_at: string
         }
@@ -136,6 +137,7 @@ export type Database = {
           id?: string
           lead_id: string
           paid_at?: string | null
+          payout_basis?: string
           status?: string
           updated_at?: string
         }
@@ -148,6 +150,7 @@ export type Database = {
           id?: string
           lead_id?: string
           paid_at?: string | null
+          payout_basis?: string
           status?: string
           updated_at?: string
         }
@@ -170,22 +173,28 @@ export type Database = {
       }
       agent_settings: {
         Row: {
+          assigned_payout_percent: number
           auto_assign: boolean
           payout_percent: number
+          referral_payout_percent: number
           singleton: boolean
           updated_at: string
           updated_by: string | null
         }
         Insert: {
+          assigned_payout_percent?: number
           auto_assign?: boolean
           payout_percent?: number
+          referral_payout_percent?: number
           singleton?: boolean
           updated_at?: string
           updated_by?: string | null
         }
         Update: {
+          assigned_payout_percent?: number
           auto_assign?: boolean
           payout_percent?: number
+          referral_payout_percent?: number
           singleton?: boolean
           updated_at?: string
           updated_by?: string | null
@@ -225,36 +234,42 @@ export type Database = {
         Row: {
           active: boolean
           application_id: string | null
+          assigned_payout_percent: number | null
           created_at: string
           email: string
           full_name: string
           last_assigned_at: string | null
           payout_percent: number | null
           referral_code: string
+          referral_payout_percent: number | null
           updated_at: string
           user_id: string
         }
         Insert: {
           active?: boolean
           application_id?: string | null
+          assigned_payout_percent?: number | null
           created_at?: string
           email: string
           full_name: string
           last_assigned_at?: string | null
           payout_percent?: number | null
           referral_code: string
+          referral_payout_percent?: number | null
           updated_at?: string
           user_id: string
         }
         Update: {
           active?: boolean
           application_id?: string | null
+          assigned_payout_percent?: number | null
           created_at?: string
           email?: string
           full_name?: string
           last_assigned_at?: string | null
           payout_percent?: number | null
           referral_code?: string
+          referral_payout_percent?: number | null
           updated_at?: string
           user_id?: string
         }
@@ -2083,6 +2098,14 @@ export type Database = {
         Args: { _auto_assign: boolean; _percent: number }
         Returns: undefined
       }
+      crm_admin_save_agent_settings_v2: {
+        Args: {
+          _assigned_percent: number
+          _auto_assign: boolean
+          _referral_percent: number
+        }
+        Returns: undefined
+      }
       crm_admin_set_source_status: {
         Args: { _id: string; _status: string }
         Returns: undefined
@@ -2098,6 +2121,21 @@ export type Database = {
           payout_percent: number
           pending_total: number
           referral_code: string
+          warm_leads: number
+        }[]
+      }
+      crm_agent_leaderboard_v2: {
+        Args: never
+        Returns: {
+          agent_id: string
+          assigned_payout_percent: number
+          email: string
+          full_name: string
+          funded_deals: number
+          paid_total: number
+          pending_total: number
+          referral_code: string
+          referral_payout_percent: number
           warm_leads: number
         }[]
       }
