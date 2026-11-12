@@ -141,6 +141,7 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
                 {(isAdmin ? agents : agents.filter((a) => a.id === userId)).map((a) => <option key={a.id} value={a.id}>{a.email ?? a.id}</option>)}
               </select></div>
           </div>
+          {lead.found_by && <p className="text-xs text-muted-foreground">First found by {lead.found_by}{lead.found_at ? ` on ${new Date(lead.found_at).toLocaleDateString()}` : ""}</p>}
           <label className="flex items-center gap-3 min-h-[44px]">
             <input type="checkbox" className="h-5 w-5" checked={!!form.do_not_contact} onChange={(e) => setForm((f) => ({ ...f, do_not_contact: e.target.checked }))} />
             <span>Do not contact</span>
