@@ -35,6 +35,7 @@ import FreeAuditResults from "./pages/FreeAuditResults";
 import OperatorFreeAudits from "./pages/operator/FreeAudits";
 import Awarded from "./pages/Awarded";
 import Crm from "./pages/crm/Crm";
+import OAuthConsent from "./pages/OAuthConsent";
 
 const queryClient = new QueryClient();
 
@@ -63,6 +64,7 @@ const App = () => (
           <Route path="/results/:token" element={<FreeAuditResults />} />
           <Route path="/awarded" element={<Awarded />} />
           <Route path="/crm" element={<Crm />} />
+          <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
           <Route
             path="/operator"

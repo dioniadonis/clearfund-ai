@@ -9,3 +9,4 @@
 - Sender email events enter only via the `email-events` function (shared-secret header) → `ingest_email_event` RPC; a trigger on `email_events` applies Replied/do-not-contact so every sender behaves the same, and unmatched events never create leads.
 - Outside workers use only the `worker-api` function (per-worker key in a `WORKER_KEY_<NAME>` secret; the suffix is the worker name). All claiming, dedupe and write-back live in service-role-only SQL functions (`crm_claim_jobs`, `crm_complete_job`, `crm_mark_contacted`, `crm_*_source`, `crm_insert_lead`) so every worker gets identical, atomic rules.
 - Every bulk/worker lead insert goes through `crm_insert_lead` (dedupe on lead_ref, email, website_key, company_key+state, backed by unique indexes); first finder is kept in `found_by`.
+- Agent integrations use the SDK-owned MCP function with OAuth caller-scoped Supabase clients; tools stay read-only and rely on CRM RLS so external assistants cannot widen lead access.
