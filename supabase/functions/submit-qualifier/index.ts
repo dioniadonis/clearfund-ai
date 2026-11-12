@@ -17,6 +17,7 @@ const Schema = z.object({
   email: z.string().trim().email().max(255), phone: z.string().trim().min(7).max(30),
   broker_acknowledged: z.literal(true), cta: z.string().trim().max(60).optional().nullable(),
   company_website: z.string().max(200).optional().nullable(), elapsed_ms: z.number().int().min(0).max(86400000),
+  agent_code: z.string().trim().regex(/^CF[A-Z0-9]{8}$/).optional().nullable(),
 });
 
 const hits = new Map<string, number[]>();
@@ -46,9 +47,16 @@ Deno.serve(async (req) => {
   const early = ["New", "Contacted", "Replied"].includes(cur?.stage ?? "");
   const stage = r.next === "state_blocked" ? (early ? "Lost" : cur?.stage) : (early ? "Interested" : cur?.stage);
   const qualifier = { ...answers, cta: a.cta ?? null, consent: { text: QUALIFIER_CONSENT_TEXT, version: "qualifier-v1", at: new Date().toISOString() } };
+  let agentId: string | null = null;
+  if (a.agent_code) {
+    const { data: agent } = await db.from("agents").select("user_id").eq("referral_code", a.agent_code.toUpperCase()).eq("active", true).maybeSingle();
+    agentId = agent?.user_id ?? null;
+  }
   const { error: ue } = await db.from("crm_leads").update({
     qualifier, routed_product_id: r.product?.id ?? null, route_next: r.next, routed_at: new Date().toISOString(),
-    route_reasons: r.evaluations, ...(cur?.lead_type === "partner" ? {} : { stage }), ...((ins.data as { status?: string }).status === "inserted" ? { source: "qualifier" } : {}),
+    route_reasons: r.evaluations, ...(cur?.lead_type === "partner" || cur?.lead_type === "recruit" ? {} : { stage }),
+    ...(agentId ? { agent_id: agentId, assigned_to: agentId } : {}),
+    ...((ins.data as { status?: string }).status === "inserted" ? { source: agentId ? "referral" : "qualifier" } : {}),
   }).eq("id", leadId);
   if (ue) return json({ error: "save_failed" }, 500);
   await db.from("crm_activities").insert({ lead_id: leadId, type: "note", body: r.next === "state_blocked" ? `Qualifier: state ${a.state} not served` : `Qualifier completed → ${r.product ? r.product.funder + " · " + r.product.product : "needs review"}` });

@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/lib/usePageMeta";
+import { getAgentReferral } from "@/lib/agentProgram";
 
 const STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
 const CONSENT = "I understand ClearFund AI is a broker, not a lender, and may share my information with funding providers to find a fit. ClearFund AI may receive compensation for referrals.";
@@ -45,7 +46,8 @@ const GetStarted: React.FC = () => {
     if (!ack) return setErr("Please check the acknowledgment to continue.");
     setBusy(true);
     const { data, error } = await supabase.functions.invoke("submit-qualifier", { body: {
-      ...ans, business_checking: ans.business_checking === "yes", ...c, broker_acknowledged: true, cta, elapsed_ms: Date.now() - started.current } });
+      ...ans, business_checking: ans.business_checking === "yes", ...c, broker_acknowledged: true, cta,
+      agent_code: getAgentReferral(), elapsed_ms: Date.now() - started.current } });
     setBusy(false);
     if (error || !data?.next) return setErr("We couldn't save your answers. Please try again, or call 866-578-4721.");
     setResult(data);
