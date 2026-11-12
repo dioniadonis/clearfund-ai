@@ -42,7 +42,7 @@ const Awarded: React.FC = () => {
   useEffect(() => {
     if (logged.current) return;
     logged.current = true;
-    supabase.from("outreach_visits").insert({ lead: lead || null, firm: firm || null, agency: agency || null }).then(({ error }) => {
+    supabase.rpc("log_outreach_visit", { _lead: lead, _firm: firm, _agency: agency }).then(({ error }) => {
       if (error) console.warn("visit log failed", error.message);
     });
   }, [lead, firm, agency]);
