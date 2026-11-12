@@ -2,6 +2,7 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const QualificationSection: React.FC = () => {
   return (
@@ -80,7 +81,7 @@ const QualificationSection: React.FC = () => {
                 asChild
                 className="bg-green-500 hover:bg-green-600 text-white text-lg py-6 px-12 rounded-full transition-colors"
               >
-                <a href="https://davidallencapital.com/clearfund" target="_blank" rel="noopener noreferrer">
+                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">
                   Instant Micro Funding
                 </a>
               </Button>

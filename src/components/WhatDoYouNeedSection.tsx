@@ -4,16 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Building, Zap, Check } from 'lucide-react';
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const WhatDoYouNeedSection: React.FC = () => {
   const navigate = useNavigate();
 
   const handleWorkingCapital = () => {
-    navigate('/apply?interest=working_capital&cta=home_need_working_capital');
+    openDacApply();
   };
 
   const handleInstantMicro = () => {
-    window.open('https://davidallencapital.com/clearfund', '_blank');
+    openDacApply();
   };
 
 

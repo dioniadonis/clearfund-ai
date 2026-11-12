@@ -8,6 +8,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 interface FinancingEducationSlideProps {
   onClose: () => void;
@@ -52,7 +53,7 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
 
   const handleApplyNow = () => {
     onClose?.();
-    navigate('/apply?cta=get_started_slideshow');
+    openDacApply();
   };
 
   return (

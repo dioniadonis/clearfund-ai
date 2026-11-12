@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const Hero: React.FC = () => {
             *Subject to funding partner approval and bank verification
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button onClick={() => navigate("/apply?cta=home_hero_apply")} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+            <Button onClick={openDacApply} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -35,6 +36,7 @@ const Hero: React.FC = () => {
               <Play className="ml-2 h-5 w-5" />
             </Button>
           </div>
+          <p className="text-sm text-gray-600">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
           <div className="pt-6">
             <p className="text-sm text-gray-500">We bankroll owners who build faster than they doubt.</p>
           </div>

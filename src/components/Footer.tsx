@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
   const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
@@ -24,7 +25,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
             <p className="text-clearfund-pale-blue mb-6 max-w-md">Join thousands of small business owners who trust Clearfund for their financing needs. Talk to our AI advisor or contact our team today.</p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
-                <Link to="/apply?cta=footer_apply">Apply for Funding</Link>
+                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Apply for Funding</a>
               </Button>
               <Button asChild variant="outline" className="bg-clearfund-blue hover:bg-white hover:text-clearfund-dark-blue transition-colors">
                 <a href="tel:8665784721">Call 866-578-4721</a>
@@ -55,7 +56,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
                 </li>
                 <li>
                   <a 
-                    href="https://davidallencapital.com/clearfund" 
+                    href={DAC_APPLY_URL} 
                     target="_blank" 
                     rel="noopener noreferrer"
                     className="text-clearfund-pale-blue hover:text-white transition-colors"

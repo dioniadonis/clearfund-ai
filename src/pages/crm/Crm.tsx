@@ -9,7 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useOperatorAuth } from "@/hooks/useOperatorAuth";
-import { CRM_STAGES, CRM_SOURCES, todayIso, type CrmAgent, type CrmLead } from "@/lib/crm";
+import { RECRUIT_STAGES, CRM_STAGES, CRM_SOURCES, todayIso, type CrmAgent, type CrmLead } from "@/lib/crm";
 import LeadList from "@/components/crm/LeadList";
 import ActivityView from "@/components/crm/ActivityView";
 import LeadDrawer from "@/components/crm/LeadDrawer";
@@ -22,13 +22,14 @@ import { toast } from "sonner";
 
 type CrmRole = "loading" | "admin" | "agent" | "none";
 const PAGE = 50;
-type Filters = { q: string; stage: string; source: string; agent: string; due: "" | "today" | "overdue"; today: string };
+type Filters = { kind: "client" | "partner"; q: string; stage: string; source: string; agent: string; due: "" | "today" | "overdue"; today: string };
 type Counts = { total: number; due_today: number; overdue: number; added_week: number; by_stage: Record<string, number> };
 // Strip characters that break PostgREST or() syntax / act as wildcards; RPC receives the same cleaned string.
 const cleanQ = (q: string) => q.replace(/[,()*%\\_:"']/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function applyFilters(query: any, f: Filters) {
   if (f.q) query = query.or(["firm", "contact_name", "email", "phone", "agency", "lead_ref", "website", "state", "sector"].map((c) => `${c}.ilike.*${f.q}*`).join(","));
+  query = f.kind === "partner" ? query.eq("lead_type", "partner") : query.or("lead_type.is.null,lead_type.neq.partner");
   if (f.stage) query = query.eq("stage", f.stage);
   if (f.source) query = query.eq("source", f.source);
   if (f.agent === "unassigned") query = query.is("assigned_to", null); else if (f.agent) query = query.eq("assigned_to", f.agent);
@@ -100,6 +101,7 @@ const Crm: React.FC = () => {
     queryFn: async () => { const { data, error } = await supabase.rpc("crm_list_agents"); if (error) throw error; return data as CrmAgent[]; },
   });
 
+  const [kind, setKind] = useState<"client" | "partner">("client");
   const [q, setQ] = useState(""); const [stage, setStage] = useState(""); const [source, setSource] = useState("");
   const [agent, setAgent] = useState(""); const [due, setDue] = useState<"" | "today" | "overdue">("");
   const [openId, setOpenId] = useState<string | null>(null); const [importOpen, setImportOpen] = useState(false);
@@ -107,7 +109,7 @@ const Crm: React.FC = () => {
   const today = todayIso();
   const [debQ, setDebQ] = useState("");
   useEffect(() => { const t = setTimeout(() => setDebQ(cleanQ(q)), 300); return () => clearTimeout(t); }, [q]);
-  const filters: Filters = { q: debQ, stage, source, agent, due, today };
+  const filters: Filters = { kind, q: debQ, stage, source, agent, due, today };
   const leadsQ = useInfiniteQuery({
     queryKey: ["crm_leads", userId, filters], enabled, initialPageParam: 0,
     queryFn: async ({ pageParam }) => {
@@ -118,9 +120,9 @@ const Crm: React.FC = () => {
     getNextPageParam: (last, all) => (last.length === PAGE ? all.length : undefined),
   });
   const countsQ = useQuery({
-    queryKey: ["crm_lead_counts", userId, debQ, source, agent, due, today], enabled,
+    queryKey: ["crm_lead_counts", userId, kind, debQ, source, agent, due, today], enabled,
     queryFn: async () => {
-      const { data, error } = await supabase.rpc("crm_lead_counts", { _today: today, _q: debQ || null, _source: source || null, _agent: agent || null, _due: due || null });
+      const { data, error } = await supabase.rpc("crm_lead_counts", { _today: today, _q: debQ || null, _source: source || null, _agent: agent || null, _due: due || null, _type: kind });
       if (error) throw error; return data as unknown as Counts;
     },
   });
@@ -214,6 +216,12 @@ const Crm: React.FC = () => {
             {role === "admin" && <TabsContent value="workers"><WorkersView onOpen={setOpenId} /></TabsContent>}
             <TabsContent value="activity"><ActivityView isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
             <TabsContent value="leads" className="space-y-3">
+              <div role="group" aria-label="Lead type" className="flex flex-wrap gap-2">
+                {([["client", "Clients"], ["partner", "Recruits"]] as const).map(([v, label]) => (
+                  <button key={v} type="button" aria-pressed={kind === v} onClick={() => { setKind(v); setStage(""); }}
+                    className={`h-10 px-4 rounded-md border text-sm font-medium ${kind === v ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-muted"}`}>{label}</button>
+                ))}
+              </div>
               <section aria-label="Lead summary" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                 {([["Total", counts?.total], ["Due today", counts?.due_today], ["Overdue", counts?.overdue], ["Added this week", counts?.added_week]] as const).map(([k, v]) => (
                   <div key={k} className="rounded-lg border p-3 min-w-0"><p className="text-xl font-bold">{v === undefined ? "…" : v.toLocaleString()}</p><p className="text-xs text-muted-foreground">{k}</p></div>
@@ -244,7 +252,7 @@ const Crm: React.FC = () => {
                 </div>
               )}
               <div role="group" aria-label="Filter by stage" className="flex flex-wrap gap-2">
-                {([["", "All", allMatching], ...CRM_STAGES.map((st) => [st, st, byStage[st] ?? 0])] as [string, string, number][]).map(([val, label, n]) => (
+                {([["", "All", allMatching], ...(kind === "partner" ? RECRUIT_STAGES : CRM_STAGES).map((st) => [st, st, byStage[st] ?? 0])] as [string, string, number][]).map(([val, label, n]) => (
                   <button key={label} type="button" aria-pressed={stage === val} onClick={() => setStage(val)}
                     className={`h-10 px-3 rounded-full border text-sm ${stage === val ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-muted"}`}>
                     {label} <span className="opacity-70">{countsQ.data ? n.toLocaleString() : "…"}</span>

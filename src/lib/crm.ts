@@ -7,6 +7,9 @@ export type CrmAgent = { id: string; email: string | null; role: string };
 
 export const CRM_STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost"] as const;
 export type CrmStage = (typeof CRM_STAGES)[number];
+// Referral-partner/broker recruits (lead_type = "partner") use their own pipeline.
+export const RECRUIT_STAGES = ["New", "Contacted", "Interested", "Signed up (DAC)", "Trained", "First referral", "Lost"] as const;
+export const stagesFor = (leadType?: string | null): readonly string[] => (leadType === "partner" ? RECRUIT_STAGES : CRM_STAGES);
 export const CRM_SOURCES = ["apply", "calculator", "outreach", "import", "worker", "manual"] as const;
 
 export const IMPORT_FIELDS = [

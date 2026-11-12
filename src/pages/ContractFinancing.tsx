@@ -9,6 +9,7 @@ import CashGapCalculator from "../components/CashGapCalculator";
 import { usePageMeta } from "@/lib/usePageMeta";
 
 import StageSelector, { STAGES, type StageKey } from "../components/StageSelector";
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 const isStage = (v: string | null): v is StageKey => STAGES.some((s) => s.key === v);
 
 const withStage = (href: string, stage: StageKey | null) => (stage ? `${href}&stage=${stage}` : href);
@@ -44,7 +45,7 @@ const StagePanel: React.FC<{ stage: StageKey }> = ({ stage }) => {
         <h3 className="text-2xl font-bold text-clearfund-dark-blue">Get pre-qualified while you bid</h3>
         <p className="text-gray-700">We can pre-qualify your business now, so funding is lined up and you can say yes fast if you win the award.</p>
         <Button asChild className={primaryBtn}>
-          <Link to="/apply?cta=stage_bidding&product=contract&stage=bidding">Get Pre-Qualified</Link>
+          <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Get Pre-Qualified</a>
         </Button>
       </div>
     );
@@ -53,7 +54,7 @@ const StagePanel: React.FC<{ stage: StageKey }> = ({ stage }) => {
       <div className="space-y-4">
         {recommend("Government Invoice Factoring", products[1].copy)}
         <Button asChild className={primaryBtn}>
-          <Link to="/apply?cta=stage_invoiced&product=factoring&stage=invoiced">Get Paid on My Invoice</Link>
+          <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Get Paid on My Invoice</a>
         </Button>
       </div>
     );
@@ -107,7 +108,7 @@ const ContractFinancing: React.FC = () => {
             <p className="text-sm text-gray-500">*Subject to funding partner approval and verification</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className={primaryBtn}>
-                <Link to={withStage("/apply?cta=contract_hero&product=contract", stage)}>Apply Now</Link>
+                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Apply Now</a>
               </Button>
               <Button variant="outline" className={outlineBtn} onClick={() => selectorRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}>
                 Estimate Your Cash Gap
@@ -230,7 +231,7 @@ const ContractFinancing: React.FC = () => {
             <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue">Line up your mobilization capital before the job starts.</h2>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button asChild className={primaryBtn}>
-                <Link to={withStage("/apply?cta=contract_footer&product=contract", stage)}>Apply Now</Link>
+                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Apply Now</a>
               </Button>
               <a href="tel:8665784721" className="text-clearfund-blue font-semibold text-lg hover:underline">Call 866-578-4721</a>
             </div>

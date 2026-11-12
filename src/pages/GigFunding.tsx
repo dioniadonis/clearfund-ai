@@ -7,13 +7,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProcessSlideShow from '../components/ProcessSlideShow';
 import FundingFAQSlideShow from '../components/FundingFAQSlideShow';
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const GigFunding: React.FC = () => {
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
   const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
   const handleExternalLink = () => {
-    window.open('https://davidallencapital.com/clearfund', '_blank');
+    openDacApply();
   };
   
   return (

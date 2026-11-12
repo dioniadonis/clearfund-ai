@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
-import { CRM_STAGES, leadLabel, type CrmActivity, type CrmAgent, type EmailEvent, type CrmLead } from "@/lib/crm";
+import { stagesFor, leadLabel, type CrmActivity, type CrmAgent, type EmailEvent, type CrmLead } from "@/lib/crm";
 import { toast } from "sonner";
 
 type Props = { lead: CrmLead | null; onClose: () => void; agents: CrmAgent[]; isAdmin: boolean; userId: string };
@@ -129,10 +129,10 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-amt">Award amount</Label><Input id="crm-amt" type="number" className="h-11 text-base" value={form.award_amount ?? ""} onChange={set("award_amount")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-adate">Award date</Label><Input id="crm-adate" type="date" className="cg-date h-11 text-base" value={form.award_date ?? ""} onChange={set("award_date")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-type">Type</Label>
-              <select id="crm-type" className={sel} value={form.lead_type ?? ""} onChange={set("lead_type")}><option value="">Not set</option><option value="borrower">Borrower</option><option value="partner">Partner</option></select></div>
+              <select id="crm-type" className={sel} value={form.lead_type ?? ""} onChange={set("lead_type")}><option value="">Not set</option><option value="borrower">Borrower</option><option value="partner">Recruit (partner)</option></select></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-score">Need score (0-100)</Label><Input id="crm-score" type="number" min={0} max={100} className="h-11 text-base" value={form.need_score ?? ""} onChange={set("need_score")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-stage">Stage</Label>
-              <select id="crm-stage" className={sel} value={form.stage ?? "New"} onChange={set("stage")}>{CRM_STAGES.map((s) => <option key={s}>{s}</option>)}</select></div>
+              <select id="crm-stage" className={sel} value={form.stage ?? "New"} onChange={set("stage")}>{stagesFor(form.lead_type).map((s) => <option key={s}>{s}</option>)}</select></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-follow">Next follow-up</Label><Input id="crm-follow" type="date" className="cg-date h-11 text-base" value={form.next_follow_up ?? ""} onChange={set("next_follow_up")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-source">Source</Label><Input id="crm-source" className="h-11 text-base" value={form.source ?? ""} onChange={set("source")} /></div>
             <div className="space-y-1 min-w-0"><Label htmlFor="crm-assigned">Assigned to</Label>
