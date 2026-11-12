@@ -1,0 +1,88 @@
+{
+  "version": 1,
+  "sdk_version": "3.5.0",
+  "path": "/functions/v1/mcp",
+  "auth": {
+    "type": "oauth",
+    "issuer": "https://hoxewvvepdlrqvsrluje.supabase.co/auth/v1",
+    "require_oauth_client_claim": true,
+    "accepted_audiences": [
+      "authenticated"
+    ]
+  },
+  "mcp": {
+    "server": {
+      "name": "clearfund-ai",
+      "version": "0.1.0",
+      "title": "clearfund-ai"
+    },
+    "tools": [
+      {
+        "name": "list_crm_leads",
+        "title": "List CRM leads",
+        "description": "List the signed-in admin or agent's visible CRM leads, optionally filtered by stage.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "stage": {
+              "description": "Only return leads in this pipeline stage.",
+              "type": "string",
+              "enum": [
+                "New",
+                "Contacted",
+                "Replied",
+                "Interested",
+                "Applied",
+                "Submitted to funder",
+                "Funded",
+                "Lost"
+              ]
+            },
+            "limit": {
+              "default": 25,
+              "description": "Maximum number of recent leads to return.",
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50
+            }
+          },
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      },
+      {
+        "name": "get_crm_lead",
+        "title": "Get CRM lead details",
+        "description": "Get one visible CRM lead and its recent activity history using the signed-in admin or agent's permissions.",
+        "annotations": {
+          "readOnlyHint": true,
+          "idempotentHint": true,
+          "openWorldHint": false
+        },
+        "inputSchema": {
+          "$schema": "https://json-schema.org/draft/2020-12/schema",
+          "type": "object",
+          "properties": {
+            "lead_id": {
+              "type": "string",
+              "format": "uuid",
+              "pattern": "^([0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[1-8][0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}|00000000-0000-0000-0000-000000000000|ffffffff-ffff-ffff-ffff-ffffffffffff)$",
+              "description": "The CRM lead UUID returned by list_crm_leads."
+            }
+          },
+          "required": [
+            "lead_id"
+          ],
+          "additionalProperties": false
+        },
+        "outputSchema": null
+      }
+    ]
+  }
+}
