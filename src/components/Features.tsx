@@ -5,10 +5,10 @@ const Features: React.FC = () => {
   const featureItems = [{
     icon: <MessageCircle className="h-10 w-10 text-clearfund-blue" />,
     title: "AI-Powered Conversations",
-    description: "Get instant answers to your funding questions and personalized financial advice tailored to your AI business needs."
+    description: "Get clear answers to your funding questions and general information about options for your business."
   }, {
     icon: <DollarSign className="h-10 w-10 text-clearfund-blue" />,
-    title: "Fast Capital Solutions",
+    title: "Business Funding Options",
     description: "Access lines of credit, term loans, and equity financing through our provider network."
   }, {
     icon: <CreditCard className="h-10 w-10 text-clearfund-blue" />,

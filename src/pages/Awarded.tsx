@@ -60,7 +60,7 @@ const Awarded: React.FC = () => {
           <div className="container-custom max-w-4xl text-center space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold text-clearfund-dark-blue break-words">{heading}</h1>
             <p className="text-lg md:text-xl text-gray-700">
-              Most agencies pay 30 to 90 days after the work starts. Here's how to cover crew, materials and bonding until then.
+              Agencies generally pay after work starts and invoicing. Explore ways to cover crew, materials and bonding until then.
             </p>
             <p className="text-sm text-gray-500">*Subject to funding partner approval and verification</p>
             <p className="text-sm text-gray-500">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>

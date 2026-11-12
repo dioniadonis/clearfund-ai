@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
             <span className="text-clearfund-blue">Growth-Driven Business</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-lg">
-            Fast Capital. Smart Resources. <br />
+            Business Funding. Smart Resources. <br />
             Transparent Options from $300 to $2M*
           </p>
           <p className="text-sm text-gray-600">
@@ -38,7 +38,7 @@ const Hero: React.FC = () => {
           </div>
           <p className="text-sm text-gray-600">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
           <div className="pt-6">
-            <p className="text-sm text-gray-500">We bankroll owners who build faster than they doubt.</p>
+            <p className="text-sm text-gray-500">Clear next steps for owners exploring business funding.</p>
           </div>
         </div>
         
@@ -65,7 +65,7 @@ const Hero: React.FC = () => {
                 <p className="text-sm">I'm looking for funding, I want to implement AI to scale our operations.</p>
               </div>
               <div className="bg-clearfund-pale-blue p-3 rounded-lg rounded-tl-none max-w-[80%]">
-                <p className="text-sm">I can help with that! I recommend our instant capital options with transparent terms and flexible repayments. I'll outline options that work best for your business!</p>
+                <p className="text-sm">I can help with that! I can help you explore business funding options and understand the provider's terms. I'll outline options that work best for your business!</p>
               </div>
             </div>
           </div>

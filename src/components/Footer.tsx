@@ -59,7 +59,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
                     href="/get-started?cta=footer_2"
                     className="text-clearfund-pale-blue hover:text-white transition-colors"
                   >
-                    Instant Micro Funding
+                    Micro Funding
                   </a>
                 </li>
                 <li>

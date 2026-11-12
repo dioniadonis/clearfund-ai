@@ -110,11 +110,11 @@ const WorkingCapital: React.FC = () => {
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>Quick electronic application</span>
+                      <span>Electronic application</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>Expedited review process</span>
+                      <span>Provider review process</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
@@ -191,7 +191,7 @@ const WorkingCapital: React.FC = () => {
                 How to Apply
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Our simple application process makes it quick and easy to get the working capital your business needs
+                Our application process helps you explore working capital options for your business
               </p>
             </div>
             

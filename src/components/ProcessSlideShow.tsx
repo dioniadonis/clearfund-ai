@@ -120,7 +120,7 @@ const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Fast verification process</span>
+                    <span className="text-gray-700">Secure verification process</span>
                   </div>
                 </div>
               </div>
@@ -212,13 +212,13 @@ const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Fast direct deposit</span>
+                    <span className="text-gray-700">Direct deposit if the provider approves</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">No waiting for paperwork processing</span>
+                    <span className="text-gray-700">Online document steps</span>
                   </div>
                 </div>
               </div>

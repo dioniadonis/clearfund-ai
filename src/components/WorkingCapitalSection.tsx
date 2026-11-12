@@ -54,7 +54,7 @@ const WorkingCapitalSection: React.FC = () => {
             <div className="bg-green-50 border border-green-200 rounded-lg p-4">
               <div className="flex items-center gap-2 mb-2">
                 <Clock className="text-green-600" size={20} />
-                <span className="font-semibold text-green-800">Quick Features:</span>
+                <span className="font-semibold text-green-800">Key Features:</span>
               </div>
               <ul className="text-sm text-green-700 space-y-1">
                 <li>• Liens and judgements OK</li>
