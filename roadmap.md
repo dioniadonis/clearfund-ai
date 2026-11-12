@@ -1,5 +1,12 @@
 # Roadmap — Packet CF-01
 
+## Compliance and two-tier payouts (preview only)
+- [ ] Remove the public funder name, review widget/link, and unsupported footer audience claim
+- [ ] Retire `/join` and every remaining reference so `/agents` is the only sign-up page
+- [ ] Add separate assigned-lead and own-referral payout defaults and per-agent overrides
+- [ ] Apply the correct percentage at funding time and update payout displays and training
+- [ ] Update and run focused tests; verify public searches and CRM mobile layout; do not publish
+
 ## Agent program (preview only)
 - [x] Add recruit lead type, isolated CRM Recruits pipeline and staged CSV import
 - [x] Add public `/agents` application, server-side quiz screening and referral attribution
