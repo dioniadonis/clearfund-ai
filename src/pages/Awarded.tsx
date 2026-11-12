@@ -66,7 +66,7 @@ const Awarded: React.FC = () => {
             <p className="text-sm text-gray-500">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className={primaryBtn}>
-                <ApplyLink cta="awarded_1">Apply Now</ApplyLink>
+                <ApplyLink cta="awarded_1" leadId={/^[0-9a-f-]{36}$/i.test(lead) ? lead : undefined}>Apply Now</ApplyLink>
               </Button>
               <Button asChild variant="outline" className={outlineBtn}>
                 <a href="tel:8665784721"><Phone className="mr-2 h-5 w-5" />Call 866-578-4721</a>
