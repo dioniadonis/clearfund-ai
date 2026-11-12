@@ -90,7 +90,7 @@ const LiveView: React.FC<{ onOpen: (id: string) => void; onNew: (n: number) => v
         </span>
       </div>
       <section aria-label="Today's counts" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-        <div className="rounded-lg border p-3 min-w-0 bg-accent"><p className="text-2xl font-bold">{total}</p><p className="text-xs text-muted-foreground">Added today</p></div>
+        <div className="rounded-lg border p-3 min-w-0 border-primary"><p className="text-2xl font-bold">{total}</p><p className="text-xs text-muted-foreground">Added today</p></div>
         {Object.entries(counts).sort((a, b) => b[1] - a[1]).map(([w, n]) => (
           <div key={w} className="rounded-lg border p-3 min-w-0"><p className="text-2xl font-bold">{n}</p><p className="text-xs text-muted-foreground break-words">{w}</p></div>
         ))}
@@ -103,7 +103,7 @@ const LiveView: React.FC<{ onOpen: (id: string) => void; onNew: (n: number) => v
           {leads.map((l) => (
             <li key={l.id}>
               <button type="button" onClick={() => onOpen(l.id)}
-                className={`w-full text-left rounded-lg border p-3 min-w-0 transition-colors duration-1000 ${l.fresh ? "bg-accent border-primary animate-in fade-in slide-in-from-top-2" : "bg-background"}`}>
+                className={`w-full text-left rounded-lg border p-3 min-w-0 transition-colors duration-1000 ${l.fresh ? "bg-primary/10 border-primary animate-in fade-in slide-in-from-top-2" : "bg-background"}`}>
                 <div className="flex items-start justify-between gap-2">
                   <p className="font-medium min-w-0 break-words">{l.firm || "Unnamed company"}{l.state ? ` · ${l.state}` : ""}</p>
                   <span className="text-xs shrink-0 text-muted-foreground">{new Date(l.created_at).toLocaleTimeString([], { hour: "numeric", minute: "2-digit" })}</span>
