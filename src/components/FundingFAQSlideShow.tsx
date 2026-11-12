@@ -46,7 +46,7 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
   }, [api]);
 
   const handleGetFunded = () => {
-    openDacApply("fundingfaqslideshow_1");
+    openApplication("fundingfaqslideshow_1");
   };
 
   return (

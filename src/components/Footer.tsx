@@ -156,7 +156,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
             <p>&copy; {new Date().getFullYear()} Clearfund AI. All rights reserved.</p>
             {pageDisclaimer && <p className="text-xs mt-2">{pageDisclaimer}</p>}
             <p className="text-xs mt-2">
-              *ClearFund AI is a broker, not a lender. We partner with select funding providers, including David Allen Capital, and may receive compensation when you are funded through a partner. Your privacy is protected throughout the process.
+              *ClearFund AI is a broker, not a lender. We may connect applicants with select funding providers and may receive compensation for referrals. Providers decide whether to make an offer and set all terms.
             </p>
           </div>
         </div>

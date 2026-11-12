@@ -9,7 +9,7 @@ import { openApplication } from "@/lib/partners";
 
 const WorkingCapital: React.FC = () => {
   const navigate = useNavigate();
-  const apply = (cta: string) => openDacApply(cta);
+  const apply = (cta: string) => openApplication(cta);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -51,7 +51,7 @@ const WorkingCapital: React.FC = () => {
                     <div className="font-medium">Straightforward application</div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
+                <p className="text-sm text-gray-500">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
               </div>
               
               <div className="relative hidden md:block">

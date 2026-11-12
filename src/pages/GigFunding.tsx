@@ -14,7 +14,7 @@ const GigFunding: React.FC = () => {
   const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
   const handleExternalLink = () => {
-    openDacApply("gigfunding_1");
+    openApplication("gigfunding_1");
   };
   
   return (
@@ -48,7 +48,7 @@ const GigFunding: React.FC = () => {
                 </Button>
               </div>
               <p className="text-xs text-gray-500">
-                Funding is provided by our partner David Allen Capital. ClearFund AI is a broker, not a lender, and may receive compensation if you are funded.
+                ClearFund AI is a broker, not a lender. We may connect you with third-party funding providers and may receive compensation for referrals.
               </p>
             </div>
             

@@ -53,7 +53,7 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
 
   const handleApplyNow = () => {
     onClose?.();
-    openDacApply("financingeducationslideshow_1");
+    openApplication("financingeducationslideshow_1");
   };
 
   return (

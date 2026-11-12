@@ -10,11 +10,11 @@ const WhatDoYouNeedSection: React.FC = () => {
   const navigate = useNavigate();
 
   const handleWorkingCapital = () => {
-    openDacApply("whatdoyouneedsection_1");
+    openApplication("whatdoyouneedsection_1");
   };
 
   const handleInstantMicro = () => {
-    openDacApply("whatdoyouneedsection_2");
+    openApplication("whatdoyouneedsection_2");
   };
 
 
@@ -104,7 +104,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 </div>
               </div>
               <p className="text-xs text-gray-500 mb-4">
-                *Subject to provider approval. Provided by David Allen Capital; ClearFund AI may receive compensation if you are funded.
+                *Providers decide whether to make an offer and set all terms. ClearFund AI may receive compensation for referrals.
               </p>
               <Button 
                 onClick={handleInstantMicro}

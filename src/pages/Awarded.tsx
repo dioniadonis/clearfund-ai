@@ -63,7 +63,7 @@ const Awarded: React.FC = () => {
               Most agencies pay 30 to 90 days after the work starts. Here's how to cover crew, materials and bonding until then.
             </p>
             <p className="text-sm text-gray-500">*Subject to funding partner approval and verification</p>
-            <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
+            <p className="text-sm text-gray-500">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className={primaryBtn}>
                 <ApplyLink cta="awarded_1">Apply Now</ApplyLink>
