@@ -62,7 +62,6 @@ const CashGapCalculator: React.FC<Props> = ({ stage, embedded, initialAmount }) 
     setInputs((p) => ({ ...p, [k]: e.target.value }));
 
   const amount = Math.round(r.cashGap);
-  const applyHref = `/apply?cta=calculator&product=contract&amount=${amount}${stage ? `&stage=${stage}` : ""}`;
 
   const save = async (e: React.FormEvent) => {
     e.preventDefault();

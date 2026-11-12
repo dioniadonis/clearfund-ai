@@ -36,6 +36,7 @@ const Hero: React.FC = () => {
               <Play className="ml-2 h-5 w-5" />
             </Button>
           </div>
+          <p className="text-sm text-gray-600">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
           <div className="pt-6">
             <p className="text-sm text-gray-500">We bankroll owners who build faster than they doubt.</p>
           </div>
