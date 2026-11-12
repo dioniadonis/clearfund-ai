@@ -4,6 +4,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Card, CardContent } from '@/components/ui/card';
 import { Clock, BookOpen, TrendingUp, CheckCircle } from 'lucide-react';
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const Blog: React.FC = () => {
   return (
@@ -79,7 +80,7 @@ const Blog: React.FC = () => {
                 <div className="text-center space-y-4">
                   <p className="text-gray-700">Ready now? Apply online or call our concierge.</p>
                   <div className="flex flex-col sm:flex-row gap-3 justify-center">
-                    <a href="/apply?cta=blog_apply" className="inline-flex items-center justify-center rounded-md bg-clearfund-blue px-6 py-3 font-semibold text-white hover:bg-clearfund-dark-blue">Apply online</a>
+                    <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center rounded-md bg-clearfund-blue px-6 py-3 font-semibold text-white hover:bg-clearfund-dark-blue">Apply online</a>
                     <a href="tel:8665784721" className="inline-flex items-center justify-center rounded-md border border-clearfund-blue px-6 py-3 font-semibold text-clearfund-blue">Call 866-578-4721</a>
                   </div>
                 </div>

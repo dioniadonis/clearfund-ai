@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { COMPLIANCE_TEXT, usd, type Results } from "@/lib/freeAudit";
 import { useToast } from "@/hooks/use-toast";
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 type Ai = {
   headline_summary: string; score_explanation: string; funding_context: string; closing_note: string;
@@ -143,7 +144,7 @@ const FreeAuditResults: React.FC = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" onClick={() => track("funding_cta_clicked")}>
-              <Link to="/apply?cta=audit_results">See my funding options <ArrowRight className="ml-2 h-4 w-4" /></Link>
+              <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">See my funding options <ArrowRight className="ml-2 h-4 w-4" /></a>
             </Button>
             <Button asChild size="lg" variant="outline" onClick={() => track("setup_cta_clicked")}>
               <a href="tel:8665784721">Talk to us about setting this up</a>

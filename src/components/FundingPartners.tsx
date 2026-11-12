@@ -1,12 +1,13 @@
 import React, { useEffect, useRef } from 'react';
 import { ExternalLink } from 'lucide-react';
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const TRUSTBOX_TEMPLATE_ID = '54ad5defc6454f065c28af8b'; // Trustpilot Slider widget
 
 const PARTNERS = [
   {
     name: 'David Allen Capital',
-    url: 'https://davidallencapital.com/clearfund',
+    url: DAC_APPLY_URL,
     // No TrustBox access granted to this business unit (Trustpilot returns
     // an error for every widget template) — profile link only.
     businessUnitId: null,

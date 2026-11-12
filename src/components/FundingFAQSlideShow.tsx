@@ -7,6 +7,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 interface FundingFAQSlideShowProps {
   onClose: () => void;
@@ -45,7 +46,7 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
   }, [api]);
 
   const handleGetFunded = () => {
-    window.open('http://davidallencapital.com/clearfund', '_blank');
+    openDacApply();
   };
 
   return (

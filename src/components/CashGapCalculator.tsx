@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { computeCashGap, type CashGapInputs } from "@/lib/cashGap";
+import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
 
 const fmt = (n: number) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Math.round(n));
@@ -137,7 +138,7 @@ const CashGapCalculator: React.FC<Props> = ({ stage, embedded, initialAmount }) 
             {amount > 0 ? (
               <div className="flex flex-col sm:flex-row sm:items-center gap-4 pt-2">
                 <Button asChild className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg">
-                  <Link to={applyHref}>Apply for This Amount</Link>
+                  <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Apply with our funding partner</a>
                 </Button>
                 <a href="tel:8665784721" className="text-clearfund-blue font-medium hover:underline whitespace-nowrap">
                   Talk to us: 866-578-4721
@@ -150,7 +151,7 @@ const CashGapCalculator: React.FC<Props> = ({ stage, embedded, initialAmount }) 
                   <Button asChild className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg">
                     <a href="tel:8665784721">Talk to Us</a>
                   </Button>
-                  <Link to="/apply?cta=calculator&product=contract" className="text-clearfund-blue font-medium hover:underline">Apply Anyway</Link>
+                  <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer" className="text-clearfund-blue font-medium hover:underline">Apply Anyway</a>
                 </div>
               </div>
             )}
