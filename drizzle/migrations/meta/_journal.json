@@ -78,6 +78,13 @@
       "when": 1794456800070,
       "tag": "0010_crm_leads_realtime",
       "breakpoints": true
+    },
+    {
+      "idx": 11,
+      "version": "7",
+      "when": 1794504898568,
+      "tag": "0011_crm_lead_counts",
+      "breakpoints": true
     }
   ]
 }

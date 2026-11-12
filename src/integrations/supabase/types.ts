@@ -1602,6 +1602,16 @@ export type Database = {
         Returns: Json
       }
       crm_job_ttl: { Args: { _type: string }; Returns: string }
+      crm_lead_counts: {
+        Args: {
+          _agent?: string
+          _due?: string
+          _q?: string
+          _source?: string
+          _today: string
+        }
+        Returns: Json
+      }
       crm_lead_eligible: {
         Args: {
           _l: Database["public"]["Tables"]["crm_leads"]["Row"]

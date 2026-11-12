@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import Papa from "papaparse";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2, LogOut, Upload, Download, Search, SlidersHorizontal } from "lucide-react";
@@ -21,6 +21,20 @@ import { oauthReturnPath } from "@/lib/oauth-return-path";
 import { toast } from "sonner";
 
 type CrmRole = "loading" | "admin" | "agent" | "none";
+const PAGE = 50;
+type Filters = { q: string; stage: string; source: string; agent: string; due: "" | "today" | "overdue"; today: string };
+type Counts = { total: number; due_today: number; overdue: number; added_week: number; by_stage: Record<string, number> };
+// Strip characters that break PostgREST or() syntax / act as wildcards; RPC receives the same cleaned string.
+const cleanQ = (q: string) => q.replace(/[,()*%\\_:"']/g, " ").replace(/\s+/g, " ").trim().slice(0, 100);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function applyFilters(query: any, f: Filters) {
+  if (f.q) query = query.or(["firm", "contact_name", "email", "phone", "agency", "lead_ref", "website", "state", "sector"].map((c) => `${c}.ilike.*${f.q}*`).join(","));
+  if (f.stage) query = query.eq("stage", f.stage);
+  if (f.source) query = query.eq("source", f.source);
+  if (f.agent === "unassigned") query = query.is("assigned_to", null); else if (f.agent) query = query.eq("assigned_to", f.agent);
+  if (f.due === "today") query = query.eq("next_follow_up", f.today); else if (f.due === "overdue") query = query.lt("next_follow_up", f.today);
+  return query;
+}
 const sel = "h-11 rounded-md border border-input bg-background px-3 text-base min-w-0";
 
 function useCrmRole(userId: string | null): CrmRole {
@@ -81,13 +95,6 @@ const Crm: React.FC = () => {
     if (enabled && searchParams.has("next")) navigate(nextPath, { replace: true });
   }, [enabled, navigate, nextPath, searchParams]);
 
-  const leadsQ = useQuery({
-    queryKey: ["crm_leads", userId], enabled,
-    queryFn: async () => {
-      const { data, error } = await supabase.from("crm_leads").select("*").order("created_at", { ascending: false }).limit(5000);
-      if (error) throw error; return data as CrmLead[];
-    },
-  });
   const agentsQ = useQuery({
     queryKey: ["crm_agents", userId], enabled,
     queryFn: async () => { const { data, error } = await supabase.rpc("crm_list_agents"); if (error) throw error; return data as CrmAgent[]; },
@@ -97,42 +104,64 @@ const Crm: React.FC = () => {
   const [agent, setAgent] = useState(""); const [due, setDue] = useState<"" | "today" | "overdue">("");
   const [openId, setOpenId] = useState<string | null>(null); const [importOpen, setImportOpen] = useState(false);
 
-  const leads = leadsQ.data ?? [];
   const today = todayIso();
-  const baseFiltered = useMemo(() => leads.filter((l) => {
-    const s = q.trim().toLowerCase();
-    if (s && ![l.firm, l.contact_name, l.email, l.phone, l.agency, l.notes, l.lead_ref, l.website, l.state, l.sector].some((v) => v?.toLowerCase().includes(s))) return false;
-    if (source && l.source !== source) return false;
-    if (agent === "unassigned" ? l.assigned_to : agent && l.assigned_to !== agent) return false;
-    if (due === "today" && l.next_follow_up !== today) return false;
-    if (due === "overdue" && !(l.next_follow_up && l.next_follow_up < today)) return false;
-    return true;
-  }), [leads, q, source, agent, due, today]);
-  const filtered = useMemo(() => (stage ? baseFiltered.filter((l) => l.stage === stage) : baseFiltered), [baseFiltered, stage]);
+  const [debQ, setDebQ] = useState("");
+  useEffect(() => { const t = setTimeout(() => setDebQ(cleanQ(q)), 300); return () => clearTimeout(t); }, [q]);
+  const filters: Filters = { q: debQ, stage, source, agent, due, today };
+  const leadsQ = useInfiniteQuery({
+    queryKey: ["crm_leads", userId, filters], enabled, initialPageParam: 0,
+    queryFn: async ({ pageParam }) => {
+      const { data, error } = await applyFilters(supabase.from("crm_leads").select("*"), filters)
+        .order("created_at", { ascending: false }).order("id").range(pageParam * PAGE, pageParam * PAGE + PAGE - 1);
+      if (error) throw error; return data as CrmLead[];
+    },
+    getNextPageParam: (last, all) => (last.length === PAGE ? all.length : undefined),
+  });
+  const countsQ = useQuery({
+    queryKey: ["crm_lead_counts", userId, debQ, source, agent, due, today], enabled,
+    queryFn: async () => {
+      const { data, error } = await supabase.rpc("crm_lead_counts", { _today: today, _q: debQ || null, _source: source || null, _agent: agent || null, _due: due || null });
+      if (error) throw error; return data as unknown as Counts;
+    },
+  });
+  const openLeadQ = useQuery({
+    queryKey: ["crm_lead", openId], enabled: enabled && !!openId,
+    queryFn: async () => { const { data, error } = await supabase.from("crm_leads").select("*").eq("id", openId!).maybeSingle(); if (error) throw error; return data as CrmLead | null; },
+  });
+  const leads = useMemo(() => leadsQ.data?.pages.flat() ?? [], [leadsQ.data]);
+  const counts = countsQ.data;
+  const byStage = counts?.by_stage ?? {};
+  const allMatching = Object.values(byStage).reduce((a, n) => a + n, 0);
+  const matching = stage ? byStage[stage] ?? 0 : allMatching;
   const [showFilters, setShowFilters] = useState(false);
   const [tab, setTab] = useState("activity"); const [pulse, setPulse] = useState(false);
   const tabRef = React.useRef(tab); tabRef.current = tab;
   const onLiveNew = React.useCallback(() => { if (tabRef.current !== "live") setPulse(true); }, []);
   const activeFilters = [source, agent, due].filter(Boolean).length;
 
-  const weekAgo = Date.now() - 7 * 864e5;
-  const stats = {
-    overdue: leads.filter((l) => l.next_follow_up && l.next_follow_up < today).length,
-    dueToday: leads.filter((l) => l.next_follow_up === today).length,
-    week: leads.filter((l) => new Date(l.created_at).getTime() >= weekAgo).length,
-  };
-
   const move = async (id: string, to: string) => {
-    qc.setQueryData<CrmLead[]>(["crm_leads", userId], (old) => old?.map((l) => (l.id === id ? { ...l, stage: to } : l)));
+    qc.setQueriesData<{ pages: CrmLead[][] }>({ queryKey: ["crm_leads", userId] }, (old) => old && { ...old, pages: old.pages.map((pg) => pg.map((l) => (l.id === id ? { ...l, stage: to } : l))) });
     const { error } = await supabase.from("crm_leads").update({ stage: to }).eq("id", id);
     if (error) toast.error(`Couldn't move lead: ${error.message}`);
     qc.invalidateQueries({ queryKey: ["crm_leads"] });
+    qc.invalidateQueries({ queryKey: ["crm_lead_counts"] });
+    qc.invalidateQueries({ queryKey: ["crm_lead", id] });
     qc.invalidateQueries({ queryKey: ["crm_activities", id] });
     qc.invalidateQueries({ queryKey: ["crm_activity_feed"] });
   };
 
-  const exportCsv = () => {
-    const csv = Papa.unparse(filtered.map(({ id, firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref, created_at }) =>
+  const [exporting, setExporting] = useState(false);
+  const exportCsv = async () => {
+    setExporting(true);
+    const rows: CrmLead[] = [];
+    for (let from = 0; ; from += 1000) {
+      const { data, error } = await applyFilters(supabase.from("crm_leads").select("*"), filters)
+        .order("created_at", { ascending: false }).order("id").range(from, from + 999);
+      if (error) { setExporting(false); toast.error(`Export failed: ${error.message}`); return; }
+      rows.push(...(data as CrmLead[])); if (data.length < 1000) break;
+    }
+    setExporting(false);
+    const csv = Papa.unparse(rows.map(({ id, firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref, created_at }) =>
       ({ id, firm, contact_name, email, phone, agency, award_amount, award_date, source, stage,
         assigned_to: agentsQ.data?.find((a) => a.id === assigned_to)?.email ?? assigned_to ?? "", next_follow_up, notes, lead_ref, created_at })));
     const a = document.createElement("a");
@@ -154,14 +183,14 @@ const Crm: React.FC = () => {
       </div>
     );
 
-  const openLead = leads.find((l) => l.id === openId) ?? null;
+  const openLead = leads.find((l) => l.id === openId) ?? openLeadQ.data ?? null;
   const agents = agentsQ.data ?? [];
 
   return (
     <div className="min-h-screen bg-background">
       <CrmWebTools
         activeTab={tab}
-        filteredLeads={filtered}
+        filteredLeads={leads}
         loading={leadsQ.isLoading}
         onChangeTab={(nextTab) => { setTab(nextTab); if (nextTab === "live") setPulse(false); }}
         onFilterStage={setStage}
@@ -176,18 +205,18 @@ const Crm: React.FC = () => {
         </div>
       </header>
       <main className="max-w-7xl mx-auto px-4 py-4 space-y-4 pb-28">
-        {leadsQ.isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : leadsQ.error ? (
+        {leadsQ.error ? (
           <p className="text-destructive">Couldn't load leads: {(leadsQ.error as Error).message}</p>
         ) : (
           <Tabs value={tab} onValueChange={(v) => { setTab(v); if (v === "live") setPulse(false); }}>
             <TabsList className={`w-full sm:w-auto grid ${role === "admin" ? "grid-cols-4" : "grid-cols-2"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger>{role === "admin" && <TabsTrigger value="live" className="h-10 relative">Live{pulse && <span aria-label="New leads" className="absolute top-1.5 right-1.5 h-2 w-2 rounded-full bg-primary animate-pulse" />}</TabsTrigger>}{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}</TabsList>
             {role === "admin" && <TabsContent value="live" forceMount hidden={tab !== "live"}><LiveView onOpen={setOpenId} onNew={onLiveNew} /></TabsContent>}
             {role === "admin" && <TabsContent value="workers"><WorkersView onOpen={setOpenId} /></TabsContent>}
-            <TabsContent value="activity"><ActivityView leads={leads} isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
+            <TabsContent value="activity"><ActivityView isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
             <TabsContent value="leads" className="space-y-3">
               <section aria-label="Lead summary" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-                {([["Total", leads.length], ["Due today", stats.dueToday], ["Overdue", stats.overdue], ["Added this week", stats.week]] as const).map(([k, v]) => (
-                  <div key={k} className="rounded-lg border p-3 min-w-0"><p className="text-xl font-bold">{v}</p><p className="text-xs text-muted-foreground">{k}</p></div>
+                {([["Total", counts?.total], ["Due today", counts?.due_today], ["Overdue", counts?.overdue], ["Added this week", counts?.added_week]] as const).map(([k, v]) => (
+                  <div key={k} className="rounded-lg border p-3 min-w-0"><p className="text-xl font-bold">{v === undefined ? "…" : v.toLocaleString()}</p><p className="text-xs text-muted-foreground">{k}</p></div>
                 ))}
               </section>
               <div className="flex gap-2">
@@ -209,21 +238,26 @@ const Crm: React.FC = () => {
                     <option value="">Any follow-up</option><option value="today">Due today</option><option value="overdue">Overdue</option>
                   </select>
                   <div className="flex flex-wrap gap-2 sm:col-span-3">
-                    <Button variant="outline" className="h-11" onClick={exportCsv}><Download className="h-4 w-4 mr-1" />Export CSV</Button>
+                    <Button variant="outline" className="h-11" disabled={exporting} onClick={exportCsv}>{exporting ? <Loader2 className="h-4 w-4 mr-1 animate-spin" /> : <Download className="h-4 w-4 mr-1" />}Export CSV</Button>
                     {role === "admin" && <Button variant="outline" className="h-11" onClick={() => setImportOpen(true)}><Upload className="h-4 w-4 mr-1" />Import CSV</Button>}
                   </div>
                 </div>
               )}
               <div role="group" aria-label="Filter by stage" className="flex flex-wrap gap-2">
-                {([["", "All", baseFiltered.length], ...CRM_STAGES.map((st) => [st, st, baseFiltered.filter((l) => l.stage === st).length])] as [string, string, number][]).map(([val, label, n]) => (
+                {([["", "All", allMatching], ...CRM_STAGES.map((st) => [st, st, byStage[st] ?? 0])] as [string, string, number][]).map(([val, label, n]) => (
                   <button key={label} type="button" aria-pressed={stage === val} onClick={() => setStage(val)}
                     className={`h-10 px-3 rounded-full border text-sm ${stage === val ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-muted"}`}>
-                    {label} <span className="opacity-70">{n}</span>
+                    {label} <span className="opacity-70">{countsQ.data ? n.toLocaleString() : "…"}</span>
                   </button>
                 ))}
               </div>
-              <p className="text-sm text-muted-foreground">{filtered.length} leads</p>
-              <LeadList leads={filtered} onOpen={setOpenId} onMove={move} />
+              <p className="text-sm text-muted-foreground">Showing {leads.length.toLocaleString()}{countsQ.data ? ` of ${matching.toLocaleString()}` : ""} leads</p>
+              {leadsQ.isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : <LeadList leads={leads} onOpen={setOpenId} onMove={move} />}
+              {leadsQ.hasNextPage && (
+                <Button variant="outline" className="w-full h-11" disabled={leadsQ.isFetchingNextPage} onClick={() => leadsQ.fetchNextPage()}>
+                  {leadsQ.isFetchingNextPage ? <Loader2 className="h-4 w-4 animate-spin" /> : "Load more"}
+                </Button>
+              )}
             </TabsContent>
           </Tabs>
         )}
