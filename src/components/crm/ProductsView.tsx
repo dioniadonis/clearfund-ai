@@ -22,7 +22,7 @@ const ProductsView: React.FC = () => {
     if (!edit) return; setSaving(true);
     const row: Row = { ...edit }; delete row.created_at; delete row.updated_at;
     for (const [k] of NUM) row[k] = row[k] === "" || row[k] == null ? null : Number(row[k]);
-    const { error } = row.id ? await supabase.from("funder_products").update(row).eq("id", row.id as string) : await supabase.from("funder_products").insert(row as never);
+    const { error } = row.id ? await supabase.from("funder_products").update(row as never).eq("id", row.id as string) : await supabase.from("funder_products").insert(row as never);
     setSaving(false); if (error) return toast.error(error.message);
     toast.success("Saved"); setEdit(null); qc.invalidateQueries({ queryKey: ["funder_products"] });
   };
