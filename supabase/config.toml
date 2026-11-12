@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.extract-leads]
 verify_jwt = false
+
+[functions.email-events]
+verify_jwt = false

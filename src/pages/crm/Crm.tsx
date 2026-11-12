@@ -1,15 +1,16 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Papa from "papaparse";
-import { Loader2, LogOut, Upload, Download, Search } from "lucide-react";
+import { Loader2, LogOut, Upload, Download, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useOperatorAuth } from "@/hooks/useOperatorAuth";
-import { CRM_STAGES, CRM_SOURCES, fmtMoney, leadLabel, todayIso, type CrmAgent, type CrmLead } from "@/lib/crm";
-import CrmBoard from "@/components/crm/CrmBoard";
+import { CRM_STAGES, CRM_SOURCES, todayIso, type CrmAgent, type CrmLead } from "@/lib/crm";
+import LeadList from "@/components/crm/LeadList";
+import ActivityView from "@/components/crm/ActivityView";
 import LeadDrawer from "@/components/crm/LeadDrawer";
 import CsvImport from "@/components/crm/CsvImport";
 import { toast } from "sonner";
@@ -86,20 +87,22 @@ const Crm: React.FC = () => {
 
   const leads = leadsQ.data ?? [];
   const today = todayIso();
-  const filtered = useMemo(() => leads.filter((l) => {
+  const baseFiltered = useMemo(() => leads.filter((l) => {
     const s = q.trim().toLowerCase();
     if (s && ![l.firm, l.contact_name, l.email, l.phone, l.agency, l.notes].some((v) => v?.toLowerCase().includes(s))) return false;
-    if (stage && l.stage !== stage) return false;
     if (source && l.source !== source) return false;
     if (agent === "unassigned" ? l.assigned_to : agent && l.assigned_to !== agent) return false;
     if (due === "today" && l.next_follow_up !== today) return false;
     if (due === "overdue" && !(l.next_follow_up && l.next_follow_up < today)) return false;
     return true;
-  }), [leads, q, stage, source, agent, due, today]);
+  }), [leads, q, source, agent, due, today]);
+  const filtered = useMemo(() => (stage ? baseFiltered.filter((l) => l.stage === stage) : baseFiltered), [baseFiltered, stage]);
+  const [showFilters, setShowFilters] = useState(false);
+  const activeFilters = [source, agent, due].filter(Boolean).length;
 
   const weekAgo = Date.now() - 7 * 864e5;
   const stats = {
-    perStage: CRM_STAGES.map((s) => [s, leads.filter((l) => l.stage === s).length] as const),
+    overdue: leads.filter((l) => l.next_follow_up && l.next_follow_up < today).length,
     dueToday: leads.filter((l) => l.next_follow_up === today).length,
     week: leads.filter((l) => new Date(l.created_at).getTime() >= weekAgo).length,
   };
@@ -110,6 +113,7 @@ const Crm: React.FC = () => {
     if (error) toast.error(`Couldn't move lead: ${error.message}`);
     qc.invalidateQueries({ queryKey: ["crm_leads"] });
     qc.invalidateQueries({ queryKey: ["crm_activities", id] });
+    qc.invalidateQueries({ queryKey: ["crm_activity_feed"] });
   };
 
   const exportCsv = () => {
@@ -150,58 +154,52 @@ const Crm: React.FC = () => {
         </div>
       </header>
       <main className="max-w-7xl mx-auto px-4 py-4 space-y-4 pb-28">
-        <section aria-label="Dashboard" className="flex gap-2 overflow-x-auto -mx-4 px-4 pb-1">
-          {[["Due today", stats.dueToday], ["Added this week", stats.week], ...stats.perStage].map(([k, v]) => (
-            <div key={k} className="shrink-0 rounded-lg border px-3 py-2 min-w-[96px]">
-              <p className="text-xl font-bold">{v}</p><p className="text-xs text-muted-foreground whitespace-nowrap">{k}</p>
-            </div>
-          ))}
-        </section>
-
-        <div className="flex flex-wrap gap-2">
-          <Button variant="outline" className="h-11" onClick={exportCsv}><Download className="h-4 w-4 mr-1" />Export CSV</Button>
-          {role === "admin" && <Button variant="outline" className="h-11" onClick={() => setImportOpen(true)}><Upload className="h-4 w-4 mr-1" />Import CSV</Button>}
-        </div>
-
         {leadsQ.isLoading ? <Loader2 className="h-6 w-6 animate-spin" /> : leadsQ.error ? (
           <p className="text-destructive">Couldn't load leads: {(leadsQ.error as Error).message}</p>
         ) : (
-          <Tabs defaultValue="board">
-            <TabsList className="w-full sm:w-auto"><TabsTrigger value="board" className="flex-1 h-10">Pipeline</TabsTrigger><TabsTrigger value="list" className="flex-1 h-10">List</TabsTrigger></TabsList>
-            <TabsContent value="board"><CrmBoard leads={leads} onOpen={(l) => setOpenId(l.id)} onMove={move} /></TabsContent>
-            <TabsContent value="list" className="space-y-3">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-2">
-                <div className="relative sm:col-span-2 lg:col-span-1">
+          <Tabs defaultValue="activity">
+            <TabsList className="w-full sm:w-auto grid grid-cols-2"><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger></TabsList>
+            <TabsContent value="activity"><ActivityView leads={leads} isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
+            <TabsContent value="leads" className="space-y-3">
+              <section aria-label="Lead summary" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                {([["Total", leads.length], ["Due today", stats.dueToday], ["Overdue", stats.overdue], ["Added this week", stats.week]] as const).map(([k, v]) => (
+                  <div key={k} className="rounded-lg border p-3 min-w-0"><p className="text-xl font-bold">{v}</p><p className="text-xs text-muted-foreground">{k}</p></div>
+                ))}
+              </section>
+              <div className="flex gap-2">
+                <div className="relative flex-1 min-w-0">
                   <Search className="absolute left-3 top-3.5 h-4 w-4 text-muted-foreground" />
                   <Input aria-label="Search leads" placeholder="Search" className="h-11 pl-9 text-base" value={q} onChange={(e) => setQ(e.target.value)} />
                 </div>
-                <select aria-label="Stage" className={sel} value={stage} onChange={(e) => setStage(e.target.value)}><option value="">All stages</option>{CRM_STAGES.map((s) => <option key={s}>{s}</option>)}</select>
-                <select aria-label="Source" className={sel} value={source} onChange={(e) => setSource(e.target.value)}><option value="">All sources</option>{CRM_SOURCES.map((s) => <option key={s}>{s}</option>)}</select>
-                <select aria-label="Assigned agent" className={sel} value={agent} onChange={(e) => setAgent(e.target.value)}>
-                  <option value="">All agents</option><option value="unassigned">Unassigned</option>{agents.map((a) => <option key={a.id} value={a.id}>{a.email ?? a.id}</option>)}
-                </select>
-                <select aria-label="Follow-up" className={sel} value={due} onChange={(e) => setDue(e.target.value as typeof due)}>
-                  <option value="">Any follow-up</option><option value="today">Due today</option><option value="overdue">Overdue</option>
-                </select>
+                <Button variant="outline" className="h-11 shrink-0" aria-expanded={showFilters} onClick={() => setShowFilters((v) => !v)}>
+                  <SlidersHorizontal className="h-4 w-4 sm:mr-1" /><span className="hidden sm:inline">Filters</span>{activeFilters > 0 && <span className="ml-1">({activeFilters})</span>}
+                </Button>
+              </div>
+              {showFilters && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                  <select aria-label="Source" className={sel} value={source} onChange={(e) => setSource(e.target.value)}><option value="">All sources</option>{CRM_SOURCES.map((s) => <option key={s}>{s}</option>)}</select>
+                  <select aria-label="Assigned agent" className={sel} value={agent} onChange={(e) => setAgent(e.target.value)}>
+                    <option value="">All agents</option><option value="unassigned">Unassigned</option>{agents.map((a) => <option key={a.id} value={a.id}>{a.email ?? a.id}</option>)}
+                  </select>
+                  <select aria-label="Follow-up" className={sel} value={due} onChange={(e) => setDue(e.target.value as typeof due)}>
+                    <option value="">Any follow-up</option><option value="today">Due today</option><option value="overdue">Overdue</option>
+                  </select>
+                  <div className="flex flex-wrap gap-2 sm:col-span-3">
+                    <Button variant="outline" className="h-11" onClick={exportCsv}><Download className="h-4 w-4 mr-1" />Export CSV</Button>
+                    {role === "admin" && <Button variant="outline" className="h-11" onClick={() => setImportOpen(true)}><Upload className="h-4 w-4 mr-1" />Import CSV</Button>}
+                  </div>
+                </div>
+              )}
+              <div role="group" aria-label="Filter by stage" className="flex flex-wrap gap-2">
+                {([["", "All", baseFiltered.length], ...CRM_STAGES.map((st) => [st, st, baseFiltered.filter((l) => l.stage === st).length])] as [string, string, number][]).map(([val, label, n]) => (
+                  <button key={label} type="button" aria-pressed={stage === val} onClick={() => setStage(val)}
+                    className={`h-10 px-3 rounded-full border text-sm ${stage === val ? "bg-primary text-primary-foreground border-primary" : "bg-background hover:bg-muted"}`}>
+                    {label} <span className="opacity-70">{n}</span>
+                  </button>
+                ))}
               </div>
               <p className="text-sm text-muted-foreground">{filtered.length} leads</p>
-              {filtered.length === 0 ? <p className="text-muted-foreground py-8 text-center">No leads match.</p> : (
-                <ul className="divide-y border rounded-lg">
-                  {filtered.map((l) => (
-                    <li key={l.id}>
-                      <button type="button" className="w-full text-left p-3 min-h-[64px] hover:bg-muted/50" onClick={() => setOpenId(l.id)}>
-                        <div className="flex justify-between gap-2">
-                          <span className="font-medium break-words min-w-0">{leadLabel(l)}</span>
-                          <span className="text-xs shrink-0 rounded-full border px-2 py-0.5 h-fit">{l.stage}</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground break-words">
-                          {[l.source, l.agency, fmtMoney(l.award_amount), l.next_follow_up && `Follow up ${l.next_follow_up}`].filter(Boolean).join(" · ")}
-                        </p>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-              )}
+              <LeadList leads={filtered} onOpen={setOpenId} onMove={move} />
             </TabsContent>
           </Tabs>
         )}

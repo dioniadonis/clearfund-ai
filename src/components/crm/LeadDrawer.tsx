@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { Mail, Phone, PhoneCall, StickyNote, CalendarClock, Loader2 } from "lucide-react";
+import { Ban, Mail, MailOpen, Phone, PhoneCall, StickyNote, CalendarClock, Loader2 } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetDescription } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
-import { CRM_STAGES, leadLabel, type CrmActivity, type CrmAgent, type CrmLead } from "@/lib/crm";
+import { CRM_STAGES, leadLabel, type CrmActivity, type CrmAgent, type EmailEvent, type CrmLead } from "@/lib/crm";
 import { toast } from "sonner";
 
 type Props = { lead: CrmLead | null; onClose: () => void; agents: CrmAgent[]; isAdmin: boolean; userId: string };
@@ -32,6 +32,16 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
     },
   });
 
+  const emails = useQuery({
+    queryKey: ["crm_email_events", lead?.id],
+    enabled: !!lead,
+    queryFn: async () => {
+      const { data, error } = await supabase.from("email_events").select("*").eq("lead_id", lead!.id).order("occurred_at", { ascending: false }).limit(300);
+      if (error) throw error;
+      return data as EmailEvent[];
+    },
+  });
+
   if (!lead) return null;
   const set = (k: keyof CrmLead) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm((f) => ({ ...f, [k]: e.target.value === "" ? null : e.target.value }));
@@ -39,7 +49,9 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
   const save = async () => {
     setSaving(true);
     const { firm, contact_name, email, phone, agency, award_amount, award_date, source, stage, assigned_to, next_follow_up, notes, lead_ref } = form;
-    const patch: Partial<CrmLead> = { firm, contact_name, email, phone, agency, award_date, source: source || "manual", stage, next_follow_up, notes, lead_ref,
+    const dnc = !!form.do_not_contact;
+    const patch: Partial<CrmLead> = { do_not_contact: dnc,
+      ...(dnc !== lead.do_not_contact ? { dnc_reason: dnc ? "manual" : null, dnc_at: dnc ? new Date().toISOString() : null } : {}), firm, contact_name, email, phone, agency, award_date, source: source || "manual", stage, next_follow_up, notes, lead_ref,
       award_amount: award_amount == null || award_amount === ("" as unknown) ? null : Number(award_amount) };
     if (isAdmin || assigned_to === userId || assigned_to == null) patch.assigned_to = assigned_to ?? null;
     const { error } = await supabase.from("crm_leads").update(patch).eq("id", lead.id);
@@ -60,6 +72,23 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
 
   const agentName = (id: string | null) => agents.find((a) => a.id === id)?.email ?? (id ? "Another user" : "System");
 
+  // Merge CRM activity with email events; consecutive opens of the same email collapse into one row.
+  type Row = { key: string; at: string; meta: string; body?: string | null; email?: boolean };
+  const rows: Row[] = (acts.data ?? []).map((a) => ({ key: a.id, at: a.created_at, meta: `${a.type.replace("_", " ")} · ${agentName(a.user_id)}`, body: a.body }));
+  const opens = new Map<string, { row: Row; n: number }>();
+  for (const e of emails.data ?? []) {
+    const label = [e.campaign, e.step && `step ${e.step}`].filter(Boolean).join(" · ");
+    if (e.event === "opened") {
+      const k = `${e.campaign}|${e.step}`;
+      const o = opens.get(k);
+      if (o) { o.n++; o.row.meta = `email opened ${o.n}x${label ? ` · ${label}` : ""}`; continue; }
+      const row = { key: e.id, at: e.occurred_at, meta: `email opened${label ? ` · ${label}` : ""}`, email: true };
+      opens.set(k, { row, n: 1 }); rows.push(row); continue;
+    }
+    rows.push({ key: e.id, at: e.occurred_at, meta: `email ${e.event}${label ? ` · ${label}` : ""}`, body: e.snippet, email: true });
+  }
+  const timeline = rows.sort((a, b) => b.at.localeCompare(a.at));
+
   return (
     <Sheet open={!!lead} onOpenChange={(o) => !o && onClose()}>
       <SheetContent className="w-full sm:max-w-lg overflow-y-auto p-4 sm:p-6">
@@ -68,9 +97,14 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
           <SheetDescription>Source: {lead.source} · Added {new Date(lead.created_at).toLocaleDateString()}</SheetDescription>
         </SheetHeader>
 
+        {lead.do_not_contact && (
+          <p className="mt-3 inline-flex items-center gap-1 rounded-md bg-destructive/10 text-destructive text-sm px-2 py-1">
+            <Ban className="h-4 w-4" />Do not contact ({lead.dnc_reason ?? "manual"}{lead.dnc_at ? `, ${new Date(lead.dnc_at).toLocaleDateString()}` : ""})
+          </p>
+        )}
         <div className="flex flex-wrap gap-2 my-4">
-          {form.phone && <Button asChild variant="outline" className="h-11"><a href={`tel:${form.phone.replace(/[^\d+]/g, "")}`}><Phone className="h-4 w-4 mr-1" />Call</a></Button>}
-          {form.email && <Button asChild variant="outline" className="h-11"><a href={`mailto:${form.email}`}><Mail className="h-4 w-4 mr-1" />Email</a></Button>}
+          {!lead.do_not_contact && form.phone && <Button asChild variant="outline" className="h-11"><a href={`tel:${form.phone.replace(/[^\d+]/g, "")}`}><Phone className="h-4 w-4 mr-1" />Call</a></Button>}
+          {!lead.do_not_contact && form.email && <Button asChild variant="outline" className="h-11"><a href={`mailto:${form.email}`}><Mail className="h-4 w-4 mr-1" />Email</a></Button>}
         </div>
         <div className="grid grid-cols-2 gap-2 mb-4">
           <Button variant="secondary" className="h-11" onClick={() => setLogType("call")}><PhoneCall className="h-4 w-4 mr-1" />Log call</Button>
@@ -103,18 +137,22 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
                 {(isAdmin ? agents : agents.filter((a) => a.id === userId)).map((a) => <option key={a.id} value={a.id}>{a.email ?? a.id}</option>)}
               </select></div>
           </div>
+          <label className="flex items-center gap-3 min-h-[44px]">
+            <input type="checkbox" className="h-5 w-5" checked={!!form.do_not_contact} onChange={(e) => setForm((f) => ({ ...f, do_not_contact: e.target.checked }))} />
+            <span>Do not contact</span>
+          </label>
           <div className="space-y-1"><Label htmlFor="crm-notes">Notes</Label><Textarea id="crm-notes" className="text-base" rows={4} value={form.notes ?? ""} onChange={set("notes")} /></div>
           <Button className="h-12 w-full" onClick={save} disabled={saving}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save changes"}</Button>
         </div>
 
-        <h3 className="font-semibold mt-6 mb-2">Activity</h3>
-        {acts.isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : acts.error ? <p className="text-sm text-destructive">Couldn't load activity.</p> :
-          acts.data!.length === 0 ? <p className="text-sm text-muted-foreground">No activity yet.</p> : (
+        <h3 className="font-semibold mt-6 mb-2">Timeline</h3>
+        {acts.isLoading || emails.isLoading ? <Loader2 className="h-4 w-4 animate-spin" /> : acts.error || emails.error ? <p className="text-sm text-destructive">Couldn't load activity.</p> :
+          timeline.length === 0 ? <p className="text-sm text-muted-foreground">No activity yet.</p> : (
           <ol className="space-y-3 pb-8">
-            {acts.data!.map((a) => (
-              <li key={a.id} className="border-l-2 border-primary pl-3">
-                <p className="text-xs text-muted-foreground">{new Date(a.created_at).toLocaleString()} · {a.type.replace("_", " ")} · {agentName(a.user_id)}</p>
-                {a.body && <p className="text-sm whitespace-pre-wrap break-words">{a.body}</p>}
+            {timeline.map((t) => (
+              <li key={t.key} className={`border-l-2 pl-3 ${t.email ? "border-muted-foreground" : "border-primary"}`}>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 flex-wrap">{t.email && <MailOpen className="h-3 w-3" />}{new Date(t.at).toLocaleString()} · {t.meta}</p>
+                {t.body && <p className="text-sm whitespace-pre-wrap break-words">{t.body}</p>}
               </li>
             ))}
           </ol>
