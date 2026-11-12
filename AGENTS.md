@@ -5,3 +5,4 @@
 - The AI only writes prose for free audits; numbers never come from the model, and any AI failure falls back to library copy.
 - CRM (`/crm`) access = `user_roles` admin/agent via `is_crm_user`; agents see only their own + unassigned `crm_leads` through RLS — never filter visibility client-side only.
 - CRM auto-feed (apply/calculator/outreach → `crm_leads`) and stage_change logging are database triggers, so writes stay atomic and need no client code.
+- /awarded visits are logged only via the `log_outreach_visit` security-definer RPC (no direct table insert); only visits matching an existing crm_leads id/lead_ref touch the CRM, and URL params never overwrite lead data.
