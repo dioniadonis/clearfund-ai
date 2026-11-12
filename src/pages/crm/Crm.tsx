@@ -8,7 +8,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { supabase } from "@/integrations/supabase/client";
 import { useOperatorAuth } from "@/hooks/useOperatorAuth";
-import { CRM_STAGES, CRM_SOURCES, fmtMoney, leadLabel, todayIso, type CrmAgent, type CrmLead } from "@/lib/crm";
+import { CRM_STAGES, CRM_SOURCES, todayIso, type CrmAgent, type CrmLead } from "@/lib/crm";
 import LeadList from "@/components/crm/LeadList";
 import ActivityView from "@/components/crm/ActivityView";
 import LeadDrawer from "@/components/crm/LeadDrawer";
