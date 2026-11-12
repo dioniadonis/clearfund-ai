@@ -148,6 +148,13 @@
       "when": 1794519160903,
       "tag": "0020_add_agent_assignment_payouts_and_import",
       "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1794519440492,
+      "tag": "0021_allow_agent_recruit_type_and_stages",
+      "breakpoints": true
     }
   ]
 }
