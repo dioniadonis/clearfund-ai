@@ -5,12 +5,12 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { countEvents, dayStart, leadLabel, weekStart, type CrmLead, type EmailEvent } from "@/lib/crm";
 
-type Props = { leads: CrmLead[]; isAdmin: boolean; onOpen: (id: string) => void; userId: string };
+type Props = { isAdmin: boolean; onOpen: (id: string) => void; userId: string };
 type Item = { key: string; at: string; leadId: string | null; title: string; detail?: string | null };
 
 const fmtTime = (iso: string) => new Date(iso).toLocaleString([], { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" });
 
-const ActivityView: React.FC<Props> = ({ leads, isAdmin, onOpen, userId }) => {
+const ActivityView: React.FC<Props> = ({ isAdmin, onOpen, userId }) => {
   const since = new Date(Math.min(weekStart().getTime(), Date.now() - 7 * 864e5));
   const q = useQuery({
     queryKey: ["crm_activity_feed", userId],
@@ -25,7 +25,19 @@ const ActivityView: React.FC<Props> = ({ leads, isAdmin, onOpen, userId }) => {
       return { events: ev.data as EmailEvent[], visits: visits.data };
     },
   });
-  const byId = new Map(leads.map((l) => [l.id, l]));
+  const ids = q.data ? [...new Set([...q.data.events.map((e) => e.lead_id), ...q.data.visits.map((v) => v.lead_id)].filter(Boolean) as string[])] : [];
+  const namesQ = useQuery({
+    queryKey: ["crm_activity_leads", userId, ids.join(",")], enabled: ids.length > 0,
+    queryFn: async () => {
+      const out: CrmLead[] = [];
+      for (let i = 0; i < ids.length; i += 200) {
+        const { data, error } = await supabase.from("crm_leads").select("*").in("id", ids.slice(i, i + 200));
+        if (error) throw error; out.push(...(data as CrmLead[]));
+      }
+      return out;
+    },
+  });
+  const byId = new Map((namesQ.data ?? []).map((l) => [l.id, l]));
   const name = (id: string | null, email?: string | null) => (id && byId.get(id) ? leadLabel(byId.get(id)!) : email || "Unmatched sender event");
 
   if (q.isLoading) return <Loader2 className="h-6 w-6 animate-spin" />;
