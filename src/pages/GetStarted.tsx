@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -9,7 +9,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/lib/usePageMeta";
-import { DAC_APPLY_URL, logDacClick } from "@/lib/partners";
 
 const STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
 const CONSENT = "I understand ClearFund AI is a broker, not a lender, and may share my information with funding providers to find a fit. ClearFund AI may receive compensation for referrals.";
@@ -62,15 +61,10 @@ const GetStarted: React.FC = () => {
         <div className="mx-auto w-full max-w-lg min-w-0">
           {result ? (
             <div className="rounded-lg border bg-card p-6 text-center space-y-4">
-              {result.next === "dac_link" && <>
+              {(result.next === "dac_link" || result.next === "our_form") && <>
                 <h1 className="text-2xl font-bold text-foreground">Your next step</h1>
-                <p className="text-muted-foreground">Continue to the application with our funding provider. Approval and terms are set by the provider.</p>
-                <Button asChild size="lg" className="w-full"><a href={result.url ?? DAC_APPLY_URL} target="_blank" rel="noopener noreferrer" onClick={() => logDacClick(`qualifier_${cta}`)}>Continue to application</a></Button>
-              </>}
-              {result.next === "our_form" && <>
-                <h1 className="text-2xl font-bold text-foreground">Your next step</h1>
-                <p className="text-muted-foreground">Complete our full application so we can review it with a funding provider.</p>
-                <Button asChild size="lg" className="w-full"><a href={result.url ?? "/apply"}>Continue to application</a></Button>
+                <p className="text-muted-foreground">Complete ClearFund AI's application so we can review possible options with funding providers. Submitting is not an approval.</p>
+                <Button asChild size="lg" className="w-full"><Link to={`/apply?cta=qualifier_${cta}`}>Continue to our application</Link></Button>
               </>}
               {result.next === "review" && <>
                 <h1 className="text-2xl font-bold text-foreground">Thanks — we'll review your answers</h1>
@@ -109,7 +103,6 @@ const GetStarted: React.FC = () => {
                 </form>
               )}
               {step > 0 && <button type="button" className="mt-4 text-sm text-muted-foreground underline" onClick={() => setStep((s) => s - 1)}>Back</button>}
-              <p className="mt-8 text-sm text-muted-foreground text-center">Already know you want David Allen Capital? <a className="text-primary underline" href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer" onClick={() => logDacClick(`qualifier_bypass_${cta}`)}>Apply directly</a></p>
             </>
           )}
         </div>
