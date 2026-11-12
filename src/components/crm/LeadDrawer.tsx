@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { stagesFor, leadLabel, type CrmActivity, type CrmAgent, type EmailEvent, type CrmLead } from "@/lib/crm";
 import { toast } from "sonner";
+import RoutingCard from "./RoutingCard";
 
 type Props = { lead: CrmLead | null; onClose: () => void; agents: CrmAgent[]; isAdmin: boolean; userId: string };
 const sel = "h-11 w-full rounded-md border border-input bg-background px-3 text-base";
@@ -103,6 +104,7 @@ const LeadDrawer: React.FC<Props> = ({ lead, onClose, agents, isAdmin, userId })
             <Ban className="h-4 w-4" />Do not contact ({lead.dnc_reason ?? "manual"}{lead.dnc_at ? `, ${new Date(lead.dnc_at).toLocaleDateString()}` : ""})
           </p>
         )}
+        <div className="mt-4"><RoutingCard lead={lead} isAdmin={isAdmin} /></div>
         <div className="flex flex-wrap gap-2 my-4">
           {!lead.do_not_contact && form.phone && <Button asChild variant="outline" className="h-11"><a href={`tel:${form.phone.replace(/[^\d+]/g, "")}`}><Phone className="h-4 w-4 mr-1" />Call</a></Button>}
           {!lead.do_not_contact && form.email && <Button asChild variant="outline" className="h-11"><a href={`mailto:${form.email}`}><Mail className="h-4 w-4 mr-1" />Email</a></Button>}
