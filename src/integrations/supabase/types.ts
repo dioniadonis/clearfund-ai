@@ -1592,7 +1592,13 @@ export type Database = {
         Returns: Json
       }
       crm_find_leads: {
-        Args: { _email: string; _firm: string; _limit: number; _worker: string }
+        Args: {
+          _email: string
+          _firm: string
+          _limit: number
+          _type?: string
+          _worker: string
+        }
         Returns: Json
       }
       crm_import_leads: { Args: { _mode?: string; _rows: Json }; Returns: Json }
@@ -1613,6 +1619,7 @@ export type Database = {
           _q?: string
           _source?: string
           _today: string
+          _type?: string
         }
         Returns: Json
       }
@@ -1649,6 +1656,10 @@ export type Database = {
       crm_source_key: {
         Args: { _params: Json; _source: string }
         Returns: string
+      }
+      crm_stage_ok: {
+        Args: { _lead_type: string; _stage: string }
+        Returns: boolean
       }
       crm_worker_hit: {
         Args: { _endpoint: string; _worker: string }
