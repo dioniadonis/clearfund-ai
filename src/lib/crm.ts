@@ -7,11 +7,13 @@ export type CrmAgent = { id: string; email: string | null; role: string };
 
 export const CRM_STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost"] as const;
 export type CrmStage = (typeof CRM_STAGES)[number];
-export const CRM_SOURCES = ["apply", "calculator", "outreach", "import", "manual"] as const;
+export const CRM_SOURCES = ["apply", "calculator", "outreach", "import", "worker", "manual"] as const;
 
 export const IMPORT_FIELDS = [
-  "firm", "contact_name", "email", "phone", "agency", "award_amount", "award_date", "source", "stage", "next_follow_up", "notes", "lead_ref",
+  "lead_ref", "lead_type", "firm", "contact_name", "email", "phone", "state", "sector", "website", "agency",
+  "email_source", "need_score", "first_line", "notes",
 ] as const;
+export const IMPORT_LABELS: Record<string, string> = { lead_ref: "lead id", firm: "company", lead_type: "type (borrower/partner)" };
 export type ImportField = (typeof IMPORT_FIELDS)[number];
 
 export const todayIso = () => {
@@ -26,40 +28,37 @@ export const fmtMoney = (n: number | null) =>
 
 const norm = (s: string | null | undefined) => (s ?? "").trim().toLowerCase();
 
-/** Map raw CSV rows into lead inserts, skipping rows that duplicate an existing (or earlier) email or firm name. */
-export function buildImportRows(
-  rows: Record<string, string>[],
-  mapping: Partial<Record<ImportField, string>>,
-  existing: { email: string | null; firm: string | null }[],
-) {
-  const emails = new Set(existing.map((e) => norm(e.email)).filter(Boolean));
-  const firms = new Set(existing.map((e) => norm(e.firm)).filter(Boolean));
-  const out: Partial<CrmLead>[] = [];
+/** Same rules as the database's crm_norm_domain / crm_norm_company. */
+export const normDomain = (t: string | null | undefined) =>
+  (t ?? "").trim().toLowerCase().replace(/^[a-z]+:\/\//, "").replace(/^www\.|[/?#:].*$/g, "") || null;
+export const normCompany = (t: string | null | undefined) =>
+  (t ?? "").toLowerCase().replace(/[^a-z0-9 ]/g, " ")
+    .replace(/\b(llc|inc|incorporated|corp|corporation|co|company|ltd|pllc|llp|lp)\b/g, " ")
+    .replace(/\s+/g, " ").trim() || null;
+
+/** Map CSV rows to lead objects and drop duplicates inside the file (lead id, email, domain, company+state).
+ *  Duplicates against existing leads are rejected by the database (crm_import_leads). */
+export function buildImportRows(rows: Record<string, string>[], mapping: Partial<Record<ImportField, string>>) {
+  const seen = new Set<string>();
+  const out: Record<string, string>[] = [];
   let skipped = 0;
   for (const r of rows) {
-    const rec: Record<string, unknown> = {};
+    const rec: Record<string, string> = {};
     for (const f of IMPORT_FIELDS) {
       const col = mapping[f];
-      if (!col) continue;
-      const v = (r[col] ?? "").trim();
-      if (!v) continue;
-      if (f === "award_amount") {
-        const n = Number(v.replace(/[$,\s]/g, ""));
-        if (!Number.isNaN(n)) rec[f] = n;
-      } else if (f === "award_date" || f === "next_follow_up") {
-        const d = new Date(v);
-        if (!Number.isNaN(d.getTime())) rec[f] = d.toISOString().slice(0, 10);
-      } else if (f === "stage") {
-        const s = CRM_STAGES.find((x) => norm(x) === norm(v));
-        if (s) rec[f] = s;
-      } else rec[f] = v.slice(0, 2000);
+      const v = col ? (r[col] ?? "").trim() : "";
+      if (v) rec[f] = v.slice(0, 2000);
     }
-    const e = norm(rec.email as string), fi = norm(rec.firm as string);
-    if (!e && !fi) { skipped++; continue; }
-    if ((e && emails.has(e)) || (fi && firms.has(fi))) { skipped++; continue; }
-    if (e) emails.add(e);
-    if (fi) firms.add(fi);
-    out.push({ source: "import", ...rec } as Partial<CrmLead>);
+    const keys = [
+      rec.lead_ref && `r:${rec.lead_ref}`,
+      rec.email && `e:${norm(rec.email)}`,
+      normDomain(rec.website) && `w:${normDomain(rec.website)}`,
+      normCompany(rec.firm) && rec.state && `c:${normCompany(rec.firm)}|${norm(rec.state).slice(0, 2)}`,
+    ].filter(Boolean) as string[];
+    if (!rec.lead_ref && !rec.email && !rec.website && !rec.firm) { skipped++; continue; }
+    if (keys.some((k) => seen.has(k))) { skipped++; continue; }
+    keys.forEach((k) => seen.add(k));
+    out.push(rec);
   }
   return { rows: out, skipped };
 }

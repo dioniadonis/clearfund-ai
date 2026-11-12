@@ -1,21 +1,29 @@
 import { describe, expect, it } from "bun:test";
-import { buildImportRows } from "../src/lib/crm";
+import { buildImportRows, normCompany, normDomain } from "../src/lib/crm";
 import { parseAmount } from "../src/lib/amount";
 
-describe("CSV import duplicate skipping", () => {
-  it("skips rows matching an existing email (case-insensitive)", () => {
-    const r = buildImportRows([{ E: "A@x.com", F: "New Co" }], { email: "E", firm: "F" }, [{ email: "a@x.com", firm: null }]);
-    expect(r.rows.length).toBe(0);
+describe("CSV import in-file duplicates", () => {
+  it("drops a repeated lead id", () => {
+    expect(buildImportRows([{ I: "L1" }, { I: "L1" }], { lead_ref: "I" }).rows.length).toBe(1);
+  });
+  it("drops a repeated email (case-insensitive)", () => {
+    expect(buildImportRows([{ E: "c@x.com" }, { E: "C@x.com" }], { email: "E" }).rows.length).toBe(1);
+  });
+  it("drops the same website domain", () => {
+    expect(buildImportRows([{ W: "https://www.acme.com/a" }, { W: "acme.com" }], { website: "W" }).rows.length).toBe(1);
+  });
+  it("drops same company + state but keeps same company in another state", () => {
+    const r = buildImportRows(
+      [{ F: "Acme Paving LLC", S: "GA" }, { F: "ACME Paving, Inc.", S: "ga" }, { F: "Acme Paving", S: "FL" }],
+      { firm: "F", state: "S" });
+    expect(r.rows.length).toBe(2);
     expect(r.skipped).toBe(1);
   });
-  it("skips rows matching an existing firm name", () => {
-    const r = buildImportRows([{ E: "b@x.com", F: " acme llc " }], { email: "E", firm: "F" }, [{ email: null, firm: "Acme LLC" }]);
-    expect(r.skipped).toBe(1);
-  });
-  it("skips duplicates within the same file", () => {
-    const r = buildImportRows([{ E: "c@x.com" }, { E: "C@x.com" }], { email: "E" }, []);
-    expect(r.rows.length).toBe(1);
-  });
+});
+
+describe("normalizers match the database", () => {
+  it("domain", () => expect(normDomain("HTTPS://www.Acme.com:443/x?y")).toBe("acme.com"));
+  it("company", () => expect(normCompany("Acme Paving, LLC")).toBe("acme paving"));
 });
 
 describe("amount param", () => {
