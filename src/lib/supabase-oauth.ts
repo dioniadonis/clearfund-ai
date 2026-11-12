@@ -7,6 +7,7 @@ export interface OAuthAuthorizationDetails {
     redirect_uri?: string;
   };
   scope?: string;
+  redirect_uri?: string;
   redirect_url?: string;
   redirect_to?: string;
 }

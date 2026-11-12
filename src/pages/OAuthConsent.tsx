@@ -99,7 +99,7 @@ const OAuthConsent: React.FC = () => {
   }
 
   const clientName = details?.client?.name ?? "this AI assistant";
-  const redirectUri = details?.client?.redirect_uris?.[0] ?? details?.client?.redirect_uri;
+  const redirectUri = details?.redirect_uri ?? details?.client?.redirect_uris?.[0] ?? details?.client?.redirect_uri;
   const scopes = (details?.scope ?? "openid email profile").split(/\s+/).filter(Boolean);
 
   return (
