@@ -1,6 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import Papa from "papaparse";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { Loader2, LogOut, Upload, Download, Search, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,6 +16,8 @@ import LeadDrawer from "@/components/crm/LeadDrawer";
 import CsvImport from "@/components/crm/CsvImport";
 import WorkersView from "@/components/crm/WorkersView";
 import LiveView from "@/components/crm/LiveView";
+import CrmWebTools from "@/components/crm/CrmWebTools";
+import { oauthReturnPath } from "@/lib/oauth-return-path";
 import { toast } from "sonner";
 
 type CrmRole = "loading" | "admin" | "agent" | "none";
@@ -58,6 +61,8 @@ const LoginForm: React.FC = () => {
 };
 
 const Crm: React.FC = () => {
+  const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   useEffect(() => {
     document.title = "CRM | ClearFund";
     const m = document.createElement("meta"); m.name = "robots"; m.content = "noindex, nofollow"; document.head.appendChild(m);
@@ -70,6 +75,11 @@ const Crm: React.FC = () => {
   const role = useCrmRole(userId);
   const qc = useQueryClient();
   const enabled = role === "admin" || role === "agent";
+  const nextPath = oauthReturnPath(searchParams.get("next"));
+
+  useEffect(() => {
+    if (enabled && searchParams.has("next")) navigate(nextPath, { replace: true });
+  }, [enabled, navigate, nextPath, searchParams]);
 
   const leadsQ = useQuery({
     queryKey: ["crm_leads", userId], enabled,
@@ -149,6 +159,13 @@ const Crm: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <CrmWebTools
+        activeTab={tab}
+        filteredLeads={filtered}
+        loading={leadsQ.isLoading}
+        onChangeTab={(nextTab) => { setTab(nextTab); if (nextTab === "live") setPulse(false); }}
+        onFilterStage={setStage}
+      />
       <header className="sticky top-0 z-20 bg-background border-b">
         <div className="max-w-7xl mx-auto px-4 h-14 flex items-center justify-between gap-2">
           <h1 className="font-bold text-lg text-primary">ClearFund CRM</h1>

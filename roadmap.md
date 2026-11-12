@@ -1,5 +1,13 @@
 # Roadmap — Packet CF-01
 
+## Agent integrations
+- [x] Enable OAuth authorization for external AI clients
+- [x] Add read-only CRM MCP tools using caller-scoped RLS
+- [x] Add consent/login return flow and browser-local CRM view tools
+- [x] Extract and verify the MCP catalog
+- [x] Verify consent denial, approval, repeat authorization, failures, and authenticated CRM behavior
+- [ ] Republish to activate the hosted MCP revision
+
 - [x] B1 lead fields service_interest + entry_cta, operator list/filter/detail
 - [x] B2 new-lead alerts (Telegram + email), `?lead=` deep link — wired, channels report "not configured" until setup
 - [x] B3 /apply reads ?interest/?cta, service dropdown, headlines
