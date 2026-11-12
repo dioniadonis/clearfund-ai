@@ -2,9 +2,10 @@ import type { Database } from "@/integrations/supabase/types";
 
 export type CrmLead = Database["public"]["Tables"]["crm_leads"]["Row"];
 export type CrmActivity = Database["public"]["Tables"]["crm_activities"]["Row"];
+export type EmailEvent = Database["public"]["Tables"]["email_events"]["Row"];
 export type CrmAgent = { id: string; email: string | null; role: string };
 
-export const CRM_STAGES = ["New", "Contacted", "Interested", "Applied", "Submitted to funder", "Funded", "Lost"] as const;
+export const CRM_STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost"] as const;
 export type CrmStage = (typeof CRM_STAGES)[number];
 export const CRM_SOURCES = ["apply", "calculator", "outreach", "import", "manual"] as const;
 
@@ -61,4 +62,27 @@ export function buildImportRows(
     out.push({ source: "import", ...rec } as Partial<CrmLead>);
   }
   return { rows: out, skipped };
+}
+
+/** Monday 00:00 local time of the current week. */
+export const weekStart = (now = new Date()) => {
+  const d = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+  return d;
+};
+export const dayStart = (now = new Date()) => new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+/** Counts per event since a time; opens/clicks counted once per email (provider_event_id or lead+campaign+step). */
+export function countEvents(events: Pick<EmailEvent, "event" | "occurred_at" | "lead_id" | "campaign" | "step" | "recipient_email">[], since: Date) {
+  const seen = new Set<string>();
+  const c = { sent: 0, opened: 0, replied: 0, bounced: 0 };
+  for (const e of events) {
+    if (new Date(e.occurred_at) < since) continue;
+    if (e.event === "opened") {
+      const k = [e.lead_id ?? e.recipient_email, e.campaign, e.step].join("|");
+      if (seen.has(k)) continue;
+      seen.add(k); c.opened++;
+    } else if (e.event === "sent" || e.event === "replied" || e.event === "bounced") c[e.event]++;
+  }
+  return c;
 }
