@@ -155,6 +155,13 @@
       "when": 1794519440492,
       "tag": "0021_allow_agent_recruit_type_and_stages",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1794519583420,
+      "tag": "0022_fix_recruit_import_generated_fields",
+      "breakpoints": true
     }
   ]
 }
