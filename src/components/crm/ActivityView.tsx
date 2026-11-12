@@ -15,17 +15,20 @@ const ActivityView: React.FC<Props> = ({ isAdmin, onOpen, userId }) => {
   const q = useQuery({
     queryKey: ["crm_activity_feed", userId],
     queryFn: async () => {
-      const [ev, visits] = await Promise.all([
+      const [ev, visits, inbox] = await Promise.all([
         supabase.from("email_events").select("*").gte("occurred_at", since.toISOString()).order("occurred_at", { ascending: false }).limit(5000),
         supabase.from("crm_activities").select("id, lead_id, created_at, body").eq("type", "note").like("body", "Opened the /awarded%")
           .gte("created_at", since.toISOString()).order("created_at", { ascending: false }).limit(500),
+        supabase.from("crm_activities").select("id, lead_id, created_at, body").eq("type", "email").like("body", "Reply in %")
+          .gte("created_at", since.toISOString()).order("created_at", { ascending: false }).limit(500),
       ]);
+      if (inbox.error) throw inbox.error;
       if (ev.error) throw ev.error;
       if (visits.error) throw visits.error;
-      return { events: ev.data as EmailEvent[], visits: visits.data };
+      return { events: ev.data as EmailEvent[], visits: visits.data, inbox: inbox.data };
     },
   });
-  const ids = q.data ? [...new Set([...q.data.events.map((e) => e.lead_id), ...q.data.visits.map((v) => v.lead_id)].filter(Boolean) as string[])] : [];
+  const ids = q.data ? [...new Set([...q.data.events.map((e) => e.lead_id), ...q.data.visits.map((v) => v.lead_id), ...q.data.inbox.map((v) => v.lead_id)].filter(Boolean) as string[])] : [];
   const namesQ = useQuery({
     queryKey: ["crm_activity_leads", userId, ids.join(",")], enabled: ids.length > 0,
     queryFn: async () => {
@@ -42,13 +45,15 @@ const ActivityView: React.FC<Props> = ({ isAdmin, onOpen, userId }) => {
 
   if (q.isLoading) return <Loader2 className="h-6 w-6 animate-spin" />;
   if (q.error) return <p className="text-destructive">Couldn't load activity: {(q.error as Error).message}</p>;
-  const { events, visits } = q.data!;
+  const { events, visits, inbox } = q.data!;
   const t = countEvents(events, dayStart()), w = countEvents(events, weekStart());
   const today0 = dayStart();
 
   const replies = events.filter((e) => e.event === "replied");
-  const repliesToday = replies.filter((e) => new Date(e.occurred_at) >= today0);
-  const repliesEarlier = replies.filter((e) => new Date(e.occurred_at) < today0);
+  const inboxItems: Item[] = inbox.map((a) => ({ key: a.id, at: a.created_at, leadId: a.lead_id, title: name(a.lead_id), detail: a.body }));
+  const replyItems = () => [...replies.map(toItem), ...inboxItems].sort((a, b) => b.at.localeCompare(a.at));
+  const repliesToday = replyItems().filter((i) => new Date(i.at) >= today0);
+  const repliesEarlier = replyItems().filter((i) => new Date(i.at) < today0);
   const toItem = (e: EmailEvent): Item => ({ key: e.id, at: e.occurred_at, leadId: e.lead_id, title: name(e.lead_id, e.recipient_email),
     detail: [e.campaign, e.step && `step ${e.step}`].filter(Boolean).join(" · ") + (e.snippet ? ` — “${e.snippet}”` : "") });
   const engaged: Item[] = [
@@ -96,8 +101,8 @@ const ActivityView: React.FC<Props> = ({ isAdmin, onOpen, userId }) => {
         ))}
       </section>
       {unmatched > 0 && <p className="text-sm text-muted-foreground">{unmatched} event(s) this week didn't match any lead and were stored without one.</p>}
-      <Section title="Needs action: replies today" tone="text-primary" icon={<MessageSquareReply className="h-4 w-4" />} items={repliesToday.map(toItem)} empty="No replies yet today." />
-      {repliesEarlier.length > 0 && <Section title="Earlier replies (last 7 days)" icon={<MessageSquareReply className="h-4 w-4" />} items={repliesEarlier.map(toItem)} empty="" />}
+      <Section title="Needs action: replies today" tone="text-primary" icon={<MessageSquareReply className="h-4 w-4" />} items={repliesToday} empty="No replies yet today." />
+      {repliesEarlier.length > 0 && <Section title="Earlier replies (last 7 days)" icon={<MessageSquareReply className="h-4 w-4" />} items={repliesEarlier} empty="" />}
       <Section title="Clicks and page visits" icon={<MousePointerClick className="h-4 w-4" />} items={engaged} empty="No clicks or visits in the last 7 days." />
       <Section title="Bounces and unsubscribes" tone="text-destructive" icon={<Ban className="h-4 w-4" />} items={lost} empty="None in the last 7 days." />
       <p className="text-xs text-muted-foreground">Opens are shown but unreliable (some mail apps open every email automatically); nothing is automated from them.</p>
