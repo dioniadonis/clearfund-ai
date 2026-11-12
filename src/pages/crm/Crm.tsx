@@ -13,6 +13,7 @@ import LeadList from "@/components/crm/LeadList";
 import ActivityView from "@/components/crm/ActivityView";
 import LeadDrawer from "@/components/crm/LeadDrawer";
 import CsvImport from "@/components/crm/CsvImport";
+import WorkersView from "@/components/crm/WorkersView";
 import { toast } from "sonner";
 
 type CrmRole = "loading" | "admin" | "agent" | "none";
@@ -89,7 +90,7 @@ const Crm: React.FC = () => {
   const today = todayIso();
   const baseFiltered = useMemo(() => leads.filter((l) => {
     const s = q.trim().toLowerCase();
-    if (s && ![l.firm, l.contact_name, l.email, l.phone, l.agency, l.notes].some((v) => v?.toLowerCase().includes(s))) return false;
+    if (s && ![l.firm, l.contact_name, l.email, l.phone, l.agency, l.notes, l.lead_ref, l.website, l.state, l.sector].some((v) => v?.toLowerCase().includes(s))) return false;
     if (source && l.source !== source) return false;
     if (agent === "unassigned" ? l.assigned_to : agent && l.assigned_to !== agent) return false;
     if (due === "today" && l.next_follow_up !== today) return false;
@@ -158,7 +159,8 @@ const Crm: React.FC = () => {
           <p className="text-destructive">Couldn't load leads: {(leadsQ.error as Error).message}</p>
         ) : (
           <Tabs defaultValue="activity">
-            <TabsList className="w-full sm:w-auto grid grid-cols-2"><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger></TabsList>
+            <TabsList className={`w-full sm:w-auto grid ${role === "admin" ? "grid-cols-3" : "grid-cols-2"}`}><TabsTrigger value="activity" className="h-10">Activity</TabsTrigger><TabsTrigger value="leads" className="h-10">Leads</TabsTrigger>{role === "admin" && <TabsTrigger value="workers" className="h-10">Workers</TabsTrigger>}</TabsList>
+            {role === "admin" && <TabsContent value="workers"><WorkersView onOpen={setOpenId} /></TabsContent>}
             <TabsContent value="activity"><ActivityView leads={leads} isAdmin={role === "admin"} onOpen={setOpenId} userId={userId!} /></TabsContent>
             <TabsContent value="leads" className="space-y-3">
               <section aria-label="Lead summary" className="grid grid-cols-2 sm:grid-cols-4 gap-2">
