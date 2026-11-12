@@ -1148,22 +1148,28 @@ export type Database = {
       outreach_visits: {
         Row: {
           agency: string | null
+          crm_lead_id: string | null
           firm: string | null
           id: string
+          ip_hash: string | null
           lead: string | null
           visited_at: string
         }
         Insert: {
           agency?: string | null
+          crm_lead_id?: string | null
           firm?: string | null
           id?: string
+          ip_hash?: string | null
           lead?: string | null
           visited_at?: string
         }
         Update: {
           agency?: string | null
+          crm_lead_id?: string | null
           firm?: string | null
           id?: string
+          ip_hash?: string | null
           lead?: string | null
           visited_at?: string
         }
@@ -1272,6 +1278,10 @@ export type Database = {
       }
       is_crm_user: { Args: { _user_id: string }; Returns: boolean }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
+      log_outreach_visit: {
+        Args: { _agency: string; _firm: string; _lead: string }
+        Returns: string
+      }
       operator_save_blueprint: {
         Args: { _approve: boolean; _request_id: string; _sections: Json }
         Returns: number
