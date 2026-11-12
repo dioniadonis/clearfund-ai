@@ -4,8 +4,8 @@
 - [x] Enable OAuth authorization for external AI clients
 - [x] Add read-only CRM MCP tools using caller-scoped RLS
 - [x] Add consent/login return flow and browser-local CRM view tools
-- [ ] Extract and verify the MCP catalog
-- [ ] Verify consent denial, invalid requests, and authenticated CRM behavior
+- [x] Extract and verify the MCP catalog
+- [x] Verify consent denial, approval, repeat authorization, failures, and authenticated CRM behavior
 - [ ] Republish to activate the hosted MCP revision
 
 - [x] B1 lead fields service_interest + entry_cta, operator list/filter/detail
