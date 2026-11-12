@@ -4,17 +4,18 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Building, Zap, Check } from 'lucide-react';
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const WhatDoYouNeedSection: React.FC = () => {
   const navigate = useNavigate();
 
   const handleWorkingCapital = () => {
-    openDacApply();
+    openDacApply("whatdoyouneedsection_1");
   };
 
   const handleInstantMicro = () => {
-    openDacApply();
+    openDacApply("whatdoyouneedsection_2");
   };
 
 

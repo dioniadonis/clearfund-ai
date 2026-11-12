@@ -5,11 +5,12 @@ import { ArrowRight, Check, Briefcase, LineChart, Clock, Building } from 'lucide
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const WorkingCapital: React.FC = () => {
   const navigate = useNavigate();
-  const apply = (_cta: string) => openDacApply();
+  const apply = (cta: string) => openDacApply(cta);
 
   return (
     <div className="min-h-screen flex flex-col">

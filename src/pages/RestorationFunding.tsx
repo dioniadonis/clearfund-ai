@@ -15,7 +15,8 @@ import { Button } from "@/components/ui/button";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import heroImage from "@/assets/restoration-hero.jpg";
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const PHONE = "8665784721";
 const PHONE_DISPLAY = "(866) 578-4721";
@@ -160,9 +161,9 @@ const RestorationFunding: React.FC = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-3">
                   <Button asChild size="lg" className="bg-clearfund-blue hover:bg-clearfund-dark-blue">
-                    <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">
+                    <ApplyLink cta="restorationfunding_1">
                       Start my funding review <ArrowRight className="ml-2 h-4 w-4" />
-                    </a>
+                    </ApplyLink>
                   </Button>
                   <Button
                     asChild
@@ -340,9 +341,9 @@ const RestorationFunding: React.FC = () => {
                 </div>
               </div>
               <Button asChild size="lg" className="bg-clearfund-blue hover:bg-clearfund-dark-blue">
-                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">
+                <ApplyLink cta="restorationfunding_2">
                   Start my funding check <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
+                </ApplyLink>
               </Button>
             </div>
           </div>
@@ -360,9 +361,9 @@ const RestorationFunding: React.FC = () => {
             </p>
             <div className="flex flex-col sm:flex-row gap-3">
               <Button asChild size="lg" className="bg-clearfund-blue hover:bg-clearfund-dark-blue">
-                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">
+                <ApplyLink cta="restorationfunding_3">
                   Start my funding review <ArrowRight className="ml-2 h-4 w-4" />
-                </a>
+                </ApplyLink>
               </Button>
               <Button
                 asChild

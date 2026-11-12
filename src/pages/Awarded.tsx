@@ -8,7 +8,8 @@ import StageSelector, { type StageKey } from "../components/StageSelector";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/lib/usePageMeta";
 import { parseAmount } from "@/lib/amount";
-import { DAC_APPLY_URL, openDacApply } from "@/lib/partners";
+import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
+import ApplyLink from "@/components/ApplyLink";
 
 const primaryBtn = "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors";
 const outlineBtn = "border-clearfund-blue text-clearfund-blue hover:bg-clearfund-pale-blue text-lg py-6 px-8 rounded-lg transition-colors";
@@ -65,7 +66,7 @@ const Awarded: React.FC = () => {
             <p className="text-sm text-gray-500">*Subject to funding partner approval and verification</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className={primaryBtn}>
-                <a href={DAC_APPLY_URL} target="_blank" rel="noopener noreferrer">Apply Now</a>
+                <ApplyLink cta="awarded_1">Apply Now</ApplyLink>
               </Button>
               <Button asChild variant="outline" className={outlineBtn}>
                 <a href="tel:8665784721"><Phone className="mr-2 h-5 w-5" />Call 866-578-4721</a>
