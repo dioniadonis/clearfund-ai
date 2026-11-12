@@ -1,58 +1,47 @@
-# worker-api: routes for the inbox companion
+# Plan: DAC Apply links + Recruit tracker
 
-## Already in place (nothing to add)
-- **DNC fields:** `crm_leads.do_not_contact`, `dnc_reason` and `dnc_at` already exist.
-- **Skipping DNC leads:** `crm_lead_eligible` already skips them when jobs are claimed (`jobs/claim`, so they never get queued). `crm_mark_contacted` already returns `do_not_contact` for them.
-- **DNC badge:** the lead card already shows a "Do not contact" badge. It will now also appear when the companion marks a lead DNC.
-- **Auth:** same worker keys (`WORKER_KEY_<NAME>`), the same `crm_worker_hit` logging and rate limit, and Zod validation in the router. No new secrets.
+## 1) Apply buttons -> DAC replicated site
 
-## New routes (in `supabase/functions/worker-api/index.ts`, each calling one new service-role-only SQL function)
+One shared constant `DAC_APPLY_URL = "https://www.davidallencapital.com/clearfund"` in `src/lib/partners.ts`, and a small `<ApplyLink>` helper (`target="_blank" rel="noopener noreferrer"`) so every button uses the same link.
 
-| Route | Body | SQL function |
-|---|---|---|
-| `leads/find` | `email` OR `firm` (≤200 chars), optional `limit` ≤10 | `crm_find_leads` |
-| `leads/update` | `lead_id`, optional `stage` (one of the CRM stages), `note` (≤2000 chars), `next_follow_up` (YYYY-MM-DD or null); at least one is required | `crm_worker_update_lead` |
-| `leads/dnc` | `lead_id`, `reason` (≤200 chars) | `crm_worker_mark_dnc` |
-| `replies/log` | `lead_id` OR `from_email`, `inbox`, `subject` (≤300), `snippet` (≤1000), `label` (≤50), `received_at` (ISO) | `crm_worker_log_reply` |
+Buttons/links to change (currently go to our `/apply`):
+- Header menu "Apply" (`Header.tsx:70`)
+- Home hero Apply (`Hero.tsx:29`)
+- Home "What do you need" working-capital card (`WhatDoYouNeedSection.tsx:12`); line 16 already goes to DAC, switched to the constant
+- Slideshow "Get started" (`FinancingEducationSlideShow.tsx:55`)
+- Footer "Apply for Funding" (`Footer.tsx:27`); line 58 already goes to DAC, switched to the constant
+- Blog "Apply" (`Blog.tsx:82`)
+- Working Capital page: hero, benefits, bottom (`WorkingCapital.tsx:42/264/293`)
+- Restoration Funding page: 3 buttons (`RestorationFunding.tsx:162/342/362`)
+- Contract Financing: "Get Pre-Qualified", "Get Paid on My Invoice", hero and footer "Apply Now" (`ContractFinancing.tsx:47/56/110/233`)
+- Personalized `/awarded` "Apply Now" (`Awarded.tsx:67`)
+- Cash-gap calculator "Apply for $X" and "Apply Anyway" (`CashGapCalculator.tsx:64/153`)
+- Free audit results "See my funding options" (`FreeAuditResults.tsx:146`)
+- Existing DAC links: switch to the constant and `https://www.` (`GigFunding.tsx:16`, `FundingFAQSlideShow.tsx:48` which uses http, `QualificationSection.tsx:83`, `FundingPartners.tsx:9`)
 
-What each one does:
-- **find:** exact case-insensitive email match first. If there's no email match, a normalized company match using the existing `crm_norm_company`. Returns id, firm, contact_name, stage, notes, next_follow_up, do_not_contact. Never returns the phone number or anything else beyond that list.
-- **update:** done in one transaction.
-  - The note is appended to `notes` as `\n[YYYY-MM-DD HH:MM UTC · <worker>] text`, and the lead's notes are capped at 20k characters by dropping the oldest notes.
-  - The note is also inserted as a `note` activity.
-  - A stage change still goes through the existing `crm_log_stage_change` trigger.
-  - A stage move to Contacted, Replied or later on a DNC lead is rejected with an error.
-- **dnc:** sets the flag, the reason (prefixed `worker:<name>`) and `dnc_at = now()`, and adds a note activity. It does nothing if the lead is already DNC.
-- **replies/log:**
-  - It finds the lead by `lead_id`, or by `from_email` against `crm_leads.email`.
-  - A reply that matches no lead is not saved and returns `unmatched`, so no leads get created.
-  - A matched reply is inserted as an `email` activity with the body `Reply in <inbox>: "<subject>" — <snippet> [label]`, dated `received_at`.
-  - Duplicates (same lead + inbox + subject + received_at) are skipped.
+Not changing: the "Call Now" buttons, the ROK portal link in Funding Partners, and the `/apply` page itself (it stays reachable by direct URL for the phone concierge's send-application links).
 
-## Activity tab
-`ActivityView` currently reads replies from `email_events` and visits from `crm_activities`. It will also query `crm_activities` rows with `type='email'` and a body starting `Reply in` from the last 7 days, and merge them into the "Replies" section. The lead drawer timeline picks them up automatically.
+Copy: button labels stay the same. Where a button showed a dollar amount ("Apply for $75,109"), it becomes "Apply with our funding partner", with no amount or rate. Next to the main hero/landing buttons, one short line: "Opens David Allen Capital's application. Approval and terms are set by the provider." No rates, timelines or approvals.
 
-## Files
-- One migration with the 4 functions:
-  - `SECURITY DEFINER` and `search_path=public`.
-  - `REVOKE` from public, anon and authenticated; `GRANT` to service_role.
-  - Every function also takes `_worker` for attribution.
-- `supabase/functions/worker-api/index.ts`: 4 Zod schemas and 4 `case`s. Then redeploy.
-- `src/components/crm/ActivityView.tsx`: merge in the logged replies.
+Tracking: before opening the link, we log the click to `lead_attribution`/analytics (cta name, page). This is best-effort: if it fails, the link still opens. Our `?cta=` and `lead` params are not sent to DAC (their link is what credits our account).
+
+## 2) Recruit tracker (recommendation: reuse `crm_leads.lead_type`)
+
+`crm_leads.lead_type` already exists (`borrower`/`partner`), and the worker import already sets it. Recommendation: use `lead_type='partner'` for recruits instead of adding a new table. Why: dedupe, DNC, activities, the timeline, RLS, counts and worker-api find/update all work unchanged, so we build no second system. A separate table would duplicate all of that.
+
+Changes:
+- Migration: widen the stage CHECK to allow recruit stages `Signed up (DAC)`, `Trained`, `First referral` (`New`, `Contacted`, `Interested` are shared). The stage check in `crm_worker_update_lead` validates the stage against the lead's type: borrower stages for borrowers, recruit stages for partners. `crm_lead_counts` gets an optional `_type` filter. Source = existing `email_source`/`found_by`. Notes = existing notes.
+- CRM UI: a "Clients | Recruits" toggle at the top of Leads (wraps on phone). In Recruits, the stage chips/selector show the 6 recruit stages, counts are filtered by type, and the card shows a "Recruit" badge. The vertical list stays, so no sideways scrolling.
+- worker-api: `leads/find` takes an optional `type` and returns `lead_type`. `leads/update` is unchanged; stage is validated server-side by type. Same worker-key auth, logged in `crm_worker_calls`.
+- Leads with no type (null) are treated as clients.
 
 ## Checks
-With a test worker key, through the function:
-- **find:** by email and by firm.
-- **update:** stage + note + date. Confirm the note format, the timeline entry and that a stage_change is logged.
-- **dnc:** confirm the badge appears, a later `leads/contacted` returns `do_not_contact`, and `jobs/claim` skips the lead.
-- **replies/log:** matched, unmatched, and a duplicate.
-- **Bad input:** a bad key gets 401; an oversized note and a bad stage get 400.
-- Every call shows up in `crm_worker_calls`.
-- Delete the test rows afterwards.
+- Playwright: every listed button opens the DAC URL in a new tab; no remaining `/apply` links except the ones meant for the concierge.
+- CRM at 390px: toggle, recruit stages, counts, no horizontal scroll.
+- SQL test: a recruit stage on a borrower is rejected; update/find works for a test partner, then the test row is deleted.
 
 ## Risks / cut from v1
-- **Firm match:** firm-name matching can return more than one lead. The route returns up to 10 and the companion has to choose; it never auto-picks.
-- **Marking replied:** `replies/log` does not move the lead to Replied by itself. Moving it is an explicit `leads/update` (otherwise the companion and the email webhook could both do it). Say if you want it automatic.
-- **Undo DNC:** there's no route to undo DNC; only an admin in the CRM can clear it.
-- **External senders:** DNC is only enforced inside this CRM. Senders outside it still have to check `leads/find`.
-- **Untrusted reply text:** reply text and AI notes are shown as plain text, so they can't run as code in the CRM. Treat them as untrusted.
+- Our own `/apply` attribution and new-lead alerts stop for these clicks. Applications then live only in DAC's status updates. Not built: a DAC status sync (no API confirmed).
+- Calculator/awarded amount prefill is lost (DAC's form won't take our params).
+- A recruit converting into a client needs a type change; v1 does this through a manual type switch in the drawer (admin only).
+- Cut: a separate recruits table, a commission tracking field, a recruit pipeline board.
