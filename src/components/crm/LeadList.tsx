@@ -1,6 +1,6 @@
 import React from "react";
 import { Ban } from "lucide-react";
-import { CRM_STAGES, fmtMoney, leadLabel, todayIso, type CrmLead } from "@/lib/crm";
+import { stagesFor, fmtMoney, leadLabel, todayIso, type CrmLead } from "@/lib/crm";
 
 type Props = { leads: CrmLead[]; onOpen: (id: string) => void; onMove: (id: string, stage: string) => void };
 
@@ -16,6 +16,7 @@ const LeadList: React.FC<Props> = ({ leads, onOpen, onMove }) => {
             <button type="button" className="w-full text-left min-h-[44px]" onClick={() => onOpen(l.id)}>
               <div className="flex items-start justify-between gap-2">
                 <span className="font-medium break-words min-w-0">{leadLabel(l)}</span>
+                {l.lead_type === "partner" && <span className="shrink-0 rounded-full bg-primary/10 text-primary text-xs px-2 py-0.5">Recruit</span>}
                 {l.do_not_contact && (
                   <span className="shrink-0 inline-flex items-center gap-1 rounded-full bg-destructive/10 text-destructive text-xs px-2 py-0.5"><Ban className="h-3 w-3" />Do not contact</span>
                 )}
@@ -31,7 +32,7 @@ const LeadList: React.FC<Props> = ({ leads, onOpen, onMove }) => {
             </button>
             <select aria-label={`Stage for ${leadLabel(l)}`} className="h-11 w-full rounded-md border border-input bg-background px-3 text-base"
               value={l.stage} onChange={(e) => onMove(l.id, e.target.value)}>
-              {CRM_STAGES.map((s) => <option key={s}>{s}</option>)}
+              {stagesFor(l.lead_type).map((s) => <option key={s}>{s}</option>)}
             </select>
           </li>
         );

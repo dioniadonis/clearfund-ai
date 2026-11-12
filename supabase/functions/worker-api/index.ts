@@ -34,7 +34,7 @@ const Lead = z.object({
   need_score: z.number().int().min(0).max(100).optional(), first_line: z.string().max(500).optional(), notes: z.string().max(2000).optional(),
 }).transform((l) => ({ ...l, lead_ref: l.lead_ref ?? l.lead_id, lead_type: l.lead_type ?? l.type, firm: l.firm ?? l.company }));
 
-const STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost"] as const;
+const STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost", "Signed up (DAC)", "Trained", "First referral"] as const;
 const routes = {
   "jobs/claim": z.object({ job_type: JobType, n: z.number().int().min(1).max(50).default(10) }),
   "jobs/result": z.object({ job_id: z.string().uuid(), ok: z.boolean(), result: z.record(z.unknown()).optional(), error: z.string().max(500).optional() }),
@@ -42,7 +42,7 @@ const routes = {
   "sources/register": z.object({ source: z.string().min(1).max(60), params: z.record(z.unknown()), refresh_days: z.number().int().min(1).max(3650).optional() }),
   "sources/claim": z.object({ source: z.string().max(60).optional() }),
   "sources/complete": z.object({ slice_id: z.string().uuid(), status: z.enum(["done", "blocked"]), leads: z.array(Lead).max(500).default([]), note: z.string().max(500).optional() }),
-  "leads/find": z.object({ email: z.string().max(320).optional(), firm: z.string().max(200).optional(), limit: z.number().int().min(1).max(10).optional() })
+  "leads/find": z.object({ email: z.string().max(320).optional(), firm: z.string().max(200).optional(), limit: z.number().int().min(1).max(10).optional(), type: z.enum(["client", "recruit"]).optional() })
     .refine((v) => !!(v.email?.trim() || v.firm?.trim()), "email or firm required"),
   "leads/update": z.object({ lead_id: z.string().uuid(), stage: z.enum(STAGES).optional(), note: z.string().min(1).max(2000).optional(),
     next_follow_up: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional() })
@@ -87,7 +87,7 @@ Deno.serve(async (req) => {
     case "sources/register": return call("crm_register_source", { _worker: worker, _source: b.source, _params: b.params, _refresh_days: b.refresh_days ?? 30 });
     case "sources/claim": return call("crm_claim_source", { _worker: worker, _source: b.source ?? null });
     case "sources/complete": return call("crm_complete_source", { _worker: worker, _slice_id: b.slice_id, _status: b.status, _leads: b.leads, _note: b.note ?? null });
-    case "leads/find": return call("crm_find_leads", { _worker: worker, _email: b.email ?? null, _firm: b.firm ?? null, _limit: b.limit ?? 5 });
+    case "leads/find": return call("crm_find_leads", { _worker: worker, _email: b.email ?? null, _firm: b.firm ?? null, _limit: b.limit ?? 5, _type: b.type ?? null });
     case "leads/update": return call("crm_worker_update_lead", { _worker: worker, _lead_id: b.lead_id, _stage: b.stage ?? null, _note: b.note ?? null,
       _set_follow_up: b.next_follow_up !== undefined, _next_follow_up: b.next_follow_up ?? null });
     case "leads/dnc": return call("crm_worker_mark_dnc", { _worker: worker, _lead_id: b.lead_id, _reason: b.reason });
