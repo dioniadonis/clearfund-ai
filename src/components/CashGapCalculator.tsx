@@ -7,7 +7,6 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { computeCashGap, type CashGapInputs } from "@/lib/cashGap";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 
 const fmt = (n: number) =>

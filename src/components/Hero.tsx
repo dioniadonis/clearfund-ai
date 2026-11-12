@@ -5,8 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowRight, Play } from 'lucide-react';
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 const Hero: React.FC = () => {
   const navigate = useNavigate();
@@ -21,14 +20,14 @@ const Hero: React.FC = () => {
             <span className="text-clearfund-blue">Growth-Driven Business</span>
           </h1>
           <p className="text-lg md:text-xl text-gray-700 max-w-lg">
-            Fast Capital. Smart Resources. <br />
+            Business Funding. Smart Resources. <br />
             Transparent Options from $300 to $2M*
           </p>
           <p className="text-sm text-gray-600">
             *Subject to funding partner approval and bank verification
           </p>
           <div className="flex flex-col sm:flex-row gap-4 pt-4">
-            <Button onClick={() => openDacApply("home_hero")} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
+            <Button onClick={() => openApplication("home_hero")} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
               Apply Now
               <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
@@ -37,9 +36,9 @@ const Hero: React.FC = () => {
               <Play className="ml-2 h-5 w-5" />
             </Button>
           </div>
-          <p className="text-sm text-gray-600">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
+          <p className="text-sm text-gray-600">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
           <div className="pt-6">
-            <p className="text-sm text-gray-500">We bankroll owners who build faster than they doubt.</p>
+            <p className="text-sm text-gray-500">Clear next steps for owners exploring business funding.</p>
           </div>
         </div>
         
@@ -66,7 +65,7 @@ const Hero: React.FC = () => {
                 <p className="text-sm">I'm looking for funding, I want to implement AI to scale our operations.</p>
               </div>
               <div className="bg-clearfund-pale-blue p-3 rounded-lg rounded-tl-none max-w-[80%]">
-                <p className="text-sm">I can help with that! I recommend our instant capital options with transparent terms and flexible repayments. I'll outline options that work best for your business!</p>
+                <p className="text-sm">I can help you explore business funding options and understand the provider's terms.</p>
               </div>
             </div>
           </div>

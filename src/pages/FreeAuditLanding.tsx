@@ -28,7 +28,7 @@ const FreeAuditLanding: React.FC = () => (
           See exactly which parts of your business a machine could be running.
         </h1>
         <p className="text-lg text-muted-foreground">
-          Answer a few questions about how you operate today. In 4 minutes you'll get a clear breakdown of the specific tasks in your business that AI and automation can take over — what each one is costing you now, and what it would cost to hand it off.
+          Answer a few questions about how you operate. You'll get a breakdown of specific tasks in your business that AI and automation can take over — what each one is costing you now, and what it would cost to hand it off.
         </p>
         <Button asChild size="lg" className="h-14 px-8 text-base">
           <Link to="/automation-audit/start">Show me what I can automate <ArrowRight className="ml-2 h-5 w-5" /></Link>

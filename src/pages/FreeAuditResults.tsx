@@ -7,7 +7,6 @@ import { Button } from "@/components/ui/button";
 import { supabase } from "@/integrations/supabase/client";
 import { COMPLIANCE_TEXT, usd, type Results } from "@/lib/freeAudit";
 import { useToast } from "@/hooks/use-toast";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 
 type Ai = {
@@ -141,7 +140,7 @@ const FreeAuditResults: React.FC = () => {
           <h2 className="text-2xl font-semibold text-foreground">Don't want to pay for this out of pocket?</h2>
           {ai?.funding_context && <p className="text-muted-foreground">{ai.funding_context}</p>}
           <p className="text-muted-foreground">
-            Your top fixes would cost roughly {usd(r.min_total)}–{usd(r.max_total)} to implement. ClearFundAI helps businesses explore financing options so upgrades like these can start paying for themselves right away.
+            Your top fixes would cost roughly {usd(r.min_total)}–{usd(r.max_total)} to implement. ClearFundAI helps businesses explore financing options for upgrades like these.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Button asChild size="lg" onClick={() => track("funding_cta_clicked")}>

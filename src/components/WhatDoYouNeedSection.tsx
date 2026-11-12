@@ -4,18 +4,17 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { ArrowRight, Building, Zap, Check } from 'lucide-react';
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 const WhatDoYouNeedSection: React.FC = () => {
   const navigate = useNavigate();
 
   const handleWorkingCapital = () => {
-    openDacApply("whatdoyouneedsection_1");
+    openApplication("whatdoyouneedsection_1");
   };
 
   const handleInstantMicro = () => {
-    openDacApply("whatdoyouneedsection_2");
+    openApplication("whatdoyouneedsection_2");
   };
 
 
@@ -76,15 +75,15 @@ const WhatDoYouNeedSection: React.FC = () => {
             </CardContent>
           </Card>
 
-          {/* Instant Micro Funding */}
+          {/* Micro Funding */}
           <Card className="border border-gray-200 hover:border-clearfund-blue transition-colors hover:shadow-lg flex flex-col">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center mx-auto mb-4">
                 <Zap size={32} />
               </div>
-              <CardTitle className="text-xl text-clearfund-dark-blue">Instant Micro Funding</CardTitle>
+              <CardTitle className="text-xl text-clearfund-dark-blue">Micro Funding</CardTitle>
               <CardDescription className="text-gray-600">
-                Perfect for small businesses, gig workers, and entrepreneurs who need quick access to smaller amounts
+                For small businesses, gig workers, and entrepreneurs exploring smaller funding amounts
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col">
@@ -92,7 +91,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 <div className="space-y-3 text-sm text-gray-700">
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">Quick MCA provider matching</span>
+                    <span className="ml-3">MCA provider matching</span>
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
@@ -105,7 +104,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 </div>
               </div>
               <p className="text-xs text-gray-500 mb-4">
-                *Subject to provider approval. Provided by David Allen Capital; ClearFund AI may receive compensation if you are funded.
+                *Providers decide whether to make an offer and set all terms. ClearFund AI may receive compensation for referrals.
               </p>
               <Button 
                 onClick={handleInstantMicro}

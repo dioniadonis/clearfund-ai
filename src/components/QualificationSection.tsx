@@ -2,7 +2,6 @@
 import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 
 const QualificationSection: React.FC = () => {
@@ -34,10 +33,10 @@ const QualificationSection: React.FC = () => {
 
           <div className="space-y-6">
             <h2 className="text-3xl md:text-4xl font-bold text-clearfund-dark-blue">
-              Fuel Your Business Growth with Quick, Easy Funding From $10k to $2 Million.
+              Explore Business Funding Options for Your Growth.
             </h2>
             <p className="text-lg text-gray-700">
-              Approval Amount is generally 1-2x current monthly revenue.
+              Provider offers depend on your business profile and review.
             </p>
             
             <div className="font-bold text-xl mb-4 text-clearfund-dark-blue">
@@ -57,7 +56,7 @@ const QualificationSection: React.FC = () => {
                   <h3 className="text-2xl font-bold text-clearfund-blue mb-2">$15,000+</h3>
                   <p className="text-gray-600">Monthly Sales</p>
                   <p className="text-sm mt-2">
-                    If you are doing less than $15,000, you may be eligible for our <span className="text-green-500">instant micro funding</span>.
+                    If you are doing less than $15,000, you may be eligible for our <span className="text-green-500">micro funding</span>.
                   </p>
                 </CardContent>
               </Card>
@@ -83,7 +82,7 @@ const QualificationSection: React.FC = () => {
                 className="bg-green-500 hover:bg-green-600 text-white text-lg py-6 px-12 rounded-full transition-colors"
               >
                 <ApplyLink cta="qualificationsection_1">
-                  Instant Micro Funding
+                  Micro Funding
                 </ApplyLink>
               </Button>
             </div>

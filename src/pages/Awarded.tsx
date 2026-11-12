@@ -8,7 +8,6 @@ import StageSelector, { type StageKey } from "../components/StageSelector";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/lib/usePageMeta";
 import { parseAmount } from "@/lib/amount";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 
 const primaryBtn = "bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors";
@@ -61,10 +60,10 @@ const Awarded: React.FC = () => {
           <div className="container-custom max-w-4xl text-center space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold text-clearfund-dark-blue break-words">{heading}</h1>
             <p className="text-lg md:text-xl text-gray-700">
-              Most agencies pay 30 to 90 days after the work starts. Here's how to cover crew, materials and bonding until then.
+              Agencies generally pay after work starts and invoicing. Explore ways to cover crew, materials and bonding until then.
             </p>
             <p className="text-sm text-gray-500">*Subject to funding partner approval and verification</p>
-            <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
+            <p className="text-sm text-gray-500">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button asChild className={primaryBtn}>
                 <ApplyLink cta="awarded_1">Apply Now</ApplyLink>

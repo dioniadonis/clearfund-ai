@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import {
   ArrowRight,
@@ -15,7 +15,6 @@ import { Button } from "@/components/ui/button";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import heroImage from "@/assets/restoration-hero.jpg";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
 import ApplyLink from "@/components/ApplyLink";
 
 const PHONE = "8665784721";
@@ -56,7 +55,7 @@ const useCaseCards = [
     icon: Wallet,
     title: "Working capital",
     copy:
-      "Breathing room between operating expenses and collections during periods of rapid growth.",
+      "Breathing room between operating expenses and collections during periods of business growth.",
   },
 ];
 
@@ -114,18 +113,6 @@ const RestorationFunding: React.FC = () => {
     });
   }, []);
 
-  // Carry ad attribution through to the application form.
-  const applyHref = useMemo(() => {
-    const incoming = new URLSearchParams(window.location.search);
-    const params = new URLSearchParams();
-    incoming.forEach((value, key) => {
-      if (key.startsWith("utm_")) params.set(key, value);
-    });
-    if (!params.get("utm_source")) params.set("utm_source", "restoration-landing");
-    if (!params.get("utm_campaign")) params.set("utm_campaign", "insurance-restoration");
-    return `/apply?${params.toString()}`;
-  }, []);
-
   const PrivacyLine = () => (
     <p className="text-sm text-gray-600">
       Straightforward qualification · Responsible data handling · Human support when needed ·{" "}
@@ -176,7 +163,7 @@ const RestorationFunding: React.FC = () => {
                     </a>
                   </Button>
                 </div>
-                <p className="text-sm text-gray-600">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
+                <p className="text-sm text-gray-600">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
                 <p className="text-sm text-gray-600">
                   Straightforward process. No generic bank runaround.
                 </p>
@@ -305,8 +292,8 @@ const RestorationFunding: React.FC = () => {
             ))}
           </div>
           <p className="text-sm text-gray-600 max-w-3xl">
-            Approval, funding amounts and timing are decided by third-party providers. Nothing on
-            this page is a guarantee of funding, terms or turnaround time.
+            Third-party providers decide whether to make an offer and set all terms. Nothing on
+            this page guarantees funding or particular terms.
           </p>
         </section>
 
@@ -315,12 +302,11 @@ const RestorationFunding: React.FC = () => {
           <div className="container-custom py-14 md:py-20">
             <div className="max-w-3xl space-y-5">
               <h2 className="text-2xl md:text-4xl font-bold text-clearfund-dark-blue">
-                Built for operators who value speed.
+                Built for operators who value clarity.
               </h2>
               <p className="text-lg text-gray-700">
                 ClearFund AI uses technology to reduce unnecessary back-and-forth, organize
-                qualification information and help move businesses toward the appropriate next step
-                faster.
+                qualification information and help businesses understand the appropriate next step.
               </p>
               <p className="text-gray-700">
                 Our virtual funding assistant can help gather the basic information needed to

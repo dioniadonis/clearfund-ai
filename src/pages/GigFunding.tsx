@@ -7,15 +7,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import ProcessSlideShow from '../components/ProcessSlideShow';
 import FundingFAQSlideShow from '../components/FundingFAQSlideShow';
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 const GigFunding: React.FC = () => {
   const [isSlideShowOpen, setIsSlideShowOpen] = useState(false);
   const [isFAQSlideShowOpen, setIsFAQSlideShowOpen] = useState(false);
 
   const handleExternalLink = () => {
-    openDacApply("gigfunding_1");
+    openApplication("gigfunding_1");
   };
   
   return (
@@ -27,17 +26,16 @@ const GigFunding: React.FC = () => {
           <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
-                <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Instant Micro Funding</span>
+                <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Micro Funding</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
-                <span className="text-clearfund-blue font-bold">Get up to $20k</span><br/>
+                <span className="text-clearfund-blue font-bold">Explore smaller funding amounts</span><br/>
                 <span className="text-clearfund-blue font-bold">Straightforward application</span><br/>
-                From $400 - $20,000.<br/>
-                Easy-Breezy online process designed for all business owners.
+                Straightforward online process for business owners.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button onClick={handleExternalLink} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-                  Get Funded Today
+                  Explore Funding Options
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
@@ -49,7 +47,7 @@ const GigFunding: React.FC = () => {
                 </Button>
               </div>
               <p className="text-xs text-gray-500">
-                Funding is provided by our partner David Allen Capital. ClearFund AI is a broker, not a lender, and may receive compensation if you are funded.
+                ClearFund AI is a broker, not a lender. We may connect you with third-party funding providers and may receive compensation for referrals.
               </p>
             </div>
             
@@ -58,7 +56,7 @@ const GigFunding: React.FC = () => {
               <div className="absolute -top-16 -right-16 w-64 h-64 bg-clearfund-pale-blue rounded-full opacity-50 blur-3xl"></div>
               <div className="relative bg-white shadow-xl rounded-xl p-6 border border-gray-100">
                 <div className="flex items-center justify-between mb-6">
-                  <h3 className="text-xl font-bold text-clearfund-dark-blue">Simple Requirements</h3>
+                  <h3 className="text-xl font-bold text-clearfund-dark-blue">What We Review</h3>
                   <div className="h-12 w-12 bg-clearfund-blue text-white flex items-center justify-center rounded-full">
                     <BriefcaseBusiness size={24} />
                   </div>
@@ -68,25 +66,25 @@ const GigFunding: React.FC = () => {
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">$3,000+ Monthly Bank Revenue</div>
+                    <div className="text-gray-700">Monthly Bank Revenue</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">3+ Months In Business</div>
+                    <div className="text-gray-700">Time In Business</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">No Collateral Required</div>
+                    <div className="text-gray-700">Business Information</div>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="text-gray-700">Easier Qualification Process</div>
+                    <div className="text-gray-700">Provider-Specific Requirements</div>
                   </div>
                 </div>
               </div>
@@ -177,7 +175,7 @@ const GigFunding: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    If approved, funds are deposited directly to your business account. Timing depends on the funding partner.
+                    If the provider approves your application, its agreement explains how funds are delivered.
                   </p>
                 </CardContent>
               </Card>
@@ -228,7 +226,7 @@ const GigFunding: React.FC = () => {
                     <DollarSign size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">No Collateral Required</h3>
+                    <h3 className="text-xl font-bold text-clearfund-dark-blue mb-2">Business Information</h3>
                     <p className="text-gray-600">
                       Get the funding you need without putting up your personal assets as collateral, perfect for business owners.
                     </p>
@@ -245,7 +243,7 @@ const GigFunding: React.FC = () => {
                       <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
-                      <p className="font-semibold text-lg">Payment History Earns You More</p>
+                      <p className="font-semibold text-lg">Build a Provider Relationship</p>
                       <p className="text-gray-600 text-sm">Build a relationship with us through on-time payments</p>
                     </div>
                   </div>
@@ -283,7 +281,7 @@ const GigFunding: React.FC = () => {
                 
                 <div className="pt-4">
                   <Button onClick={handleExternalLink} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 w-full rounded-lg transition-colors">
-                    Get Funded Today
+                    Explore Funding Options
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
@@ -318,7 +316,7 @@ const GigFunding: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "I needed capital to maintain my equipment for my business. The simple application process and quick funding from Clearfund AI helped me keep my business running without any downtime."
+                    "I needed capital to maintain my equipment for my business. The application and funding process helped me keep my business running."
                   </p>
                 </CardContent>
               </Card>
@@ -376,15 +374,15 @@ const GigFunding: React.FC = () => {
                   Don't miss this opportunity to secure the funding you need with our simple requirements and process.
                 </p>
                 <div className="flex flex-wrap gap-3 mb-6">
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">$3,000+ Monthly Revenue</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">3+ Months in Business</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">No Collateral Required</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Business Revenue</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Time in Business</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Business Information</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Straightforward Application</span>
                 </div>
               </div>
               <div className="flex flex-col gap-4 items-center">
                 <Button onClick={handleExternalLink} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
-                  Get Funded Today
+                  Explore Funding Options
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 

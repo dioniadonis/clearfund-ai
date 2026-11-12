@@ -1,14 +1,13 @@
 
 import React, { useState, useEffect } from 'react';
-import { Check, ArrowLeft, ArrowRight, X, Clock, DollarSign, Shield, CreditCard, Calculator, Percent } from 'lucide-react';
+import { Check, ArrowLeft, ArrowRight, X, FileText, DollarSign, Shield, CreditCard, Calculator } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 interface FundingFAQSlideShowProps {
   onClose: () => void;
@@ -47,7 +46,7 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
   }, [api]);
 
   const handleGetFunded = () => {
-    openDacApply("fundingfaqslideshow_1");
+    openApplication("fundingfaqslideshow_1");
   };
 
   return (
@@ -61,19 +60,19 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
 
       <Carousel className="w-full max-w-4xl mx-auto" setApi={setApi}>
         <CarouselContent>
-          {/* Slide 1: Funding Timeline */}
+          {/* Slide 1: Provider Review */}
           <CarouselItem>
             <div className="p-6">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="md:w-1/3">
                   <div className="w-32 h-32 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mx-auto">
-                    <Clock size={64} />
+                    <FileText size={64} />
                   </div>
                 </div>
                 <div className="md:w-2/3 space-y-4">
-                  <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Fast Can I Get Funded?</h3>
+                  <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Does the Review Work?</h3>
                   <p className="text-gray-600 text-lg">
-                    Timing depends on the funding partner and your file.
+                    The provider reviews your application and decides whether to make an offer.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
@@ -85,13 +84,13 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Approval decision: Set by the funding partner</span>
+                    <span className="text-gray-700">Offer decision: Set by the funding partner</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Fund transfer: Timing varies by partner</span>
+                    <span className="text-gray-700">You choose whether to accept any offer</span>
                   </div>
                 </div>
               </div>
@@ -110,19 +109,19 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Much Can I Borrow?</h3>
                   <p className="text-gray-600 text-lg">
-                    We offer flexible funding amounts ranging from $400 to $20,000 based on your business revenue and needs.
+                    Provider funding amounts depend on your business revenue, needs and their review.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Minimum funding: $400</span>
+                    <span className="text-gray-700">Amounts vary by provider</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Maximum funding: $20,000</span>
+                    <span className="text-gray-700">Your request is reviewed individually</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
@@ -147,73 +146,62 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">What Are The Requirements?</h3>
                   <p className="text-gray-600 text-lg">
-                    Our requirements are simple and designed to help more business owners qualify for funding.
+                    Requirements vary by provider and are reviewed for each application.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">$3,000+ monthly bank revenue</span>
+                    <span className="text-gray-700">Business revenue information</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">3+ months in business</span>
+                    <span className="text-gray-700">Time in business</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">No collateral required</span>
+                    <span className="text-gray-700">Provider-specific verification</span>
                   </div>
                 </div>
               </div>
             </div>
           </CarouselItem>
 
-          {/* Slide 4: Rates */}
+          {/* Slide 4: Costs */}
           <CarouselItem>
             <div className="p-6">
               <div className="flex flex-col md:flex-row items-center gap-8">
                 <div className="md:w-1/3">
                   <div className="w-32 h-32 rounded-full bg-clearfund-pale-blue text-clearfund-blue flex items-center justify-center mx-auto">
-                    <Percent size={64} />
+                    <FileText size={64} />
                   </div>
                 </div>
                 <div className="md:w-2/3 space-y-4">
-                  <h3 className="text-2xl font-bold text-clearfund-dark-blue">What Are Your Rates?</h3>
+                  <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Are Costs Disclosed?</h3>
                   <p className="text-gray-600 text-lg">
-                    Competitive rates designed for business growth, not just survival.
+                    Any provider offer includes its costs and terms for your review.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <div className="flex flex-col">
-                      <span className="text-gray-700">Factor rates from 1.1 to 1.5 (10% to 50% total cost)</span>
-                      <span className="text-gray-400 text-sm italic mt-1 opacity-70">
-                        e.g., $4,000 monthly sales = qualify for $800-$1,200 funding
-                      </span>
-                    </div>
+                    <span className="text-gray-700">Review the total cost and payment schedule</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Rates based on your business strength - stronger businesses get better rates</span>
+                    <span className="text-gray-700">Ask questions before accepting</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">No hidden fees or surprise charges - total cost disclosed upfront</span>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
-                      <Check size={18} className="text-clearfund-blue" />
-                    </div>
-                    <span className="text-gray-700">Rate and terms are set by the provider</span>
+                    <span className="text-gray-700">You choose whether to accept any offer</span>
                   </div>
                 </div>
               </div>
@@ -232,25 +220,25 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">How Does Repayment Work?</h3>
                   <p className="text-gray-600 text-lg">
-                    We offer flexible repayment options that work with your business cash flow.
+                    Repayment terms are set by the provider and included in any offer.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Automatic daily or weekly payments</span>
+                    <span className="text-gray-700">Payment schedule in the provider agreement</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Payments based on percentage of revenue</span>
+                    <span className="text-gray-700">Any revenue-based payments explained by the provider</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">No prepayment penalties</span>
+                    <span className="text-gray-700">Review prepayment terms before accepting</span>
                   </div>
                 </div>
               </div>
@@ -269,7 +257,7 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                 <div className="md:w-2/3 space-y-4">
                   <h3 className="text-2xl font-bold text-clearfund-dark-blue">Ready to Get Started?</h3>
                   <p className="text-gray-600 text-lg">
-                    Join thousands of business owners who have successfully funded their operations with Clearfund AI.
+                    Explore funding options for your business with ClearFund AI.
                   </p>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
@@ -281,14 +269,14 @@ const FundingFAQSlideShow: React.FC<FundingFAQSlideShowProps> = ({ onClose }) =>
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Fast approval and funding</span>
+                    <span className="text-gray-700">Provider review and terms</span>
                   </div>
                   <div className="space-y-4 mt-6">
                     <Button 
                       onClick={handleGetFunded}
                       className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white px-8 py-3 text-lg"
                     >
-                      Get Funded Today
+                      Explore Funding Options
                     </Button>
                   </div>
                 </div>

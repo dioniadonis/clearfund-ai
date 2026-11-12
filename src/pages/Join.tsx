@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Loader2 } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -30,7 +30,7 @@ const questions: { key: keyof Answers; title: string; options?: [string, string]
   { key: "owner_network", title: "How many business owners could you contact in your first month?", options: [["0_5", "0–5"], ["6_20", "6–20"], ["21_50", "21–50"], ["50_plus", "50+"]] },
   { key: "hours_per_week", title: "How many hours per week could you spend on this?", options: [["under_5", "Under 5"], ["5_10", "5–10"], ["10_20", "10–20"], ["20_plus", "20+"]] },
   { key: "outside_work_limit", title: "Does your employer or license limit outside referral work?", options: [["no", "No"], ["yes", "Yes"], ["not_sure", "Not sure"]] },
-  { key: "commission_only_ok", title: "This is a 1099, commission-only role with no base pay. You're paid only when a client you referred is funded. Is that OK?", options: [["yes", "Yes"], ["no", "No"]] },
+  { key: "commission_only_ok", title: "This is a 1099, commission-only role with no base pay and no guaranteed compensation. Is that OK?", options: [["yes", "Yes"], ["no", "No"]] },
   { key: "written_answer", title: "Who do you know in business, and how would you start the conversation?" },
   { key: "source", title: "How did you hear about us?", options: [["indeed", "Indeed"], ["linkedin", "LinkedIn"], ["facebook", "Facebook"], ["referral", "Referral"], ["other", "Other"]] },
 ];
@@ -38,7 +38,15 @@ const fits = ["Insurance agents", "Loan officers", "Merchant-services reps", "Co
 const optionClass = "w-full min-h-12 rounded-md border border-input bg-background px-4 py-3 text-left text-base hover:border-primary hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 
 const Join: React.FC = () => {
-  usePageMeta("Become a funding referral rep | ClearFund AI", "Join the David Allen Capital broker program as an independent, commission-only referral rep.", "/join");
+  usePageMeta("Become a funding referral rep | ClearFund AI", "Learn about our funding partner program for independent referral reps.", "/join");
+  useEffect(() => {
+    let el = document.head.querySelector('meta[name="robots"]') as HTMLMetaElement | null;
+    const created = !el;
+    if (!el) { el = document.createElement("meta"); el.name = "robots"; document.head.appendChild(el); }
+    const prev = el.content;
+    el.content = "noindex, nofollow";
+    return () => { if (created) el!.remove(); else el!.content = prev; };
+  }, []);
   const formRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const [answers, setAnswers] = useState<Answers>(initial);
@@ -72,7 +80,7 @@ const Join: React.FC = () => {
           <div className="container-custom py-16 sm:py-24 text-center">
             <h1 className="mx-auto max-w-3xl text-4xl sm:text-5xl font-bold leading-tight">Help local business owners find funding.</h1>
             <p className="mx-auto mt-5 max-w-2xl text-lg text-clearfund-pale-blue">Independent, commission-only reps. Free training. Set your own hours.</p>
-            <Button size="lg" className="mt-8 min-h-12 bg-background text-primary hover:bg-secondary" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}>Take the 5-minute screener</Button>
+            <Button size="lg" className="mt-8 min-h-12 bg-background text-primary hover:bg-secondary" onClick={() => formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" })}>Take the screener</Button>
           </div>
         </section>
 
@@ -94,7 +102,7 @@ const Join: React.FC = () => {
         <section className="container-custom pb-12 sm:pb-16">
           <div className="rounded-lg border-2 border-primary bg-card p-6 sm:p-8">
             <h2 className="text-2xl font-bold">Straight facts</h2>
-            <p className="mt-3 text-base leading-7">1099 independent contractor with the David Allen Capital broker program, not ClearFund AI employment. Commission only, no base pay. Paid only when a client you referred is funded. Results vary and some reps earn nothing. No cost to join; David Allen Capital pays commissions and issues 1099s.</p>
+            <p className="mt-3 text-base leading-7">1099 independent contractor with our funding partner program, not ClearFund AI employment. Commission only, no base pay and no guaranteed compensation. Program terms are provided during onboarding.</p>
           </div>
         </section>
 

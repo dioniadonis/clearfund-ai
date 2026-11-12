@@ -5,12 +5,11 @@ import { ArrowRight, Check, Briefcase, LineChart, Clock, Building } from 'lucide
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from "@/components/ui/card";
 import Header from '../components/Header';
 import Footer from '../components/Footer';
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 const WorkingCapital: React.FC = () => {
   const navigate = useNavigate();
-  const apply = (cta: string) => openDacApply(cta);
+  const apply = (cta: string) => openApplication(cta);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -52,7 +51,7 @@ const WorkingCapital: React.FC = () => {
                     <div className="font-medium">Straightforward application</div>
                   </div>
                 </div>
-                <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
+                <p className="text-sm text-gray-500">Start with our short questionnaire. Providers decide whether to make an offer and set all terms.</p>
               </div>
               
               <div className="relative hidden md:block">
@@ -111,11 +110,11 @@ const WorkingCapital: React.FC = () => {
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>Quick electronic application</span>
+                      <span>Electronic application</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>Expedited review process</span>
+                      <span>Provider review process</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
@@ -192,7 +191,7 @@ const WorkingCapital: React.FC = () => {
                 How to Apply
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-                Our simple application process makes it quick and easy to get the working capital your business needs
+                Our application process helps you explore working capital options for your business
               </p>
             </div>
             

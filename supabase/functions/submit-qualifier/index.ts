@@ -53,6 +53,7 @@ Deno.serve(async (req) => {
   if (ue) return json({ error: "save_failed" }, 500);
   await db.from("crm_activities").insert({ lead_id: leadId, type: "note", body: r.next === "state_blocked" ? `Qualifier: state ${a.state} not served` : `Qualifier completed → ${r.product ? r.product.funder + " · " + r.product.product : "needs review"}` });
 
-  // Applicant sees only the next step; never product names, rates, amounts or timelines.
-  return json({ next: r.next, url: r.next === "dac_link" ? (r.product?.apply_url || "https://www.davidallencapital.com/clearfund") : r.next === "our_form" ? "/apply?cta=qualifier" : null });
+  // Public responses stay on ClearFund; private CRM records retain the selected provider route.
+  const next = r.next === "dac_link" ? "our_form" : r.next;
+  return json({ next, url: next === "our_form" ? "/apply?cta=qualifier" : null });
 });

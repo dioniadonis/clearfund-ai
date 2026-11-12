@@ -40,8 +40,8 @@ const Disclaimers: React.FC = () => {
                   determined by funding providers and may differ from initial estimates.
                 </li>
                 <li>
-                  <strong>Processing Times:</strong> While we aim for quick processing, actual funding 
-                  times depend on funding partner processes and bank verification requirements.
+                  <strong>Provider Review:</strong> Application review and bank verification are 
+                  handled under each funding partner's own processes and requirements.
                 </li>
               </ul>
             </section>

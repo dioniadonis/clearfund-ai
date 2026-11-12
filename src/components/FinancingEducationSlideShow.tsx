@@ -8,8 +8,7 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { DAC_APPLY_URL, openDacApply, logDacClick } from "@/lib/partners";
-import ApplyLink from "@/components/ApplyLink";
+import { openApplication } from "@/lib/partners";
 
 interface FinancingEducationSlideProps {
   onClose: () => void;
@@ -54,7 +53,7 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
 
   const handleApplyNow = () => {
     onClose?.();
-    openDacApply("financingeducationslideshow_1");
+    openApplication("financingeducationslideshow_1");
   };
 
   return (
@@ -240,7 +239,7 @@ const FinancingEducationSlideShow: React.FC<FinancingEducationSlideProps> = ({ o
                       <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                         <Check size={18} className="text-clearfund-blue" />
                       </div>
-                      <span className="text-gray-700">Fast application process</span>
+                      <span className="text-gray-700">Straightforward application process</span>
                     </div>
                     <div className="flex items-center gap-3">
                       <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">

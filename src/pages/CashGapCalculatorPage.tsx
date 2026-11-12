@@ -22,7 +22,7 @@ const CashGapCalculatorPage: React.FC = () => {
           <div className="container-custom max-w-3xl text-center space-y-4">
             <h1 className="text-4xl md:text-5xl font-bold text-clearfund-dark-blue">How much cash does your new contract need up front?</h1>
             <p className="text-lg text-gray-700">
-              Public agencies pay after work is done and invoiced, often 30 to 90 days later. Estimate the gap you'll carry before the first payment.
+              Public agencies generally pay after work is done and invoiced. Estimate the gap you'll carry before the first payment.
             </p>
           </div>
         </section>
