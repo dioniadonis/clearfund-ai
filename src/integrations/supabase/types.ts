@@ -1647,6 +1647,75 @@ export type Database = {
         }
         Relationships: []
       }
+      recruits: {
+        Row: {
+          commission_experience: string
+          commission_only_ok: boolean
+          created_at: string
+          current_work: string
+          email: string
+          full_name: string
+          hard_stop_reason: string | null
+          hours_per_week: string
+          id: string
+          notes: string | null
+          outside_work_limit: string
+          over_18: boolean
+          owner_contact: string
+          owner_network: string
+          phone: string | null
+          score: number
+          source: string
+          state: string
+          status: string
+          written_answer: string
+        }
+        Insert: {
+          commission_experience: string
+          commission_only_ok: boolean
+          created_at?: string
+          current_work: string
+          email: string
+          full_name: string
+          hard_stop_reason?: string | null
+          hours_per_week: string
+          id?: string
+          notes?: string | null
+          outside_work_limit: string
+          over_18: boolean
+          owner_contact: string
+          owner_network: string
+          phone?: string | null
+          score?: number
+          source: string
+          state: string
+          status?: string
+          written_answer: string
+        }
+        Update: {
+          commission_experience?: string
+          commission_only_ok?: boolean
+          created_at?: string
+          current_work?: string
+          email?: string
+          full_name?: string
+          hard_stop_reason?: string | null
+          hours_per_week?: string
+          id?: string
+          notes?: string | null
+          outside_work_limit?: string
+          over_18?: boolean
+          owner_contact?: string
+          owner_network?: string
+          phone?: string | null
+          score?: number
+          source?: string
+          state?: string
+          status?: string
+          written_answer?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
