@@ -81,7 +81,7 @@ const ProcessSlideShow: React.FC<ProcessSlideProps> = ({ onClose }) => {
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">
                       <Check size={18} className="text-clearfund-blue" />
                     </div>
-                    <span className="text-gray-700">Takes less than 5 minutes</span>
+                    <span className="text-gray-700">Short online form</span>
                   </div>
                   <div className="flex items-center gap-3">
                     <div className="h-8 w-8 rounded-full bg-clearfund-pale-blue flex items-center justify-center">

@@ -105,7 +105,7 @@ const WhatDoYouNeedSection: React.FC = () => {
                 </div>
               </div>
               <p className="text-xs text-gray-500 mb-4">
-                *Fast funding decisions, subject to provider approval. Provided by David Allen Capital; ClearFund AI may receive compensation if you are funded.
+                *Subject to provider approval. Provided by David Allen Capital; ClearFund AI may receive compensation if you are funded.
               </p>
               <Button 
                 onClick={handleInstantMicro}

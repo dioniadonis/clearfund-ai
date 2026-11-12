@@ -9,7 +9,7 @@ const Features: React.FC = () => {
   }, {
     icon: <DollarSign className="h-10 w-10 text-clearfund-blue" />,
     title: "Fast Capital Solutions",
-    description: "Access lines of credit, term loans, and equity financing with fast funding decisions."
+    description: "Access lines of credit, term loans, and equity financing through our provider network."
   }, {
     icon: <CreditCard className="h-10 w-10 text-clearfund-blue" />,
     title: "Flexible Funding Options",
@@ -17,7 +17,7 @@ const Features: React.FC = () => {
   }, {
     icon: <FileText className="h-10 w-10 text-clearfund-blue" />,
     title: "Transparent Application Process",
-    description: "Our AI guides you through a streamlined application with clear terms and fast decisions."
+    description: "Our AI guides you through a streamlined application with clear next steps."
   }];
   return <section id="features" className="py-16 md:py-24 bg-white">
       <div className="container-custom">

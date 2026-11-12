@@ -36,7 +36,7 @@ const WorkingCapital: React.FC = () => {
                 
                 <p className="text-lg text-gray-700">
                   Get your business the funding it needs with our streamlined application process. 
-                  Fast funding decisions, flexible terms, and transparent fees.
+                  A straightforward application. Approval and terms are set by the provider.
                 </p>
                 
                 <div className="flex gap-4 items-center">
@@ -49,7 +49,7 @@ const WorkingCapital: React.FC = () => {
                   </Button>
                   
                   <div className="text-sm text-gray-500">
-                    <div className="font-medium">Fast funding decisions</div>
+                    <div className="font-medium">Straightforward application</div>
                   </div>
                 </div>
                 <p className="text-sm text-gray-500">Opens David Allen Capital's application. Approval and terms are set by the provider.</p>
@@ -68,7 +68,7 @@ const WorkingCapital: React.FC = () => {
                   <div className="space-y-4 mb-6">
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 rounded-full bg-green-400"></div>
-                      <span className="text-gray-700">Fast funding decisions</span>
+                      <span className="text-gray-700">Straightforward application</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 rounded-full bg-blue-400"></div>
@@ -103,10 +103,10 @@ const WorkingCapital: React.FC = () => {
                   <div className="w-12 h-12 rounded-full bg-clearfund-blue/10 text-clearfund-blue flex items-center justify-center mb-4">
                     <Clock size={24} />
                   </div>
-                  <CardTitle className="text-xl text-clearfund-dark-blue">Fast Funding</CardTitle>
+                  <CardTitle className="text-xl text-clearfund-dark-blue">Simple Process</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p className="text-gray-600">Fast funding decisions through a streamlined application process.</p>
+                  <p className="text-gray-600">A straightforward application process.</p>
                   
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
@@ -119,7 +119,7 @@ const WorkingCapital: React.FC = () => {
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>Same-day approval possible</span>
+                      <span>Provider sets approval and terms</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -286,7 +286,7 @@ const WorkingCapital: React.FC = () => {
                   Our working capital solutions help businesses like yours access the funds they need to seize opportunities and overcome challenges.
                 </p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Fast Funding Decisions</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Straightforward Application</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Flexible Terms</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Bad Credit OK</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Simple Process</span>
