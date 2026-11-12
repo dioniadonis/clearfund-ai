@@ -2066,15 +2066,42 @@ export type Database = {
         Args: { _params: Json; _refresh_days: number; _source: string }
         Returns: Json
       }
+      crm_admin_assign_agent: {
+        Args: { _agent_id: string; _lead_id: string }
+        Returns: undefined
+      }
       crm_admin_dismiss_reject: { Args: { _id: string }; Returns: undefined }
+      crm_admin_mark_payout_paid: {
+        Args: { _paid: boolean; _payout_id: string }
+        Returns: undefined
+      }
       crm_admin_release: {
         Args: { _id: string; _kind: string }
+        Returns: undefined
+      }
+      crm_admin_save_agent_settings: {
+        Args: { _auto_assign: boolean; _percent: number }
         Returns: undefined
       }
       crm_admin_set_source_status: {
         Args: { _id: string; _status: string }
         Returns: undefined
       }
+      crm_agent_leaderboard: {
+        Args: never
+        Returns: {
+          agent_id: string
+          email: string
+          full_name: string
+          funded_deals: number
+          paid_total: number
+          payout_percent: number
+          pending_total: number
+          referral_code: string
+          warm_leads: number
+        }[]
+      }
+      crm_auto_assign_lead: { Args: { _lead_id: string }; Returns: undefined }
       crm_cap_json: { Args: { _j: Json; _max: number }; Returns: Json }
       crm_claim_jobs: {
         Args: { _n: number; _type: string; _worker: string }
@@ -2119,6 +2146,7 @@ export type Database = {
         Returns: Json
       }
       crm_import_leads: { Args: { _mode?: string; _rows: Json }; Returns: Json }
+      crm_import_recruits: { Args: { _rows: Json }; Returns: Json }
       crm_insert_lead: {
         Args: {
           _found_by: string
@@ -2177,6 +2205,7 @@ export type Database = {
       }
       crm_norm_company: { Args: { _t: string }; Returns: string }
       crm_norm_domain: { Args: { _t: string }; Returns: string }
+      crm_preview_recruit_import: { Args: { _rows: Json }; Returns: Json }
       crm_register_source: {
         Args: {
           _params: Json
