@@ -26,17 +26,17 @@ const GigFunding: React.FC = () => {
           <div className="container-custom grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-clearfund-dark-blue leading-tight">
-                <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Instant Micro Funding</span>
+                <span className="text-clearfund-blue mx-0 px-0 py-[2px] my-[17px]">Micro Funding</span>
               </h1>
               <p className="text-lg md:text-xl text-gray-700 max-w-lg">
                 <span className="text-clearfund-blue font-bold">Get up to $20k</span><br/>
                 <span className="text-clearfund-blue font-bold">Straightforward application</span><br/>
                 From $400 - $20,000.<br/>
-                Easy-Breezy online process designed for all business owners.
+                Straightforward online process for business owners.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <Button onClick={handleExternalLink} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 rounded-lg transition-colors">
-                  Get Funded Today
+                  Explore Funding Options
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
@@ -176,7 +176,7 @@ const GigFunding: React.FC = () => {
                 </CardHeader>
                 <CardContent>
                   <p className="text-gray-600">
-                    If approved, funds are deposited directly to your business account. Timing depends on the funding partner.
+                    If the provider approves your application, its agreement explains how funds are delivered.
                   </p>
                 </CardContent>
               </Card>
@@ -244,7 +244,7 @@ const GigFunding: React.FC = () => {
                       <Check size={20} className="text-clearfund-blue" />
                     </div>
                     <div>
-                      <p className="font-semibold text-lg">Payment History Earns You More</p>
+                      <p className="font-semibold text-lg">Build a Provider Relationship</p>
                       <p className="text-gray-600 text-sm">Build a relationship with us through on-time payments</p>
                     </div>
                   </div>
@@ -282,7 +282,7 @@ const GigFunding: React.FC = () => {
                 
                 <div className="pt-4">
                   <Button onClick={handleExternalLink} className="bg-clearfund-blue hover:bg-clearfund-dark-blue text-white text-lg py-6 px-8 w-full rounded-lg transition-colors">
-                    Get Funded Today
+                    Explore Funding Options
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Button>
                 </div>
@@ -317,7 +317,7 @@ const GigFunding: React.FC = () => {
                     </div>
                   </div>
                   <p className="text-gray-600 italic">
-                    "I needed capital to maintain my equipment for my business. The simple application process and quick funding from Clearfund AI helped me keep my business running without any downtime."
+                    "I needed capital to maintain my equipment for my business. The application and funding process helped me keep my business running."
                   </p>
                 </CardContent>
               </Card>
@@ -383,7 +383,7 @@ const GigFunding: React.FC = () => {
               </div>
               <div className="flex flex-col gap-4 items-center">
                 <Button onClick={handleExternalLink} className="bg-white hover:bg-gray-100 text-clearfund-dark-blue text-lg font-semibold py-6 px-10 rounded-lg shadow-lg transition-colors">
-                  Get Funded Today
+                  Explore Funding Options
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
                 <Button 
