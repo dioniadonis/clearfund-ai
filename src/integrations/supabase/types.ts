@@ -240,10 +240,14 @@ export type Database = {
           full_name: string
           last_assigned_at: string | null
           payout_percent: number | null
+          program_type: string
           referral_code: string
           referral_payout_percent: number | null
           updated_at: string
           user_id: string
+          va_file_pay: number | null
+          va_funded_bonus: number | null
+          va_started_at: string | null
         }
         Insert: {
           active?: boolean
@@ -254,10 +258,14 @@ export type Database = {
           full_name: string
           last_assigned_at?: string | null
           payout_percent?: number | null
+          program_type?: string
           referral_code: string
           referral_payout_percent?: number | null
           updated_at?: string
           user_id: string
+          va_file_pay?: number | null
+          va_funded_bonus?: number | null
+          va_started_at?: string | null
         }
         Update: {
           active?: boolean
@@ -268,10 +276,14 @@ export type Database = {
           full_name?: string
           last_assigned_at?: string | null
           payout_percent?: number | null
+          program_type?: string
           referral_code?: string
           referral_payout_percent?: number | null
           updated_at?: string
           user_id?: string
+          va_file_pay?: number | null
+          va_funded_bonus?: number | null
+          va_started_at?: string | null
         }
         Relationships: [
           {
@@ -1083,6 +1095,7 @@ export type Database = {
           do_not_contact: boolean
           email: string | null
           email_source: string | null
+          federal_dnc_flag: boolean
           firm: string | null
           first_line: string | null
           found_at: string | null
@@ -1090,6 +1103,7 @@ export type Database = {
           id: string
           lead_ref: string | null
           lead_type: string | null
+          litigator_flag: boolean
           need_score: number | null
           next_follow_up: string | null
           notes: string | null
@@ -1100,6 +1114,8 @@ export type Database = {
           route_reasons: Json | null
           routed_at: string | null
           routed_product_id: string | null
+          scrub_result: string | null
+          scrubbed_at: string | null
           sector: string | null
           source: string
           source_id: string | null
@@ -1108,7 +1124,14 @@ export type Database = {
           state: string | null
           submitted_to_funder_at: string | null
           submitted_to_funder_by: string | null
+          terminal_at: string | null
           updated_at: string
+          va_approved_by: string | null
+          va_auto_passed: boolean
+          va_code: string | null
+          va_eligible: boolean
+          va_eligible_at: string | null
+          va_email_consent_at: string | null
           warm_reason: string | null
           website: string | null
           website_key: string | null
@@ -1129,6 +1152,7 @@ export type Database = {
           do_not_contact?: boolean
           email?: string | null
           email_source?: string | null
+          federal_dnc_flag?: boolean
           firm?: string | null
           first_line?: string | null
           found_at?: string | null
@@ -1136,6 +1160,7 @@ export type Database = {
           id?: string
           lead_ref?: string | null
           lead_type?: string | null
+          litigator_flag?: boolean
           need_score?: number | null
           next_follow_up?: string | null
           notes?: string | null
@@ -1146,6 +1171,8 @@ export type Database = {
           route_reasons?: Json | null
           routed_at?: string | null
           routed_product_id?: string | null
+          scrub_result?: string | null
+          scrubbed_at?: string | null
           sector?: string | null
           source?: string
           source_id?: string | null
@@ -1154,7 +1181,14 @@ export type Database = {
           state?: string | null
           submitted_to_funder_at?: string | null
           submitted_to_funder_by?: string | null
+          terminal_at?: string | null
           updated_at?: string
+          va_approved_by?: string | null
+          va_auto_passed?: boolean
+          va_code?: string | null
+          va_eligible?: boolean
+          va_eligible_at?: string | null
+          va_email_consent_at?: string | null
           warm_reason?: string | null
           website?: string | null
           website_key?: string | null
@@ -1175,6 +1209,7 @@ export type Database = {
           do_not_contact?: boolean
           email?: string | null
           email_source?: string | null
+          federal_dnc_flag?: boolean
           firm?: string | null
           first_line?: string | null
           found_at?: string | null
@@ -1182,6 +1217,7 @@ export type Database = {
           id?: string
           lead_ref?: string | null
           lead_type?: string | null
+          litigator_flag?: boolean
           need_score?: number | null
           next_follow_up?: string | null
           notes?: string | null
@@ -1192,6 +1228,8 @@ export type Database = {
           route_reasons?: Json | null
           routed_at?: string | null
           routed_product_id?: string | null
+          scrub_result?: string | null
+          scrubbed_at?: string | null
           sector?: string | null
           source?: string
           source_id?: string | null
@@ -1200,7 +1238,14 @@ export type Database = {
           state?: string | null
           submitted_to_funder_at?: string | null
           submitted_to_funder_by?: string | null
+          terminal_at?: string | null
           updated_at?: string
+          va_approved_by?: string | null
+          va_auto_passed?: boolean
+          va_code?: string | null
+          va_eligible?: boolean
+          va_eligible_at?: string | null
+          va_email_consent_at?: string | null
           warm_reason?: string | null
           website?: string | null
           website_key?: string | null
@@ -2143,6 +2188,227 @@ export type Database = {
         }
         Relationships: []
       }
+      va_consents: {
+        Row: {
+          actor_id: string | null
+          consent_type: string
+          consented_at: string
+          displayed_text: string
+          id: string
+          ip: string | null
+          lead_id: string
+          version: string
+        }
+        Insert: {
+          actor_id?: string | null
+          consent_type: string
+          consented_at?: string
+          displayed_text: string
+          id?: string
+          ip?: string | null
+          lead_id: string
+          version: string
+        }
+        Update: {
+          actor_id?: string | null
+          consent_type?: string
+          consented_at?: string
+          displayed_text?: string
+          id?: string
+          ip?: string | null
+          lead_id?: string
+          version?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "va_consents_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      va_dnc: {
+        Row: {
+          added_by: string | null
+          created_at: string
+          email: string | null
+          id: string
+          phone: string | null
+          reason: string
+        }
+        Insert: {
+          added_by?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone?: string | null
+          reason: string
+        }
+        Update: {
+          added_by?: string | null
+          created_at?: string
+          email?: string | null
+          id?: string
+          phone?: string | null
+          reason?: string
+        }
+        Relationships: []
+      }
+      va_document_views: {
+        Row: {
+          document_id: string
+          id: string
+          ip: string | null
+          viewed_at: string
+          viewed_by: string
+        }
+        Insert: {
+          document_id: string
+          id?: string
+          ip?: string | null
+          viewed_at?: string
+          viewed_by: string
+        }
+        Update: {
+          document_id?: string
+          id?: string
+          ip?: string | null
+          viewed_at?: string
+          viewed_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "va_document_views_document_id_fkey"
+            columns: ["document_id"]
+            isOneToOne: false
+            referencedRelation: "va_documents"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      va_documents: {
+        Row: {
+          byte_size: number
+          delete_after: string | null
+          doc_type: string
+          file_path: string
+          id: string
+          lead_id: string
+          original_name: string
+          uploaded_at: string
+        }
+        Insert: {
+          byte_size: number
+          delete_after?: string | null
+          doc_type: string
+          file_path: string
+          id?: string
+          lead_id: string
+          original_name: string
+          uploaded_at?: string
+        }
+        Update: {
+          byte_size?: number
+          delete_after?: string | null
+          doc_type?: string
+          file_path?: string
+          id?: string
+          lead_id?: string
+          original_name?: string
+          uploaded_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "va_documents_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      va_resume_tokens: {
+        Row: {
+          created_at: string
+          expires_at: string
+          id: string
+          lead_id: string
+          token_hash: string
+        }
+        Insert: {
+          created_at?: string
+          expires_at: string
+          id?: string
+          lead_id: string
+          token_hash: string
+        }
+        Update: {
+          created_at?: string
+          expires_at?: string
+          id?: string
+          lead_id?: string
+          token_hash?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "va_resume_tokens_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      va_settings: {
+        Row: {
+          base_weekly: number
+          base_weeks: number
+          blocked_states: string[]
+          default_file_pay: number
+          default_funded_bonus: number
+          excluded_industries: string[]
+          max_current_positions: number | null
+          min_monthly_deposits: number
+          min_months: number
+          require_business_bank: boolean
+          singleton: boolean
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          base_weekly?: number
+          base_weeks?: number
+          blocked_states?: string[]
+          default_file_pay?: number
+          default_funded_bonus?: number
+          excluded_industries?: string[]
+          max_current_positions?: number | null
+          min_monthly_deposits?: number
+          min_months?: number
+          require_business_bank?: boolean
+          singleton?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          base_weekly?: number
+          base_weeks?: number
+          blocked_states?: string[]
+          default_file_pay?: number
+          default_funded_bonus?: number
+          excluded_industries?: string[]
+          max_current_positions?: number | null
+          min_monthly_deposits?: number
+          min_months?: number
+          require_business_bank?: boolean
+          singleton?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -2512,6 +2778,34 @@ export type Database = {
         }
       }
       track_agent_referral: { Args: { _code: string }; Returns: boolean }
+      va_link_valid: { Args: { _code: string }; Returns: boolean }
+      va_list_leads: {
+        Args: never
+        Returns: {
+          business_name: string
+          created_at: string
+          id: string
+          owner_name: string
+          status: string
+        }[]
+      }
+      va_log_email_consent: {
+        Args: { _ip: string; _lead_id: string }
+        Returns: undefined
+      }
+      va_mark_dnc: {
+        Args: { _lead_id: string; _reason: string }
+        Returns: undefined
+      }
+      va_scrub_and_assign: {
+        Args: {
+          _federal_ids: string[]
+          _lead_ids: string[]
+          _litigator_ids: string[]
+          _va_id: string
+        }
+        Returns: number
+      }
     }
     Enums: {
       app_role: "admin" | "operator" | "agent"

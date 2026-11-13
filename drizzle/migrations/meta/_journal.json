@@ -176,6 +176,13 @@
       "when": 1794561222137,
       "tag": "0024_create_va_applications",
       "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1794562000022,
+      "tag": "0025_va_merchant_security_foundation",
+      "breakpoints": true
     }
   ]
 }
