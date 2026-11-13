@@ -70,7 +70,8 @@ const App = () => (
       <BrowserRouter>
         <OperatorAuthProvider>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<HomeRoute />} />
+          <Route path="/ai-funding" element={<AiFundingHome />} />
           <Route path="/working-capital" element={<WorkingCapital />} />
           <Route path="/gig-funding" element={<GigFunding />} />
           <Route path="/blog" element={<Blog />} />
