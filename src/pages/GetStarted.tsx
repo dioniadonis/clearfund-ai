@@ -48,7 +48,7 @@ const GetStarted: React.FC = () => {
     setBusy(true);
     const { data, error } = await supabase.functions.invoke("submit-qualifier", { body: {
       ...ans, business_checking: ans.business_checking === "yes", ...c, broker_acknowledged: true, cta,
-      agent_code: getAgentReferral(), elapsed_ms: Date.now() - started.current } });
+      src: src || null, agent_code: getAgentReferral(), elapsed_ms: Date.now() - started.current } });
     setBusy(false);
     if (error || !data?.next) return setErr("We couldn't save your answers. Please try again, or call 866-578-4721.");
     setResult(data);

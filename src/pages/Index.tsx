@@ -27,6 +27,9 @@ const Index: React.FC = () => {
         <QualificationSection />
         <WhatDoYouNeedSection />
         <FundingPartners />
+        <div className="bg-background py-6 text-center">
+          <a href="https://clearfundai.com" className="text-sm text-primary underline">Funding to invest in AI? Visit ClearFund AI</a>
+        </div>
       </main>
       <Footer />
     </div>

@@ -57,7 +57,7 @@ Deno.serve(async (req) => {
     qualifier, routed_product_id: r.product?.id ?? null, route_next: r.next, routed_at: new Date().toISOString(),
     route_reasons: r.evaluations, ...(cur?.lead_type === "partner" || cur?.lead_type === "recruit" ? {} : { stage }),
     ...(agentId ? { agent_id: agentId, assigned_to: agentId } : {}),
-    ...((ins.data as { status?: string }).status === "inserted" ? { source: agentId ? "referral" : "qualifier" } : {}),
+    ...((ins.data as { status?: string }).status === "inserted" ? { source: a.src ?? (agentId ? "referral" : "qualifier") } : {}),
   }).eq("id", leadId);
   if (ue) return json({ error: "save_failed" }, 500);
   await db.from("crm_activities").insert({ lead_id: leadId, type: "note", body: r.next === "state_blocked" ? `Qualifier: state ${a.state} not served` : `Qualifier completed → ${r.product ? r.product.funder + " · " + r.product.product : "needs review"}` });

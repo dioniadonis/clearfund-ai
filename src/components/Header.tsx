@@ -33,8 +33,8 @@ const Header: React.FC = () => {
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <h1 className="text-2xl font-bold text-clearfund-blue">
-              Clearfund AI
+            <h1 className="whitespace-nowrap text-2xl font-bold text-clearfund-blue">
+              {brand}
             </h1>
           </Link>
         </div>

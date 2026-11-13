@@ -160,15 +160,14 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
             <div className="h-10 w-10 bg-white text-clearfund-blue font-bold flex items-center justify-center rounded mr-2">
               CF
             </div>
-            <h1 className="text-2xl font-bold">
-              <span className="text-clearfund-white">Clear</span>fund AI
-            </h1>
+            <h1 className="text-2xl font-bold">{brand}</h1>
           </div>
           <div className="text-sm text-clearfund-pale-blue text-center md:text-right">
-            <p>&copy; {new Date().getFullYear()} Clearfund AI. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} {brand}. All rights reserved.</p>
+            {site === "ai" && <p className="mt-2 text-xs">Looking for general business funding? <a href="https://myclearfund.com" className="underline">Visit myclearfund.com</a></p>}
             {pageDisclaimer && <p className="text-xs mt-2">{pageDisclaimer}</p>}
             <p className="text-xs mt-2">
-              *ClearFund AI is a broker, not a lender. We may connect applicants with select funding providers and may receive compensation for referrals. Providers decide whether to make an offer and set all terms.
+              *{brand} is a broker, not a lender. We may connect applicants with select funding providers and may receive compensation for referrals. Providers decide whether to make an offer and set all terms.
             </p>
           </div>
         </div>
