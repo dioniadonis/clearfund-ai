@@ -1129,6 +1129,7 @@ export type Database = {
           va_approved_by: string | null
           va_auto_passed: boolean
           va_code: string | null
+          va_credit_blocked_reason: string | null
           va_eligible: boolean
           va_eligible_at: string | null
           va_email_consent_at: string | null
@@ -1186,6 +1187,7 @@ export type Database = {
           va_approved_by?: string | null
           va_auto_passed?: boolean
           va_code?: string | null
+          va_credit_blocked_reason?: string | null
           va_eligible?: boolean
           va_eligible_at?: string | null
           va_email_consent_at?: string | null
@@ -1243,6 +1245,7 @@ export type Database = {
           va_approved_by?: string | null
           va_auto_passed?: boolean
           va_code?: string | null
+          va_credit_blocked_reason?: string | null
           va_eligible?: boolean
           va_eligible_at?: string | null
           va_email_consent_at?: string | null
@@ -1614,6 +1617,7 @@ export type Database = {
           needs_business_checking: boolean
           product: string
           product_kind: string
+          requires_photo_id: boolean
           updated_at: string
         }
         Insert: {
@@ -1636,6 +1640,7 @@ export type Database = {
           needs_business_checking?: boolean
           product: string
           product_kind?: string
+          requires_photo_id?: boolean
           updated_at?: string
         }
         Update: {
@@ -1658,6 +1663,7 @@ export type Database = {
           needs_business_checking?: boolean
           product?: string
           product_kind?: string
+          requires_photo_id?: boolean
           updated_at?: string
         }
         Relationships: []
@@ -2229,6 +2235,33 @@ export type Database = {
           },
         ]
       }
+      va_dials: {
+        Row: {
+          created_at: string
+          dial_count: number
+          id: string
+          screenshot_path: string
+          va_id: string
+          week_start: string
+        }
+        Insert: {
+          created_at?: string
+          dial_count: number
+          id?: string
+          screenshot_path: string
+          va_id: string
+          week_start: string
+        }
+        Update: {
+          created_at?: string
+          dial_count?: number
+          id?: string
+          screenshot_path?: string
+          va_id?: string
+          week_start?: string
+        }
+        Relationships: []
+      }
       va_dnc: {
         Row: {
           added_by: string | null
@@ -2329,6 +2362,80 @@ export type Database = {
           },
         ]
       }
+      va_payouts: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          kind: string
+          lead_id: string | null
+          paid_at: string | null
+          paid_by: string | null
+          status: string
+          va_id: string
+          week_start: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          kind: string
+          lead_id?: string | null
+          paid_at?: string | null
+          paid_by?: string | null
+          status?: string
+          va_id: string
+          week_start: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          kind?: string
+          lead_id?: string | null
+          paid_at?: string | null
+          paid_by?: string | null
+          status?: string
+          va_id?: string
+          week_start?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "va_payouts_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      va_quiz_attempts: {
+        Row: {
+          answers: Json
+          attempted_at: string
+          id: string
+          passed: boolean
+          score: number
+          va_id: string
+        }
+        Insert: {
+          answers: Json
+          attempted_at?: string
+          id?: string
+          passed: boolean
+          score: number
+          va_id: string
+        }
+        Update: {
+          answers?: Json
+          attempted_at?: string
+          id?: string
+          passed?: boolean
+          score?: number
+          va_id?: string
+        }
+        Relationships: []
+      }
       va_resume_tokens: {
         Row: {
           created_at: string
@@ -2406,6 +2513,51 @@ export type Database = {
           singleton?: boolean
           updated_at?: string
           updated_by?: string | null
+        }
+        Relationships: []
+      }
+      va_weekly_statements: {
+        Row: {
+          base_amount: number
+          bonus_amount: number
+          file_amount: number
+          files_count: number
+          generated_at: string
+          id: string
+          paid_at: string | null
+          paid_by: string | null
+          status: string
+          total: number
+          va_id: string
+          week_start: string
+        }
+        Insert: {
+          base_amount?: number
+          bonus_amount?: number
+          file_amount?: number
+          files_count?: number
+          generated_at?: string
+          id?: string
+          paid_at?: string | null
+          paid_by?: string | null
+          status?: string
+          total?: number
+          va_id: string
+          week_start: string
+        }
+        Update: {
+          base_amount?: number
+          bonus_amount?: number
+          file_amount?: number
+          files_count?: number
+          generated_at?: string
+          id?: string
+          paid_at?: string | null
+          paid_by?: string | null
+          status?: string
+          total?: number
+          va_id?: string
+          week_start?: string
         }
         Relationships: []
       }
@@ -2778,6 +2930,25 @@ export type Database = {
         }
       }
       track_agent_referral: { Args: { _code: string }; Returns: boolean }
+      va_admin_review: {
+        Args: { _action: string; _lead_id: string; _note: string }
+        Returns: undefined
+      }
+      va_admin_save_member: {
+        Args: {
+          _active: boolean
+          _file_pay: number
+          _funded_bonus: number
+          _started_at: string
+          _va_id: string
+        }
+        Returns: undefined
+      }
+      va_documents_ready: { Args: { _lead_id: string }; Returns: boolean }
+      va_generate_statement: {
+        Args: { _va_id: string; _week_start: string }
+        Returns: undefined
+      }
       va_link_valid: { Args: { _code: string }; Returns: boolean }
       va_list_leads: {
         Args: never
@@ -2797,6 +2968,15 @@ export type Database = {
         Args: { _lead_id: string; _reason: string }
         Returns: undefined
       }
+      va_mark_statement_paid: {
+        Args: { _paid: boolean; _statement_id: string }
+        Returns: undefined
+      }
+      va_mark_training: { Args: { _section: string }; Returns: undefined }
+      va_record_eligible_payout: {
+        Args: { _lead_id: string }
+        Returns: undefined
+      }
       va_scrub_and_assign: {
         Args: {
           _federal_ids: string[]
@@ -2806,6 +2986,7 @@ export type Database = {
         }
         Returns: number
       }
+      va_unlocked: { Args: { _user_id: string }; Returns: boolean }
     }
     Enums: {
       app_role: "admin" | "operator" | "agent"

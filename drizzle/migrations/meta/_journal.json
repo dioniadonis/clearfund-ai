@@ -183,6 +183,13 @@
       "when": 1794562000022,
       "tag": "0025_va_merchant_security_foundation",
       "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1794562082320,
+      "tag": "0026_va_review_training_and_payouts",
+      "breakpoints": true
     }
   ]
 }
