@@ -80,7 +80,7 @@ const WorkingCapital: React.FC = () => {
                   </div>
                   
                   <div className="text-xs text-gray-500">
-                    *Minimum requirements: 1+ Year in Business & $120K+ Annual Revenue
+                    *Minimum requirements: 4+ Months in Business & Steady Monthly Business Revenue
                   </div>
                 </div>
               </div>
@@ -166,11 +166,11 @@ const WorkingCapital: React.FC = () => {
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>1+ Year Time in Business</span>
+                      <span>4+ Months in Business</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>$120K+ Gross Annual Revenue</span>
+                      <span>Steady Monthly Business Revenue</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
@@ -235,8 +235,8 @@ const WorkingCapital: React.FC = () => {
                       <Check size={24} className="text-amber-600" />
                     </div>
                     <div>
-                      <p className="font-semibold text-xl">1+ Year Time in Business</p>
-                      <p className="text-gray-600">Your business must be operating for at least one year</p>
+                      <p className="font-semibold text-xl">4+ Months in Business</p>
+                      <p className="text-gray-600">Your business must have been operating for at least four months</p>
                     </div>
                   </div>
                   
@@ -245,8 +245,8 @@ const WorkingCapital: React.FC = () => {
                       <Check size={24} className="text-amber-600" />
                     </div>
                     <div>
-                      <p className="font-semibold text-xl">$120K+ Gross Annual Revenue</p>
-                      <p className="text-gray-600">Your business must generate at least $120K in annual gross revenue</p>
+                      <p className="font-semibold text-xl">Steady Monthly Business Revenue</p>
+                      <p className="text-gray-600">Your business must show steady monthly business revenue</p>
                     </div>
                   </div>
                   
