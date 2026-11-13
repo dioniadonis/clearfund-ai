@@ -2362,6 +2362,21 @@ export type Database = {
           },
         ]
       }
+      va_maintenance_state: {
+        Row: {
+          access_key: string
+          singleton: boolean
+        }
+        Insert: {
+          access_key?: string
+          singleton?: boolean
+        }
+        Update: {
+          access_key?: string
+          singleton?: boolean
+        }
+        Relationships: []
+      }
       va_payouts: {
         Row: {
           amount: number
