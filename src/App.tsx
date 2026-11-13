@@ -40,6 +40,7 @@ import OAuthConsent from "./pages/OAuthConsent";
 import Agents from "./pages/Agents";
 import AgentReferral from "./pages/AgentReferral";
 import AgentPortal from "./pages/AgentPortal";
+import Careers from "./pages/Careers";
 
 const queryClient = new QueryClient();
 
