@@ -92,15 +92,17 @@ const App = () => (
           <Route path="/r/:code" element={<AgentReferral />} />
           <Route path="/agent" element={<AgentPortal />} />
           <Route path="/careers" element={<Careers />} />
-          <Route path="/crm" element={<Crm />} />
+          <Route path="/crm" element={<BackofficeHostGuard><Crm /></BackofficeHostGuard>} />
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
-          <Route path="/operator/login" element={<OperatorLogin />} />
+          <Route path="/operator/login" element={<BackofficeHostGuard><OperatorLogin /></BackofficeHostGuard>} />
           <Route
             path="/operator"
             element={
-              <RequireOperator>
-                <OperatorLayout />
-              </RequireOperator>
+              <BackofficeHostGuard>
+                <RequireOperator>
+                  <OperatorLayout />
+                </RequireOperator>
+              </BackofficeHostGuard>
             }
           >
             <Route index element={<OperatorOverview />} />
