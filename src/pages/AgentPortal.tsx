@@ -53,7 +53,7 @@ const AgentPortal: React.FC = () => {
     if (roles.error) throw roles.error; if (profile.error) throw profile.error;
     return { allowed: roles.data.some((r) => r.role === "agent"), profile: profile.data };
   } });
-  const allowed = !!userId && !!access.data?.allowed && !!access.data.profile;
+  const allowed = !!userId && !!access.data?.allowed && !!access.data.profile?.active;
   const training = useQuery({ queryKey: ["agent_training", userId], enabled: allowed, queryFn: async () => { const { data, error } = await supabase.from("agent_training_progress").select("section_key,completed_at").eq("agent_id", userId!); if (error) throw error; return data; } });
   const agreement = useQuery({ queryKey: ["agent_agreement", userId], enabled: allowed, queryFn: async () => { const { data, error } = await supabase.from("agent_agreements").select("version,accepted_at").eq("agent_id", userId!).eq("version", AGENT_AGREEMENT_VERSION).maybeSingle(); if (error) throw error; return data; } });
   const accepted = !!agreement.data;
