@@ -197,6 +197,13 @@
       "when": 1794562286963,
       "tag": "0027_va_document_retention_schedule_state",
       "breakpoints": true
+    },
+    {
+      "idx": 28,
+      "version": "7",
+      "when": 1794562303238,
+      "tag": "0028_enable_document_retention_scheduler",
+      "breakpoints": true
     }
   ]
 }
