@@ -1,5 +1,11 @@
 # Roadmap — Packet CF-01
 
+## VA program step 1 (preview only)
+- [x] Add public `/careers` application with exact job/pay copy, validation, consent and source attribution
+- [x] Add isolated `va_applications` storage with anonymous insert-only and admin-only review/update policies
+- [x] Add CRM VA Applicants list, filters, scoring and detail panel without horizontal scrolling
+- [x] Test submission, access rules, weighted scores and 390px layouts; do not publish
+
 ## Compliance and two-tier payouts (preview only)
 - [x] Remove the public funder name, review widget/link, and unsupported footer audience claim
 - [x] Retire the old recruiting page and every remaining reference so `/agents` is the only sign-up page

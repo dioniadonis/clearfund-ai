@@ -40,6 +40,7 @@ import OAuthConsent from "./pages/OAuthConsent";
 import Agents from "./pages/Agents";
 import AgentReferral from "./pages/AgentReferral";
 import AgentPortal from "./pages/AgentPortal";
+import Careers from "./pages/Careers";
 
 const queryClient = new QueryClient();
 
@@ -71,6 +72,7 @@ const App = () => (
           <Route path="/agents" element={<Agents />} />
           <Route path="/r/:code" element={<AgentReferral />} />
           <Route path="/agent" element={<AgentPortal />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/crm" element={<Crm />} />
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/operator/login" element={<OperatorLogin />} />

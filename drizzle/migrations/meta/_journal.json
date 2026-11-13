@@ -169,6 +169,13 @@
       "when": 1794522131234,
       "tag": "0023_add_two_tier_agent_payouts",
       "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1794561222137,
+      "tag": "0024_create_va_applications",
+      "breakpoints": true
     }
   ]
 }

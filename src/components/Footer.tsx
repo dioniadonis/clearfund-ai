@@ -98,6 +98,15 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
                     Contact
                   </a>
                 </li>
+                <li>
+                  <Link
+                    to="/careers"
+                    className="text-sm text-clearfund-pale-blue hover:text-white transition-colors"
+                    onClick={handleLinkClick}
+                  >
+                    Careers
+                  </Link>
+                </li>
               </ul>
             </div>
             <div>
