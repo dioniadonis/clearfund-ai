@@ -178,7 +178,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
       <Dialog open={isAboutVideoDialogOpen} onOpenChange={open => setIsAboutVideoDialogOpen(open)}>
         <DialogContent className="sm:max-w-[600px] p-4">
           <DialogHeader className="pb-2">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">About Clearfund AI</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">About {brand}</DialogTitle>
           </DialogHeader>
           <div className="aspect-video w-full">
             <iframe 

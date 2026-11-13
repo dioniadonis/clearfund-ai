@@ -41,8 +41,26 @@ import Agents from "./pages/Agents";
 import AgentReferral from "./pages/AgentReferral";
 import AgentPortal from "./pages/AgentPortal";
 import Careers from "./pages/Careers";
+import AiFundingHome from "./pages/AiFundingHome";
+import { useEffect, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+import { backofficeRedirect, getSite } from "@/lib/site";
 
 const queryClient = new QueryClient();
+
+const HomeRoute = () => {
+  useLocation();
+  return getSite() === "ai" ? <AiFundingHome /> : <Index />;
+};
+
+const BackofficeHostGuard = ({ children }: { children: ReactNode }) => {
+  const location = useLocation();
+  const destination = backofficeRedirect(window.location.hostname, location.pathname, location.search, location.hash);
+  useEffect(() => {
+    if (destination) window.location.replace(destination);
+  }, [destination]);
+  return destination ? null : children;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
