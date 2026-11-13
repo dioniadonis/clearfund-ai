@@ -2035,6 +2035,114 @@ export type Database = {
         }
         Relationships: []
       }
+      va_applications: {
+        Row: {
+          admin_notes: string | null
+          calling_experience_years: number
+          city: string
+          consent_text: string
+          consent_version: string
+          consented_at: string
+          contact_consent: boolean
+          country: string
+          created_at: string
+          eastern_availability: string
+          email: string
+          english_clarity: number | null
+          experience: number | null
+          experience_areas: string[]
+          experience_other: string | null
+          full_name: string
+          headset: boolean
+          hours_overlap: number | null
+          hours_per_week: number
+          id: string
+          internet_speed_mbps: number
+          objection_handling: number | null
+          phone: string
+          quiet_workspace: boolean
+          setup: number | null
+          source: string
+          status: string
+          tone_warmth: number | null
+          voice_contractor_url: string
+          voice_intro_url: string
+          voice_objection_url: string
+          weighted_total: number | null
+          why_good_fit: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          calling_experience_years: number
+          city: string
+          consent_text: string
+          consent_version: string
+          consented_at?: string
+          contact_consent?: boolean
+          country: string
+          created_at?: string
+          eastern_availability: string
+          email: string
+          english_clarity?: number | null
+          experience?: number | null
+          experience_areas?: string[]
+          experience_other?: string | null
+          full_name: string
+          headset: boolean
+          hours_overlap?: number | null
+          hours_per_week: number
+          id?: string
+          internet_speed_mbps: number
+          objection_handling?: number | null
+          phone: string
+          quiet_workspace: boolean
+          setup?: number | null
+          source?: string
+          status?: string
+          tone_warmth?: number | null
+          voice_contractor_url: string
+          voice_intro_url: string
+          voice_objection_url: string
+          weighted_total?: number | null
+          why_good_fit: string
+        }
+        Update: {
+          admin_notes?: string | null
+          calling_experience_years?: number
+          city?: string
+          consent_text?: string
+          consent_version?: string
+          consented_at?: string
+          contact_consent?: boolean
+          country?: string
+          created_at?: string
+          eastern_availability?: string
+          email?: string
+          english_clarity?: number | null
+          experience?: number | null
+          experience_areas?: string[]
+          experience_other?: string | null
+          full_name?: string
+          headset?: boolean
+          hours_overlap?: number | null
+          hours_per_week?: number
+          id?: string
+          internet_speed_mbps?: number
+          objection_handling?: number | null
+          phone?: string
+          quiet_workspace?: boolean
+          setup?: number | null
+          source?: string
+          status?: string
+          tone_warmth?: number | null
+          voice_contractor_url?: string
+          voice_intro_url?: string
+          voice_objection_url?: string
+          weighted_total?: number | null
+          why_good_fit?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
