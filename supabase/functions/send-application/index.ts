@@ -105,8 +105,8 @@ Deno.serve(async (req) => {
         source: "voice_concierge",
         application_status: "not_started",
         consent_call: true,
-        consent_sms: b.delivery_method === "sms_link",
-        consent_email: b.delivery_method !== "sms_link",
+        consent_sms: false,
+        consent_email: true,
         consent_text_version: CONSENT_TEXT_VERSION,
         consent_at: new Date().toISOString(),
         notes: "Created by the phone concierge when sending the application.",
@@ -134,7 +134,7 @@ Deno.serve(async (req) => {
 
   const token = newToken();
   const tokenHash = await sha256Hex(token);
-  const destination = b.delivery_method === "sms_link" ? b.phone_number! : b.email!;
+  const destination = b.email!;
 
   const sendRow = await supabase
     .from("application_sends")
@@ -160,16 +160,6 @@ Deno.serve(async (req) => {
 
   if (b.delivery_method === "email_pdf") {
     result = { ok: false, reason: "pdf_not_available" };
-  } else if (b.delivery_method === "sms_link") {
-    const to = toE164(b.phone_number!);
-    if (!to) {
-      result = { ok: false, reason: "invalid_phone_number" };
-    } else {
-      result = await sendSms(
-        to,
-        `ClearFund AI: here is your funding application - ${link}. Reply STOP to opt out.`,
-      );
-    }
   } else {
     result = await sendEmail(
       b.email!,
