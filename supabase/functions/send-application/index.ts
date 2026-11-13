@@ -68,10 +68,7 @@ Deno.serve(async (req) => {
   }
   const b = parsed.data;
 
-  if (b.delivery_method === "sms_link" && !b.phone_number) {
-    return json({ status: "failed", reason: "phone_number_required" }, 400);
-  }
-  if (b.delivery_method !== "sms_link" && !b.email) {
+  if (!b.email) {
     return json({ status: "failed", reason: "email_required" }, 400);
   }
 
