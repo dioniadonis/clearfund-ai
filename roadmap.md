@@ -1,5 +1,12 @@
 # Roadmap — Packet CF-01
 
+## Host-specific homepages (preview only)
+- [ ] Add hostname/preview site selection, host branding, titles, descriptions and canonicals
+- [ ] Add AI funding homepage and preserve the general homepage with a cross-site link
+- [ ] Redirect general-host CRM/operator routes to the AI host; keep all other routes intact
+- [ ] Store `/get-started?src=` in the existing lead source field without a schema change
+- [ ] Test host rules, both homepages, existing VA pages/CRM and 390px layouts; do not publish
+
 ## VA program step 1 (preview only)
 - [x] Add public `/careers` application with exact job/pay copy, validation, consent and source attribution
 - [x] Add isolated `va_applications` storage with anonymous insert-only and admin-only review/update policies
