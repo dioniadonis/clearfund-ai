@@ -1,5 +1,14 @@
 # Roadmap — Packet CF-01
 
+## VA program step 2 (preview only)
+- [ ] 1. Add `?va=` merchant intake, emailed private resume links, e-signature, secure document uploads and consent logs
+- [ ] 2. Enforce eligible-file dedupe, VA credit and email-reply exclusion
+- [ ] 3. Add internal DNC, immediate VA blocking and batch scrub gate
+- [ ] 4. Add admin Complete-file review, document viewer, routing and editable VA rules/settings
+- [ ] 5. Add gated VA role, six training modules, quiz, limited dashboard and lead-email consent logging
+- [ ] 6. Add VA pay statements, funded bonuses, dials evidence, inactivity flags and admin paid controls
+- [ ] Test access boundaries, uploads, scoring/credit, DNC, training, payouts and 390px layouts; do not publish
+
 ## Host-specific homepages (preview only)
 - [x] Add hostname/preview site selection, host branding, titles, descriptions and canonicals
 - [x] Add AI funding homepage and preserve the general homepage with a cross-site link
