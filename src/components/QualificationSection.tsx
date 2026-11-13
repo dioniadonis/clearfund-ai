@@ -3,6 +3,7 @@ import React from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ApplyLink from "@/components/ApplyLink";
+import qualificationBusinessOwners from "@/assets/qualification-business-owners.png";
 
 const QualificationSection: React.FC = () => {
   return (
@@ -24,7 +25,7 @@ const QualificationSection: React.FC = () => {
             </div>
             <div className="relative rounded-full overflow-hidden border-4 border-white shadow-xl w-3/4 mx-auto aspect-square">
               <img 
-                src="/lovable-uploads/9547bc6c-ccf1-4fe8-a462-96c8557fe3cc.png" 
+                src={qualificationBusinessOwners}
                 alt="Business owners working together" 
                 className="w-full h-full object-cover"
               />
