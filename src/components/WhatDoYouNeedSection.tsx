@@ -62,6 +62,9 @@ const WhatDoYouNeedSection: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <p className="text-sm text-gray-600 mb-4">
+                Some programs review credit, but a minimum score isn't required for every program.
+              </p>
               <p className="text-xs text-gray-500 mb-4">
                 *Subject to funding partner approval and verification
               </p>

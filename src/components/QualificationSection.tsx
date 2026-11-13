@@ -70,6 +70,10 @@ const QualificationSection: React.FC = () => {
               </Card>
             </div>
 
+            <p className="text-sm text-gray-600 text-center">
+              Some programs review credit, but a minimum score isn't required for every program.
+            </p>
+
             <div className="pt-8 flex justify-center">
               <Button 
                 asChild

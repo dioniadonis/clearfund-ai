@@ -38,15 +38,15 @@ const WorkingCapitalSection: React.FC = () => {
               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">No Minimum</h3>
-                  <p className="text-gray-600">FICO Score Required</p>
+                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">Credit</h3>
+                  <p className="text-gray-600">Some programs review credit, but a minimum score isn't required for every program.</p>
                 </CardContent>
               </Card>
               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 text-center">
                   <h3 className="text-2xl font-bold text-clearfund-blue mb-2">Bad Credit</h3>
-                  <p className="text-gray-600">Accepted</p>
+                  <p className="text-gray-600">Considered</p>
                 </CardContent>
               </Card>
             </div>
@@ -85,7 +85,7 @@ const WorkingCapitalSection: React.FC = () => {
                   </div>
                   <div>
                     <h3 className="text-lg font-semibold text-clearfund-dark-blue">Flexible Requirements</h3>
-                    <p className="text-gray-600">Bad credit and liens accepted</p>
+                    <p className="text-gray-600">Bad credit and liens considered</p>
                   </div>
                 </CardContent>
               </Card>
