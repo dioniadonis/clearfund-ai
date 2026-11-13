@@ -12,7 +12,7 @@ import {
 import { notifyNewLead } from "../_shared/notify.ts";
 
 const BodySchema = z.object({
-  delivery_method: z.enum(["sms_link", "email_link", "email_pdf"]),
+  delivery_method: z.enum(["email_link", "email_pdf"]),
   phone_number: z.string().trim().min(7).max(30).optional().nullable(),
   email: z.string().trim().email().max(255).optional().nullable(),
   business_name: z.string().trim().max(200).optional().nullable(),
