@@ -2,6 +2,7 @@ import ProductsView from "@/components/crm/ProductsView";
 import RecruitsView from "@/components/crm/RecruitsView";
 import AgentProgramView from "@/components/crm/AgentProgramView";
 import VaApplicantsView from "@/components/crm/VaApplicantsView";
+import VaOperationsView from "@/components/crm/VaOperationsView";
 import React, { useEffect, useMemo, useState } from "react";
 import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query";
 import Papa from "papaparse";

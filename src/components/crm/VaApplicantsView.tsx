@@ -83,6 +83,7 @@ const ApplicantPanel: React.FC<{ application: VaApplication | null; onClose: () 
               <div className="mt-4 space-y-2"><Label htmlFor="va-status">Status</Label><select id="va-status" className={selectClass} value={status} onChange={(e) => setStatus(e.target.value)}>{STATUSES.map((value) => <option key={value}>{value}</option>)}</select></div>
               <div className="mt-4 space-y-2"><Label htmlFor="va-admin-notes">Admin notes</Label><Textarea id="va-admin-notes" rows={4} maxLength={4000} className="text-base" value={notes} onChange={(e) => setNotes(e.target.value)} /></div>
               <Button className="mt-4 h-11 w-full" disabled={busy} onClick={save}>{busy && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}Save review</Button>
+              {!['Invited', 'Hired', 'Rejected'].includes(application.status) && <Button className="mt-2 h-11 w-full" variant="outline" disabled={busy} onClick={async () => { setBusy(true); const { data, error } = await supabase.functions.invoke("invite-va", { body: { application_id: application.id } }); setBusy(false); if (error || !data?.status) return toast.error("Couldn't invite this VA. Check the auth email settings and try again."); toast.success(data.invite === "existing_account" ? "Existing account linked as a VA" : "VA invitation sent"); onSaved(); }}>Invite to VA portal</Button>}
             </section>
 
             <section className="rounded-lg border bg-card p-4">
