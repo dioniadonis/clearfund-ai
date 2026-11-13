@@ -16,6 +16,7 @@ const Schema = z.object({
   full_name: z.string().trim().min(2).max(120), business_name: z.string().trim().min(2).max(160),
   email: z.string().trim().email().max(255), phone: z.string().trim().min(7).max(30),
   broker_acknowledged: z.literal(true), cta: z.string().trim().max(60).optional().nullable(),
+  src: z.string().trim().regex(/^[a-z0-9_-]{1,60}$/).optional().nullable(),
   company_website: z.string().max(200).optional().nullable(), elapsed_ms: z.number().int().min(0).max(86400000),
   agent_code: z.string().trim().regex(/^CF[A-Z0-9]{8}$/).optional().nullable(),
 });

@@ -6,8 +6,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
+import { getSite } from "@/lib/site";
 
 const Header: React.FC = () => {
+  const brand = getSite() === "ai" ? "ClearFund AI" : "ClearFund";
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isEducationSlideShowOpen, setIsEducationSlideShowOpen] = useState(false);

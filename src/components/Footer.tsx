@@ -5,8 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
 import ApplyLink from "@/components/ApplyLink";
+import { getSite } from "@/lib/site";
 
 const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
+  const site = getSite();
+  const brand = site === "ai" ? "ClearFund AI" : "ClearFund";
   const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
 
   const scrollToTop = () => {

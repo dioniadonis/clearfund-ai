@@ -29,6 +29,7 @@ const GetStarted: React.FC = () => {
   usePageMeta("Find your next funding step | ClearFund AI", "Answer a few short questions so we can point you to the right application.", "/get-started");
   const [params] = useSearchParams();
   const cta = (params.get("cta") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 60);
+  const src = (params.get("src") || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 60);
   const started = useRef(Date.now());
   const [step, setStep] = useState(0);
   const [ans, setAns] = useState<Record<string, string>>({});

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function usePageMeta(title: string, description: string, path: string) {
+export function usePageMeta(title: string, description: string, path: string, origin?: string) {
   useEffect(() => {
     document.title = title;
     const set = (selector: string, attrs: Record<string, string>) => {
