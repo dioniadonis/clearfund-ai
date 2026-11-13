@@ -71,7 +71,7 @@ const WorkingCapital: React.FC = () => {
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 rounded-full bg-blue-400"></div>
-                      <span className="text-gray-700">Bad Credit OK</span>
+                      <span className="text-gray-700">Bad Credit Considered</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <div className="h-4 w-4 rounded-full bg-amber-400"></div>
@@ -81,6 +81,9 @@ const WorkingCapital: React.FC = () => {
                   
                   <div className="text-xs text-gray-500">
                     *Minimum requirements: 4+ Months in Business & Steady Monthly Business Revenue
+                  </div>
+                  <div className="text-xs text-gray-500 mt-2">
+                    Some programs review credit, but a minimum score isn't required for every program.
                   </div>
                 </div>
               </div>
@@ -138,7 +141,7 @@ const WorkingCapital: React.FC = () => {
                   <ul className="mt-4 space-y-2">
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>Bad credit accepted</span>
+                      <span>Bad credit considered</span>
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
@@ -146,7 +149,7 @@ const WorkingCapital: React.FC = () => {
                     </li>
                     <li className="flex items-center">
                       <Check size={16} className="text-green-500 mr-2 flex-shrink-0" />
-                      <span>No minimum FICO requirement</span>
+                      <span>Some programs review credit, but a minimum score isn't required for every program</span>
                     </li>
                   </ul>
                 </CardContent>
@@ -255,8 +258,8 @@ const WorkingCapital: React.FC = () => {
                       <Check size={24} className="text-amber-600" />
                     </div>
                     <div>
-                      <p className="font-semibold text-xl">No Minimum FICO Score</p>
-                      <p className="text-gray-600">We look at your business performance rather than just credit scores</p>
+                      <p className="font-semibold text-xl">Credit</p>
+                      <p className="text-gray-600">Some programs review credit, but a minimum score isn't required for every program</p>
                     </div>
                   </div>
                 </div>
@@ -287,7 +290,7 @@ const WorkingCapital: React.FC = () => {
                 <div className="flex flex-wrap gap-2">
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Straightforward Application</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Flexible Terms</span>
-                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Bad Credit OK</span>
+                  <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Bad Credit Considered</span>
                   <span className="bg-white/20 px-3 py-1 rounded-full text-sm">Simple Process</span>
                 </div>
               </div>
