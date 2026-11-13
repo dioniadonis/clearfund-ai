@@ -66,6 +66,7 @@ const AgentPortal: React.FC = () => {
   if (needsPassword) return <SetPassword onDone={() => { window.history.replaceState(null, "", "/agent"); setNeedsPassword(false); }} />;
   if (access.error || !allowed) return <main className="min-h-screen flex items-center justify-center p-4"><div className="max-w-sm space-y-4 rounded-lg border bg-card p-6 text-center"><h1 className="text-xl font-bold">No agent portal access</h1><p className="text-sm text-muted-foreground">This account is not an approved, active agent.</p><Button variant="outline" onClick={signOut}><LogOut className="mr-2 h-4 w-4" />Sign out</Button></div></main>;
   const profile = access.data.profile!;
+  if (profile.program_type === "va") return <VaPortal profile={{ user_id: profile.user_id, full_name: profile.full_name, referral_code: profile.referral_code }} onSignOut={signOut} />;
   const referralUrl = `${window.location.origin}/r/${profile.referral_code}`;
   const completed = new Set((training.data ?? []).map((row) => row.section_key));
   const totals = (payouts.data ?? []).reduce((sum, row) => ({ ...sum, [row.status]: sum[row.status] + Number(row.agent_amount) }), { pending: 0, paid: 0 });
