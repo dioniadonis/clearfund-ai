@@ -72,6 +72,7 @@ const App = () => (
           <Route path="/agents" element={<Agents />} />
           <Route path="/r/:code" element={<AgentReferral />} />
           <Route path="/agent" element={<AgentPortal />} />
+          <Route path="/careers" element={<Careers />} />
           <Route path="/crm" element={<Crm />} />
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
           <Route path="/operator/login" element={<OperatorLogin />} />
