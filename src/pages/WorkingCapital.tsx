@@ -80,7 +80,7 @@ const WorkingCapital: React.FC = () => {
                   </div>
                   
                   <div className="text-xs text-gray-500">
-                    *Minimum requirements: 1+ Year in Business & $120K+ Annual Revenue
+                    *Minimum requirements: 4+ Months in Business & Steady Monthly Business Revenue
                   </div>
                 </div>
               </div>

@@ -43,7 +43,7 @@ const QualificationSection: React.FC = () => {
               Minimum Qualification Requirements:
             </div>
 
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-3 gap-4">
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 text-center">
                   <h3 className="text-2xl font-bold text-clearfund-blue mb-2">4+ Months</h3>
@@ -53,21 +53,14 @@ const QualificationSection: React.FC = () => {
               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">$15,000+</h3>
-                  <p className="text-gray-600">Monthly Sales</p>
+                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">Steady Monthly</h3>
+                  <p className="text-gray-600">Business Revenue</p>
                   <p className="text-sm mt-2">
-                    If you are doing less than $15,000, you may be eligible for our <span className="text-green-500">micro funding</span>.
+                    Smaller or newer business? Micro funding may be a fit.
                   </p>
                 </CardContent>
               </Card>
-              
-              <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
-                <CardContent className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">550+</h3>
-                  <p className="text-gray-600">Owner Personal FICO</p>
-                </CardContent>
-              </Card>
-              
+               
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 text-center">
                   <h3 className="text-2xl font-bold text-clearfund-blue mb-2">USA Or Canada</h3>

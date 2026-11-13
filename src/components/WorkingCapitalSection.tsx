@@ -24,7 +24,7 @@ const WorkingCapitalSection: React.FC = () => {
             <div className="grid md:grid-cols-2 gap-4">
               <Card className="border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
                 <CardContent className="p-6 text-center">
-                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">1+ Year</h3>
+                  <h3 className="text-2xl font-bold text-clearfund-blue mb-2">4+ Months</h3>
                   <p className="text-gray-600">Time in Business</p>
                 </CardContent>
               </Card>

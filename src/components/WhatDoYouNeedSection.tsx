@@ -54,11 +54,11 @@ const WhatDoYouNeedSection: React.FC = () => {
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">1+ year in business required</span>
+                    <span className="ml-3">4+ months in business required</span>
                   </div>
                   <div className="flex items-center">
                     <Check size={16} className="text-green-600 flex-shrink-0" />
-                    <span className="ml-3">$120K+ annual revenue</span>
+                    <span className="ml-3">Steady monthly business revenue</span>
                   </div>
                 </div>
               </div>
