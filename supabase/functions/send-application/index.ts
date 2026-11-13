@@ -8,7 +8,6 @@ import {
   phoneKey,
   serviceClientConfig,
   sha256Hex,
-  toE164,
 } from "../_shared/util.ts";
 import { notifyNewLead } from "../_shared/notify.ts";
 
