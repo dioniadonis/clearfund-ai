@@ -8,12 +8,11 @@ import {
   phoneKey,
   serviceClientConfig,
   sha256Hex,
-  toE164,
 } from "../_shared/util.ts";
 import { notifyNewLead } from "../_shared/notify.ts";
 
 const BodySchema = z.object({
-  delivery_method: z.enum(["sms_link", "email_link", "email_pdf"]),
+  delivery_method: z.enum(["email_link", "email_pdf"]),
   phone_number: z.string().trim().min(7).max(30).optional().nullable(),
   email: z.string().trim().email().max(255).optional().nullable(),
   business_name: z.string().trim().max(200).optional().nullable(),
@@ -25,31 +24,6 @@ const json = (body: unknown, status = 200) =>
     status,
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
-
-async function sendSms(to: string, message: string) {
-  const lovableKey = Deno.env.get("LOVABLE_API_KEY");
-  const twilioKey = Deno.env.get("TWILIO_API_KEY");
-  const from = Deno.env.get("TWILIO_FROM_NUMBER");
-  if (!lovableKey || !twilioKey || !from) {
-    return { ok: false as const, reason: "sms_provider_not_connected" };
-  }
-  const res = await fetch("https://connector-gateway.lovable.dev/twilio/Messages.json", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": twilioKey,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({ To: to, From: from, Body: message }),
-  });
-  if (!res.ok) {
-    const detail = await res.text();
-    console.error(`Twilio send failed [${res.status}]: ${detail}`);
-    return { ok: false as const, reason: `sms_send_failed_${res.status}` };
-  }
-  const data = await res.json();
-  return { ok: true as const, providerId: data?.sid ?? null };
-}
 
 async function sendEmail(to: string, subject: string, html: string) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
@@ -94,10 +68,7 @@ Deno.serve(async (req) => {
   }
   const b = parsed.data;
 
-  if (b.delivery_method === "sms_link" && !b.phone_number) {
-    return json({ status: "failed", reason: "phone_number_required" }, 400);
-  }
-  if (b.delivery_method !== "sms_link" && !b.email) {
+  if (!b.email) {
     return json({ status: "failed", reason: "email_required" }, 400);
   }
 
@@ -134,8 +105,8 @@ Deno.serve(async (req) => {
         source: "voice_concierge",
         application_status: "not_started",
         consent_call: true,
-        consent_sms: b.delivery_method === "sms_link",
-        consent_email: b.delivery_method !== "sms_link",
+        consent_sms: false,
+        consent_email: true,
         consent_text_version: CONSENT_TEXT_VERSION,
         consent_at: new Date().toISOString(),
         notes: "Created by the phone concierge when sending the application.",
@@ -163,7 +134,7 @@ Deno.serve(async (req) => {
 
   const token = newToken();
   const tokenHash = await sha256Hex(token);
-  const destination = b.delivery_method === "sms_link" ? b.phone_number! : b.email!;
+  const destination = b.email!;
 
   const sendRow = await supabase
     .from("application_sends")
@@ -189,16 +160,6 @@ Deno.serve(async (req) => {
 
   if (b.delivery_method === "email_pdf") {
     result = { ok: false, reason: "pdf_not_available" };
-  } else if (b.delivery_method === "sms_link") {
-    const to = toE164(b.phone_number!);
-    if (!to) {
-      result = { ok: false, reason: "invalid_phone_number" };
-    } else {
-      result = await sendSms(
-        to,
-        `ClearFund AI: here is your funding application - ${link}. Reply STOP to opt out.`,
-      );
-    }
   } else {
     result = await sendEmail(
       b.email!,

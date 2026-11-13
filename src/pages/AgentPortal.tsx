@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
+import VaPortal from "@/components/VaPortal";
 
 const selectClass = "h-11 w-full min-w-0 rounded-md border border-input bg-background px-3 text-base";
 const money = (value: number) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(value);
@@ -47,12 +48,12 @@ const AgentPortal: React.FC = () => {
   const access = useQuery({ queryKey: ["agent_access", userId], enabled: !!userId, queryFn: async () => {
     const [roles, profile] = await Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", userId!),
-      supabase.from("agents").select("user_id,full_name,email,referral_code,active").eq("user_id", userId!).maybeSingle(),
+      supabase.from("agents").select("user_id,full_name,email,referral_code,active,program_type").eq("user_id", userId!).maybeSingle(),
     ]);
     if (roles.error) throw roles.error; if (profile.error) throw profile.error;
     return { allowed: roles.data.some((r) => r.role === "agent"), profile: profile.data };
   } });
-  const allowed = !!userId && !!access.data?.allowed && !!access.data.profile;
+  const allowed = !!userId && !!access.data?.allowed && !!access.data.profile?.active;
   const training = useQuery({ queryKey: ["agent_training", userId], enabled: allowed, queryFn: async () => { const { data, error } = await supabase.from("agent_training_progress").select("section_key,completed_at").eq("agent_id", userId!); if (error) throw error; return data; } });
   const agreement = useQuery({ queryKey: ["agent_agreement", userId], enabled: allowed, queryFn: async () => { const { data, error } = await supabase.from("agent_agreements").select("version,accepted_at").eq("agent_id", userId!).eq("version", AGENT_AGREEMENT_VERSION).maybeSingle(); if (error) throw error; return data; } });
   const accepted = !!agreement.data;
@@ -65,6 +66,7 @@ const AgentPortal: React.FC = () => {
   if (needsPassword) return <SetPassword onDone={() => { window.history.replaceState(null, "", "/agent"); setNeedsPassword(false); }} />;
   if (access.error || !allowed) return <main className="min-h-screen flex items-center justify-center p-4"><div className="max-w-sm space-y-4 rounded-lg border bg-card p-6 text-center"><h1 className="text-xl font-bold">No agent portal access</h1><p className="text-sm text-muted-foreground">This account is not an approved, active agent.</p><Button variant="outline" onClick={signOut}><LogOut className="mr-2 h-4 w-4" />Sign out</Button></div></main>;
   const profile = access.data.profile!;
+  if (profile.program_type === "va") return <VaPortal profile={{ user_id: profile.user_id, full_name: profile.full_name, referral_code: profile.referral_code }} onSignOut={signOut} />;
   const referralUrl = `${window.location.origin}/r/${profile.referral_code}`;
   const completed = new Set((training.data ?? []).map((row) => row.section_key));
   const totals = (payouts.data ?? []).reduce((sum, row) => ({ ...sum, [row.status]: sum[row.status] + Number(row.agent_amount) }), { pending: 0, paid: 0 });

@@ -1,0 +1,36 @@
+export const VA_MERCHANT_CONSENT = "I agree to be contacted by call and email and to have my information shared with funding partners.";
+export const VA_CONSENT_VERSION = "va-merchant-v1";
+
+export const VA_TRAINING = [
+  { key: "va_1", title: "ClearFund, products and lending terms", body: `ClearFund AI is a broker, not a lender. Providers decide whether to make an offer and set every term.\n\nWorking capital covers general business needs. A merchant cash advance purchases future receivables and can fit card-heavy or uneven cash flow; it is the wrong fit when remittances would strain cash. A line of credit allows repeated draws up to a limit for ongoing needs; it is wrong for a one-time cost that needs a fixed payoff. Equipment financing is for equipment and is wrong when the purchase cannot support the business. Invoice and contract financing can bridge approved invoices or contract costs; they are wrong when the invoice or contract is uncertain.\n\nGlossary: a factor rate is a multiplier on an advance, not an interest rate. Holdback or remittance is the portion or amount collected from receipts. Daily and weekly payments describe collection frequency. Term is the repayment period. Positions are existing funding obligations; stacking means adding another. Renewals replace or extend existing funding. An origination fee is a provider charge for creating an offer. A UCC filing is a public notice of a security interest. A personal guarantee makes an owner responsible. A soft credit pull generally does not affect a score; a hard pull can. Underwriters look at time in business and monthly revenue as evidence of operating history and cash flow. Explain these terms only; never quote actual rates.` },
+  { key: "va_2", title: "Who qualifies and why", body: "Use the current admin rules. The starting point is 4+ months in business with revenue, at least $10,000 in average monthly deposits, and a business bank account. VA, CT, MO, CA, VT and ND are skipped. Texas has no MCA routing, though other products may fit. North Carolina has no loan routing, though other products may fit. Current-position and industry limits apply when admin sets them. These rules only identify possible fits; providers decide and set terms." },
+  { key: "va_3", title: "Diagnose like a doctor", body: "Understand cash timing and do not push money. No gap means not a fit: say so. Contract winners often pay payroll, materials and bonding before an agency pays an invoice. Congratulate the owner, ask how the agency pays, and reflect the answer back. If costs are covered, say they are in good shape and ask to check back. If there is a gap, offer to email the 1-minute link while on the phone. Get a spoken yes and log it. Never ask for documents over the phone." },
+  { key: "va_4", title: "Rebuttals and the reason behind them", body: `“Not interested”: respect it and end politely; pressure destroys trust.\n“Is this a loan?”: explain that ClearFund is a broker and options can include different products; the provider explains the specific structure.\n“What's the rate?”: never quote rates; the provider sets and explains terms.\n“Send me info”: ask permission to email the short link and confirm the address.\n“I don't want to share bank statements”: do not argue; statements help verify deposits and cash flow, and the secure page explains what is needed.\n“How did you get my number?”: answer truthfully from the lead source, respect questions, and honor a do-not-call request immediately.` },
+  { key: "va_5", title: "Compliance on every call", body: "Never promise approval or funding. Never quote rates or promise timing. Honor do-not-call immediately. Never ask for documents over the phone. Email the link only after the merchant agrees and log that agreement. No texting. Do not name providers to merchants. Keep merchant information confidential." },
+  { key: "va_6", title: "Docs Pending follow-up", body: "For Docs Pending merchants, follow up by email and call only where consent and DNC rules allow. Refer to the missing items shown on the private page, answer process questions without requesting documents by phone, and offer to resend the private email link. Stop immediately on a do-not-call request. Record each follow-up accurately." },
+] as const;
+
+export const VA_QUIZ = [
+  { key: "broker", question: "Who decides whether to make an offer and sets the terms?", options: [["va", "The VA"], ["provider", "The provider"], ["owner", "The business owner"]] },
+  { key: "factor", question: "A factor rate is:", options: [["interest", "The same as an interest rate"], ["multiplier", "A multiplier on an advance"], ["score", "A credit score"]] },
+  { key: "stacking", question: "Stacking means:", options: [["positions", "Adding another funding position"], ["saving", "Saving monthly deposits"], ["invoice", "Sending several invoices"]] },
+  { key: "soft", question: "Which statement about credit is correct?", options: [["none", "No program checks credit"], ["soft", "Soft and hard pulls are different; some programs review credit"], ["promise", "Credit never matters"]] },
+  { key: "qualify", question: "The starting deposit rule is:", options: [["ten", "At least $10,000 monthly, subject to current admin rules"], ["any", "Any amount"], ["credit", "A credit score replaces deposits"]] },
+  { key: "texas", question: "What does the Texas rule block?", options: [["all", "Every product"], ["mca", "MCA routing"], ["bank", "Business bank accounts"]] },
+  { key: "gap", question: "If the owner has no cash-flow gap, you should:", options: [["push", "Push funding anyway"], ["fit", "Say it is not a fit and check back appropriately"], ["rate", "Quote a rate"]] },
+  { key: "rate", question: "When asked for a rate, you should:", options: [["guess", "Estimate one"], ["provider", "Explain that the provider sets terms"], ["ignore", "Ignore the question"]] },
+  { key: "email", question: "When may you email the intake link?", options: [["any", "Without asking"], ["yes", "After the merchant agrees and you log it"], ["text", "Only by text"]] },
+  { key: "dnc", question: "A do-not-call request must be honored:", options: [["later", "At the end of the week"], ["now", "Immediately"], ["manager", "Only after a manager approves"]] },
+  { key: "docs", question: "How should documents be collected?", options: [["phone", "Read them over the phone"], ["secure", "Through the secure private page"], ["text", "By text message"]] },
+  { key: "ucc", question: "A UCC filing is:", options: [["notice", "A public notice of a security interest"], ["approval", "A guarantee of approval"], ["credit", "A credit pull"]] },
+] as const;
+
+export const VA_ANSWERS = Object.fromEntries(VA_QUIZ.map((q) => [q.key, q.options.find((o) => o[0] === ({
+  broker: "provider", factor: "multiplier", stacking: "positions", soft: "soft", qualify: "ten", texas: "mca",
+  gap: "fit", rate: "provider", email: "yes", dnc: "now", docs: "secure", ucc: "notice",
+} as Record<string, string>)[q.key])?.[0]])) as Record<string, string>;
+
+export function scoreVaQuiz(answers: Record<string, string>) {
+  const correct = VA_QUIZ.filter((q) => answers[q.key] === VA_ANSWERS[q.key]).length;
+  return { score: Math.round(correct / VA_QUIZ.length * 100), passed: correct / VA_QUIZ.length >= 0.8 };
+}

@@ -6,7 +6,7 @@ export const BLOCKED_STATES = ["VA", "CT", "MO", "CA", "VT", "ND"];
 export const STATE_KIND_BLOCKS: Record<string, string[]> = { TX: ["mca"], NC: ["loan", "loc"] };
 
 export const MONTHS = { "lt4": 0, "4to11": 4, "12to23": 12, "24plus": 24 } as const;
-export const REVENUE = { "lt5k": [0, 5000], "5to15k": [5000, 15000], "15to50k": [15000, 50000], "50kplus": [50000, null] } as const;
+export const REVENUE = { "lt5k": [0, 5000], "5to15k": [5000, 15000], "15to50k": [15000, 50000], "50kplus": [50000, null], "lt10k": [0, 10000], "10to25k": [10000, 25000], "25to50k": [25000, 50000] } as const;
 export const CREDIT = { "lt500": 0, "500to599": 500, "600to674": 600, "675to679": 675, "680plus": 680 } as const;
 export const AMOUNT = { "lt10k": [400, 10000], "10to50k": [10000, 50000], "50to100k": [50000, 100000], "100to250k": [100000, 250000], "250kplus": [250000, null] } as const;
 

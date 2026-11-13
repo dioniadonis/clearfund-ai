@@ -42,6 +42,7 @@ import AgentReferral from "./pages/AgentReferral";
 import AgentPortal from "./pages/AgentPortal";
 import Careers from "./pages/Careers";
 import AiFundingHome from "./pages/AiFundingHome";
+import MerchantResume from "./pages/MerchantResume";
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { backofficeRedirect, getSite } from "@/lib/site";
@@ -82,6 +83,7 @@ const App = () => (
           <Route path="/disclaimers" element={<Disclaimers />} />
           <Route path="/apply" element={<Apply />} />
           <Route path="/get-started" element={<GetStarted />} />
+          <Route path="/merchant-resume" element={<MerchantResume />} />
           <Route path="/contract-financing" element={<ContractFinancing />} />
           <Route path="/cash-gap-calculator" element={<CashGapCalculatorPage />} />
           <Route path="/automation-audit" element={<FreeAuditLanding />} />

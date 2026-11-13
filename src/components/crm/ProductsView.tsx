@@ -52,6 +52,7 @@ const ProductsView: React.FC = () => {
             </div>
             <div className="space-y-1"><Label htmlFor="fp-states">Excluded states (comma separated)</Label><Input id="fp-states" className="h-11 text-base" value={(edit.excluded_states as string[]).join(", ")} onChange={(e) => set("excluded_states", e.target.value.toUpperCase().split(/[^A-Z]+/).filter((s) => s.length === 2))} /></div>
             <label className="flex items-center gap-3 min-h-[44px]"><input type="checkbox" className="h-5 w-5" checked={!!edit.needs_business_checking} onChange={(e) => set("needs_business_checking", e.target.checked)} />Needs business checking</label>
+            <label className="flex items-center gap-3 min-h-[44px]"><input type="checkbox" className="h-5 w-5" checked={!!edit.requires_photo_id} onChange={(e) => set("requires_photo_id", e.target.checked)} />Requires photo ID for VA files</label>
             <label className="flex items-center gap-3 min-h-[44px]"><input type="checkbox" className="h-5 w-5" checked={!!edit.active} onChange={(e) => set("active", e.target.checked)} />Active</label>
             <p className="text-xs text-muted-foreground">State rules always apply: never VA, CT, MO, CA, VT, ND; no MCA in TX; no loans or lines of credit in NC.</p>
             <Button className="h-12 w-full" onClick={save} disabled={saving}>{saving ? <Loader2 className="h-4 w-4 animate-spin" /> : "Save"}</Button>

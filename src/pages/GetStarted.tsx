@@ -10,6 +10,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { supabase } from "@/integrations/supabase/client";
 import { usePageMeta } from "@/lib/usePageMeta";
 import { getAgentReferral } from "@/lib/agentProgram";
+import VaMerchantIntake from "@/components/VaMerchantIntake";
 
 const STATES = "AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK OR PA RI SC SD TN TX UT VT VA WA WV WI WY".split(" ");
 const CONSENT = "I understand ClearFund AI is a broker, not a lender, and may share my information with funding providers to find a fit. ClearFund AI may receive compensation for referrals.";
@@ -53,6 +54,9 @@ const GetStarted: React.FC = () => {
     if (error || !data?.next) return setErr("We couldn't save your answers. Please try again, or call 866-578-4721.");
     setResult(data);
   };
+
+  const vaCode = (params.get("va") || "").toUpperCase();
+  if (/^VA[A-Z0-9]{8}$/.test(vaCode)) return <VaMerchantIntake code={vaCode} />;
 
   const cur = Q[step];
   const btn = "w-full min-h-12 rounded-md border border-input bg-background px-4 py-3 text-left text-base hover:border-primary hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
