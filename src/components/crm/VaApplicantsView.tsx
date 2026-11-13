@@ -67,7 +67,7 @@ const ApplicantPanel: React.FC<{ application: VaApplication | null; onClose: () 
 
   return (
     <Sheet open={!!application} onOpenChange={(open) => { if (!open) onClose(); }}>
-      <SheetContent className="w-full min-w-0 overflow-y-auto p-4 sm:max-w-2xl sm:p-6">
+      <SheetContent className="z-[60] w-full min-w-0 overflow-y-auto p-4 sm:max-w-2xl sm:p-6">
         {application && <>
           <SheetHeader className="pr-8">
             <SheetTitle className="break-words">{application.full_name}</SheetTitle>
