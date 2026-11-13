@@ -55,6 +55,9 @@ const GetStarted: React.FC = () => {
     setResult(data);
   };
 
+  const vaCode = (params.get("va") || "").toUpperCase();
+  if (/^VA[A-Z0-9]{8}$/.test(vaCode)) return <VaMerchantIntake code={vaCode} />;
+
   const cur = Q[step];
   const btn = "w-full min-h-12 rounded-md border border-input bg-background px-4 py-3 text-left text-base hover:border-primary hover:bg-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring";
 

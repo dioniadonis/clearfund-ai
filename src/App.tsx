@@ -83,6 +83,7 @@ const App = () => (
           <Route path="/disclaimers" element={<Disclaimers />} />
           <Route path="/apply" element={<Apply />} />
           <Route path="/get-started" element={<GetStarted />} />
+          <Route path="/merchant-resume" element={<MerchantResume />} />
           <Route path="/contract-financing" element={<ContractFinancing />} />
           <Route path="/cash-gap-calculator" element={<CashGapCalculatorPage />} />
           <Route path="/automation-audit" element={<FreeAuditLanding />} />
