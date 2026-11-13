@@ -25,31 +25,6 @@ const json = (body: unknown, status = 200) =>
     headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 
-async function sendSms(to: string, message: string) {
-  const lovableKey = Deno.env.get("LOVABLE_API_KEY");
-  const twilioKey = Deno.env.get("TWILIO_API_KEY");
-  const from = Deno.env.get("TWILIO_FROM_NUMBER");
-  if (!lovableKey || !twilioKey || !from) {
-    return { ok: false as const, reason: "sms_provider_not_connected" };
-  }
-  const res = await fetch("https://connector-gateway.lovable.dev/twilio/Messages.json", {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${lovableKey}`,
-      "X-Connection-Api-Key": twilioKey,
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({ To: to, From: from, Body: message }),
-  });
-  if (!res.ok) {
-    const detail = await res.text();
-    console.error(`Twilio send failed [${res.status}]: ${detail}`);
-    return { ok: false as const, reason: `sms_send_failed_${res.status}` };
-  }
-  const data = await res.json();
-  return { ok: true as const, providerId: data?.sid ?? null };
-}
-
 async function sendEmail(to: string, subject: string, html: string) {
   const apiKey = Deno.env.get("RESEND_API_KEY");
   const from = Deno.env.get("APPLICATION_FROM_EMAIL");
