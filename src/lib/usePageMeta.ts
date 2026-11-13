@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-export function usePageMeta(title: string, description: string, path: string) {
+export function usePageMeta(title: string, description: string, path: string, origin?: string) {
   useEffect(() => {
     document.title = title;
     const set = (selector: string, attrs: Record<string, string>) => {
@@ -14,6 +14,8 @@ export function usePageMeta(title: string, description: string, path: string) {
     set('meta[name="description"]', { name: "description", content: description });
     set('meta[property="og:title"]', { property: "og:title", content: title });
     set('meta[property="og:description"]', { property: "og:description", content: description });
-    set('link[rel="canonical"]', { rel: "canonical", href: `${window.location.origin}${path}` });
-  }, [title, description, path]);
+    const canonical = `${origin ?? window.location.origin}${path}`;
+    set('link[rel="canonical"]', { rel: "canonical", href: canonical });
+    set('meta[property="og:url"]', { property: "og:url", content: canonical });
+  }, [title, description, path, origin]);
 }

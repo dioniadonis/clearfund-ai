@@ -29,6 +29,7 @@ const GetStarted: React.FC = () => {
   usePageMeta("Find your next funding step | ClearFund AI", "Answer a few short questions so we can point you to the right application.", "/get-started");
   const [params] = useSearchParams();
   const cta = (params.get("cta") || "direct").replace(/[^a-z0-9_-]/gi, "").slice(0, 60);
+  const src = (params.get("src") || "").toLowerCase().replace(/[^a-z0-9_-]/g, "").slice(0, 60);
   const started = useRef(Date.now());
   const [step, setStep] = useState(0);
   const [ans, setAns] = useState<Record<string, string>>({});
@@ -47,7 +48,7 @@ const GetStarted: React.FC = () => {
     setBusy(true);
     const { data, error } = await supabase.functions.invoke("submit-qualifier", { body: {
       ...ans, business_checking: ans.business_checking === "yes", ...c, broker_acknowledged: true, cta,
-      agent_code: getAgentReferral(), elapsed_ms: Date.now() - started.current } });
+      src: src || null, agent_code: getAgentReferral(), elapsed_ms: Date.now() - started.current } });
     setBusy(false);
     if (error || !data?.next) return setErr("We couldn't save your answers. Please try again, or call 866-578-4721.");
     setResult(data);

@@ -41,8 +41,26 @@ import Agents from "./pages/Agents";
 import AgentReferral from "./pages/AgentReferral";
 import AgentPortal from "./pages/AgentPortal";
 import Careers from "./pages/Careers";
+import AiFundingHome from "./pages/AiFundingHome";
+import { useEffect, type ReactNode } from "react";
+import { useLocation } from "react-router-dom";
+import { backofficeRedirect, getSite } from "@/lib/site";
 
 const queryClient = new QueryClient();
+
+const HomeRoute = () => {
+  useLocation();
+  return getSite() === "ai" ? <AiFundingHome /> : <Index />;
+};
+
+const BackofficeHostGuard = ({ children }: { children: ReactNode }) => {
+  const location = useLocation();
+  const destination = backofficeRedirect(window.location.hostname, location.pathname, location.search, location.hash);
+  useEffect(() => {
+    if (destination) window.location.replace(destination);
+  }, [destination]);
+  return destination ? null : children;
+};
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -52,7 +70,8 @@ const App = () => (
       <BrowserRouter>
         <OperatorAuthProvider>
         <Routes>
-          <Route path="/" element={<Index />} />
+          <Route path="/" element={<HomeRoute />} />
+          <Route path="/ai-funding" element={<AiFundingHome />} />
           <Route path="/working-capital" element={<WorkingCapital />} />
           <Route path="/gig-funding" element={<GigFunding />} />
           <Route path="/blog" element={<Blog />} />
@@ -73,15 +92,17 @@ const App = () => (
           <Route path="/r/:code" element={<AgentReferral />} />
           <Route path="/agent" element={<AgentPortal />} />
           <Route path="/careers" element={<Careers />} />
-          <Route path="/crm" element={<Crm />} />
+          <Route path="/crm" element={<BackofficeHostGuard><Crm /></BackofficeHostGuard>} />
           <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
-          <Route path="/operator/login" element={<OperatorLogin />} />
+          <Route path="/operator/login" element={<BackofficeHostGuard><OperatorLogin /></BackofficeHostGuard>} />
           <Route
             path="/operator"
             element={
-              <RequireOperator>
-                <OperatorLayout />
-              </RequireOperator>
+              <BackofficeHostGuard>
+                <RequireOperator>
+                  <OperatorLayout />
+                </RequireOperator>
+              </BackofficeHostGuard>
             }
           >
             <Route index element={<OperatorOverview />} />

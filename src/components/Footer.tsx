@@ -5,8 +5,11 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/u
 import { toast } from "@/hooks/use-toast";
 import { Link } from 'react-router-dom';
 import ApplyLink from "@/components/ApplyLink";
+import { getSite } from "@/lib/site";
 
 const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
+  const site = getSite();
+  const brand = site === "ai" ? "ClearFund AI" : "ClearFund";
   const [isAboutVideoDialogOpen, setIsAboutVideoDialogOpen] = useState(false);
 
   const scrollToTop = () => {
@@ -157,15 +160,14 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
             <div className="h-10 w-10 bg-white text-clearfund-blue font-bold flex items-center justify-center rounded mr-2">
               CF
             </div>
-            <h1 className="text-2xl font-bold">
-              <span className="text-clearfund-white">Clear</span>fund AI
-            </h1>
+            <h1 className="text-2xl font-bold">{brand}</h1>
           </div>
           <div className="text-sm text-clearfund-pale-blue text-center md:text-right">
-            <p>&copy; {new Date().getFullYear()} Clearfund AI. All rights reserved.</p>
+            <p>&copy; {new Date().getFullYear()} {brand}. All rights reserved.</p>
+            {site === "ai" && <p className="mt-2 text-xs">Looking for general business funding? <a href="https://myclearfund.com" className="underline">Visit myclearfund.com</a></p>}
             {pageDisclaimer && <p className="text-xs mt-2">{pageDisclaimer}</p>}
             <p className="text-xs mt-2">
-              *ClearFund AI is a broker, not a lender. We may connect applicants with select funding providers and may receive compensation for referrals. Providers decide whether to make an offer and set all terms.
+              *{brand} is a broker, not a lender. We may connect applicants with select funding providers and may receive compensation for referrals. Providers decide whether to make an offer and set all terms.
             </p>
           </div>
         </div>
@@ -176,7 +178,7 @@ const Footer: React.FC<{ pageDisclaimer?: string }> = ({ pageDisclaimer }) => {
       <Dialog open={isAboutVideoDialogOpen} onOpenChange={open => setIsAboutVideoDialogOpen(open)}>
         <DialogContent className="sm:max-w-[600px] p-4">
           <DialogHeader className="pb-2">
-            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">About Clearfund AI</DialogTitle>
+            <DialogTitle className="text-xl font-bold text-clearfund-dark-blue">About {brand}</DialogTitle>
           </DialogHeader>
           <div className="aspect-video w-full">
             <iframe 

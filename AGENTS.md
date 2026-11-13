@@ -11,3 +11,4 @@
 - Every bulk/worker lead insert goes through `crm_insert_lead` (dedupe on lead_ref, email, website_key, company_key+state, backed by unique indexes); first finder is kept in `found_by`.
 - Agent integrations use the SDK-owned MCP function with OAuth caller-scoped Supabase clients; tools stay read-only and rely on CRM RLS so external assistants cannot widen lead access.
 - Funding routing lives only in `supabase/functions/_shared/fundingRoute.ts` (used by `submit-qualifier` and tests); products are rows in `funder_products`, and applicants only ever get a next step, never product details — one chokepoint, owner-editable without rebuilds.
+- Hostname/site selection lives only in `src/lib/site.ts`; general-host `/crm` and `/operator` redirect to `clearfundai.com`, while `/ai-funding` stays public on either host — two brands share one app without duplicating the back office.

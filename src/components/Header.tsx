@@ -6,8 +6,10 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import { Link } from "react-router-dom";
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import FinancingEducationSlideShow from './FinancingEducationSlideShow';
+import { getSite } from "@/lib/site";
 
 const Header: React.FC = () => {
+  const brand = getSite() === "ai" ? "ClearFund AI" : "ClearFund";
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
   const [isEducationSlideShowOpen, setIsEducationSlideShowOpen] = useState(false);
@@ -31,8 +33,8 @@ const Header: React.FC = () => {
       <div className="container-custom flex items-center justify-between">
         <div className="flex items-center">
           <Link to="/" className="flex items-center">
-            <h1 className="text-2xl font-bold text-clearfund-blue">
-              Clearfund AI
+            <h1 className="whitespace-nowrap text-2xl font-bold text-clearfund-blue">
+              {brand}
             </h1>
           </Link>
         </div>
