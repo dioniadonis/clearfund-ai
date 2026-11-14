@@ -189,7 +189,7 @@ BEGIN
     va_code=_code,
     va_auto_passed=_pass,
     va_email_consent_at=CASE WHEN _pass THEN now() ELSE va_email_consent_at END,
-    qualifier=jsonb_build_object('months',_months,'revenue',_revenue,'business_checking',COALESCE(_business_checking,false),
+    qualifier=jsonb_build_object('months',_months,'revenue',_revenue,'business_checking',COALESCE(_business_checking,false),'owner_wants_funding',true,
       'state',_st,'source','va_call','qualified_by',auth.uid(),'at',now(),'reasons',to_jsonb(_reasons)),
     best_time_to_call=NULLIF(left(trim(COALESCE(_best_time,'')),80),''),
     call_attempts=call_attempts+1,
