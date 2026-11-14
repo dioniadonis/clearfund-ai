@@ -2965,6 +2965,23 @@ export type Database = {
         Returns: undefined
       }
       va_link_valid: { Args: { _code: string }; Returns: boolean }
+      va_call_list: {
+        Args: { _scope?: string }
+        Returns: {
+          best_time_to_call: string | null
+          business_name: string | null
+          call_attempts: number
+          callback_at: string | null
+          email: string | null
+          id: string
+          last_call_at: string | null
+          owner_name: string | null
+          phone: string | null
+          reason: string | null
+          state: string | null
+          status: string
+        }[]
+      }
       va_list_leads: {
         Args: never
         Returns: {
@@ -2974,6 +2991,15 @@ export type Database = {
           owner_name: string
           status: string
         }[]
+      }
+      va_log_call: {
+        Args: {
+          _callback_at?: string | null
+          _lead_id: string
+          _note?: string | null
+          _outcome: string
+        }
+        Returns: string
       }
       va_log_email_consent: {
         Args: { _ip: string; _lead_id: string }
@@ -2988,6 +3014,19 @@ export type Database = {
         Returns: undefined
       }
       va_mark_training: { Args: { _section: string }; Returns: undefined }
+      va_qualify_lead: {
+        Args: {
+          _best_time?: string | null
+          _business_checking: boolean
+          _email: string
+          _lead_id: string
+          _months: string
+          _note?: string | null
+          _owner_wants_funding: boolean
+          _revenue: string
+        }
+        Returns: Json
+      }
       va_record_eligible_payout: {
         Args: { _lead_id: string }
         Returns: undefined
