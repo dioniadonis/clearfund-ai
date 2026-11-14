@@ -45,8 +45,9 @@ const routes = {
   "leads/find": z.object({ email: z.string().max(320).optional(), firm: z.string().max(200).optional(), limit: z.number().int().min(1).max(10).optional(), type: z.enum(["client", "partner", "recruit"]).optional() })
     .refine((v) => !!(v.email?.trim() || v.firm?.trim()), "email or firm required"),
   "leads/update": z.object({ lead_id: z.string().uuid(), stage: z.enum(STAGES).optional(), note: z.string().min(1).max(2000).optional(),
-    next_follow_up: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional() })
-    .refine((v) => v.stage !== undefined || v.note !== undefined || v.next_follow_up !== undefined, "stage, note or next_follow_up required"),
+    next_follow_up: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), scrub_result: z.enum(["valid", "invalid", "risky"]).optional(),
+    scrub_detail: z.string().max(200).optional() })
+    .refine((v) => v.stage !== undefined || v.note !== undefined || v.next_follow_up !== undefined || v.scrub_result !== undefined, "stage, note, next_follow_up or scrub_result required"),
   "leads/dnc": z.object({ lead_id: z.string().uuid(), reason: z.string().min(1).max(200) }),
   "replies/log": z.object({ lead_id: z.string().uuid().optional(), from_email: z.string().max(320).optional(), inbox: z.string().min(1).max(120),
     subject: z.string().max(300).default(""), snippet: z.string().max(1000).default(""), label: z.string().max(50).optional(), received_at: z.string().datetime({ offset: true }) })
@@ -89,7 +90,8 @@ Deno.serve(async (req) => {
     case "sources/complete": return call("crm_complete_source", { _worker: worker, _slice_id: b.slice_id, _status: b.status, _leads: b.leads, _note: b.note ?? null });
     case "leads/find": return call("crm_find_leads", { _worker: worker, _email: b.email ?? null, _firm: b.firm ?? null, _limit: b.limit ?? 5, _type: b.type ?? null });
     case "leads/update": return call("crm_worker_update_lead", { _worker: worker, _lead_id: b.lead_id, _stage: b.stage ?? null, _note: b.note ?? null,
-      _set_follow_up: b.next_follow_up !== undefined, _next_follow_up: b.next_follow_up ?? null });
+      _set_follow_up: b.next_follow_up !== undefined, _next_follow_up: b.next_follow_up ?? null, _scrub_result: b.scrub_result ?? null,
+      _scrub_detail: b.scrub_detail ?? null });
     case "leads/dnc": return call("crm_worker_mark_dnc", { _worker: worker, _lead_id: b.lead_id, _reason: b.reason });
     case "replies/log": return call("crm_worker_log_reply", { _worker: worker, _lead_id: b.lead_id ?? null, _from_email: b.from_email ?? null, _inbox: b.inbox,
       _subject: b.subject, _snippet: b.snippet, _label: b.label ?? null, _received_at: b.received_at });
