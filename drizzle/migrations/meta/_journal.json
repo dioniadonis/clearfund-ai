@@ -232,6 +232,13 @@
       "when": 1794562450000,
       "tag": "0032_ai_call_log",
       "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1794562500000,
+      "tag": "0033_file_pipeline",
+      "breakpoints": true
     }
   ]
 }

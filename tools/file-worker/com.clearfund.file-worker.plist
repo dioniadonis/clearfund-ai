@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!-- Copy to ~/Library/LaunchAgents/ after replacing __REPO__ and __HOME__. Runs every 10 minutes. -->
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>com.clearfund.file-worker</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/usr/bin/python3</string>
+    <string>__REPO__/tools/file-worker/worker.py</string>
+  </array>
+  <key>WorkingDirectory</key><string>__REPO__/tools/file-worker</string>
+  <key>EnvironmentVariables</key>
+  <dict><key>PATH</key><string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string></dict>
+  <key>StartInterval</key><integer>600</integer>
+  <key>RunAtLoad</key><true/>
+  <key>StandardOutPath</key><string>__HOME__/clearfund/logs/file-worker.log</string>
+  <key>StandardErrorPath</key><string>__HOME__/clearfund/logs/file-worker.log</string>
+</dict>
+</plist>

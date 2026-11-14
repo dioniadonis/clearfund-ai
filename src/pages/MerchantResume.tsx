@@ -19,7 +19,8 @@ const MerchantResume: React.FC = () => {
   const [busy, setBusy] = useState(false); const [signatureName, setSignatureName] = useState(""); const [drawn, setDrawn] = useState(false);
   const canvas = useRef<HTMLCanvasElement>(null); const drawing = useRef(false);
   const load = async () => {
-    const { data, error: err } = await supabase.functions.invoke("va-resume", { body: { action: "load", token } });
+    const form = new FormData(); form.set("action", "load"); form.set("token", token);
+    const { data, error: err } = await supabase.functions.invoke("va-resume", { body: form });
     if (err || data?.error) setError("This private link is invalid or has expired. Ask us to send a new one."); else setState(data as State);
   };
   useEffect(() => { if (/^[a-f0-9]{48}$/.test(token)) load(); else setError("This private link is invalid or has expired."); }, [token]);
