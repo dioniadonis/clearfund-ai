@@ -2581,6 +2581,18 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      crm_ai_tool_touch: {
+        Args: {
+          _business?: string | null
+          _detail: string
+          _email?: string | null
+          _kind: string
+          _name?: string | null
+          _phone: string
+        }
+        Returns: string
+      }
+      crm_record_ai_call: { Args: { _call: Json }; Returns: Json }
       agent_approve_application: {
         Args: { _application_id: string; _reviewer: string; _user_id: string }
         Returns: string

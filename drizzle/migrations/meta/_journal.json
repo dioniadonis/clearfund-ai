@@ -225,6 +225,13 @@
       "when": 1794562400000,
       "tag": "0031_va_call_queue",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1794562450000,
+      "tag": "0032_ai_call_log",
+      "breakpoints": true
     }
   ]
 }

@@ -80,5 +80,13 @@ Deno.serve(async (req) => {
     });
   }
 
+  // Mirror into the CRM: lead per caller, follow-up today, callback note on the timeline.
+  const { error: crmError } = await supabase.rpc("crm_ai_tool_touch", {
+    _phone: b.phone_number,
+    _kind: "callback",
+    _detail: `${b.preferred_datetime} (${b.reason === "application_unfinished" ? "application not finished" : "thinking it over"}).`,
+  });
+  if (crmError) console.error("CRM mirror failed:", crmError.message);
+
   return json({ status: "scheduled" });
 });

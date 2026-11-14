@@ -188,6 +188,19 @@ Deno.serve(async (req) => {
       : `Could not send application by ${b.delivery_method}: ${result.reason}.`,
   });
 
+  // Mirror into the CRM so the caller shows up as a lead with a follow-up, even if the email failed.
+  if (b.phone_number) {
+    const { error: crmError } = await supabase.rpc("crm_ai_tool_touch", {
+      _phone: b.phone_number,
+      _kind: "application",
+      _detail: result.ok ? `Sent to ${b.email}.` : `Email did not go out (${result.reason}); send it by hand.`,
+      _name: b.owner_name ?? null,
+      _business: b.business_name ?? null,
+      _email: b.email ?? null,
+    });
+    if (crmError) console.error("CRM mirror failed:", crmError.message);
+  }
+
   if (!result.ok) return json({ status: "failed", reason: result.reason }, 200);
   return json({ status: "sent" });
 });
