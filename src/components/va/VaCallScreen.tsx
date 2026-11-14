@@ -36,6 +36,7 @@ export const STATUS_STYLE: Record<string, string> = {
   "App sent": "bg-indigo-100 text-indigo-900",
   "Docs in": "bg-violet-100 text-violet-900",
   "Docs missing": "bg-orange-100 text-orange-900",
+  "Not eligible": "bg-zinc-200 text-zinc-700",
   "File ready": "bg-green-600 text-white",
   Approved: "bg-green-600 text-white",
   Submitted: "bg-green-700 text-white",

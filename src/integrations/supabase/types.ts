@@ -1080,6 +1080,18 @@ export type Database = {
       }
       crm_leads: {
         Row: {
+          app_reminders_sent: number
+          app_sent_at: string | null
+          best_time_to_call: string | null
+          call_attempts: number
+          callback_at: string | null
+          docs_in_at: string | null
+          file_pay_tier: number | null
+          file_ready_at: string | null
+          file_summary: Json | null
+          last_call_at: string | null
+          last_call_outcome: string | null
+          last_reminder_at: string | null
           agency: string | null
           agent_id: string | null
           assigned_to: string | null
@@ -1138,6 +1150,18 @@ export type Database = {
           website_key: string | null
         }
         Insert: {
+          app_reminders_sent?: number
+          app_sent_at?: string | null
+          best_time_to_call?: string | null
+          call_attempts?: number
+          callback_at?: string | null
+          docs_in_at?: string | null
+          file_pay_tier?: number | null
+          file_ready_at?: string | null
+          file_summary?: Json | null
+          last_call_at?: string | null
+          last_call_outcome?: string | null
+          last_reminder_at?: string | null
           agency?: string | null
           agent_id?: string | null
           assigned_to?: string | null
@@ -1196,6 +1220,18 @@ export type Database = {
           website_key?: string | null
         }
         Update: {
+          app_reminders_sent?: number
+          app_sent_at?: string | null
+          best_time_to_call?: string | null
+          call_attempts?: number
+          callback_at?: string | null
+          docs_in_at?: string | null
+          file_pay_tier?: number | null
+          file_ready_at?: string | null
+          file_summary?: Json | null
+          last_call_at?: string | null
+          last_call_outcome?: string | null
+          last_reminder_at?: string | null
           agency?: string | null
           agent_id?: string | null
           assigned_to?: string | null
@@ -2581,6 +2617,59 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      crm_ai_call_list: {
+        Args: { _limit?: number }
+        Returns: {
+          business_name: string | null
+          callback_note: string | null
+          callback_requested: boolean
+          caller_phone: string | null
+          created_at: string
+          duration_s: number | null
+          id: string
+          lead_id: string | null
+          new_lead: boolean
+          owner_name: string | null
+          sentiment: string | null
+          summary: string | null
+        }[]
+      }
+      crm_va_call_log: {
+        Args: { _limit?: number; _va_id: string }
+        Returns: {
+          business_name: string | null
+          created_at: string
+          id: string
+          lead_id: string
+          note: string | null
+          outcome: string
+          owner_name: string | null
+          status: string
+        }[]
+      }
+      crm_va_progress: {
+        Args: { _days?: number }
+        Returns: {
+          active: boolean
+          apps_sent: number
+          assigned: number
+          call_later: number
+          calls: number
+          dnc: number
+          files_in: number
+          files_ready: number
+          full_name: string | null
+          funded: number
+          last_call_at: string | null
+          no_answer: number
+          not_interested: number
+          not_qualified: number
+          pay_owed: number
+          qualified: number
+          referral_code: string | null
+          va_id: string
+        }[]
+      }
       crm_ai_tool_touch: {
         Args: {
           _business?: string | null
