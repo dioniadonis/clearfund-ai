@@ -34,6 +34,17 @@ const Lead = z.object({
   need_score: z.number().int().min(0).max(100).optional(), first_line: z.string().max(500).optional(), notes: z.string().max(2000).optional(),
 }).transform((l) => ({ ...l, lead_ref: l.lead_ref ?? l.lead_id, lead_type: l.lead_type ?? l.type, firm: l.firm ?? l.company }));
 
+const FillLead = z.object({
+  lead_ref: z.string().max(100).optional(), email: z.string().max(320).optional(), website: z.string().max(300).optional(),
+  firm: z.string().max(200).optional(), state: z.string().max(20).optional(), lead_type: z.string().max(20).optional(),
+  need_score: z.number().int().min(0).max(100).optional(), contact_name: z.string().max(200).optional(),
+  phone: z.string().max(40).optional(), sector: z.string().max(120).optional(), first_line: z.string().max(500).optional(),
+  email_source: z.string().max(120).optional(), agency: z.string().max(200).optional(), notes: z.string().max(2000).optional(),
+}).strict()
+  .refine((l) => !!(l.email?.trim() || l.website?.trim() || l.phone?.trim()), "email, website or phone required")
+  .refine((l) => !!(l.firm?.trim() || l.lead_ref?.trim()), "firm or lead_ref required");
+const SuppressedStates = ["VA", "CT", "MO", "CA", "VT", "ND"] as const;
+
 const STAGES = ["New", "Contacted", "Replied", "Interested", "Applied", "Submitted to funder", "Funded", "Lost", "Signed up (DAC)", "Trained", "First referral", "new", "contacted", "applied", "approved", "rejected"] as const;
 const routes = {
   "jobs/claim": z.object({ job_type: JobType, n: z.number().int().min(1).max(50).default(10) }),
@@ -44,6 +55,9 @@ const routes = {
   "sources/complete": z.object({ slice_id: z.string().uuid(), status: z.enum(["done", "blocked"]), leads: z.array(Lead).max(500).default([]), note: z.string().max(500).optional() }),
   "leads/find": z.object({ email: z.string().max(320).optional(), firm: z.string().max(200).optional(), limit: z.number().int().min(1).max(10).optional(), type: z.enum(["client", "partner", "recruit"]).optional() })
     .refine((v) => !!(v.email?.trim() || v.firm?.trim()), "email or firm required"),
+  "leads/list-no-email": z.object({ limit: z.number().int().min(1).max(200).default(100), after: z.string().uuid().optional(), states_exclude: z.array(z.string()).optional() }),
+  "leads/fill": z.object({ lead: FillLead, found_by: z.string().max(40), source_id: z.string().uuid().nullable().optional() })
+    .refine((v) => !v.lead.state || !SuppressedStates.includes(v.lead.state.trim().toUpperCase() as typeof SuppressedStates[number]), "state is excluded"),
   "leads/update": z.object({ lead_id: z.string().uuid(), stage: z.enum(STAGES).optional(), note: z.string().min(1).max(2000).optional(),
     next_follow_up: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).nullable().optional(), scrub_result: z.enum(["valid", "invalid", "risky"]).optional(),
     scrub_detail: z.string().max(200).optional() })
@@ -89,6 +103,8 @@ Deno.serve(async (req) => {
     case "sources/claim": return call("crm_claim_source", { _worker: worker, _source: b.source ?? null });
     case "sources/complete": return call("crm_complete_source", { _worker: worker, _slice_id: b.slice_id, _status: b.status, _leads: b.leads, _note: b.note ?? null });
     case "leads/find": return call("crm_find_leads", { _worker: worker, _email: b.email ?? null, _firm: b.firm ?? null, _limit: b.limit ?? 5, _type: b.type ?? null });
+    case "leads/list-no-email": return call("crm_worker_list_no_email", { _limit: b.limit, _after: b.after ?? null, _states_exclude: b.states_exclude ?? [] });
+    case "leads/fill": return call("crm_insert_lead", { _lead: b.lead, _found_by: b.found_by, _source_id: b.source_id ?? null, _mode: "fill" });
     case "leads/update": return call("crm_worker_update_lead", { _worker: worker, _lead_id: b.lead_id, _stage: b.stage ?? null, _note: b.note ?? null,
       _set_follow_up: b.next_follow_up !== undefined, _next_follow_up: b.next_follow_up ?? null, _scrub_result: b.scrub_result ?? null,
       _scrub_detail: b.scrub_detail ?? null });
