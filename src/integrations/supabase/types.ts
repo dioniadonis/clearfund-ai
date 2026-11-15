@@ -971,6 +971,74 @@ export type Database = {
           },
         ]
       }
+      crm_calls: {
+        Row: {
+          callback_note: string | null
+          callback_requested: boolean
+          caller_phone: string | null
+          created_at: string
+          direction: string | null
+          duration_s: number | null
+          ended_at: string | null
+          id: string
+          lead_id: string | null
+          provider: string
+          provider_call_id: string
+          sentiment: string | null
+          started_at: string | null
+          status: string | null
+          successful: boolean | null
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          callback_note?: string | null
+          callback_requested?: boolean
+          caller_phone?: string | null
+          created_at?: string
+          direction?: string | null
+          duration_s?: number | null
+          ended_at?: string | null
+          id?: string
+          lead_id?: string | null
+          provider?: string
+          provider_call_id: string
+          sentiment?: string | null
+          started_at?: string | null
+          status?: string | null
+          successful?: boolean | null
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          callback_note?: string | null
+          callback_requested?: boolean
+          caller_phone?: string | null
+          created_at?: string
+          direction?: string | null
+          duration_s?: number | null
+          ended_at?: string | null
+          id?: string
+          lead_id?: string | null
+          provider?: string
+          provider_call_id?: string
+          sentiment?: string | null
+          started_at?: string | null
+          status?: string | null
+          successful?: boolean | null
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "crm_calls_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       crm_jobs: {
         Row: {
           attempts: number
@@ -1080,23 +1148,16 @@ export type Database = {
       }
       crm_leads: {
         Row: {
-          app_reminders_sent: number
-          app_sent_at: string | null
-          best_time_to_call: string | null
-          call_attempts: number
-          callback_at: string | null
-          docs_in_at: string | null
-          file_pay_tier: number | null
-          file_ready_at: string | null
-          file_summary: Json | null
-          last_call_at: string | null
-          last_call_outcome: string | null
-          last_reminder_at: string | null
           agency: string | null
           agent_id: string | null
+          app_reminders_sent: number
+          app_sent_at: string | null
           assigned_to: string | null
           award_amount: number | null
           award_date: string | null
+          best_time_to_call: string | null
+          call_attempts: number
+          callback_at: string | null
           city: string | null
           clearfund_commission: number | null
           company_key: string | null
@@ -1105,14 +1166,21 @@ export type Database = {
           dnc_at: string | null
           dnc_reason: string | null
           do_not_contact: boolean
+          docs_in_at: string | null
           email: string | null
           email_source: string | null
           federal_dnc_flag: boolean
+          file_pay_tier: number | null
+          file_ready_at: string | null
+          file_summary: Json | null
           firm: string | null
           first_line: string | null
           found_at: string | null
           found_by: string | null
           id: string
+          last_call_at: string | null
+          last_call_outcome: string | null
+          last_reminder_at: string | null
           lead_ref: string | null
           lead_type: string | null
           litigator_flag: boolean
@@ -1150,23 +1218,16 @@ export type Database = {
           website_key: string | null
         }
         Insert: {
-          app_reminders_sent?: number
-          app_sent_at?: string | null
-          best_time_to_call?: string | null
-          call_attempts?: number
-          callback_at?: string | null
-          docs_in_at?: string | null
-          file_pay_tier?: number | null
-          file_ready_at?: string | null
-          file_summary?: Json | null
-          last_call_at?: string | null
-          last_call_outcome?: string | null
-          last_reminder_at?: string | null
           agency?: string | null
           agent_id?: string | null
+          app_reminders_sent?: number
+          app_sent_at?: string | null
           assigned_to?: string | null
           award_amount?: number | null
           award_date?: string | null
+          best_time_to_call?: string | null
+          call_attempts?: number
+          callback_at?: string | null
           city?: string | null
           clearfund_commission?: number | null
           company_key?: string | null
@@ -1175,14 +1236,21 @@ export type Database = {
           dnc_at?: string | null
           dnc_reason?: string | null
           do_not_contact?: boolean
+          docs_in_at?: string | null
           email?: string | null
           email_source?: string | null
           federal_dnc_flag?: boolean
+          file_pay_tier?: number | null
+          file_ready_at?: string | null
+          file_summary?: Json | null
           firm?: string | null
           first_line?: string | null
           found_at?: string | null
           found_by?: string | null
           id?: string
+          last_call_at?: string | null
+          last_call_outcome?: string | null
+          last_reminder_at?: string | null
           lead_ref?: string | null
           lead_type?: string | null
           litigator_flag?: boolean
@@ -1220,23 +1288,16 @@ export type Database = {
           website_key?: string | null
         }
         Update: {
-          app_reminders_sent?: number
-          app_sent_at?: string | null
-          best_time_to_call?: string | null
-          call_attempts?: number
-          callback_at?: string | null
-          docs_in_at?: string | null
-          file_pay_tier?: number | null
-          file_ready_at?: string | null
-          file_summary?: Json | null
-          last_call_at?: string | null
-          last_call_outcome?: string | null
-          last_reminder_at?: string | null
           agency?: string | null
           agent_id?: string | null
+          app_reminders_sent?: number
+          app_sent_at?: string | null
           assigned_to?: string | null
           award_amount?: number | null
           award_date?: string | null
+          best_time_to_call?: string | null
+          call_attempts?: number
+          callback_at?: string | null
           city?: string | null
           clearfund_commission?: number | null
           company_key?: string | null
@@ -1245,14 +1306,21 @@ export type Database = {
           dnc_at?: string | null
           dnc_reason?: string | null
           do_not_contact?: boolean
+          docs_in_at?: string | null
           email?: string | null
           email_source?: string | null
           federal_dnc_flag?: boolean
+          file_pay_tier?: number | null
+          file_ready_at?: string | null
+          file_summary?: Json | null
           firm?: string | null
           first_line?: string | null
           found_at?: string | null
           found_by?: string | null
           id?: string
+          last_call_at?: string | null
+          last_call_outcome?: string | null
+          last_reminder_at?: string | null
           lead_ref?: string | null
           lead_type?: string | null
           litigator_flag?: boolean
@@ -1471,6 +1539,24 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      file_workers: {
+        Row: {
+          created_at: string
+          label: string | null
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          label?: string | null
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          label?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       free_audit_consents: {
         Row: {
@@ -1701,6 +1787,24 @@ export type Database = {
           product_kind?: string
           requires_photo_id?: boolean
           updated_at?: string
+        }
+        Relationships: []
+      }
+      integration_tokens: {
+        Row: {
+          created_at: string
+          name: string
+          token_hash: string
+        }
+        Insert: {
+          created_at?: string
+          name: string
+          token_hash: string
+        }
+        Update: {
+          created_at?: string
+          name?: string
+          token_hash?: string
         }
         Relationships: []
       }
@@ -2101,6 +2205,30 @@ export type Database = {
         }
         Relationships: []
       }
+      retell_ingest_rejects: {
+        Row: {
+          agent_id: string | null
+          created_at: string
+          event: string | null
+          id: number
+          ip: string | null
+        }
+        Insert: {
+          agent_id?: string | null
+          created_at?: string
+          event?: string | null
+          id?: number
+          ip?: string | null
+        }
+        Update: {
+          agent_id?: string | null
+          created_at?: string
+          event?: string | null
+          id?: number
+          ip?: string | null
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -2229,6 +2357,41 @@ export type Database = {
           why_good_fit?: string
         }
         Relationships: []
+      }
+      va_call_log: {
+        Row: {
+          created_at: string
+          id: string
+          lead_id: string
+          note: string | null
+          outcome: string
+          va_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          lead_id: string
+          note?: string | null
+          outcome: string
+          va_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          lead_id?: string
+          note?: string | null
+          outcome?: string
+          va_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "va_call_log_lead_id_fkey"
+            columns: ["lead_id"]
+            isOneToOne: false
+            referencedRelation: "crm_leads"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       va_consents: {
         Row: {
@@ -2617,71 +2780,6 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      crm_ai_call_list: {
-        Args: { _limit?: number }
-        Returns: {
-          business_name: string | null
-          callback_note: string | null
-          callback_requested: boolean
-          caller_phone: string | null
-          created_at: string
-          duration_s: number | null
-          id: string
-          lead_id: string | null
-          new_lead: boolean
-          owner_name: string | null
-          sentiment: string | null
-          summary: string | null
-        }[]
-      }
-      crm_va_call_log: {
-        Args: { _limit?: number; _va_id: string }
-        Returns: {
-          business_name: string | null
-          created_at: string
-          id: string
-          lead_id: string
-          note: string | null
-          outcome: string
-          owner_name: string | null
-          status: string
-        }[]
-      }
-      crm_va_progress: {
-        Args: { _days?: number }
-        Returns: {
-          active: boolean
-          apps_sent: number
-          assigned: number
-          call_later: number
-          calls: number
-          dnc: number
-          files_in: number
-          files_ready: number
-          full_name: string | null
-          funded: number
-          last_call_at: string | null
-          no_answer: number
-          not_interested: number
-          not_qualified: number
-          pay_owed: number
-          qualified: number
-          referral_code: string | null
-          va_id: string
-        }[]
-      }
-      crm_ai_tool_touch: {
-        Args: {
-          _business?: string | null
-          _detail: string
-          _email?: string | null
-          _kind: string
-          _name?: string | null
-          _phone: string
-        }
-        Returns: string
-      }
-      crm_record_ai_call: { Args: { _call: Json }; Returns: Json }
       agent_approve_application: {
         Args: { _application_id: string; _reviewer: string; _user_id: string }
         Returns: string
@@ -2780,6 +2878,34 @@ export type Database = {
           referral_payout_percent: number
           warm_leads: number
         }[]
+      }
+      crm_ai_call_list: {
+        Args: { _limit?: number }
+        Returns: {
+          business_name: string
+          callback_note: string
+          callback_requested: boolean
+          caller_phone: string
+          created_at: string
+          duration_s: number
+          id: string
+          lead_id: string
+          new_lead: boolean
+          owner_name: string
+          sentiment: string
+          summary: string
+        }[]
+      }
+      crm_ai_tool_touch: {
+        Args: {
+          _business?: string
+          _detail: string
+          _email?: string
+          _kind: string
+          _name?: string
+          _phone: string
+        }
+        Returns: string
       }
       crm_auto_assign_lead: { Args: { _lead_id: string }; Returns: undefined }
       crm_cap_json: { Args: { _j: Json; _max: number }; Returns: Json }
@@ -2886,6 +3012,7 @@ export type Database = {
       crm_norm_company: { Args: { _t: string }; Returns: string }
       crm_norm_domain: { Args: { _t: string }; Returns: string }
       crm_preview_recruit_import: { Args: { _rows: Json }; Returns: Json }
+      crm_record_ai_call: { Args: { _call: Json }; Returns: Json }
       crm_register_source: {
         Args: {
           _params: Json
@@ -2907,9 +3034,49 @@ export type Database = {
         Args: { _lead_type: string; _stage: string }
         Returns: boolean
       }
+      crm_va_call_log: {
+        Args: { _limit?: number; _va_id: string }
+        Returns: {
+          business_name: string
+          created_at: string
+          id: string
+          lead_id: string
+          note: string
+          outcome: string
+          owner_name: string
+          status: string
+        }[]
+      }
+      crm_va_progress: {
+        Args: { _days?: number }
+        Returns: {
+          active: boolean
+          apps_sent: number
+          assigned: number
+          call_later: number
+          calls: number
+          dnc: number
+          files_in: number
+          files_ready: number
+          full_name: string
+          funded: number
+          last_call_at: string
+          no_answer: number
+          not_interested: number
+          not_qualified: number
+          pay_owed: number
+          qualified: number
+          referral_code: string
+          va_id: string
+        }[]
+      }
       crm_worker_hit: {
         Args: { _endpoint: string; _worker: string }
         Returns: boolean
+      }
+      crm_worker_list_no_email: {
+        Args: { _after?: string; _limit?: number; _states_exclude?: string[] }
+        Returns: Json
       }
       crm_worker_log_reply: {
         Args: {
@@ -2934,10 +3101,25 @@ export type Database = {
           _lead_id: string
           _next_follow_up: string
           _note: string
+          _scrub_detail?: string
+          _scrub_result?: string
           _set_follow_up: boolean
           _stage: string
           _worker: string
         }
+        Returns: Json
+      }
+      fw_app_sent: {
+        Args: { _lead_id: string; _token_hash: string }
+        Returns: undefined
+      }
+      fw_jobs: { Args: never; Returns: Json }
+      fw_reminder_sent: {
+        Args: { _lead_id: string; _token_hash: string }
+        Returns: undefined
+      }
+      fw_save_summary: {
+        Args: { _lead_id: string; _summary: Json }
         Returns: Json
       }
       has_role: {
@@ -2962,7 +3144,12 @@ export type Database = {
         }
         Returns: string
       }
+      integration_token_ok: {
+        Args: { _name: string; _token_hash: string }
+        Returns: boolean
+      }
       is_crm_user: { Args: { _user_id: string }; Returns: boolean }
+      is_file_worker: { Args: never; Returns: boolean }
       is_operator: { Args: { _user_id: string }; Returns: boolean }
       log_cta_click: {
         Args: {
@@ -3045,6 +3232,7 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      retell_ingest: { Args: { "": Json }; Returns: undefined }
       track_agent_referral: { Args: { _code: string }; Returns: boolean }
       va_admin_review: {
         Args: { _action: string; _lead_id: string; _note: string }
@@ -3060,29 +3248,33 @@ export type Database = {
         }
         Returns: undefined
       }
+      va_call_list: {
+        Args: { _scope?: string }
+        Returns: {
+          best_time_to_call: string
+          business_name: string
+          call_attempts: number
+          callback_at: string
+          email: string
+          id: string
+          last_call_at: string
+          owner_name: string
+          phone: string
+          reason: string
+          state: string
+          status: string
+        }[]
+      }
       va_documents_ready: { Args: { _lead_id: string }; Returns: boolean }
+      va_due_reason: {
+        Args: { l: Database["public"]["Tables"]["crm_leads"]["Row"] }
+        Returns: string
+      }
       va_generate_statement: {
         Args: { _va_id: string; _week_start: string }
         Returns: undefined
       }
       va_link_valid: { Args: { _code: string }; Returns: boolean }
-      va_call_list: {
-        Args: { _scope?: string }
-        Returns: {
-          best_time_to_call: string | null
-          business_name: string | null
-          call_attempts: number
-          callback_at: string | null
-          email: string | null
-          id: string
-          last_call_at: string | null
-          owner_name: string | null
-          phone: string | null
-          reason: string | null
-          state: string | null
-          status: string
-        }[]
-      }
       va_list_leads: {
         Args: never
         Returns: {
@@ -3095,9 +3287,9 @@ export type Database = {
       }
       va_log_call: {
         Args: {
-          _callback_at?: string | null
+          _callback_at?: string
           _lead_id: string
-          _note?: string | null
+          _note?: string
           _outcome: string
         }
         Returns: string
@@ -3117,12 +3309,12 @@ export type Database = {
       va_mark_training: { Args: { _section: string }; Returns: undefined }
       va_qualify_lead: {
         Args: {
-          _best_time?: string | null
+          _best_time?: string
           _business_checking: boolean
           _email: string
           _lead_id: string
           _months: string
-          _note?: string | null
+          _note?: string
           _owner_wants_funding: boolean
           _revenue: string
         }
@@ -3132,6 +3324,7 @@ export type Database = {
         Args: { _lead_id: string }
         Returns: undefined
       }
+      va_require_unlocked: { Args: never; Returns: string }
       va_scrub_and_assign: {
         Args: {
           _federal_ids: string[]
@@ -3140,6 +3333,10 @@ export type Database = {
           _va_id: string
         }
         Returns: number
+      }
+      va_status_label: {
+        Args: { l: Database["public"]["Tables"]["crm_leads"]["Row"] }
+        Returns: string
       }
       va_unlocked: { Args: { _user_id: string }; Returns: boolean }
     }
