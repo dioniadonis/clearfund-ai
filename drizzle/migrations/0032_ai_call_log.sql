@@ -80,7 +80,7 @@ BEGIN
       email = CASE WHEN email IS NULL AND _email IS NOT NULL AND NOT EXISTS(SELECT 1 FROM crm_leads o WHERE lower(o.email)=_email) THEN _email ELSE email END,
       phone = COALESCE(phone, _digits),
       warm_reason = COALESCE(warm_reason, 'Called the business line'),
-      stage = CASE WHEN lead_type IS DISTINCT FROM 'partner' AND stage IN ('New','Contacted') THEN 'Interested' ELSE stage END,
+      stage = CASE WHEN COALESCE(lead_type,'borrower')='borrower' AND stage IN ('New','Contacted') THEN 'Interested' ELSE stage END,
       next_follow_up = CASE WHEN do_not_contact THEN next_follow_up WHEN _cb THEN current_date ELSE COALESCE(LEAST(next_follow_up, current_date+1), current_date+1) END,
       updated_at = now()
     WHERE id=_lead.id RETURNING * INTO _lead;
@@ -132,7 +132,7 @@ BEGIN
   ELSE
     UPDATE crm_leads SET firm=COALESCE(firm,left(_business,200)), contact_name=COALESCE(contact_name,left(_name,120)),
       email = CASE WHEN email IS NULL AND _e IS NOT NULL AND NOT EXISTS(SELECT 1 FROM crm_leads o WHERE lower(o.email)=_e) THEN _e ELSE email END,
-      stage = CASE WHEN lead_type IS DISTINCT FROM 'partner' AND stage IN ('New','Contacted') THEN 'Interested' ELSE stage END,
+      stage = CASE WHEN COALESCE(lead_type,'borrower')='borrower' AND stage IN ('New','Contacted') THEN 'Interested' ELSE stage END,
       next_follow_up = CASE WHEN do_not_contact THEN next_follow_up ELSE current_date END, updated_at=now()
     WHERE id=_id;
   END IF;
