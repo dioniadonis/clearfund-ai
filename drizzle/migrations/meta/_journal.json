@@ -274,6 +274,20 @@
       "when": 1794562750000,
       "tag": "0038_retell_ingest_whole_body",
       "breakpoints": true
+    },
+    {
+      "idx": 39,
+      "version": "7",
+      "when": 1794757394530,
+      "tag": "0039_worker_list_no_email",
+      "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1794757395530,
+      "tag": "0040_worker_update_scrub_result",
+      "breakpoints": true
     }
   ]
 }
