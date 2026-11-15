@@ -267,6 +267,13 @@
       "when": 1794562700000,
       "tag": "0037_retell_direct_ingest",
       "breakpoints": true
+    },
+    {
+      "idx": 38,
+      "version": "7",
+      "when": 1794562750000,
+      "tag": "0038_retell_ingest_whole_body",
+      "breakpoints": true
     }
   ]
 }
