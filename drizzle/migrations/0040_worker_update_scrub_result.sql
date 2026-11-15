@@ -1,3 +1,6 @@
+-- Email-check results (valid / invalid / risky) can be saved through leads/update.
+-- The two new arguments default to NULL so the previously deployed worker-api (6 named arguments) keeps working during rollout.
+-- A phone/DNC scrub value such as 'clear' is never overwritten by an email check.
 DROP FUNCTION public.crm_worker_update_lead(text, uuid, text, text, boolean, date);
 
 CREATE FUNCTION public.crm_worker_update_lead(
@@ -7,8 +10,8 @@ CREATE FUNCTION public.crm_worker_update_lead(
   _note text,
   _set_follow_up boolean,
   _next_follow_up date,
-  _scrub_result text,
-  _scrub_detail text
+  _scrub_result text DEFAULT NULL,
+  _scrub_detail text DEFAULT NULL
 )
 RETURNS jsonb LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
 DECLARE
