@@ -253,6 +253,13 @@
       "when": 1794562600000,
       "tag": "0035_allow_va_merchant_leads",
       "breakpoints": true
+    },
+    {
+      "idx": 36,
+      "version": "7",
+      "when": 1794562650000,
+      "tag": "0036_integration_tokens",
+      "breakpoints": true
     }
   ]
 }
