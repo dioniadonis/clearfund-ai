@@ -37,6 +37,7 @@ DECLARE
   _a jsonb := COALESCE(_call->'call_analysis','{}'::jsonb);
   _x jsonb := COALESCE(_call->'call_analysis'->'custom_analysis_data','{}'::jsonb) || COALESCE(_call->'collected_dynamic_variables','{}'::jsonb);
   _name text; _biz text; _email text; _summary text; _cb boolean; _cb_note text;
+  _facts text;
   _lead public.crm_leads%ROWTYPE; _new boolean := false; _call_row public.crm_calls%ROWTYPE; _first_summary boolean;
   _start timestamptz; _end timestamptz;
 BEGIN
@@ -45,12 +46,18 @@ BEGIN
   IF length(_digits) < 10 THEN _digits := NULL; END IF;
   _name := left(NULLIF(trim(COALESCE(_x->>'caller_name',_x->>'name',_x->>'owner_name','')),''),120);
   _biz := left(NULLIF(trim(COALESCE(_x->>'business_name',_x->>'company',_x->>'business','')),''),200);
-  _email := lower(left(NULLIF(trim(COALESCE(_x->>'email',_x->>'caller_email','')),''),200));
+  _email := lower(left(NULLIF(trim(COALESCE(_x->>'email',_x->>'caller_email',_x->>'contact_email','')),''),200));
   IF _email IS NOT NULL AND _email !~ '^[^\s@]+@[^\s@]+\.[^\s@]+$' THEN _email := NULL; END IF;
   _summary := left(NULLIF(trim(COALESCE(_a->>'call_summary','')),''),4000);
   _cb := lower(COALESCE(_x->>'callback_requested',_x->>'wants_callback','false')) IN ('true','yes','1');
   _cb_note := left(NULLIF(trim(COALESCE(_x->>'callback_time',_x->>'preferred_callback_time','')),''),200);
   IF _cb_note IS NOT NULL THEN _cb := true; END IF;
+  -- Intake answers from the agent's post-call extraction, kept as one short line on the activity.
+  _facts := NULLIF(concat_ws(' · ',
+    'Time in business: '||NULLIF(trim(_x->>'time_in_business'),''),
+    'Monthly revenue: '||NULLIF(trim(_x->>'monthly_revenue'),''),
+    'Fits: '||NULLIF(trim(_x->>'qualified_products'),''),
+    'Notes: '||NULLIF(trim(_x->>'business_evaluation'),'')),'');
   _start := CASE WHEN (_call->>'start_timestamp') ~ '^\d+$' THEN to_timestamp((_call->>'start_timestamp')::bigint/1000.0) END;
   _end := CASE WHEN (_call->>'end_timestamp') ~ '^\d+$' THEN to_timestamp((_call->>'end_timestamp')::bigint/1000.0) END;
 
@@ -101,6 +108,7 @@ BEGIN
     INSERT INTO crm_activities(lead_id, type, body) VALUES (_lead.id, 'call', left(
       'AI phone call' || COALESCE(' ('||_call_row.duration_s||'s)','') || '. ' ||
       _summary ||
+      COALESCE(' '||left(_facts,1500),'') ||
       CASE WHEN _cb THEN ' Callback requested' || COALESCE(': '||_cb_note,'') || '.' ELSE '' END, 5000));
   END IF;
   RETURN jsonb_build_object('lead_id', _lead.id, 'new_lead', _new, 'call_id', _call_row.id);
