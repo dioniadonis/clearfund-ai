@@ -37,7 +37,7 @@ export function planForCount(lines: number): PlanId {
 }
 
 export const FILE_LABEL: Record<Basis, string> = { confirmed: "Manual adjustment", estimated: "Estimated by photo", own: "Manual adjustment" };
-export const linked = (r: Pick<Line, "store" | "url">) => !!(r.store && r.url && r.url.startsWith("https://"));
+export const linked = (r: Pick<Line, "store" | "url"> | undefined) => !!(r && r.store && r.url && r.url.startsWith("https://"));
 
 /** Typing only a dollar amount sets the price directly. Returns the number or null. */
 export function parseDollarOnly(text: string): number | null {
@@ -89,4 +89,34 @@ export function cleanLine(x: any): Line | null {
   const price = Number(x.price), qty = Math.round(Number(x.qty));
   return { room: s(x.room, 60) || "Other", item, brand: s(x.brand, 120), qty: qty > 0 && qty < 10000 ? qty : 1,
     age: s(x.age, 60), price: price > 0 && price < 10_000_000 ? Math.round(price * 100) / 100 : 0, basis, note: s(x.note, 160) };
+}
+
+/** Same claim after its 12 months: one flat price buys 12 more. */
+export const EXTENSION_PRICE = 29;
+export const MAX_PHOTOS = 100;
+
+export type CheckoutKind = "new" | "upgrade" | "extend";
+/** What a checkout charges, decided on the server only. Null means that checkout isn't allowed. */
+export function checkoutCharge(
+  kind: CheckoutKind,
+  lines: number,
+  found: { plan: PlanId; dateOfLoss: string; paidAt: Date } | null,
+  dateOfLoss: string,
+): { plan: PlanId; amount: number; windowStart: "now" | "keep" } | null {
+  const plan = planForCount(lines);
+  if (kind === "new") return { plan, amount: PLANS[plan].price, windowStart: "now" };
+  if (!found || found.dateOfLoss !== dateOfLoss) return null;
+  if (kind === "extend") {
+    const to = PLANS[plan].price > PLANS[found.plan].price ? plan : found.plan;
+    return { plan: to, amount: EXTENSION_PRICE + PLANS[to].price - PLANS[found.plan].price, windowStart: "now" };
+  }
+  const difference = PLANS[plan].price - PLANS[found.plan].price;
+  return difference > 0 ? { plan, amount: difference, windowStart: "keep" } : null;
+}
+
+/** A date of loss is a plain calendar date, YYYY-MM-DD, not in the future and not before 2000. */
+export function validDateOfLoss(s: string, now: Date): boolean {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  const d = new Date(s + "T12:00:00Z");
+  return !isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s && d.getUTCFullYear() >= 2000 && d.getTime() <= now.getTime() + 86_400_000;
 }
