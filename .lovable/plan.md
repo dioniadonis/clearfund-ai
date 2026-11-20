@@ -1,47 +1,90 @@
-# ClearFund Claim List — /claim-list
+# ClearFund Claim List v2: /claim-list and /claim-list/app
+
+This replaces the earlier plan completely. No waitlist, no upload table, no photo bucket.
 
 ## What gets built
-1. **`/claim-list` page** — exact copy, sections, colors and behavior from your HTML (sample sheet with room tabs, line totals, room subtotal and grand total, FAQ, pricing). Its own simple nav and footer; no funding header, footer or links. Works on both clearfundai.com and myclearfund.com (no host guard). Added above the catch-all route.
-2. **Order buttons, phase A (until Stripe is on):** each button opens a short waitlist form (email + the chosen plan) saved to a new `claim_list_waitlist` table. The "Preview only" toast is gone.
-3. **Order buttons, phase B (after Stripe is on):** buttons open one-time Stripe checkout for $49 / $149 / $299. After payment → `/claim-list/thank-you` with an upload form: multiple photos, email (prefilled from checkout), optional notes. Saved to a private storage bucket and a new `claim_list_orders` table, tied to the verified payment.
-4. **Operator area:** new "Claim List" tab in `/operator` listing waitlist signups and paid orders, with photo viewing through short-lived private links.
-5. **Tracking:** page views and order clicks per plan (small/standard/major) logged to a `claim_list_events` table; operator tab shows views, clicks per plan, click-through rate, waitlist count and paid orders.
-6. **SEO for this route only:** your title, matching description, og:title/description/url/type, canonical pointing at the current host's `/claim-list`.
+1. **/claim-list (landing page).** Your HTML with the changes you asked for: all order and "Get my claim list" buttons go to /claim-list/app, the new pricing bullets, the new sub line and the new photo FAQ answer. It has its own nav and footer.
+2. **/claim-list/app (the tool).** Five screens, one job and one big button each: Start, Show your contents, Working, Your list, Get your files. The copy is exactly what you wrote.
+3. **AI list building, changes and additions.** These go through one server function that passes data through. It uses your RULES and JSON shapes, and stores nothing.
+4. **Live store pricing.** Each line gets a store name, the product page link and the price read from that page. Lines with no listing say "No listing attached".
+5. **Helper link.** The list is compressed into the part of the link after "#", which never reaches our server. It opens in the phone's share sheet. Helpers get "Send back", and changed lines are labeled. Helpers can't confirm, pay or download.
+6. **Payment.** One-time Stripe checkout. The plan is set by line count: 1–40 is $49, 41–150 is $149, 151+ is $299. Plan, item_limit and date_of_loss go in Stripe metadata. The purchase ID is the checkout session ID, and it goes into both files.
+7. **Files.** Your makeXlsx goes in exactly as written. readXlsx is extended to read the Date of loss box and the hidden "Purchase" sheet. The PDF uses your columns and footer.
+8. **Reopening a saved file.** A server function looks up the purchase ID in Stripe and stores nothing. Same date of loss within 12 months means free changes. A different date means a new purchase. More lines than the plan allows means pay the difference. An unknown ID opens as unpaid.
+9. **Tracking.** One anonymous events table: page views and order clicks per plan, with no personal data. Counts show in the operator area.
+10. **SEO and privacy.** Each page sets its own title, description, og tags and canonical. No personal name, street address or personal phone number appears on these pages, in their tags or in the generated files.
 
-## Privacy audit (answer to requirement 3)
-Checked, nothing contains a person's name or a street/mailing address:
-- `index.html`: author meta is "Clearfund AI" (brand). No address.
-- `src/components/Footer.tsx`: business phone 866-578-4721 (company line, not personal). Not used on this route.
-- `src/pages/PrivacyPolicy.tsx`, `src/pages/TermsAndConditions.tsx`: company phone 866-578-4721 and "Florida" as state of jurisdiction only; no street address, no personal name.
-- The new page shows only "ClearFund" and links only to its own sections (no outbound links). The new page links to no legal pages, as in your HTML.
+## 1. Files and risk to existing routes
+**Added**
+- `src/pages/ClaimList.tsx`, `src/pages/ClaimListApp.tsx`
+- `src/components/claimlist/*`: the screens, row editor, mic button, share sheet, blur, nav and footer
+- `src/lib/claimList/`: `rules.ts`, `xlsx.ts` (your code plus the reader extension), `pdf.ts`, `plan.ts` (line count to plan), `share.ts` (deflate + base64url), `storage.ts` (localStorage), `sample.ts` (your 27 lines, once you paste them)
+- `src/pages/operator/OperatorClaimList.tsx`
+- Server functions: `claim-list-ai`, `claim-list-price`, `claim-list-checkout`, `claim-list-verify`, `claim-list-track`
+- One migration: `claim_list_events` (anonymous insert through the function only, operator read)
+- Tests in `tests/claimList.test.ts`: plan thresholds (40/41/150/151), xlsx round trip including date and purchase ID, editing a line clears its store and link, a typed dollar amount sets the price without an AI call, and the purchase-check rules (same date / different date / over limit / unknown ID)
 
-Things to flag:
-- `index.html` default og tags say "Clearfund AI – Funding Tools…" and use a funding share image. Link-preview bots (Facebook, iMessage, LinkedIn) don't run page code, so **shared links to /claim-list will still show the funding preview**. Google sees the correct title. Fixing that needs server rendering (a larger upgrade); not in v1.
-- `index.html` also carries the funding "ClearFund AI" title/description until the page code runs (a split second).
+**Touched**
+- `src/App.tsx`: two routes above `*`, with no host guard, so they work on both hostnames
+- The operator sidebar
+- `AGENTS.md`: one rule saying Claim List keeps no customer data on the server and is isolated from funding code
+- New packages: `exceljs@4.4.0`, `jspdf@2.5.1`, `jspdf-autotable@3.8.2`, `pako`. Each is loaded only on /claim-list/app.
 
-## Chat bubble
-The funding chatbot is a third-party script loaded for every page in `index.html`. Plan: on `/claim-list` (and thank-you), hide its injected bubble with a small check that runs on route change. Exact element names get confirmed during build; if the script can't be hidden cleanly, I'll tell you rather than ship a half-fix.
+**Risk to existing routes:** low. The changes are additive. The funding header, footer and pages are not touched.
 
-## What I need from you
-- **Stripe:** ask the Lovable editor chat to "set up payments with Stripe" (built-in; no Stripe account or keys required for the managed option). I can't enable it from here. Once on, I create three one-time products: Small claim $49, Standard claim $149, Major loss $299.
-- Confirm a **business email** shown nowhere on the page is fine (none is planned — your HTML has no contact info).
+**Chatbot widget:** it's a third-party script in `index.html` that loads on every page. On these two routes I'll hide its bubble whenever the page changes. If its markup changes, the bubble could come back.
 
-## Questions
-1. Upload limits: max photos per order and max size? Proposed: 200 photos, 15 MB each, images only.
-2. Photo retention: delete after N days, or keep until the customer asks (FAQ promises deletion on request)? Proposed: manual delete button in operator tab for v1.
-3. Should a paid customer get a confirmation email? Proposed: no in v1 (Stripe's receipt covers it); show a clear on-screen confirmation.
-4. Is your HTML's "Delivered within 48 hours" / refund guarantee approved copy? It's a timing promise — fine for this non-funding product, but confirming since funding pages ban timelines.
+**Share previews:** apps like iMessage and Facebook read only the static page tags. Links to /claim-list will keep showing the funding preview unless the site moves to server rendering.
 
-## Technical details
-- Files added: `src/pages/ClaimList.tsx`, `src/pages/ClaimListThankYou.tsx`, `src/components/claimlist/*` (sample sheet, waitlist dialog, upload form), `src/pages/operator/OperatorClaimList.tsx`, `src/lib/claimList.ts` (sample data + totals, plan ids/prices), `tests/claimList.test.ts` (totals, per-plan price mapping), edge functions `claim-list-track`, `claim-list-waitlist`, `claim-list-upload` (+ checkout/verify functions in phase B).
-- Files touched: `src/App.tsx` (2 routes above `*`), operator sidebar/routes, `AGENTS.md` (one rule: Claim List is isolated from funding UI/data).
-- Styling: page-scoped CSS variables/classes in the component so it matches the HTML exactly without changing site-wide tokens. The HTML's hero uses a gradient; project rule says no gradients — **I'll keep it since you said reproduce exactly**, unless you want it flat.
-- Fonts: Poppins/Inter loaded only if not already present.
-- Tables (RLS on all): `claim_list_events` (insert via function only, operator read), `claim_list_waitlist` (insert via function with honeypot + rate limit, operator read), `claim_list_orders` (written only after server verifies Stripe payment; operator read/update). Bucket `claim-list-photos` private; uploads via function bound to a paid order token; operator views via signed links.
-- Tracking: anonymous session id kept in sessionStorage (analytics only, not storage of records); one view per session, every click logged.
+## 2. Live store pricing (proposal)
+- **Service:** Firecrawl, through Lovable's built-in connector, so you don't need a Firecrawl account or key.
+- **How it works, per line:**
+  1. Search for the item as "brand item size buy" across US shopping results.
+  2. Keep only real product pages from known retailers (Walmart, Target, Home Depot, Lowe's, Best Buy, Wayfair, IKEA, Amazon and similar).
+  3. Read up to 2 candidate pages.
+  4. Take the price from the page's product data (the price the store publishes for search engines). Only if that's missing, read the price from the page itself.
+  5. Prefer pages marked in stock.
+  6. Pick the price closest to the AI's mid-range price, so a "middle-of-the-road" item is matched.
+- **Safety:** the price always comes from the product page, never from a search snippet, and the link is always a URL we actually read. If nothing passes, the line says "No listing attached".
+- **Cost:** about 1 search plus 1–2 page reads per line, roughly 3–5 Firecrawl credits per line.
+  - Small list (40 lines): about 120–200 credits.
+  - Major list (200 lines): about 600–1,000 credits.
+  - At public Firecrawl rates, that's about $0.10–$1.00 per list. I estimated this from Firecrawl's public pricing and haven't checked it against your workspace plan.
+- **Speed:** lines are priced 5–8 at a time in parallel. A 40-line list takes about 1–2 minutes, so the "about a minute" Working message is honest for small lists. Large lists keep loading prices onto the list screen as they arrive.
+- **Setup you need to do:** approve linking the Firecrawl connector when I build. Nothing else.
+- **Weakness:** some stores, Amazon especially, block page reading or hide prices. Those lines fall back to another store or "No listing attached". Expect roughly 70–90% of lines to get a listing, not 100%.
+
+## 3. Stripe: what you need to do
+1. In the Lovable editor chat, ask it to "set up payments with Stripe". That's the built-in option, and you don't need your own Stripe keys. I can't turn it on from here.
+2. Set the business name and statement descriptor to ClearFund, as you planned.
+3. Confirm the three prices: $49, $149 and $299, one-time, in USD. I'll create the products once payments is on.
+4. Upgrades are charged as a one-time payment for the difference ($100 or $150, or $250 from Small to Major), with a new purchase ID that links to the old one.
+
+**Note:** Stripe Checkout collects the buyer's email. That email lives in Stripe only, never in our database.
+
+## 4. AI photo reading and cost
+- **Model:** Gemini through Lovable AI, which reads several images per request.
+- **Batches:** photos are shrunk in the browser to about 1280px wide, then sent 6–8 per request. That keeps each request small and reliable. Results are merged into one list and duplicates across batches are removed.
+- **Cost:** about $0.02–$0.10 for a typical 20–40 photo list. Changing a line or adding an item costs a fraction of a cent. This is an estimate, not a measured figure.
+- **Model rule:** your project has a rule naming a different model for AI writing (`openai/gpt-6-astra`). Photo reading needs a vision model, so I'd use Gemini for these functions only.
 
 ## Risks / cut from v1
-- Risk: share previews stay funding-branded (see above).
-- Risk: hiding a third-party chat script can break if the vendor changes markup.
-- Risk to existing routes: minimal — only additive routes; no changes to Header/Footer/funding pages. Catch-all order preserved.
-- Cut: customer accounts, list-generation tool, voice notes, emails, coupons, refunds automation, retention auto-delete.
+- **Paywall can be bypassed.** The blur and the file creation both happen in the browser, so someone technical can see prices or build files without paying. The only real fix is creating the files on the server after checking payment, which means the list passes through the server again (still not stored). **Recommendation:** v1 creates the files on the server after Stripe confirms payment, with no storage. Tell me if you'd rather keep it browser-only.
+- **The purchase date can be changed.** A hidden "Purchase" sheet can be edited, so the purchase ID is checked against Stripe on every reopen. The date of loss in Stripe wins over the date in the file.
+- **Browser storage.** Clearing browser data loses an unsaved list. I'll show "Your list is only on this phone until you download it" on the list screen.
+- **Your project rules conflict with this design:**
+  - One rule says never to use localStorage as production storage. You've asked for it here, so I'll treat that as an exception for Claim List only.
+  - Another rule says no gradients. The landing hero has one. I'll keep it unless you say flat.
+  - The landing copy says "Delivered within 48 hours" and has a refund guarantee. The new tool delivers instantly. Should that copy change?
+- **The mic button** works in Chrome and Safari's speech recognition only. It's hidden elsewhere.
+- **Long helper links** (over about 8 KB) may break in some messaging apps. The share text points people to iMessage or email for those.
+- **Cut from v1:** accounts, emailing files, saving lists on the server, coupons, automatic refunds, other currencies, and AI rewriting of notes after pricing.
+
+## Questions
+1. **Payment check:** create the files on the server after payment (recommended, harder to bypass) or in the browser only (simpler, bypassable)?
+2. **Landing copy:** change "Delivered within 48 hours" and the refund guarantee to match instant download, or keep them?
+3. **Photo limit:** what's the most photos per list? I'd suggest 60.
+4. **Free changes after 12 months, or with a different date of loss:** is a full new purchase correct, or a discount?
+5. **Paste the 27-line sample** when you approve.
+
+`roadmap.md` gets this task added once you approve, since I can only edit the plan right now.
