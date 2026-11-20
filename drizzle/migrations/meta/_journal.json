@@ -288,6 +288,13 @@
       "when": 1794757395530,
       "tag": "0040_worker_update_scrub_result",
       "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1795153684788,
+      "tag": "0041_claim_list_events",
+      "breakpoints": true
     }
   ]
 }

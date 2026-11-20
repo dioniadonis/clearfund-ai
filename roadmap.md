@@ -1,5 +1,14 @@
 # Roadmap — Packet CF-01
 
+## ClearFund Claim List (preview only)
+- [ ] Landing /claim-list with own nav/footer, SEO, no chatbot
+- [ ] /claim-list/app five screens, localStorage list, helper link, xlsx open
+- [ ] AI list build/change/add edge function (pass-through)
+- [ ] Live store pricing via Firecrawl (needs connector)
+- [ ] Stripe checkout + verify + server-built files (needs built-in Stripe enabled)
+- [ ] Anonymous events table + operator counts
+- [ ] Tests; 27-line sample (needs owner data)
+
 ## VA program step 2 (preview only)
 - [ ] 1. Add `?va=` merchant intake, emailed private resume links, e-signature, secure document uploads and consent logs
 - [ ] 2. Enforce eligible-file dedupe, VA credit and email-reply exclusion

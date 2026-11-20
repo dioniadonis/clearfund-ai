@@ -861,6 +861,30 @@ export type Database = {
         }
         Relationships: []
       }
+      claim_list_events: {
+        Row: {
+          created_at: string
+          event: string
+          id: number
+          plan: string | null
+          session_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          event: string
+          id?: never
+          plan?: string | null
+          session_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          event?: string
+          id?: never
+          plan?: string | null
+          session_id?: string | null
+        }
+        Relationships: []
+      }
       content_briefs: {
         Row: {
           audience: string | null
