@@ -23,3 +23,12 @@ verify_jwt = false
 
 [functions.retell-webhook]
 verify_jwt = false
+
+[functions.claim-list-ai]
+verify_jwt = false
+
+[functions.claim-list-price]
+verify_jwt = false
+
+[functions.claim-list-pay]
+verify_jwt = false

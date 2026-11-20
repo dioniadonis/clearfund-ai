@@ -43,6 +43,8 @@ import AgentPortal from "./pages/AgentPortal";
 import Careers from "./pages/Careers";
 import AiFundingHome from "./pages/AiFundingHome";
 import MerchantResume from "./pages/MerchantResume";
+import ClaimListLanding from "./pages/claim-list/ClaimListLanding";
+import ClaimListApp from "./pages/claim-list/ClaimListApp";
 import { useEffect, type ReactNode } from "react";
 import { useLocation } from "react-router-dom";
 import { backofficeRedirect, getSite } from "@/lib/site";
@@ -90,6 +92,8 @@ const App = () => (
           <Route path="/automation-audit/start" element={<FreeAuditFlow />} />
           <Route path="/results/:token" element={<FreeAuditResults />} />
           <Route path="/awarded" element={<Awarded />} />
+          <Route path="/claim-list" element={<ClaimListLanding />} />
+          <Route path="/claim-list/app" element={<ClaimListApp />} />
           <Route path="/agents" element={<Agents />} />
           <Route path="/r/:code" element={<AgentReferral />} />
           <Route path="/agent" element={<AgentPortal />} />
