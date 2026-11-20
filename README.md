@@ -1,73 +1,38 @@
-# Welcome to your Lovable project
+# ClearFund AI
 
-## Project info
+A full-stack business funding platform for contractors. It has public lead-capture flows, an admin CRM, an agent portal, and a worker API that outside automation workers and AI assistants use to source and enrich leads.
 
-**URL**: https://lovable.dev/projects/1d6ceda5-efb0-44c6-9668-f39f34ce7968
+## Highlights
 
-## How can I edit this code?
+- **One app, two brands.** Hostname-based site selection (`src/lib/site.ts`) serves two branded homepages from one codebase that shares a back office.
+- **Security-first data access.** Postgres Row Level Security, plus security-definer functions for every sensitive read and write. Agents only see field-limited, assigned leads, and the public share links never expose contact data.
+- **Atomic lead pipeline.** All lead writes go through one dedupe chokepoint (`crm_insert_lead`) backed by unique indexes. Database triggers handle CRM auto-feed and stage logging.
+- **Worker API.** External workers authenticate with per-worker keys and claim, complete and write back jobs through service-role SQL functions, so every worker follows identical rules.
+- **AI integrations.**
+  - An MCP server with OAuth caller-scoped clients gives AI assistants read-only CRM access.
+  - LLM-written audit reports: the server computes every number, and the model only writes the prose.
+  - Voice-agent (Retell) webhooks for callbacks.
+- **ClearFund Claim List (in progress).** An AI tool that turns photos and voice notes into an itemized insurance contents claim, exported as PDF or XLSX.
 
-There are several ways of editing your application.
+## Stack
 
-**Use Lovable**
+React · TypeScript · Vite · Tailwind · shadcn/ui · TanStack Query · Supabase (Postgres, RLS, Edge Functions/Deno) · Drizzle migrations · Bun test
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/1d6ceda5-efb0-44c6-9668-f39f34ce7968) and start prompting.
+## Project layout
 
-Changes made via Lovable will be committed automatically to this repo.
+```
+src/                 React app (pages, CRM, operator console, shared lib)
+supabase/functions/  Edge functions (worker-api, mcp, email-events, submit-*, …)
+drizzle/migrations/  SQL schema and RLS policies
+tools/file-worker/   Standalone automation worker
+tests/               Unit tests for scoring, routing and site rules
+```
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+## Running locally
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+npm install
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/1d6ceda5-efb0-44c6-9668-f39f34ce7968) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+Copy `.env` and point it at your own Supabase project. Server secrets (service role key, worker keys) live in Supabase function secrets, never in this repo.
